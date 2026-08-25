@@ -1,0 +1,6 @@
+**/*temp*
+.vscode
+周报/
+**/node_modules*
+.**
+opencode.json
