@@ -8,7 +8,7 @@ Feistel networks revisited. A Feistel network, introduced in Section 7.2.2, prov
 
 **再谈 Feistel 网络。**
 
-7.2.2 节介绍过 Feistel 网络，它提供了一种从任意一组函数出发构造可高效求逆的置换的方法。Feistel 网络以一系列轮次运作。第 $i$ 轮的输入是长度 ${2}n$ 的串，被分成两个 $n$ 比特的一半 $L_{i-1}$ 与 $R_{i-1}$（分别为“左半”与“右半”）。第 $i$ 轮的输出是 ${2}n$ 比特串 $(L_i, R_i)$，其中
+7.2.2 节介绍过 Feistel 网络，它提供了一种从任意一组函数出发构造可高效求逆的置换的方法。Feistel 网络以一系列轮次运作。第 $i$ 轮的输入是长度 ${2}n$ 的串，被分成两半 $L_{i-1}$ 与 $R_{i-1}$（各为 $n$ 比特，分别为“左半”与“右半”）。第 $i$ 轮的输出是 ${2}n$ 比特串 $(L_i, R_i)$，其中
 
 $$
 L_{i}:=R_{i-1}\quad\text{and}\quad R_{i}:=L_{i-1}\oplus f_{i}(R_{i-1})
@@ -16,7 +16,7 @@ $$
 
 for some efficiently computable (but not necessarily invertible) function $f_i$ mapping $n$-bit inputs to $n$-bit outputs. We denote by $\mathsf{Feistel}_{f_1,\ldots,f_r}$ the $r$-round Feistel network using functions $f_1,\ldots,f_r$. (That is, $\mathsf{Feistel}_{f_1,\ldots,f_r}(L_0,R_0)$ outputs the ${2}n$-bit string $(L_r,R_r)$.) We saw in Section 7.2.2 that $\mathsf{Feistel}_{f_1,\ldots,f_r}$ is an efficiently invertible permutation regardless of the $\{f_i\}$.
 
-其中 $f_i$ 是某个可高效计算（但不一定可逆）的、把 $n$ 比特输入映射为 $n$ 比特输出的函数。我们把使用函数 $f_1,dots,f_r$ 的 $r$ 轮 Feistel 网络记作 $\mathsf{Feistel}_{f_1,\ldots,f_r}$。（也就是说，$\mathsf{Feistel}_{f_1,\ldots,f_r}(L_0,R_0)$ 输出 ${2}n$ 比特串 $(L_r,R_r)$。）我们在 7.2.2 节已经看到：无论 $\{f_i\}$ 如何取，$\mathsf{Feistel}_{f_1,\ldots,f_r}$ 都是可高效求逆的置换。
+其中 $f_i$ 是某个可高效计算（但不一定可逆）的、把 $n$ 比特输入映射为 $n$ 比特输出的函数。我们把使用函数 $f_1,\dots,f_r$ 的 $r$ 轮 Feistel 网络记作 $\mathsf{Feistel}_{f_1,\ldots,f_r}$。（也就是说，$\mathsf{Feistel}_{f_1,\ldots,f_r}(L_0,R_0)$ 输出 ${2}n$ 比特串 $(L_r,R_r)$。）我们在 7.2.2 节已经看到：无论 $\{f_i\}$ 如何取，$\mathsf{Feistel}_{f_1,\ldots,f_r}$ 都是可高效求逆的置换。
 
 We can define a keyed permutation by using a Feistel network in which the $\{f_i\}$ depend on a key. For example, let $F : \{0,1\}^n \times \{0,1\}^n \to \{0,1\}^n$ be a pseudorandom function, and define the keyed permutation $F^{(1)}$ as
 
@@ -80,7 +80,7 @@ $$
 
 where the first probability is taken over uniform and independent choice of $f_1, f_2, f_3$ from $\mathsf{Func}_n$, and the second probability is taken over uniform choice of $\pi$ from $\mathsf{Perm}_{2n}$. Fix some value for the security parameter $n$, and let $q = q(n)$ denote a polynomial upper bound on the number of oracle queries made by $D$. We assume without loss of generality that $D$ never makes the same oracle query twice. Focusing on $D$'s interaction with $\mathsf{Feistel}_{f_1, f_2, f_3}(\cdot)$, let $(L_0^i, R_0^i)$ denote the $i$th query $D$ makes to its oracle, and let $(L_1^i, R_1^i)$, $(L_2^i, R_2^i)$, and $(L_3^i, R_3^i)$ denote the intermediate values after rounds 1, 2, and 3, respectively, that result from that query. (See Figure 8.3.) Note that $D$ chooses $(L_0^i, R_0^i)$ and sees the result $(L_3^i, R_3^i)$, but does not directly observe $(L_1^i, R_1^i)$ or $(L_2^i, R_2^i)$.
 
-其中第一个概率是对从 $\mathsf{Func}_n$ 中独立、均匀选取的 $f_1, f_2, f_3$ 而取，第二个概率是对从 $\mathsf{Perm}_{2n}$ 中均匀选取的 $\pi$ 而取。固定安全参数 $n$ 的某个取值，令 $q = q(n)$ 表示 $D$ 所做预言机查询次数的多项式上界。不失一般性，假设 $D$ 从不会对同一预言机查询发起两次。聚焦 D 与 $\mathsf{Feistel}_{f_1, f_2, f_3}(\cdot)$ 的交互：令 $(L_0^i, R_0^i)$ 表示 $D$ 对其预言机的第 $i$ 次查询，并令 $(L_1^i, R_1^i)$、$(L_2^i, R_2^i)$ 与 $(L_3^i, R_3^i)$ 分别表示由这次查询产生的第 1、2、3 轮之后的中间值。（见图 8.3。）注意：$D$ 自己选择 $(L_0^i, R_0^i)$ 并看到结果 $(L_3^i, R_3^i)$，但它并不直接观察到 $(L_1^i, R_1^i)$ 或 $(L_2^i, R_2^i)$。
+其中第一个概率取遍从 $\mathsf{Func}_n$ 中独立、均匀选取的 $f_1, f_2, f_3$，第二个概率取遍从 $\mathsf{Perm}_{2n}$ 中均匀选取的 $\pi$。固定安全参数 $n$ 的某个取值，令 $q = q(n)$ 表示 $D$ 所做预言机查询次数的多项式上界。不失一般性，假设 $D$ 从不会对同一预言机查询发起两次。聚焦 D 与 $\mathsf{Feistel}_{f_1, f_2, f_3}(\cdot)$ 的交互：令 $(L_0^i, R_0^i)$ 表示 $D$ 对其预言机的第 $i$ 次查询，并令 $(L_1^i, R_1^i)$、$(L_2^i, R_2^i)$ 与 $(L_3^i, R_3^i)$ 分别表示由这次查询产生的第 1、2、3 轮之后的中间值。（见图 8.3。）注意：$D$ 自己选择 $(L_0^i, R_0^i)$ 并看到结果 $(L_3^i, R_3^i)$，但它并不直接观察到 $(L_1^i, R_1^i)$ 或 $(L_2^i, R_2^i)$。
 
 We say there is a collision at $R_1$ if $R_1^i = R_1^j$ for some distinct $i, j$. We first prove that a collision at $R_1$ occurs with only negligible probability. Consider any fixed, distinct $i, j$. If $R_0^i = R_0^j$ then $L_0^i \neq L_0^j$, but then
 
@@ -212,7 +212,7 @@ PROOF Let $G$ be a pseudorandom generator with expansion factor $\ell(n) = 2n$. 
 
 Let $\mathcal{A}$ be an arbitrary probabilistic polynomial-time algorithm. We show that $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n)=1]$ is negligible (cf. Definition 8.1). To see this, consider the following PPT distinguisher $D$: on input a string $w\in\{0,1\}^{2n}$, run $\mathcal{A}(w)$ to obtain output $s$. If $G(s)=w$ then output 1; otherwise, output 0.
 
-设 $\mathcal{A}$ 是任意的概率多项式时间算法。我们证明 $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n)=1]$ 可忽略（参见定义 8.1）。为此，考虑如下的 PPT 区分器 $D$：当输入串 $w\in\{0,1\}^{2n}$ 时，运行 $\mathcal{A}(w)$ 得到输出 $s$；若 $G(s)=w$ 则输出 1，否则输出 0。
+设 $\mathcal{A}$ 是任意的概率多项式时间算法。我们证明 $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n)=1]$ 可忽略（参见定义 8.1）。为此，考虑如下的概率多项式时间区分器 $D$：当输入串 $w\in\{0,1\}^{2n}$ 时，运行 $\mathcal{A}(w)$ 得到输出 $s$；若 $G(s)=w$ 则输出 1，否则输出 0。
 
 We now analyze the behavior of $D$. First consider the probability that $D$ outputs 1 when its input string $w$ is uniform. Since there are at most ${2}^n$ values in the range of $G$ (namely, the values $\{G(s)\}_{s\in\{0,1\}^n}$), the probability that $w$ is in the range of $G$ is at most ${2}^n/{2}^{2n} = {2}^{-n}$. When $w$ is not in the range of $G$, it is impossible for $\mathcal{A}$ to compute an inverse of $w$ and thus impossible for $D$ to output 1. We conclude that $\Pr_{w\leftarrow\{0,1\}^{2n}}[D(w) = 1] \leq 2^{-n}$.
 
@@ -254,7 +254,7 @@ $$
 
 where $|k|=n$, $|m|=2n$, and $|r|=\ell(n)$. We claim that f is a one-way function. Clearly it can be efficiently computed; we show that it is hard to invert. Letting A be an arbitrary PPT algorithm, we show that $\Pr[\mathsf{Invert}_{\mathcal{A},f}(n)=1]$ is negligible (cf. Definition 8.1).
 
-其中 $|k|=n$，$|m|=2n$，$|r|=\ell(n)$。我们断言 $f$ 是单向函数。显然它可以被高效计算；我们要证明它难以求逆。设 $A$ 是任意的 PPT 算法，我们证明 $\Pr[\mathsf{Invert}_{\mathcal{A},f}(n)=1]$ 可忽略（参见定义 8.1）。
+其中 $|k|=n$，$|m|=2n$，$|r|=\ell(n)$。我们断言 $f$ 是单向函数。显然它可以被高效计算；我们要证明它难以求逆。设 $A$ 是任意的概率多项式时间算法，我们证明 $\Pr[\mathsf{Invert}_{\mathcal{A},f}(n)=1]$ 可忽略（参见定义 8.1）。
 
 Consider the following probabilistic polynomial-time adversary $\mathcal{A}^{\prime}$ attacking private-key encryption scheme $\Pi$ (i.e., in experiment $\mathsf{PrivK}_{\mathcal{A}^{\prime},\Pi}^{\mathsf{eav}}(n)$):
 
@@ -337,7 +337,7 @@ The formal definition of computational indistinguishability refers to probabilit
 
 We will only be interested in *efficiently* sampleable probability ensembles. An ensemble $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ is efficiently sampleable if there is a probabilistic polynomial-time algorithm $S$ such that the random variables $S(1^n)$ and $X_n$ are identically distributed. That is, algorithm $S$ is an efficient way of sampling $\mathcal{X}$.
 
-我们只关心*可高效*抽样的概率总体。总体 $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ 称为可高效抽样的，如果存在概率多项式时间算法 $S$，使得随机变量 $S(1^n)$ 与 $X_n$ 同分布。也就是说，算法 $S$ 就是抽样 $\mathcal{X}$ 的一种高效方式。
+我们只关心可高效抽样的概率总体。总体 $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ 称为可高效抽样的，如果存在概率多项式时间算法 $S$，使得随机变量 $S(1^n)$ 与 $X_n$ 同分布。也就是说，算法 $S$ 就是抽样 $\mathcal{X}$ 的一种高效方式。
 
 We can now formally define what it means for two ensembles to be computationally indistinguishable.
 
@@ -407,7 +407,7 @@ The notion of a one-way function was first proposed by Diffie and Hellman [65] a
 
 The first construction of pseudorandom generators (under a specific number-theoretic hardness assumption) was given by Blum and Micali [41]. The construction of a pseudorandom generator from any one-way permutation was given by Yao [205], and the result that pseudorandom generators can be constructed from any one-way function was shown by Håstad et al. [93]. Pseudorandom functions were defined and constructed by Goldreich, Goldwasser and Micali [85] and their extension to (strong) pseudorandom permutations was shown by Luby and Rackoff [132]. The fact that one-way functions are a necessary assumption for most of private-key cryptography was shown in [101]. The proof of Proposition 8.28 is from [79].
 
-伪随机生成器的第一个构造（在一个具体的数论困难性假设下）由 Blum 与 Micali [41] 给出。从任意单向置换出发的伪随机生成器构造由 Yao [205] 给出；“伪随机生成器可以从任意单向函数构造出来”这一结果由 Håstad 等人 [93] 证明。伪随机函数由 Goldreich、Goldwasser 与 Micali [85] 定义并构造，它们向（强）伪随机置换的推广由 Luby 与 Rackoff [132] 证明。“单向函数是大部分私钥密码学的必要假设”这一事实发表于 [101]。命题 8.28 的证明出自 [79]。
+伪随机生成器的第一个构造（在一个具体的数论困难性假设下）由 Blum 与 Micali [41] 给出。从任意单向置换出发的伪随机生成器构造由 Yao [205] 给出；“伪随机生成器可以从任意单向函数构造出来”这一结果由 Håstad 等人 [93] 证明。伪随机函数由 Goldreich、Goldwasser 与 Micali [85] 定义并构造，其向（强）伪随机置换的推广由 Luby 与 Rackoff [132] 证明。“单向函数是大部分私钥密码学的必要假设”这一事实发表于 [101]。命题 8.28 的证明出自 [79]。
 
 Our presentation is heavily influenced by Goldreich's book [82], which is highly recommended for those interested in exploring the topics of this chapter in greater detail.
 
@@ -417,7 +417,7 @@ Our presentation is heavily influenced by Goldreich's book [82], which is highly
 
 8.1 Prove that if there exists a one-way function, then there exists a one-way function $f$ such that $f(0^n) = 0^n$ for every $n$. Note that for infinitely many values $y$, it is easy to compute $f^{-1}(y)$. Why does this not contradict one-wayness?
 
-     8.1 证明：若存在单向函数，则存在单向函数 $f$，使得对每个 $n$ 都有 $f(0^n) = 0^n$。注意：对无穷多个值 $y$ 来说，计算 $f^{-1}(y)$ 是容易的。为什么这不与单向性矛盾？
+     8.1 证明：若存在单向函数，则存在单向函数 $f$，使得对每个 $n$ 都有 $f(0^n) = 0^n$。注意：对于无穷多个 $y$，计算 $f^{-1}(y)$ 是容易的。为什么这不与单向性矛盾？
 
 8.2 Prove that if $f$ is a one-way function, then the function $g$ defined by $g(x_1, x_2) \stackrel{\mathrm{def}}{=} (f(x_1), x_2)$, where $|x_1| = |x_2|$, is also a one-way function. Observe that $g$ reveals half of its input, but is nevertheless one-way.
 
@@ -469,7 +469,7 @@ Hint: Choosing uniform $x \in \{0,1\}^{2n}$ and finding an inverse of $y = H^s(x
 
 8.9 Let $\Pi = (\mathsf{Gen}, \mathsf{Samp}, f)$ be a function family. A function $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ is a hard-core predicate of $\Pi$ if it is efficiently computable and if for every PPT algorithm $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that
 
-     8.9 设 $\Pi = (\mathsf{Gen}, \mathsf{Samp}, f)$ 是函数族。若函数 $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ 可以高效计算，并且对每个 PPT 算法 $\mathcal{A}$ 都存在可忽略函数 $\mathsf{negl}$ 使得
+     8.9 设 $\Pi = (\mathsf{Gen}, \mathsf{Samp}, f)$ 是函数族。若函数 $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ 可以高效计算，并且对每个概率多项式时间算法 $\mathcal{A}$ 都存在可忽略函数 $\mathsf{negl}$ 使得
 
 $$
 \Pr_{\substack{I\leftarrow\mathsf{Gen}(1^{n}),x\leftarrow\mathsf{Samp}(I)}}[\mathcal{A}(I,f_{I}(x))=\mathsf{hc}(I,x)]\le\frac{1}{2}+\mathsf{negl}(n).

@@ -2,11 +2,13 @@
 
 In Chapter 3 we introduced the notion of pseudorandomness and defined some basic cryptographic primitives including pseudorandom generators, functions, and permutations. We further showed in Chapters 3–5 that these primitives can serve as building blocks for all of private-key cryptography. As such, it is of great importance to understand these primitives from a theoretical point of view. In this chapter we formally introduce the concept of one-way functions—functions that are, informally, easy to compute but hard to invert—and show how pseudorandom generators, functions, and permutations can be constructed under the sole assumption that one-way functions exist. $^{1}$ Moreover, we will see that one-way functions are necessary for “non-trivial” private-key cryptography. That is: the existence of one-way functions is equivalent to the existence of all (non-trivial) private-key cryptography. This is one of the major contributions of modern cryptography.
 
-在第 3 章中，我们介绍了伪随机性的概念，并定义了包括伪随机生成器、伪随机函数和伪随机置换在内的一些基本密码学原语。我们还在第 3–5 章进一步证明了这些原语可以作为全部私钥密码学的构建模块。因此，从理论角度理解这些原语至关重要。在本章中，我们正式介绍单向函数的概念——非正式地说，单向函数是易于计算却难以求逆的函数——并展示如何在“单向函数存在”这一唯一假设下构造伪随机生成器、伪随机函数和伪随机置换。$^{1}$ 此外，我们将看到单向函数对“非平凡”私钥密码学而言是必要的。也就是说：单向函数的存在性等价于所有（非平凡）私钥密码学的存在性。这是现代密码学的主要贡献之一。
+在第 3 章中，我们介绍了伪随机性的概念，并定义了包括伪随机生成器、伪随机函数和伪随机置换在内的一些基本密码学原语。我们还在第 3–5 章进一步证明了这些原语可以作为整个私钥密码学的构建模块。因此，从理论角度理解这些原语至关重要。在本章中，我们正式介绍单向函数的概念——非正式地说，单向函数是易于计算却难以求逆的函数——并展示如何在“单向函数存在”这一唯一假设下构造伪随机生成器、伪随机函数和伪随机置换。$^{1}$ 此外，我们将看到单向函数对“非平凡”私钥密码学而言是必要的。也就是说：单向函数的存在性等价于所有（非平凡）私钥密码学的存在性。这是现代密码学的主要贡献之一。
+
+> $^{1}$ 原书脚注：Although we will for the most part rely on the stronger assumption of one-way permutations in this chapter, it is known that one-way functions suffice.（本章大部分内容将依赖更强的“单向置换存在”假设，但已知单向函数便已足够。）
 
 The constructions we show in this chapter should be viewed as complementary to the constructions of stream ciphers and block ciphers discussed in the previous chapter. The focus of the previous chapter was on how various cryptographic primitives are currently realized in practice, and the intent of that chapter was to introduce some basic approaches and design principles that are used. Somewhat disappointing, though, was the fact that none of the constructions we showed could be proven secure based on any weaker (i.e., more reasonable) assumptions. In contrast, in this chapter we will show constructions that can be proven secure starting from the very mild assumption that one-way functions exist. That assumption is more appealing than assuming, say, that AES is a pseudorandom permutation, both because it is a qualitatively weaker assumption and also because we have a number of candidate, number-theoretic one-way functions that have been studied for many years, even before the advent of cryptography. (See the very beginning of Chapter 7 for further discussion of this point.) The downside, however, is that the constructions we show here are all far less efficient than those of Chapter 7, and thus (currently) have little practical significance. It remains an important challenge for cryptographers to "bridge this gap" and develop provably secure constructions of pseudorandom generators and permutations whose efficiency is comparable to the best available stream ciphers and block ciphers.
 
-本章展示的构造应视为对上一章所讨论的流密码与分组密码构造的补充。上一章的重点是各类密码学原语目前在实践中如何实现，其意图是介绍其中用到的一些基本方法和设计原则。不过令人有些失望的是，我们所展示的构造没有一个能基于更弱（即更合理）的假设证明其安全性。与此相反，本章将展示的构造可以从“单向函数存在”这一极为温和的假设出发证明其安全性。这一假设比假设（比方说）AES 是伪随机置换更具吸引力，原因有二：一方面它在性质上是更弱的假设，另一方面我们已有许多候选的数论单向函数，它们被研究多年，甚至早于密码学的出现。（关于这一点的进一步讨论见第 7 章开头。）然而其缺点在于，本章展示的构造效率都远低于第 7 章的构造，因而（目前）几乎没有实用价值。“弥合这一差距”——开发出效率可与现有最佳流密码和分组密码相媲美的、可证明安全的伪随机生成器与置换构造——仍是密码学家面临的一项重要挑战。
+本章展示的构造应视为对上一章所讨论的流密码与分组密码构造的补充。上一章的重点是各类密码学原语目前在实践中如何实现，其意图是介绍其中用到的一些基本方法和设计原则。不过令人有些失望的是，我们所展示的构造没有一个能基于更弱（即更合理）的假设证明其安全性。与此相反，本章将展示的构造可以从“单向函数存在”这一极为温和的假设出发证明其安全性。这一假设比假定（比方说）AES 是伪随机置换更具吸引力，原因有二：一方面它在性质上是更弱的假设，另一方面我们已有许多候选的数论单向函数，它们被研究多年，甚至早于密码学的出现。（关于这一点的进一步讨论见第 7 章开头。）然而其缺点在于，本章展示的构造效率都远低于第 7 章的构造，因而（目前）几乎没有实用价值。“弥合这一差距”——开发出效率可与现有最佳流密码和分组密码相媲美的、可证明安全的伪随机生成器与置换构造——仍是密码学家面临的一项重要挑战。
 
 Collision-resistant hash functions. Unlike the previous chapter, here we do not consider collision-resistant hash functions. The reason is that constructions of such hash functions from one-way functions are unknown and, in fact, there is evidence suggesting that such constructions are impossible. We will see a provably secure construction of a collision-resistant hash function—based on a specific, number-theoretic assumption—in Section 9.4.2.
 
@@ -30,7 +32,7 @@ In this section we formally define one-way functions, and then briefly discuss s
 
 A one-way function $f: \{0,1\}^* \to \{0,1\}^*$ is easy to compute, yet hard to invert. The first condition is easy to formalize: we will simply require that $f$ be computable in polynomial time. Since we are ultimately interested in building cryptographic schemes that are hard for a probabilistic polynomial-time adversary to break except with negligible probability, we will formalize the second condition by requiring that it be infeasible for any probabilistic polynomial-time algorithm to invert $f$—that is, to find a preimage of a given value $y$—except with negligible probability. A technical point is that this probability is taken over an experiment in which $y$ is generated by choosing a uniform element $x$ in the domain of $f$ and then setting $y := f(x)$ (rather than choosing $y$ uniformly from the range of $f$). The reason for this should become clear from the constructions we will see in the remainder of the chapter.
 
-单向函数 $f: \{0,1\}^* \to \{0,1\}^*$ 易于计算，却难以求逆。第一个条件很容易形式化：我们只要求 $f$ 可以在多项式时间内计算。由于我们最终感兴趣的是构造这样的密码方案——概率多项式时间敌手除以可忽略的概率外很难攻破它——我们把第二个条件形式化为：任何概率多项式时间算法对 $f$ 求逆——即对给定的值 $y$ 找到原像——成功的概率都是可忽略的。一个技术性的要点是，这一概率是在如下实验中取的：先在 $f$ 的定义域中均匀选取元素 $x$，再令 $y := f(x)$ 来生成 $y$（而不是从 $f$ 的值域中均匀选取 $y$）。其原因从本章余下部分将看到的构造中可以看得清楚。
+单向函数 $f: \{0,1\}^* \to \{0,1\}^*$ 易于计算，却难以求逆。第一个条件很容易形式化：我们只要求 $f$ 可以在多项式时间内计算。由于我们最终感兴趣的是构造这样的密码方案——除可忽略的概率外，概率多项式时间敌手很难攻破它——我们把第二个条件形式化为：任何概率多项式时间算法对 $f$ 求逆——即对给定的值 $y$ 找到原像——成功的概率都是可忽略的。一个技术性的要点是，这一概率是在如下实验中取的：先在 $f$ 的定义域中均匀选取元素 $x$ 并令 $y := f(x)$（而不是从 $f$ 的值域中均匀选取 $y$）。其原因从本章余下部分将看到的构造中可以看得清楚。
 
 Let $f: \{0,1\}^* \to \{0,1\}^*$ be a function. Consider the following experiment defined for any algorithm $\mathcal{A}$ and any value $n$ for the security parameter:
 
@@ -88,14 +90,14 @@ $$
 
 (Recall that $x \leftarrow \{0,1\}^n$ means that $x$ is chosen uniformly from $\{0,1\}^n$.) The probability above is also taken over the randomness used by $\mathcal{A}$, which here is left implicit.
 
-（回顾一下，$x \leftarrow \{0,1\}^n$ 表示 $x$ 从 $\{0,1\}^n$ 中均匀选取。）上式的概率还取遍 $\mathcal{A}$ 所用的随机性，这里将其隐含不写。
+（回顾一下，$x \leftarrow \{0,1\}^n$ 表示 $x$ 从 $\{0,1\}^n$ 中均匀选取。）上式中的概率还取遍 $\mathcal{A}$ 自身的随机性，这里略去不写。
 
 Successful inversion of one-way functions. A function that is not one-way is not necessarily easy to invert all the time (or even “often”). Rather, the converse of the second condition of Definition 8.1 is that there exists a probabilistic polynomial-time algorithm $\mathcal{A}$ and a non-negligible function $\gamma$ such that $\mathcal{A}$ inverts $f(x)$ with probability at least $\gamma(n)$ (where the probability is taken over uniform choice of $x \in \{0,1\}^n$ and the randomness of $\mathcal{A}$). This means, in turn, that there exists a positive polynomial $p(\cdot)$ such that for
 infinitely many values of $n$, algorithm $\mathcal{A}$ inverts $f$ with probability at least ${1}/{p(n)}$. Thus, if there exists an $\mathcal{A}$ that inverts $f$ with probability $n^{-10}$ for all even values of $n$ (but always fails to invert $f$ when $n$ is odd), then $f$ is not one-way—even though $\mathcal{A}$ only succeeds on half the values of $n$, and only succeeds with probability $n^{-10}$ (for values of $n$ where it succeeds at all).
 
 **单向函数的成功求逆。**
 
-并非单向的函数并不一定总是容易求逆（甚至不一定“经常”容易求逆）。确切地说，定义 8.1 第二个条件的反面是：存在概率多项式时间算法 $\mathcal{A}$ 和非可忽略函数 $\gamma$，使得 $\mathcal{A}$ 以至少 $\gamma(n)$ 的概率对 $f(x)$ 求逆（概率取遍 $x \in \{0,1\}^n$ 的均匀选择和 $\mathcal{A}$ 的随机性）。这又意味着：存在正多项式 $p(\cdot)$，使得对无穷多个 $n$ 的取值，算法 $\mathcal{A}$ 以至少 ${1}/{p(n)}$ 的概率对 $f$ 求逆。因此，若存在算法 $\mathcal{A}$，对所有偶数的 $n$ 以 $n^{-10}$ 的概率对 $f$ 求逆（而当 $n$ 为奇数时总是求逆失败），那么 $f$ 就不是单向函数——尽管 $\mathcal{A}$ 只在一半的 $n$ 取值上成功，而且（在其能成功的那些 $n$ 取值上）成功概率也只有 $n^{-10}$。
+不是单向函数，并不意味着它总是容易求逆（甚至不意味着它“经常”容易求逆）。确切地说，定义 8.1 第二个条件的反面是：存在概率多项式时间算法 $\mathcal{A}$ 和非可忽略函数 $\gamma$，使得 $\mathcal{A}$ 以至少 $\gamma(n)$ 的概率对 $f(x)$ 求逆（概率取遍 $x \in \{0,1\}^n$ 的均匀选择和 $\mathcal{A}$ 的随机性）。这又意味着：存在正多项式 $p(\cdot)$，使得对无穷多个 $n$ 的取值，算法 $\mathcal{A}$ 以至少 ${1}/{p(n)}$ 的概率对 $f$ 求逆。因此，若存在算法 $\mathcal{A}$，对所有偶数 $n$ 以 $n^{-10}$ 的概率对 $f$ 求逆（而当 $n$ 为奇数时总是求逆失败），那么 $f$ 就不是单向函数——尽管 $\mathcal{A}$ 只在一半的 $n$ 取值上成功，而且（在其能成功的那些 $n$ 取值上）成功概率也只有 $n^{-10}$。
 
 Exponential-time inversion. Any one-way function can be inverted at any point $y$ in exponential time, by simply trying all values $x \in \{0,1\}^n$ until a value $x$ is found such that $f(x) = y$. Thus, the existence of one-way functions is inherently an assumption about computational complexity and computational hardness. That is, it concerns a problem that can be solved in principle but is assumed to be hard to solve efficiently.
 
@@ -171,7 +173,7 @@ Throughout this chapter we work with one-way functions/permutations over an infi
 
 One-way functions are of interest only if they exist. We do not know how to prove they exist unconditionally (this would be a major breakthrough in complexity theory), so we must conjecture or assume their existence. Such a conjecture is based on the fact that several natural computational problems have received much attention, yet still are not known to be solvable by any polynomial-time algorithm. Perhaps the most famous such problem is integer factorization, i.e., finding the prime factors of a large integer. It is easy to multiply two numbers and obtain their product, but difficult to take a number and find its factors. This leads us to define the function $f_{\mathsf{mult}}(x, y) = x \cdot y$. If we do not restrict the lengths of x and y, however, $f_{\mathsf{mult}}$ is easy to invert: with high probability $x \cdot y$ will be even, in which case $(2, xy/2)$ is an inverse. This issue can be addressed by restricting the domain of $f_{\mathsf{mult}}$ to equal-length primes x and y. We return to this idea in Section 9.2.
 
-单向函数只有在其存在时才有研究价值。我们不知道如何无条件地证明它们存在（那将是复杂性理论的重大突破），因此必须猜想或假设其存在。这一猜想基于如下事实：若干自然的计算问题已受到大量关注，但至今仍不知道有任何多项式时间算法能够求解。此类问题中最著名的也许是整数分解，即找出一个大整数的素因子。把两个数相乘得到乘积很容易，但取一个数并找出它的因子却很困难。这引导我们定义函数 $f_{\mathsf{mult}}(x, y) = x \cdot y$。然而，如果不限制 $x$ 和 $y$ 的长度，$f_{\mathsf{mult}}$ 是容易求逆的：$x \cdot y$ 以很大概率是偶数，此时 $(2, xy/2)$ 就是一个原像。把 $f_{\mathsf{mult}}$ 的定义域限制为等长的素数 $x$ 和 $y$ 即可解决这一问题。我们将在 9.2 节回到这一想法。
+单向函数只有在其存在时才有研究价值。我们不知道如何无条件地证明它们存在（那将是复杂性理论的重大突破），因此必须猜想或假设其存在。这一猜想基于如下事实：若干自然的计算问题已受到大量关注，但至今仍不知道有任何多项式时间算法能够求解。此类问题中最著名的也许是整数分解，即找出一个大整数的素因子。把两个数相乘得到乘积很容易，但取一个数并找出它的因子却很困难。由此我们定义函数 $f_{\mathsf{mult}}(x, y) = x \cdot y$。然而，如果不限制 $x$ 和 $y$ 的长度，$f_{\mathsf{mult}}$ 是容易求逆的：$x \cdot y$ 以很大概率是偶数，此时 $(2, xy/2)$ 就是一个原像。把 $f_{\mathsf{mult}}$ 的定义域限制为等长的素数 $x$ 和 $y$ 即可解决这一问题。我们将在 9.2 节回到这一想法。
 
 Another candidate one-way function, not relying directly on number theory, is based on the subset-sum problem and is defined by
 
@@ -183,7 +185,7 @@ $$
 
 where each $x_i$ is an $n$-bit string interpreted as an integer, and $J$ is an $n$-bit string interpreted as specifying a subset of $\{1, \ldots, n\}$. Inverting $f_{\mathsf{ss}}$ on an output $(x_1, \ldots, x_n, y)$ requires finding a subset $J^{\prime} \subseteq \{1, \ldots, n\}$ such that
 
-其中每个 $x_i$ 是 $n$ 比特串，被解释为整数；而 $J$ 是 $n$ 比特串，被解释为指定 $\{1, \ldots, n\}$ 的一个子集。在输出 $(x_1, \ldots, x_n, y)$ 上对 $f_{\mathsf{ss}}$ 求逆，需要找到子集 $J^{\prime} \subseteq \{1, \ldots, n\}$ 使得
+其中每个 $x_i$ 是按整数解释的 $n$ 比特串；$J$ 是指定 $\{1, \ldots, n\}$ 的某个子集的 $n$ 比特串。在输出 $(x_1, \ldots, x_n, y)$ 上对 $f_{\mathsf{ss}}$ 求逆，需要找到子集 $J^{\prime} \subseteq \{1, \ldots, n\}$ 使得
 
 $$
 \sum_{j \in J} x_j = y \mod 2^n.
@@ -203,17 +205,17 @@ $$
 
 (The fact that $f_{p,g}$ can be computed efficiently follows from the results in Appendix B.2.3.) It can be shown that this function is one-to-one, and thus a permutation. The presumed difficulty of inverting this function is based on the conjectured hardness of the discrete-logarithm problem; we will have much more to say about this in Section 9.3.
 
-（$f_{p,g}$ 可以高效计算这一事实可由附录 B.2.3 的结果得到。）可以证明该函数是一一的，因而是置换。人们假定对此函数求逆是困难的，其依据是离散对数问题被猜想为困难的；我们将在 9.3 节对此展开更多讨论。
+（$f_{p,g}$ 可以高效计算这一事实可由附录 B.2.3 的结果得到。）可以证明该函数是一一对应的，因而是置换。人们假定对此函数求逆是困难的，其依据是离散对数问题被猜想为困难的；我们将在 9.3 节对此展开更多讨论。
 
 Finally, we remark that very efficient one-way functions can be obtained from practical cryptographic constructions such as SHA-2 or AES under the assumption that they are collision resistant or a pseudorandom permutation, respectively; see Exercises 8.4 and 8.5. (Technically speaking, they cannot satisfy the definition of one-wayness since they have fixed-length input/output and so their asymptotic behavior is undefined. Nevertheless, it is plausible to conjecture that they are one-way in a concrete sense.)
 
-最后我们指出，若分别假设 SHA-2 或 AES 是抗碰撞的或是伪随机置换，则可以从 SHA-2、AES 这类实用的密码学构造得到非常高效的单向函数；见习题 8.4 和习题 8.5。（严格来说，它们无法满足单向性的定义，因为其输入/输出长度固定，渐近行为无从谈起。尽管如此，猜想它们在具体意义下是单向的仍是合理的。）
+最后我们指出，若分别假设 SHA-2 或 AES 是抗碰撞的或是伪随机置换，则可以从 SHA-2、AES 这类实用的密码学构造得到非常高效的单向函数；见习题 8.4 和习题 8.5。（严格来说，它们无法满足单向性的定义，因为其输入/输出长度固定，渐近行为没有定义。尽管如此，猜想它们在具体意义下是单向的仍是合理的。）
 
 ### 8.1.3 Hard-Core Predicates　难核谓词
 
 By definition, a one-way function is hard to invert. Stated differently: given $y = f(x)$, the value $x$ cannot be computed in its entirety by any polynomial-time algorithm (except with negligible probability; we ignore this here). One might get the impression that nothing about $x$ can be determined from $f(x)$ in polynomial time. This is not necessarily the case. Indeed, it is possible for $f(x)$ to “leak” a lot of information about $x$ even if $f$ is one-way. For a trivial example, let $g$ be a one-way function and define $f(x_1, x_2) \overset{\mathrm{def}}{=} (x_1, g(x_2))$, where $|x_1| = |x_2|$. It is easy to show that $f$ is also a one-way function (this is left as an exercise), even though it reveals half its input.
 
-根据定义，单向函数难以求逆。换一种说法：给定 $y = f(x)$，任何多项式时间算法都无法完整计算出 $x$（除以可忽略的概率成功外；这里我们忽略这一点）。人们可能由此产生一种印象：在多项式时间内无法从 $f(x)$ 得知关于 $x$ 的任何信息。情况未必如此。事实上，即使 $f$ 是单向的，$f(x)$ 也可能“泄露”关于 $x$ 的许多信息。举一个平凡的例子：设 $g$ 是单向函数，定义 $f(x_1, x_2) \overset{\mathrm{def}}{=} (x_1, g(x_2))$，其中 $|x_1| = |x_2|$。容易证明 $f$ 也是单向函数（留作习题），尽管它泄露了一半的输入。
+根据定义，单向函数难以求逆。换一种说法：给定 $y = f(x)$，任何多项式时间算法都无法完整计算出 $x$（除可忽略的概率外；这里我们忽略这一点）。人们可能由此产生一种印象：在多项式时间内无法从 $f(x)$ 得知关于 $x$ 的任何信息。情况未必如此。事实上，即使 $f$ 是单向的，$f(x)$ 也可能“泄露”关于 $x$ 的许多信息。举一个平凡的例子：设 $g$ 是单向函数，定义 $f(x_1, x_2) \overset{\mathrm{def}}{=} (x_1, g(x_2))$，其中 $|x_1| = |x_2|$。容易证明 $f$ 也是单向函数（留作习题），尽管它泄露了一半的输入。
 
 For our applications, we will need to identify a specific piece of information about $x$ that is “hidden” by $f(x)$. This motivates the notion of a hard-core predicate. A hard-core predicate $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ of a function $f$ has the property that $\mathsf{hc}(x)$ is hard to compute with probability significantly better than 1/2 given $f(x)$. (Since hc is a boolean function, it is always possible to compute $\mathsf{hc}(x)$ with probability 1/2 by random guessing.) Formally:
 
@@ -363,7 +365,7 @@ Due to the complexity of the proof, we prove three successively stronger results
 
 We first show that if there exists a polynomial-time adversary $\mathcal{A}$ that always correctly computes $\mathsf{gl}(x, r)$ given $g(x, r) = (f(x), r)$, then it is possible to invert $f$ in polynomial time. (Note that such an $\mathcal{A}$ can only possibly exist if $f$ is one-to-one.) Given the assumption that $f$ is a one-way function, it follows that no such adversary $\mathcal{A}$ exists.
 
-我们首先证明：如果存在多项式时间敌手 $\mathcal{A}$，在给定 $g(x, r) = (f(x), r)$ 时总能正确计算 $\mathsf{gl}(x, r)$，那么就可以在多项式时间内对 $f$ 求逆。（注意，只有当 $f$ 是一一的时，这样的 $\mathcal{A}$ 才有可能存在。）结合 $f$ 是单向函数的假设即可得出：这样的敌手 $\mathcal{A}$ 并不存在。
+我们首先证明：如果存在多项式时间敌手 $\mathcal{A}$，在给定 $g(x, r) = (f(x), r)$ 时总能正确计算 $\mathsf{gl}(x, r)$，那么就可以在多项式时间内对 $f$ 求逆。（注意，只有当 $f$ 一一对应时，这样的 $\mathcal{A}$ 才有可能存在。）结合 $f$ 是单向函数的假设即可得出：这样的敌手 $\mathcal{A}$ 并不存在。
 
 PROPOSITION 8.12 Let $f$ and $\mathsf{gl}$ be as in Theorem 8.11. If there exists a polynomial-time algorithm $\mathcal{A}$ such that $\mathcal{A}(f(x), r) = \mathsf{gl}(x, r)$ for all $n$ and all $x, r \in \{0,1\}^n$, then there exists a polynomial-time algorithm $\mathcal{A}^{\prime}$ such that $\mathcal{A}^{\prime}(1^n, f(x)) = x$ for all $n$ and all $x \in \{0,1\}^n$.
 
@@ -518,7 +520,7 @@ $$
 
 We are interested in lower-bounding the probability that $\mathcal{A}$ outputs the correct answer for both $\mathsf{gl}(x, r)$ and $\mathsf{gl}(x, r \oplus e^i)$; equivalently, we want to upper-bound the probability that $\mathcal{A}$ fails to output the correct answer in either of these cases. Note that $r$ and $r \oplus e^i$ are not independent, so we cannot just multiply the probabilities of failure. However, we can apply the union bound (see Proposition A.7) and sum the probabilities of failure. That is, the probability that $\mathcal{A}$ is incorrect on either $\mathsf{gl}(x, r)$ or $\mathsf{gl}(x, r \oplus e^i)$ is at most
 
-我们关心的是为如下概率给出下界：$\mathcal{A}$ 对 $\mathsf{gl}(x, r)$ 和 $\mathsf{gl}(x, r \oplus e^i)$ 都输出正确答案；等价地，我们想为 $\mathcal{A}$ 在这两种情形中任一情形下未能输出正确答案的概率给出上界。注意，$r$ 与 $r \oplus e^i$ 并不独立，所以不能直接将失败概率相乘。不过，我们可以应用联合界（见命题 A.7），把失败概率相加。也就是说，$\mathcal{A}$ 在 $\mathsf{gl}(x, r)$ 或 $\mathsf{gl}(x, r \oplus e^i)$ 上出错的概率至多为
+我们关心的是给出 $\mathcal{A}$ 对 $\mathsf{gl}(x, r)$ 和 $\mathsf{gl}(x, r \oplus e^i)$ 都输出正确答案的概率的下界；等价地，即给出 $\mathcal{A}$ 在这两种情形的任一情形下未能输出正确答案的概率的上界。注意，$r$ 与 $r \oplus e^i$ 并不独立，所以不能直接将失败概率相乘。不过，我们可以应用联合界（见命题 A.7），把失败概率相加。也就是说，$\mathcal{A}$ 在 $\mathsf{gl}(x, r)$ 或 $\mathsf{gl}(x, r \oplus e^i)$ 上出错的概率至多为
 
 $$
 \left(\frac{1}{4}-\frac{\varepsilon(n)}{2}\right)+\left(\frac{1}{4}-\frac{\varepsilon(n)}{2}\right)=\frac{1}{2}-\varepsilon(n),
@@ -566,7 +568,7 @@ Algorithm $\mathcal{A}^{\prime}$, given as input ${1}^{n}$ and y, works as follo
 
 We sketch an analysis of the probability that $\mathcal{A}^{\prime}$ correctly inverts its given input $y$. (We allow ourselves to be a bit laconic, since a full proof for a more difficult case is given in the following section.) Say $y = f(\hat{x})$ and recall that we assume here that $n$ is such that Equation (8.1) holds and $\hat{x} \in S_n$. Fix some $i$. The previous claim implies that the estimate $\mathcal{A}(y, r) \oplus \mathcal{A}(y, r \oplus e^i)$ is equal to $\mathsf{gl}(\hat{x}, e^i)$ with probability at least $\frac{1}{2} + \varepsilon(n)$ over choice of $r$. By obtaining sufficiently many estimates and letting $x_i$ be the majority value, $\mathcal{A}^{\prime}$ can ensure that $x_i$ is equal to $\mathsf{gl}(\hat{x}, e^i)$ with probability at least ${1} - \frac{1}{2n}$. Since $\varepsilon(n) = 1/p(n)$ for some polynomial $p$, and an independent value of $r$ is used for obtaining each estimate, the Chernoff bound (cf. Proposition A.14) shows that polynomially many estimates suffice.
 
-我们概述 $\mathcal{A}^{\prime}$ 正确求逆其所给输入 $y$ 的概率的分析。（我们允许自己写得简略一些，因为下一节会对更困难的情形给出完整证明。）设 $y = f(\hat{x})$，并回顾我们在这里假设 $n$ 使得式 (8.1) 成立且 $\hat{x} \in S_n$。固定某个 $i$。前一条断言蕴含：在 $r$ 的选取下，估计值 $\mathcal{A}(y, r) \oplus \mathcal{A}(y, r \oplus e^i)$ 等于 $\mathsf{gl}(\hat{x}, e^i)$ 的概率至少为 $\frac{1}{2} + \varepsilon(n)$。只要获得足够多的估计并令 $x_i$ 为其中的多数值，$\mathcal{A}^{\prime}$ 就能确保 $x_i$ 等于 $\mathsf{gl}(\hat{x}, e^i)$ 的概率至少为 ${1} - \frac{1}{2n}$。由于 $\varepsilon(n) = 1/p(n)$（$p$ 为某个多项式），且每获得一个估计都使用独立的 $r$ 取值，Chernoff 界（参见命题 A.14）表明多项式数量的估计就足够了。
+我们概述 $\mathcal{A}^{\prime}$ 正确求逆其所给输入 $y$ 的概率的分析。（这里我们写得简略一些，因为下一节会对更困难的情形给出完整证明。）设 $y = f(\hat{x})$，并回顾我们在这里假设 $n$ 使得式 (8.1) 成立且 $\hat{x} \in S_n$。固定某个 $i$。前一条断言蕴含：在 $r$ 的选取下，估计值 $\mathcal{A}(y, r) \oplus \mathcal{A}(y, r \oplus e^i)$ 等于 $\mathsf{gl}(\hat{x}, e^i)$ 的概率至少为 $\frac{1}{2} + \varepsilon(n)$。只要获得足够多的估计并令 $x_i$ 为其中的多数值，$\mathcal{A}^{\prime}$ 就能确保 $x_i$ 等于 $\mathsf{gl}(\hat{x}, e^i)$ 的概率至少为 ${1} - \frac{1}{2n}$。由于 $\varepsilon(n) = 1/p(n)$（$p$ 为某个多项式），且每获得一个估计都使用独立的 $r$ 取值，Chernoff 界（参见命题 A.14）表明多项式数量的估计就足够了。
 
 Summarizing, we have that for each $i$ the value $x_i$ computed by $\mathcal{A}^{\prime}$ is incorrect with probability at most $\frac{1}{2n}$. A union bound thus shows that $\mathcal{A}^{\prime}$ is incorrect for some $i$ with probability at most $n \cdot \frac{1}{2n} = \frac{1}{2}$. That is, $\mathcal{A}^{\prime}$ is correct for all $i$—and thus correctly inverts $y$—with probability at least ${1} - \frac{1}{2} = \frac{1}{2}$. This completes the proof of Proposition 8.13.
 
@@ -574,7 +576,7 @@ Summarizing, we have that for each $i$ the value $x_i$ computed by $\mathcal{A}^
 
 A corollary of Proposition 8.13 is that if $f$ is a one-way function, then for any polynomial-time algorithm $\mathcal{A}$ the probability that $\mathcal{A}$ correctly guesses $\mathsf{gl}(x,r)$ when given $(f(x),r)$ is at most negligibly more than ${3}/{4}$.
 
-命题 8.13 的一个推论是：如果 $f$ 是单向函数，那么对任何多项式时间算法 $\mathcal{A}$，在给定 $(f(x),r)$ 时 $\mathcal{A}$ 正确猜出 $\mathsf{gl}(x,r)$ 的概率至多比 ${3}/{4}$ 大出可忽略的量。
+命题 8.13 的一个推论是：如果 $f$ 是单向函数，那么对任何多项式时间算法 $\mathcal{A}$，在给定 $(f(x),r)$ 时 $\mathcal{A}$ 正确猜出 $\mathsf{gl}(x,r)$ 的概率至多比 ${3}/{4}$ 高出可忽略的量。
 
 ### 8.3.3 The Full Proof　完整证明
 
@@ -640,7 +642,7 @@ Instead, we design $\mathcal{A}^{\prime}$ so that it computes $\mathsf{gl}(x,r)$
 
 The crucial observation of the present proof is that $\mathcal{A}^{\prime}$ can generate the $r^{\prime}$s in a pairwise-independent manner and make its guesses in a particular way so that with non-negligible probability all its guesses are correct. Specifically, in order to generate $m$ values of $r$, we have $\mathcal{A}^{\prime}$ select $\ell = \lceil \log(m+1) \rceil$ independent and uniformly distributed strings $s^1, \ldots, s^\ell \in \{0,1\}^n$. Then, for every nonempty subset $I \subseteq \{1, \ldots, \ell\}$, we set $r^I := \oplus_{i \in I} s^i$. Since there are ${2}^\ell - 1$ nonempty subsets, this defines a collection of ${2}^{\lceil \log(m+1) \rceil} - 1 \geq m$ strings. Each such string is uniformly distributed. The strings are not independent, but they are pairwise independent. To see this, notice that for every two subsets $I \neq J$ there is an index $j \in I \cup J$ such that $j \notin I \cap J$. Without loss of generality, assume $j \notin I$. Then the value of $s^j$ is uniform and independent of the value of $r^I$. Since $s^j$ is included in the XOR that defines $r^J$, this implies that $r^J$ is uniform and independent of $r^I$ as well.
 
-本证明的关键观察是：$\mathcal{A}^{\prime}$ 可以按两两独立的方式生成各个 $r$，并以特定方式作出猜测，使得所有猜测以非可忽略的概率全部正确。具体地，为了生成 $m$ 个 $r$ 取值，让 $\mathcal{A}^{\prime}$ 选取 $\ell = \lceil \log(m+1) \rceil$ 个独立且均匀分布的串 $s^1, \ldots, s^\ell \in \{0,1\}^n$。然后，对每个非空子集 $I \subseteq \{1, \ldots, \ell\}$，令 $r^I := \oplus_{i \in I} s^i$。由于非空子集共有 ${2}^\ell - 1$ 个，这就定义了由 ${2}^{\lceil \log(m+1) \rceil} - 1 \geq m$ 个串组成的一个集合。每个这样的串都是均匀分布的。这些串并不独立，但两两独立。为说明这一点，注意对任意两个子集 $I \neq J$，存在下标 $j \in I \cup J$ 使得 $j \notin I \cap J$。不失一般性，设 $j \notin I$。此时 $s^j$ 的值是均匀的，且与 $r^I$ 的值独立。由于 $s^j$ 出现在定义 $r^J$ 的异或之中，这意味着 $r^J$ 也是均匀的，且与 $r^I$ 独立。
+本证明的关键观察是：$\mathcal{A}^{\prime}$ 可以按两两独立的方式生成各个 $r$，并以特定方式作出猜测，使得所有猜测以非可忽略的概率全部正确。具体地，为了生成 $m$ 个 $r$ 取值，让 $\mathcal{A}^{\prime}$ 选取 $\ell = \lceil \log(m+1) \rceil$ 个独立且均匀分布的串 $s^1, \ldots, s^\ell \in \{0,1\}^n$。然后，对每个非空子集 $I \subseteq \{1, \ldots, \ell\}$，令 $r^I := \oplus_{i \in I} s^i$。由于非空子集共有 ${2}^\ell - 1$ 个，这就定义了由 ${2}^{\lceil \log(m+1) \rceil} - 1 \geq m$ 个串组成的集合。每个这样的串都是均匀分布的。这些串并不独立，但两两独立。为说明这一点，注意对任意两个子集 $I \neq J$，存在下标 $j \in I \cup J$ 使得 $j \notin I \cap J$。不失一般性，设 $j \notin I$。此时 $s^j$ 的值是均匀的，且与 $r^I$ 的值独立。由于 $s^j$ 出现在定义 $r^J$ 的异或之中，这意味着 $r^J$ 也是均匀的，且与 $r^I$ 独立。
 
 We now have the following two important observations:
 
