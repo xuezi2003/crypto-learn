@@ -14,7 +14,7 @@ The above concerns have motivated an intense research effort over the past sever
 
 The goal of this chapter is to describe the impact of quantum algorithms on the schemes used today, and to offer a glimpse of some schemes offering plausible post-quantum security. We do not assume any background in quantum mechanics or quantum computing, and will not present any quantum algorithms in detail. Rather, we explain what existing quantum algorithms can do (without describing in detail how they do it) and otherwise treat them as “black boxes.” The post-quantum cryptosystems we describe are similar to current leading candidates in the NIST post-quantum standardization effort, but we have simplified them for pedagogical purposes.
 
-本章的目标是描述量子算法对当今所用方案的影响，并初步介绍几种有望提供后量子安全性的方案。我们不假定读者具备量子力学或量子计算的背景，也不会详细展示任何量子算法；相反，我们只解释现有量子算法能做什么（而不详述它们是如何做到的），除此之外把它们当作“黑盒”对待。我们描述的后量子密码系统与 NIST 后量子标准化工作中目前的领先候选方案类似，但出于教学目的做了简化。
+本章的目标是描述量子算法对当今所用方案的影响，并初步介绍几种有望提供后量子安全性的方案。我们不假定读者具备量子力学或量子计算的背景，也不会详细展示任何量子算法；相反，我们只解释现有量子算法能做什么（而不详述它们是如何做到的），除此之外把它们当作“黑盒”对待。我们描述的后量子密码系统与 NIST 后量子密码标准化工作中目前的领先候选方案类似，但出于教学目的做了简化。
 
 Post-quantum cryptography vs. quantum cryptography. Quantum cryptography is related to, but distinct from, post-quantum cryptography as we use the term here. Quantum cryptography refers to cryptosystems that are implemented using quantum computers, quantum-mechanical phenomena, and quantum communication channels; for this reason, they would be difficult to deploy widely over the existing Internet. Post-quantum cryptosystems, on the other hand, are entirely classical—but are intended to ensure security even if an attacker has access to a quantum computer.
 
@@ -84,7 +84,7 @@ $${1}-\left(1-\frac{\ell}{2^{n}}\right)^{\ell^{2}}\geq1-e^{-\ell^{3}/2^{n}}$$
 
 (using Proposition A.3). We thus see that taking $\ell = \Theta(2^{n/3})$ gives a constant probability of finding a collision using only $\mathcal{O}(2^{n/3})$ evaluations of $H$.
 
-（利用命题 A.3。）于是我们看到，取 $\ell = \Theta(2^{n/3})$，就能仅用 $\mathcal{O}(2^{n/3})$ 次 $H$ 的求值以常数概率找到一个碰撞。
+（这里用到了命题 A.3。）于是我们看到，取 $\ell = \Theta(2^{n/3})$，就能仅用 $\mathcal{O}(2^{n/3})$ 次 $H$ 的求值以常数概率找到一个碰撞。
 
 Consider the impact this has on the required output length of a hash function $H: \{0,1\}^m \to \{0,1\}^n$ in order to achieve some desired level of security. As in the previous section, say we want security (i.e., inability to find collisions) against attackers running in time ${2}^\kappa$, and assume there are no structural weaknesses in $H$ so generic attacks are the best possible. Classically, it suffices to set $n = 2\kappa$ (since a birthday attack would then require time $\mathcal{O}(2^{n/2}) = \mathcal{O}(2^\kappa)$). But achieving the same level of security in the quantum setting requires $n = 3\kappa$. Summarizing:
 
@@ -194,7 +194,7 @@ Consider the following problem: A matrix $\mathbf{B} \in \mathbb{Z}_q^{m \times 
 
 **LWE 假设。**
 
-考虑如下问题：选取矩阵 $\mathbf{B} \in \mathbb{Z}_q^{m \times n}$ 以及向量 $^1$ $\mathbf{s} \in \mathbb{Z}_q^n$。然后给我们的是 $\mathbf{B}$ 与 $\mathbf{t} := [\mathbf{B} \cdot \mathbf{s} \bmod q]$（即所有运算都在模 $q$ 意义下进行）；目标是找出任意一个满足 $\mathbf{B}\mathbf{s}^{\prime} = \mathbf{t} \bmod q$ 的值 $\mathbf{s}^{\prime} \in \mathbb{Z}_q^n$。这个问题是容易的，可以用标准的（高效的）线性代数技术求解。
+考虑如下问题：选取矩阵 $\mathbf{B} \in \mathbb{Z}_q^{m \times n}$ 以及向量 $^1$ $\mathbf{s} \in \mathbb{Z}_q^n$。随后给定 $\mathbf{B}$ 与 $\mathbf{t} := [\mathbf{B} \cdot \mathbf{s} \bmod q]$（即所有运算都在模 $q$ 意义下进行）；目标是找出任意一个满足 $\mathbf{B}\mathbf{s}^{\prime} = \mathbf{t} \bmod q$ 的值 $\mathbf{s}^{\prime} \in \mathbb{Z}_q^n$。这个问题是容易的，可以用标准的（高效的）线性代数技术求解。
 
 > $^1$ By default, our vectors are column vectors and so we write, e.g., $\mathbf{s}^T$ (the transpose of $\mathbf{s}$) to denote a row vector.
 
@@ -220,7 +220,7 @@ $$\begin{align*}\left|\Pr[\mathbf{B}\leftarrow\mathbb{Z}_{q}^{m\times n};\mathbf
 
 (Note that we also choose $\mathbf{s}$ to be short.) Clearly, if the decisional $\text{LWE}_{m,q,\psi}$ problem is hard then so is the decisional $\text{LWE}_{m^{\prime},q,\psi}$ problem for any $m^{\prime} \leq m$. It is only slightly more difficult to show that increasing the length of $\mathbf{s}$ can only make the problem harder. We leave the following as an exercise.
 
-（注意，我们也把 $\mathbf{s}$ 选成短的。）显然，若判定性 $\text{LWE}_{m,q,\psi}$ 问题困难，则对任意 $m^{\prime} \leq m$，判定性 $\text{LWE}_{m^{\prime},q,\psi}$ 问题也困难。要证明增大 $\mathbf{s}$ 的长度只会使问题更难，也只需稍多费些笔墨。我们把下面的结论留作习题。
+（注意，我们也把 $\mathbf{s}$ 选成短的。）显然，若判定性 $\text{LWE}_{m,q,\psi}$ 问题困难，则对任意 $m^{\prime} \leq m$，判定性 $\text{LWE}_{m^{\prime},q,\psi}$ 问题也困难。要证明增加 $\mathbf{s}$ 的长度（即维数）只会使问题更难，也只需稍多费些笔墨。我们把下面的结论留作习题。
 
 LEMMA 14.2 If the decisional $\operatorname{LWE}_{m,q,\psi}$ problem is quantum-hard, then for all quantum polynomial-time algorithms $\mathcal{A}$ and all functions $m^{\prime}, \ell$ with $m^{\prime}(n) \leq m(n)$ and $\ell(n) \geq n$ there is a negligible function $\mathsf{negl}$ such that
 
@@ -240,11 +240,11 @@ $$\boldsymbol{k}_{A}=\mathbf{t}_{B}^{T}\cdot\mathbf{s}=\hat{\mathbf{s}}^{T}\cdot
 
 (where all calculations above are done modulo $q$), and so Alice and Bob have agreed on a shared key!
 
-以上所有计算均在模 $q$ 意义下进行；于是 Alice 和 Bob 就商定了一个共享密钥！
+以上所有计算均在模 $q$ 意义下进行；于是 Alice 和 Bob 就得到了同一个共享密钥！
 
 Of course, the protocol above is not secure since an eavesdropper can use linear algebra to recover $\mathbf{s}$, $\hat{\mathbf{s}}$, or both, and thus compute the key as well. By judiciously adding noise, however (and under the assumption that the decisional LWE problem is hard), it is possible for Alice and Bob to agree on a key while preventing an adversary from learning it. Adapting the resulting protocol to give an encryption scheme (in the same way the Diffie–Hellman protocol is adapted to give El Gamal encryption), we obtain Construction 14.3.
 
-当然，上述协议并不安全，因为窃听者可以利用线性代数恢复 $\mathbf{s}$、$\hat{\mathbf{s}}$ 或二者，从而也能计算出密钥。然而，通过明智地加入噪声（并在判定性 LWE 问题困难的假设下），Alice 和 Bob 可以商定一个密钥，同时防止敌手得知该密钥。把所得协议改造成加密方案（就像把 Diffie–Hellman 协议改造成 El Gamal 加密那样），便得到构造 14.3。
+当然，上述协议并不安全，因为窃听者可以利用线性代数恢复 $\mathbf{s}$、$\hat{\mathbf{s}}$ 或二者，从而也能计算出密钥。然而，通过审慎地加入噪声（并在判定性 LWE 问题困难的假设下），Alice 和 Bob 可以得到同一个密钥，同时防止敌手得知该密钥。把所得协议改造成加密方案（就像把 Diffie–Hellman 协议改造成 El Gamal 加密那样），便得到构造 14.3。
 
 **CONSTRUCTION 14.3**
 
@@ -266,7 +266,7 @@ An encryption scheme based on the decisional LWE problem.
 
 - Gen：输入 ${1}^n$ 时，均匀选取 $\mathbf{B} \leftarrow \mathbb{Z}_q^{m \times n}$，并选取 $\mathbf{s} \leftarrow \psi^n$ 与 $\mathbf{e} \leftarrow \psi^m$。置 $\mathbf{t} := [\mathbf{B} \cdot \mathbf{s} + \mathbf{e} \bmod q]$。公钥为 $\langle \mathbf{B}, \mathbf{t} \rangle$，私钥为 $\mathbf{s}$。
 
-- Enc：输入公钥 $pk = \langle \mathbf{B}, \mathbf{t} \rangle$ 与比特 $b$ 时，选取 $\hat{\mathbf{s}} \leftarrow \psi^m$ 与 $\hat{\mathbf{e}} \leftarrow \psi^{n+1}$，并输出密文（见上方公式）。
+- Enc：输入公钥 $pk = \langle \mathbf{B}, \mathbf{t} \rangle$ 与比特 $b$ 时，选取 $\hat{\mathbf{s}} \leftarrow \psi^m$ 与 $\hat{\mathbf{e}} \leftarrow \psi^{n+1}$，并输出密文（定义见上方公式）。
 
 - Dec：输入私钥 $\mathbf{s}$ 与密文 $\mathbf{c}^T$ 时，先计算 $k := [\mathbf{c}^T \cdot \begin{bmatrix} -\mathbf{s} \\ 1 \end{bmatrix} \bmod q]$。若 $k$ 更接近 $\lfloor \frac{q}{2} \rfloor$ 而非 0（见正文），则输出 1；否则输出 0。
 
@@ -328,7 +328,7 @@ CLAIM 14.5
 
 $$\begin{array}{r}{\left|\Pr[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1]-\Pr[\mathsf{PubK}_{\mathcal{A},\widetilde{\Pi}}^{\mathsf{eav}}(n)=1]\right|\text{ is negligible}.}\end{array}$$
 
-断言 14.5
+断言 14.5　$\left|\Pr[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1]-\Pr[\mathsf{PubK}_{\mathcal{A},\widetilde{\Pi}}^{\mathsf{eav}}(n)=1]\right|$ 可忽略。
 
 PROOF The proof is by a direct reduction to the decisional LWE problem as specified in Definition 14.1. Consider the following algorithm $D$ that attempts to solve the decisional $LWE_{m,q,\psi}$ problem:
 
@@ -390,7 +390,7 @@ CLAIM 14.6
 
 PROOF We begin by rewriting the way encryption is done in $\Pi$. Fixing some public key $\langle \mathbf{B}, \mathbf{t} \rangle$, define $\hat{\mathbf{B}} = [\mathbf{B} \mid \mathbf{t}]^T \in \mathbb{Z}_q^{(n+1) \times m}$. Encrypting a bit $b$ in $\tilde{\Pi}$ is then equivalent to choosing $\hat{\mathbf{s}} \leftarrow \psi^m$ and $\hat{\mathbf{e}} \leftarrow \psi^{n+1}$, computing $\hat{\mathbf{t}} := \hat{\mathbf{B}}\hat{\mathbf{s}} + \hat{\mathbf{e}}$, and then outputting the ciphertext
 
-证明　我们首先改写 $\Pi$ 中加密的方式。固定某个公钥 $\langle \mathbf{B}, \mathbf{t} \rangle$，定义 $\hat{\mathbf{B}} = [\mathbf{B} \mid \mathbf{t}]^T \in \mathbb{Z}_q^{(n+1) \times m}$。于是，在 $\tilde{\Pi}$ 中加密比特 $b$ 等价于：选取 $\hat{\mathbf{s}} \leftarrow \psi^m$ 与 $\hat{\mathbf{e}} \leftarrow \psi^{n+1}$，计算 $\hat{\mathbf{t}} := \hat{\mathbf{B}}\hat{\mathbf{s}} + \hat{\mathbf{e}}$，然后输出密文（见上方公式）。
+证明　我们首先改写 $\Pi$ 中加密的方式。固定某个公钥 $\langle \mathbf{B}, \mathbf{t} \rangle$，定义 $\hat{\mathbf{B}} = [\mathbf{B} \mid \mathbf{t}]^T \in \mathbb{Z}_q^{(n+1) \times m}$。于是，在 $\tilde{\Pi}$ 中加密比特 $b$ 等价于：选取 $\hat{\mathbf{s}} \leftarrow \psi^m$ 与 $\hat{\mathbf{e}} \leftarrow \psi^{n+1}$，计算 $\hat{\mathbf{t}} := \hat{\mathbf{B}}\hat{\mathbf{s}} + \hat{\mathbf{e}}$，然后输出密文（定义见上方公式）。
 
 The crucial observation is that $\hat{\mathbf{t}}$ is computed exactly as in the decisional LWE assumption, though with different parameters (namely, $\hat{\mathbf{B}} \in \mathbb{Z}_q^{(n+1) \times m}$ instead of $\mathbf{B} \in \mathbb{Z}_q^{m \times n}$). However, since $m > n$, and hence also $n + 1 \leq m$, Lemma 14.2 shows that the decisional LWE problem is hard for this setting of the parameters as well. The claim can thus be proved similarly to the previous claim.
 
@@ -416,7 +416,7 @@ Security of all the signature schemes presented in Chapter 13 required either th
 
 Somewhat surprisingly, and in contrast to the case of public-key encryption, it is possible to construct signature schemes based on hash functions, a symmetric-key primitive. Since existing cryptographic hash functions such as SHA-3 are believed to be secure even against quantum algorithms (subject to the increase in parameters discussed in Section 14.1), this provides a promising approach to constructing post-quantum signatures.
 
-有些出人意料的是——与公钥加密的情形相反——人们可以基于哈希函数（一种对称密钥原语）构造签名方案。由于现有的密码学哈希函数（如 SHA-3）被认为即使面对量子算法也是安全的（前提是按 14.1 节讨论的那样增大参数），这为构造后量子签名提供了一条有希望的途径。
+有些出人意料的是——与公钥加密的情形形成对照——人们可以基于哈希函数（一种对称密钥原语）构造签名方案。由于现有的密码学哈希函数（如 SHA-3）被认为即使面对量子算法也是安全的（前提是按 14.1 节讨论的那样增大参数），这为构造后量子签名提供了一条有希望的途径。
 
 Signatures based on hash functions are interesting for several other reasons, as well. First, it is amazing (and perhaps counterintuitive) that signatures can be constructed without any number-theoretic assumptions, unlike public-key encryption schemes. Moreover, as we will see, the ideas developed here can be used to construct signature schemes from the minimal assumption that one-way functions exist. It is also worth noting that the schemes we present here do not rely on random oracles, as opposed to all the constructions we saw in Chapter 13. Finally, signatures based on hash functions can be more efficient than those relying on number-theoretic assumptions.
 
@@ -460,7 +460,7 @@ $$\Pr\left[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1-\mathsf{time}}(n)=1\right]\le
 
 Leslie Lamport gave a construction of a one-time signature scheme in 1979. We illustrate the idea for the case of signing 3-bit messages. Let $H$ be a cryptographic hash function. A private key consists of six uniform values $x_{1,0}$, $x_{1,1}$, $x_{2,0}$, $x_{2,1}$, $x_{3,0}$, $x_{3,1} \in \{0,1\}^n$, and the corresponding public key contains the results obtained by applying H to each of these elements. These keys can be visualized as two-dimensional arrays:
 
-Leslie Lamport 于 1979 年给出了一个一次性签名方案的构造。我们以签署 3 比特消息的情形为例说明其思想。设 $H$ 是一个密码学哈希函数。私钥由六个均匀选取的值 $x_{1,0}$、$x_{1,1}$、$x_{2,0}$、$x_{2,1}$、$x_{3,0}$、$x_{3,1} \in \{0,1\}^n$ 组成，对应的公钥则包含对每个元素应用 H 所得的结果。这些密钥可以形象地表示为二维数组：
+Leslie Lamport 于 1979 年给出了一个一次性签名方案的构造。我们以签署 3 比特消息的情形为例说明其思想。设 $H$ 是一个密码学哈希函数。私钥由六个均匀选取的值 $x_{1,0}$、$x_{1,1}$、$x_{2,0}$、$x_{2,1}$、$x_{3,0}$、$x_{3,1} \in \{0,1\}^n$ 组成，对应的公钥则包含对每个元素应用 $H$ 所得的结果。这些密钥可以形象地表示为二维数组：
 
 $$\begin{array}{l}p k=\left(\begin{matrix}y_{1,0}&y_{2,0}&y_{3,0}\\ y_{1,1}&y_{2,1}&y_{3,1}\end{matrix}\right)\quad s k=\left(\begin{matrix}x_{1,0}&x_{2,0}&x_{3,0}\\ x_{1,1}&x_{2,1}&x_{3,1}\end{matrix}\right).\end{array}$$
 
@@ -498,7 +498,7 @@ The Lamport signature scheme.
   1. 均匀选取 $x_{i,0}, x_{i,1} \in \{0,1\}^n$。
   2. 计算 $y_{i,0} := H(x_{i,0})$ 与 $y_{i,1} := H(x_{i,1})$。
 
-公钥 $pk$ 与私钥 $sk$ 为（见上方公式）。
+公钥 $pk$ 与私钥 $sk$ 为（定义见上方公式）。
 
 - Sign：输入如上的私钥 $sk$ 与满足 $m = m_1 \cdots m_\ell$ 的消息 $m \in \{0,1\}^\ell$ 时，输出签名 $(x_{1,m_1}, \ldots, x_{\ell,m_\ell})$。
 
@@ -512,11 +512,11 @@ After observing a signature on a message, an attacker who wishes to forge a sign
 
 THEOREM 14.10 Let $\ell$ be any polynomial. If H is a one-way function, then Construction 14.9 is a one-time signature scheme.
 
-定理 14.10　设 $\ell$ 是任意多项式。若 H 是单向函数，则构造 14.9 是一个一次性签名方案。
+定理 14.10　设 $\ell$ 是任意多项式。若 $H$ 是单向函数，则构造 14.9 是一个一次性签名方案。
 
 PROOF Let $\ell = \ell(n)$ throughout. As noted above, the key observation is this: say an attacker $\mathcal{A}$ requests a signature on a message $m^{\prime}$, and consider any other message $m \neq m^{\prime}$. There must be at least one position $i^* \in \{1, \ldots, \ell\}$ on which $m$ and $m^{\prime}$ differ. Say $m_{i^*} = b \neq m^{\prime}_{i^*}$. Then forging a signature on $m$ requires, at least, finding a preimage (under $H$) of element $y_{i^*,b^*}$ of the public key. Since $H$ is one-way, this is infeasible. We now formalize this intuition.
 
-证明　以下恒设 $\ell = \ell(n)$。如上所述，关键的观察是：设攻击者 $\mathcal{A}$ 请求了消息 $m^{\prime}$ 上的签名，考虑任意其他消息 $m \neq m^{\prime}$，则必存在至少一个位置 $i^* \in \{1, \ldots, \ell\}$ 使 $m$ 与 $m^{\prime}$ 不同。设 $m_{i^*} = b \neq m^{\prime}_{i^*}$。那么要在 $m$ 上伪造签名，至少需要找出公钥中元素 $y_{i^*,b^*}$ 在 H 下的原像。由于 H 是单向的，这是不可行的。下面我们把这一直觉形式化。
+证明　以下恒设 $\ell = \ell(n)$。如上所述，关键的观察是：设攻击者 $\mathcal{A}$ 请求了消息 $m^{\prime}$ 上的签名，考虑任意其他消息 $m \neq m^{\prime}$，则必存在至少一个位置 $i^* \in \{1, \ldots, \ell\}$ 使 $m$ 与 $m^{\prime}$ 不同。设 $m_{i^*} = b \neq m^{\prime}_{i^*}$。那么要在 $m$ 上伪造签名，至少需要找出公钥中元素 $y_{i^*,b^*}$ 在 $H$ 下的原像。由于 $H$ 是单向的，这是不可行的。下面我们把这一直觉形式化。
 
 Let $\Pi$ denote the Lamport scheme, and let $\mathcal{A}$ be a probabilistic polynomial-time adversary. In a particular execution of $\mathsf{Sig-forge}^{1\text{-time}}_{\mathcal{A},\Pi}(n)$, let $m^{\prime}$ denote the message whose signature is requested by $\mathcal{A}$ (we assume without loss of generality that $\mathcal{A}$ always requests a signature on a message), and let $(m, \sigma)$ be the final output of $\mathcal{A}$. We say that $\mathcal{A}$ outputs a forgery at $(i,b)$ if $\mathsf{Vrfy}_{pk}(m,\sigma)=1$ and furthermore $m_{i}\neq m_{i}^{\prime}$ (i.e., messages $m$ and $m^{\prime}$ differ on their $i$th position) and $m_{i}=b\neq m_{i}^{\prime}$. Note that whenever $\mathcal{A}$ outputs a forgery, it outputs a forgery at some $(i,b)$.
 
@@ -524,7 +524,7 @@ Let $\Pi$ denote the Lamport scheme, and let $\mathcal{A}$ be a probabilistic po
 
 Consider the following PPT algorithm I attempting to invert H:
 
-考虑如下试图对 H 求逆的概率多项式时间算法 I：
+考虑如下试图对 $H$ 求逆的概率多项式时间算法 $\mathcal{I}$：
 
 **Algorithm I:**
 
@@ -570,9 +570,9 @@ The algorithm is given ${1}^{n}$ and y as input.
 
 • 若 $\mathcal{A}$ 在 $(i^{*}, b^{*})$ 处输出伪造，则输出 $x_{i^{*}}$。
 
-Whenever $\mathcal{A}$ outputs a forgery at $(i^*, b^*)$, algorithm $\mathcal{I}$ succeeds in inverting its given input $y$. We are interested in the probability that this occurs when the input to $\mathcal{I}$ is generated by choosing uniform $x \in \{0,1\}^n$ and setting $y := H(x)$ (cf. Definition 9.73). Imagine a “mental experiment” in which $\mathcal{I}$ is given $x$ at the outset, sets $x_{i^{*},b^{*}} := x$, and then always returns a signature to $\mathcal{A}$ in step ${4}$ (i.e., even if $m_{i^{*}} = b^{*}$). The view of $\mathcal{A}$ when run as a subroutine by $\mathcal{I}$ in this mental experiment is distributed identically to the view of $\mathcal{A}$ in experiment $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n)$. Because $(i^{*}, b^{*})$ was chosen uniformly at the beginning of the experiment, and the view of $\mathcal{A}$ is independent of this choice, the probability that $\mathcal{A}$ outputs a forgery at $(i^{*}, b^{*})$, conditioned on the fact that $\mathcal{A}$ outputs a forgery at all, is at least ${1}/2\ell$. (The easiest way to see this is to simply consider deferring the choice of $(i^{*}, b^{*})$ to the end of the experiment.) We conclude that, in this mental experiment, the probability that $\mathcal{A}$ outputs a forgery at $(i^{*}, b^{*})$ is at least $\frac{1}{2\ell} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n) = 1]$.
+Whenever $\mathcal{A}$ outputs a forgery at $(i^*, b^*)$, algorithm $\mathcal{I}$ succeeds in inverting its given input $y$. We are interested in the probability that this occurs when the input to $\mathcal{I}$ is generated by choosing uniform $x \in \{0,1\}^n$ and setting $y := H(x)$ (cf. Definition 9.73). Imagine a “mental experiment” in which $\mathcal{I}$ is given $x$ at the outset, sets $x_{i^{*},b^{*}} := x$, and then always returns a signature to $\mathcal{A}$ in step ${4}$ (i.e., even if $m_{i^{*}} = b^{*}$). The view of $\mathcal{A}$ when run as a subroutine by $\mathcal{I}$ in this mental experiment is distributed identically to the view of $\mathcal{A}$ in experiment $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n)$. Because $(i^{*}, b^{*})$ was chosen uniformly at the beginning of the experiment, and the view of $\mathcal{A}$ is independent of this choice, the probability that $\mathcal{A}$ outputs a forgery at $(i^{*}, b^{*})$, conditioned on the fact that $\mathcal{A}$ outputs a forgery at all, is at least $\frac{1}{2\ell}$. (The easiest way to see this is to simply consider deferring the choice of $(i^{*}, b^{*})$ to the end of the experiment.) We conclude that, in this mental experiment, the probability that $\mathcal{A}$ outputs a forgery at $(i^{*}, b^{*})$ is at least $\frac{1}{2\ell} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n) = 1]$.
 
-每当 $\mathcal{A}$ 在 $(i^*, b^*)$ 处输出伪造时，算法 $\mathcal{I}$ 就成功地对给定的输入 $y$ 求了逆。我们关心的是：当 $\mathcal{I}$ 的输入按“均匀选取 $x \in \{0,1\}^n$ 并置 $y := H(x)$”（参见定义 9.73）生成时，这一事件发生的概率。设想一个“思想实验”：一开始就把 $x$ 交给 $\mathcal{I}$，令其置 $x_{i^{*},b^{*}} := x$，然后在第 ${4}$ 步总是向 $\mathcal{A}$ 返回一个签名（也就是说，即使 $m_{i^{*}} = b^{*}$ 也照样返回）。在这个思想实验中，作为子程序被 $\mathcal{I}$ 运行时 $\mathcal{A}$ 的视图，与实验 $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n)$ 中 $\mathcal{A}$ 的视图分布完全相同。由于 $(i^{*}, b^{*})$ 是在实验开始时均匀选取的，而 $\mathcal{A}$ 的视图与该选择无关，因此，在 $\mathcal{A}$ 输出伪造的前提下，它在 $(i^{*}, b^{*})$ 处输出伪造的条件概率至少为 ${1}/2\ell$。（最简单的理解方式是：干脆把 $(i^{*}, b^{*})$ 的选择推迟到实验结束时再做。）于是我们得出结论：在这个思想实验中，$\mathcal{A}$ 在 $(i^{*}, b^{*})$ 处输出伪造的概率至少为 $\frac{1}{2\ell} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n) = 1]$。
+每当 $\mathcal{A}$ 在 $(i^*, b^*)$ 处输出伪造时，算法 $\mathcal{I}$ 就成功地对给定的输入 $y$ 求了逆。我们关心的是：当 $\mathcal{I}$ 的输入按“均匀选取 $x \in \{0,1\}^n$ 并置 $y := H(x)$”（参见定义 9.73）生成时，这一事件发生的概率。设想一个“思想实验”：一开始就把 $x$ 交给 $\mathcal{I}$，令其置 $x_{i^{*},b^{*}} := x$，然后在第 ${4}$ 步总是向 $\mathcal{A}$ 返回一个签名（也就是说，即使 $m_{i^{*}} = b^{*}$ 也照样返回）。在这个思想实验中，作为子程序被 $\mathcal{I}$ 运行时 $\mathcal{A}$ 的视图，与实验 $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n)$ 中 $\mathcal{A}$ 的视图分布完全相同。由于 $(i^{*}, b^{*})$ 是在实验开始时均匀选取的，而 $\mathcal{A}$ 的视图与该选择无关，因此，在 $\mathcal{A}$ 输出伪造的前提下，它在 $(i^{*}, b^{*})$ 处输出伪造的条件概率至少为 $\frac{1}{2\ell}$。（最简单的理解方式是：干脆把 $(i^{*}, b^{*})$ 的选择推迟到实验结束时再做。）于是我们得出结论：在这个思想实验中，$\mathcal{A}$ 在 $(i^{*}, b^{*})$ 处输出伪造的概率至少为 $\frac{1}{2\ell} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1\text{-time}}(n) = 1]$。
 
 Returning to the real experiment involving $\mathcal{I}$ as initially described, the key point is that the probability that $\mathcal{A}$ outputs a forgery at $(i^*, b^*)$ is unchanged. This is because the mental experiment and the real experiment coincide if $\mathcal{A}$ outputs a forgery at $(i^*, b^*)$. That is, the experiments only differ if $m_{i^*}^{\prime} = b^*$, but if this happens then it is impossible (by definition) for $\mathcal{A}$ to subsequently output a forgery at $(i^*, b^*)$. So the probability that $\mathcal{A}$ outputs a forgery at $(i^*, b^*)$ is still at least $\frac{1}{2\ell} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1-time}(n) = 1]$. In other words,
 
@@ -586,7 +586,7 @@ $$\mathsf{negl}(n)\geq\Pr[\mathsf{Invert}_{\mathcal{I},H}(n)=1].$$
 
 Since $\ell$ is polynomial this implies that $\Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1-\text{time}}(n)=1]$ is negligible, completing the proof.
 
-由于 H 是单向函数，存在可忽略函数 $\mathsf{negl}$ 使得上式成立。又因 $\ell$ 是多项式，这意味着 $\Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1-\text{time}}(n)=1]$ 可忽略，证明完成。
+由于 $H$ 是单向函数，存在可忽略函数 $\mathsf{negl}$ 使得上式成立。又因 $\ell$ 是多项式，这意味着 $\Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{1-\text{time}}(n)=1]$ 可忽略，证明完成。
 
 COROLLARY 14.11 If one-way functions exist, then for any polynomial $\ell$ there is a one-time signature scheme for messages of length $\ell$.
 
@@ -624,7 +624,7 @@ We require that for every $n$, every $(pk, sk, s_0)$ output by $\mathsf{Gen}(1^n
 
 We emphasize that the verifier does not need to know the signer's state in order to verify a signature; in fact, in some schemes the state must be kept secret by the signer in order for security to hold. Signature schemes that do not maintain state (as in Definition 13.1) are called stateless to distinguish them from stateful schemes. Clearly, stateless schemes are preferable (although stateful schemes can still potentially be useful). We introduce stateful signatures as a stepping stone to an eventual stateless construction.
 
-我们要强调：验证者无需知道签名者的状态即可验证签名；事实上，在某些方案中，为了保持安全性，状态反而必须由签名者保密。不维护状态的签名方案（如定义 13.1 那样）称为无状态方案，以区别于有状态方案。显然，无状态方案更受青睐（尽管有状态方案仍可能有其用处）。引入有状态签名，是把它作为通往最终无状态构造的垫脚石。
+我们要强调：验证者无需知道签名者的状态即可验证签名；事实上，在某些方案中，为了保持安全性，状态反而必须由签名者保密。不维护状态的签名方案（如定义 13.1 那样）称为无状态方案，以区别于有状态方案。显然，无状态方案更受青睐（尽管有状态方案仍可能有其用处）。引入有状态签名，是把它作为通往最终无状态构造的跳板。
 
 Security for stateful signatures schemes is exactly analogous to Definition 13.2, with the only subtleties being that the signing oracle returns only the signature (and not the state), and that the signing oracle updates the state each time it is invoked.
 
@@ -640,7 +640,7 @@ As described, signatures have constant length (i.e., independent of $t$), but th
 
 Since $t$ can be an arbitrary polynomial, why don't the previous schemes give us the solution we are looking for? The main drawback is that they require the upper bound $t$ on the number of messages that can be signed to be fixed in advance, at the time of key generation. This is a potentially severe limitation since once the upper bound is reached a new public key would have to be generated and distributed. We would prefer instead to have a single, fixed public key that can be used to sign an unbounded number of messages.
 
-既然 $t$ 可以是任意多项式，为什么前面的方案仍没有给出我们想要的解呢？主要缺点在于：它们要求可签消息数的上界 $t$ 在密钥生成时就预先固定。这可能是一个严重的限制，因为一旦达到上界，就必须重新生成并分发新的公钥。我们更希望有一个单一的、固定的公钥，能够用来签署数量无上限的消息。
+既然 $t$ 可以是任意多项式，为什么前面的方案仍没有给出我们想要的解决方案呢？主要缺点在于：它们要求可签消息数的上界 $t$ 在密钥生成时就预先固定。这可能是一个严重的限制，因为一旦达到上界，就必须重新生成并分发新的公钥。我们更希望有一个单一的、固定的公钥，能够用来签署数量无上限的消息。
 
 Let $\Pi = (\mathrm{Gen}, \mathrm{Sign}, \mathrm{Vrfy})$ be a one-time signature scheme. In the scheme we have just described (ignoring the Merkle-tree optimization), the signer runs $t$ invocations of $\mathrm{Gen}$ to obtain public keys $pk_1, \ldots, pk_t$, and includes each of these in its actual public key $pk$. The signer is then restricted to signing at most $t$ messages. We can do better by using a “chain-based” scheme in which the signer generates additional public keys on-the-fly, as needed.
 
@@ -694,7 +694,7 @@ In more detail, we imagine a binary tree of depth $n$ where the root is labeled 
 
 For every node $w$, we associate a pair of keys $pk_w$, $sk_w$ for a one-time signature scheme $\Pi$. The public key of the root, $pk_\varepsilon$, is the actual public key of the signer. To sign a message $m \in \{0,1\}^n$, the signer does the following:
 
-对每个节点 $w$，我们关联一次性签名方案 $\Pi$ 的一对密钥 $pk_w$, $sk_w$。根的公钥 $pk_\varepsilon$ 就是签名者实际的公钥。要签署消息 $m \in \{0,1\}^n$，签名者执行以下步骤：
+为每个节点 $w$ 关联一次性签名方案 $\Pi$ 的一对密钥 $pk_w$、$sk_w$。根的公钥 $pk_\varepsilon$ 就是签名者实际的公钥。要签署消息 $m \in \{0,1\}^n$，签名者执行以下步骤：
 
 1. It first generates keys (as needed) for all nodes on the path from the root to the leaf labeled m. (Some of these public keys may have been generated in the process of signing previous messages, and in that case are not generated again.)
 
@@ -828,7 +828,7 @@ $$pk_{m|j,0}^{\prime}\|pk_{m|j,1}^{\prime}\neq pk_{m|j,0}\|pk_{m|j,1}$$
 
 and yet $\sigma_{m|j}^{\prime}$ is a valid signature on $pk_{m|j,0}^{\prime}\|pk_{m|j,1}^{\prime}$ with respect to $pk$. Thus, $\mathcal{A}$ outputs a forgery in this case.
 
-情形 1：由于 $i^*$ 是均匀的且独立于 $\mathcal{A}^*$ 的视图，$i = i^*$ 的概率恰为 ${1}/\ell$。若 $i = i^*$，则 $\mathcal{A}$ 曾用它所得到的公钥 $pk = pk^{i^*} = pk_{m|j}$ 请求过消息 $pk_{m|j,0}\|pk_{m|j,1}$ 上的签名（且未请求过其他任何签名）。而且，
+情形 1：由于 $i^*$ 是均匀选取的且独立于 $\mathcal{A}^*$ 的视图，$i = i^*$ 的概率恰为 ${1}/\ell$。若 $i = i^*$，则 $\mathcal{A}$ 曾用它所得到的公钥 $pk = pk^{i^*} = pk_{m|j}$ 请求过消息 $pk_{m|j,0}\|pk_{m|j,1}$ 上的签名（且未请求过其他任何签名）。而且，
 
 $$pk_{m|j,0}^{\prime}\|pk_{m|j,1}^{\prime}\neq pk_{m|j,0}\|pk_{m|j,1}$$
 
@@ -854,7 +854,7 @@ Since $\ell$ is polynomial, this means $\Pr[\mathsf{Sig-forge}_{\mathcal{A}^*, \
 
 > $^4$ As we have mentioned, $\mathcal{A}$ never "runs out" of public keys. A signing query of $\mathcal{A}^*$ uses ${2}n$ public keys; thus, even if new public keys were required to answer every signing query of $\mathcal{A}^*$ (which will in general not be the case), only ${2}n\ell^*(n)$ public keys would be needed by $\mathcal{A}$ in addition to the "root" public key $pk_\varepsilon$.
 
-> $^4$ 如前所述，$\mathcal{A}$ 永远不会“用完”公钥。$\mathcal{A}^*$ 的一次签名查询要用掉 ${2}n$ 个公钥；因此，即使回答 $\mathcal{A}^*$ 的每次签名查询都需要全新的公钥（一般并非如此），除“根”公钥 $pk_\varepsilon$ 之外，$\mathcal{A}$ 也只需要再备 ${2}n\ell^*(n)$ 个公钥。
+> $^4$ 如前所述，$\mathcal{A}$ 永远不会“用完”公钥。$\mathcal{A}^*$ 的一次签名查询要用掉 ${2}n$ 个公钥；因此，即使回答 $\mathcal{A}^*$ 的每次签名查询都需要全新的公钥（一般并非如此），除“根”公钥 $pk_\varepsilon$ 之外，$\mathcal{A}$ 也只需额外准备 ${2}n\ell^*(n)$ 个公钥。
 
 #### A Stateless Solution　无状态解决方案
 
@@ -876,7 +876,7 @@ A simple modification of this alternative gives a polynomial-time solution. Inst
 
 > $^5$ We assume that the output length of F is sufficiently long, and that w is padded to some fixed-length string in a one-to-one fashion. We ignore these technicalities here.
 
-> $^5$ 我们假设 F 的输出长度足够长，且 w 被以一一对应的方式填充为某个定长串。此处忽略这些技术细节。
+> $^5$ 我们假设 $F$ 的输出长度足够长，且 $w$ 被以一一对应的方式填充为某个定长串。此处忽略这些技术细节。
 
 2. Compute $(pk_{w}, sk_{w}) := \mathrm{Gen}(1^{n}; r_{w})$ (as before).
 
@@ -910,7 +910,7 @@ For details of the NIST post-quantum cryptography standardization effort, see ht
 
 Lamport’s signature scheme was published in 1979 [124], although it was already described by Diffie and Hellman [65]. A tree-based construction similar in spirit to Construction 14.14 was suggested by Merkle [138, 139], and a tree-based approach was also used in other schemes [88]. Goldreich [81] suggested a way to make the Goldwasser–Micali–Rivest scheme [88] stateless, and we have adapted his ideas in Section 14.4.3. Naor and Yung [146] showed that one-way permutations suffice for constructing one-time signatures that can sign messages of arbitrary length, and this was improved by Rompel [174], who showed that one-way functions are sufficient. (See also [110].) As we have seen in Section 14.4.3, one-time signatures of this sort can be used to construct secure signature schemes, implying that one-way functions suffice for the existence of (stateless) secure signatures. SPHINCS+ (see https://sphincs.org) is a hash-based signature scheme submitted to the NIST post-quantum cryptography standardization effort.
 
-Lamport 签名方案发表于 1979 年 [124]，不过 Diffie 与 Hellman [65] 早已描述过它。Merkle [138, 139] 提出了在精神上与构造 14.14 类似的基于树的构造，其他一些方案 [88] 也采用了基于树的方法。Goldreich [81] 提出了使 Goldwasser–Micali–Rivest 方案 [88] 无状态的方法，14.4.3 节采纳并改编了他的想法。Naor 与 Yung [146] 证明单向置换足以构造能签署任意长度消息的一次性签名；Rompel [174] 将此结果改进为只需单向函数。（另见 [110]。）正如 14.4.3 节所见，这类一次性签名可用来构造安全签名方案，这意味着单向函数足以保证（无状态）安全签名的存在性。SPHINCS+（见 https://sphincs.org）是提交给 NIST 后量子密码标准化工作的一种基于哈希的签名方案。
+Lamport 签名方案发表于 1979 年 [124]，不过 Diffie 与 Hellman [65] 早已描述过它。Merkle [138, 139] 提出了思路与构造 14.14 相近的基于树的构造，其他一些方案 [88] 也采用了基于树的方法。Goldreich [81] 提出了使 Goldwasser–Micali–Rivest 方案 [88] 无状态的方法，14.4.3 节采纳并改编了他的想法。Naor 与 Yung [146] 表明单向置换足以构造能签署任意长度消息的一次性签名；Rompel [174] 将此结果改进为只需单向函数。（另见 [110]。）正如 14.4.3 节所见，这类一次性签名可用来构造安全签名方案，这意味着单向函数足以保证（无状态）安全签名的存在性。SPHINCS+（见 https://sphincs.org）是提交给 NIST 后量子密码标准化工作的一种基于哈希的签名方案。
 
 ## Exercises　习题
 

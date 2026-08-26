@@ -48,11 +48,11 @@ If $a \mid b$ and $a$ is positive, we call $a$ a divisor of $b$. If in addition 
 
 A fundamental theorem of arithmetic is that every integer greater than 1 can be expressed uniquely (up to ordering) as a product of primes. That is, any positive integer $N > 1$ can be written as $N = \prod_i p_i^{e_i}$, where the $\{p_i\}$ are distinct primes and $e_i \geq 1$ for all $i$; furthermore, the $\{p_i\}$ (and $\{e_i\}$) are uniquely determined up to ordering.
 
-算术的一个基本定理是：每个大于 1 的整数都可以唯一地（在不计次序的意义下）表示为若干素数的乘积。也就是说，任意正整数 $N > 1$ 都可写成 $N = \prod_i p_i^{e_i}$，其中诸 $\{p_i\}$ 是互不相同的素数且对所有 $i$ 都有 $e_i \geq 1$；而且 $\{p_i\}$（连同 $\{e_i\}$）在不计次序的意义下是唯一确定的。
+算术基本定理指出：每个大于 1 的整数都可以唯一地（在不计次序的意义下）表示为若干素数的乘积。也就是说，任意正整数 $N > 1$ 都可写成 $N = \prod_i p_i^{e_i}$，其中诸 $\{p_i\}$ 是互不相同的素数且对所有 $i$ 都有 $e_i \geq 1$；而且 $\{p_i\}$（连同 $\{e_i\}$）在不计次序的意义下是唯一确定的。
 
 We are familiar with the process of division with remainder from elementary school. The following proposition formalizes this notion.
 
-带余除法我们从小学起就已熟悉。下面的命题将这一概念形式化。
+我们从小学起就已熟悉带余除法。下面的命题将这一概念形式化。
 
 PROPOSITION 9.1 Let $a$ be an integer and let $b$ be a positive integer. Then there exist unique integers $q, r$ for which $a = qb + r$ and ${0} \leq r < b$.
 
@@ -647,9 +647,9 @@ An isomorphism in each case is obtained by a natural extension of the one used i
 
 两种情形下的同构都可由上面定理中所用的同构自然推广而得到。
 
-By way of notation, with $N$ understood and $x \in \{0,1,\ldots,N-1\}$ we write $x \leftrightarrow (x_p, x_q)$ for $x_p = [x \bmod p]$ and $x_q = [x \bmod q]$. That is, $x \leftrightarrow (x_p, x_q)$ if and only if $f(x) = (x_p, x_q)$, where $f$ is as in the theorem above. One way to think about this notation is that it means “$x$ (in $\mathbb{Z}_N$) corresponds to $(x_p, x_q)$ (in $\mathbb{Z}_p \times \mathbb{Z}_q)$.” The same notation is used when dealing with $x \in \mathbb{Z}_N$.
+By way of notation, with $N$ understood and $x \in \{0,1,\ldots,N-1\}$ we write $x \leftrightarrow (x_p, x_q)$ for $x_p = [x \bmod p]$ and $x_q = [x \bmod q]$. That is, $x \leftrightarrow (x_p, x_q)$ if and only if $f(x) = (x_p, x_q)$, where $f$ is as in the theorem above. One way to think about this notation is that it means “$x$ (in $\mathbb{Z}_N$) corresponds to $(x_p, x_q)$ (in $\mathbb{Z}_p \times \mathbb{Z}_q)$.” The same notation is used when dealing with $x \in \mathbb{Z}_N^*$.
 
-关于记号：在 $N$ 已明确的前提下，对 $x \in \{0,1,\ldots,N-1\}$，若 $x_p = [x \bmod p]$ 且 $x_q = [x \bmod q]$，则写作 $x \leftrightarrow (x_p, x_q)$。也就是说，$x \leftrightarrow (x_p, x_q)$ 当且仅当 $f(x) = (x_p, x_q)$，其中 $f$ 如上述定理所示。理解这一记号的一种方式是：它表示“$x$（在 $\mathbb{Z}_N$ 中）对应于 $(x_p, x_q)$（在 $\mathbb{Z}_p \times \mathbb{Z}_q$ 中）”。处理 $x \in \mathbb{Z}_N$ 时也使用同样的记号。
+关于记号：在 $N$ 已明确的前提下，对 $x \in \{0,1,\ldots,N-1\}$，若 $x_p = [x \bmod p]$ 且 $x_q = [x \bmod q]$，则写作 $x \leftrightarrow (x_p, x_q)$。也就是说，$x \leftrightarrow (x_p, x_q)$ 当且仅当 $f(x) = (x_p, x_q)$，其中 $f$ 如上述定理所示。理解这一记号的一种方式是：它表示“$x$（在 $\mathbb{Z}_N$ 中）对应于 $(x_p, x_q)$（在 $\mathbb{Z}_p \times \mathbb{Z}_q$ 中）”。处理 $x \in \mathbb{Z}_N^*$ 时也使用同样的记号。
 
 **Example 9.25**　**例 9.25**
 

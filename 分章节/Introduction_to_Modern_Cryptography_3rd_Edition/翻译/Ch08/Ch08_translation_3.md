@@ -313,7 +313,7 @@ Discussion. We conclude that the existence of one-way functions is necessary and
 
 The notion of computational indistinguishability is central to the theory of cryptography, and underlies much of what we have seen in Chapter 3 and this chapter. Informally, two probability distributions are computationally indistinguishable if no efficient algorithm can tell them apart (or distinguish them). In more detail, consider two distributions X and Y over strings of some length $\ell$; that is, X and Y each assigns some probability to every string in $\{0,1\}^{\ell}$. When we say that some algorithm D cannot distinguish these two distributions, we mean that D cannot tell whether it is given a string sampled according to distribution X or whether it is given a string sampled according to distribution Y. Put differently, if we imagine D outputting “0” when it believes its input was sampled according to X and outputting “1” if it thinks its input was sampled according to Y, then the probability that D outputs “1” should be roughly the same regardless of whether D is provided with a sample from X or from Y. In other words, we want
 
-计算不可区分性的概念是密码学理论的核心，它支撑着第 3 章以及本章所讲的大部分内容。非正式地说，如果没有任何高效算法能把两个概率分布区分开，那么这两个分布在计算上不可区分。更详细地说，考虑某个长度 ℓ 的串上的两个分布 $X$ 与 $Y$；也就是说，$X$ 与 $Y$ 各自给 $\{0,1\}^{\ell}$ 中的每个串赋予一定的概率。当我们说算法  $D$ 无法区分这两个分布时，意思是 $D$ 分辨不出自己拿到的是按分布 $X$ 抽样的串，还是按分布 $Y$ 抽样的串。换个说法：设想当 $D$ 认为其输入按 $X$ 抽样时输出“0”，认为其输入按 $Y$ 抽样时输出“1”；那么无论提供给 $D$ 的样本来自 $X$ 还是来自 $Y$，$D$ 输出“1”的概率都应当大致相同。换言之，我们希望
+计算不可区分性的概念是密码学理论的核心，它支撑着第 3 章以及本章所讲的大部分内容。非正式地说，如果没有任何高效算法能把两个概率分布区分开，那么这两个分布在计算上不可区分。更详细地说，考虑某个长度 $\ell$ 的串上的两个分布 $X$ 与 $Y$；也就是说，$X$ 与 $Y$ 各自给 $\{0,1\}^{\ell}$ 中的每个串赋予一定的概率。当我们说算法 $D$ 无法区分这两个分布时，意思是 $D$ 分辨不出自己拿到的是按分布 $X$ 抽样的串，还是按分布 $Y$ 抽样的串。换个说法：设想当 $D$ 认为其输入按 $X$ 抽样时输出“0”，认为其输入按 $Y$ 抽样时输出“1”；那么无论提供给 $D$ 的样本来自 $X$ 还是来自 $Y$，$D$ 输出“1”的概率都应当大致相同。换言之，我们希望
 
 $$
 \left|\Pr_{s\leftarrow X}[D(s)=1]-\Pr_{s\leftarrow Y}[D(s)=1]\right|
@@ -353,13 +353,13 @@ $$
 
 In the definition, $D$ is given the unary input ${1}^n$ so it can run in time polynomial in $n$. This is important when the outputs of $X_n$ and $Y_n$ may have length less than $n$. As shorthand in probability expressions, we will sometimes write $X$ as a placeholder for a random sample from distribution $X$. That is, we would write $\Pr[D(1^n, X_n) = 1]$ in place of $\Pr_{x \leftarrow X_n}[D(1^n, x) = 1]$.
 
-在该定义中，$D$ 被给了一元输入 ${1}^n$，以便它能以 $n$ 的多项式为运行时间上界。当 $X_n$ 与 $Y_n$ 的输出长度可能小于 n 时，这一点很重要。作为概率表达式中的简写，我们有时会写 $X$ 来代表从分布 $X$ 中抽取的一个随机样本。也就是说，我们会用 $\Pr[D(1^n, X_n) = 1]$ 来代替 $\Pr_{x \leftarrow X_n}[D(1^n, x) = 1]$。
+在该定义中，$D$ 得到一元输入 ${1}^n$，以便它能以 $n$ 的多项式为运行时间上界。当 $X_n$ 与 $Y_n$ 的输出长度可能小于 $n$ 时，这一点很重要。作为概率表达式中的简写，我们有时会写 $X$ 来代表从分布 $X$ 中抽取的一个随机样本。也就是说，我们会用 $\Pr[D(1^n, X_n) = 1]$ 来代替 $\Pr_{x \leftarrow X_n}[D(1^n, x) = 1]$。
 
 Pseudorandomness and pseudorandom generators. Pseudorandomness is just a special case of computational indistinguishability. For any integer $\ell$, let $U_\ell$ denote the uniform distribution over $\{0,1\}^\ell$. We can define a pseudorandom generator as follows:
 
 **伪随机性与伪随机生成器。**
 
-伪随机性不过是计算不可区分性的一种特例。对任意整数 ℓ，令 $U_\ell$ 表示 $\{0,1\}^\ell$ 上的均匀分布。我们可以如下定义伪随机生成器：
+伪随机性不过是计算不可区分性的一种特例。对任意整数 $\ell$，令 $U_\ell$ 表示 $\{0,1\}^\ell$ 上的均匀分布。我们可以如下定义伪随机生成器：
 
 DEFINITION 8.30 Let $\ell(\cdot)$ be a polynomial and let $G$ be a (deterministic) polynomial-time algorithm where for all s it holds that $|G(s)| = \ell(|s|)$. We say that $G$ is a pseudorandom generator if the following two conditions hold:
 
@@ -377,11 +377,11 @@ Many of the other definitions and assumptions in this book can also be cast as s
 
 本书中的许多其他定义与假设同样可以被表述为计算不可区分性的特例或变体。
 
-Multiple samples. An important theorem regarding computational indistinguishability is that polynomial$^{1}$ many samples of (efficiently sampleable) computationally indistinguishable ensembles are also computationally indistinguishable.
+Multiple samples. An important theorem regarding computational indistinguishability is that polynomially many samples of (efficiently sampleable) computationally indistinguishable ensembles are also computationally indistinguishable.
 
 **多样本。**
 
-关于计算不可区分性的一个重要定理是：（可高效抽样的）计算不可区分总体的多项式$^{1}$ 个样本放在一起仍然计算不可区分。
+关于计算不可区分性的一个重要定理是：（可高效抽样的）计算不可区分总体的多项式个样本放在一起仍然计算不可区分。
 
 THEOREM 8.31 Let $\mathcal{X}$ and $\mathcal{Y}$ be efficiently sampleable probability ensembles that are computationally indistinguishable. Then, for every polynomial $t$, the ensemble $\overline{\mathcal{X}} = \{(X_n^{(1)}, \ldots, X_n^{(t(n))})\}_{n \in \mathbb{N}}$ is computationally indistinguishable from the ensemble $\overline{\mathcal{Y}} = \{(Y_n^{(1)}, \ldots, Y_n^{(t(n))})\}_{n \in \mathbb{N}}$.
 
@@ -433,7 +433,7 @@ Hint: Let $f$ be a one-way function and let $p(\cdot)$ be a polynomial such that
 
 8.4 Let $(Gen, H)$ be a collision-resistant hash function, where H maps strings of length 2n to strings of length n. Prove that the function family $(Gen, Samp, H)$ is one-way (cf. Definition 8.3), where Samp is the trivial algorithm that samples a uniform string of length 2n.
 
-     8.4 设 $(Gen, H)$ 是抗碰撞哈希函数，其中 $H$ 把长度 $2n$ 的串映射为长度 $n$ 的串。证明函数族 $(Gen, Samp, H)$ 是单向的（参见定义 8.3），其中 $Samp$ 是均匀抽取一条长度为 $2n$ 的串的平凡算法。
+     8.4 设 $(Gen, H)$ 是抗碰撞哈希函数，其中 $H$ 把长度 $2n$ 的串映射为长度 $n$ 的串。证明函数族 $(Gen, Samp, H)$ 是单向的（参见定义 8.3），其中 $Samp$ 是均匀抽取一个长度为 $2n$ 的串的平凡算法。
 
 Hint: Choosing uniform $x \in \{0,1\}^{2n}$ and finding an inverse of $y = H^s(x)$ does not guarantee a collision. But it does yield a collision most of the time...
 

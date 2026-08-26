@@ -50,9 +50,12 @@ Recall from Section 9.2 that trial division—a trivial, brute-force factoring m
 
 - 二次筛法是一种通用型因子分解算法，其运行时间关于 $N$ 的长度是亚指数级的。我们将概要介绍该算法的工作原理，但其细节较为复杂，超出了本书的范围。
 
+> $^{1}$ Thus, a running time of $N^{\mathcal{O}(1)} = 2^{\mathcal{O}(\|N\|)}$ is exponential, a running time of $2^{o(\log N)} = 2^{o(\|N\|)}$ is sub-exponential, and a running time of $(\log N)^{\mathcal{O}(1)} = \|N\|^{\mathcal{O}(1)}$ is polynomial.
+> $^{1}$ 因此，运行时间 $N^{\mathcal{O}(1)} = 2^{\mathcal{O}(\|N\|)}$ 是指数级的，运行时间 $2^{o(\log N)} = 2^{o(\|N\|)}$ 是亚指数级的，而运行时间 $(\log N)^{\mathcal{O}(1)} = \|N\|^{\mathcal{O}(1)}$ 是多项式级的。
+
 The fastest known general-purpose factoring algorithm is the general number field sieve. Heuristically, this algorithm factors its input $N$ in expected time ${2}^{\mathcal{O}((\log N)^{1/3}\cdot(\log\log N)^{2/3})}$, which is sub-exponential in the length of $N$.
 
-目前已知最快的通用型因子分解算法是一般数域筛法（general number field sieve）。启发式地，该算法能在期望时间 ${2}^{\mathcal{O}((\log N)^{1/3}\cdot(\log\log N)^{2/3})}$ 内分解其输入 $N$，这关于 $N$ 的长度是亚指数级的。
+目前已知最快的通用型因子分解算法是一般数域筛法（general number field sieve）。在启发式假设下，该算法能在期望时间 ${2}^{\mathcal{O}((\log N)^{1/3}\cdot(\log\log N)^{2/3})}$ 内分解其输入 $N$，这关于 $N$ 的长度是亚指数级的。
 
 ### 10.1.1 Pollard's p-1 Algorithm　Pollard $p-1$ 算法
 
@@ -125,7 +128,7 @@ Pollard’s $p-1$ algorithm is thwarted if both $p-1$ and $q-1$ have any large p
 
 In contrast to Algorithm 10.1, which is only effective for certain moduli, Pollard’s rho algorithm can be used to factor an arbitrary integer $N = pq$; in that sense, it is a general-purpose factoring algorithm. Heuristically, the algorithm factors $N$ with constant probability in $\mathcal{O}(N^{1/4} \cdot \mathsf{polylog}(N))$ time; this is still exponential, but a vast improvement over trial division.
 
-与只对某些模数有效的算法 10.1 不同，Pollard ρ 算法可用于分解任意整数 $N = pq$；在这个意义上，它是一种通用型因子分解算法。启发式地，该算法能以常数概率在 $\mathcal{O}(N^{1/4} \cdot \mathsf{polylog}(N))$ 时间内分解 $N$；这仍是指数级的，但比试除法有了巨大改进。
+与只对某些模数有效的算法 10.1 不同，Pollard ρ 算法可用于分解任意整数 $N = pq$；在这个意义上，它是一种通用型因子分解算法。在启发式假设下，该算法能以常数概率在 $\mathcal{O}(N^{1/4} \cdot \mathsf{polylog}(N))$ 时间内分解 $N$；这仍是指数级的，但比试除法有了巨大改进。
 
 The core idea of the approach is to find distinct values $x, x^{\prime} \in \mathbb{Z}_N^*$ that are equivalent modulo $p$ (i.e., for which $x = x^{\prime}\bmod p$); call such a pair good. Note that for a good pair $x, x^{\prime}$ it holds that $\gcd(x - x^{\prime}, N) = p$ (since $x \neq x^{\prime}\bmod N$), so computing the gcd gives a nontrivial factor of $N$.
 
@@ -165,7 +168,7 @@ We can generate $k = \mathcal{O}(\sqrt{p})$ uniform elements of $\mathbb{Z}_N^*$
 
 Pollard’s idea was to use a technique we have seen in Section 6.4.2 in the context of small-space birthday attacks. Specifically, we compute the sequence $x^{(1)}, x^{(2)}, \ldots$ by letting each value be a function of the one before it, i.e., we fix some function $F: \mathbb{Z}_N^* \to \mathbb{Z}_N^*$, choose a uniform $x^{(0)} = x \in \mathbb{Z}_N^*$, and then set $x^{(i)} := F(x^{(i-1)})$ for $i = 1, \ldots, k$. We require $F$ to have the property that if $x = x^{\prime}$ mod $p$, then $F(x) = F(x^{\prime}) \bmod p$; this ensures that once equivalence modulo $p$ occurs, it persists. (A standard choice is $F(x) = [x^2 + 1 \bmod N]$, but any polynomial modulo $N$ will have this property.) If we heuristically model $F$ as a random function, then with high probability there is a good pair in the first $k$ elements of this sequence. Proceeding roughly as in Algorithm 6.9 from Section 6.4.2, we can detect a good pair (if there is one) using only $\mathcal{O}(k)$ gcd computations; see Algorithm 10.2.
 
-Pollard 的想法是使用我们在 6.4.2 节讨论小空间生日攻击时见过的一种技术。具体而言，我们让序列 $x^{(1)}, x^{(2)}, \ldots$ 中的每个值都由其前一个值经函数得到：固定某个函数 $F: \mathbb{Z}_N^* \to \mathbb{Z}_N^*$，均匀选取 $x^{(0)} = x \in \mathbb{Z}_N^*$，然后对 $i = 1, \ldots, k$ 令 $x^{(i)} := F(x^{(i-1)})$。我们要求 $F$ 具有如下性质：若 $x = x^{\prime}$ mod $p$，则 $F(x) = F(x^{\prime}) \bmod p$；这就保证了模 $p$ 的等价一旦出现就会一直保持下去。（标准选择是 $F(x) = [x^2 + 1 \bmod N]$，但任何模 $N$ 的多项式都具有这一性质。）如果我们启发式地把 $F$ 建模为随机函数，那么该序列的前 $k$ 个元素中以高概率存在好的数对。按照与 6.4.2 节算法 6.9 大致相同的步骤，只需 $\mathcal{O}(k)$ 次 gcd 计算就能检测出好的数对（如果存在）；见算法 10.2。
+Pollard 的想法是使用我们在 6.4.2 节讨论小空间生日攻击时见过的一种技术。具体而言，我们让序列 $x^{(1)}, x^{(2)}, \ldots$ 中的每个值都是前一个值的函数：固定某个函数 $F: \mathbb{Z}_N^* \to \mathbb{Z}_N^*$，均匀选取 $x^{(0)} = x \in \mathbb{Z}_N^*$，然后对 $i = 1, \ldots, k$ 令 $x^{(i)} := F(x^{(i-1)})$。我们要求 $F$ 具有如下性质：若 $x = x^{\prime}$ mod $p$，则 $F(x) = F(x^{\prime}) \bmod p$；这就保证了模 $p$ 的等价一旦出现就会一直保持下去。（标准选择是 $F(x) = [x^2 + 1 \bmod N]$，但任何模 $N$ 的多项式都具有这一性质。）如果我们启发式地把 $F$ 建模为随机函数，那么该序列的前 $k$ 个元素中以高概率存在好的数对。按照与 6.4.2 节算法 6.9 大致相同的步骤，只需 $\mathcal{O}(k)$ 次 gcd 计算就能检测出好的数对（如果存在）；见算法 10.2。
 
 ### 10.1.3 The Quadratic Sieve Algorithm　二次筛法
 
@@ -195,7 +198,7 @@ and so $N\mid(x-y)(x+y)$. However, $N\nmid(x-y)$ and $N\nmid(x+y)$ because $x\ne
 
 The quadratic sieve algorithm tries to generate $x, y$ with $x^2 = y^2 \bmod N$ and $x \neq \pm y \bmod N$. A naive way of doing this—which forms the basis of an older factoring algorithm due to Fermat—is to choose an $x \in \mathbb{Z}_N^*,$ compute $q := [x^2 \bmod N]$, and then check whether $q$ is a square over the integers (i.e., without reduction modulo $N$). If so, then $q = y^2$ for some integer $y$ and so $x^2 = y^2 \bmod N$. Unfortunately, the probability that $[x^2 \bmod N]$ is a square is so low that this process must be repeated exponentially many times.
 
-二次筛法试图生成满足 $x^2 = y^2 \bmod N$ 且 $x \neq \pm y \bmod N$ 的 $x, y$。一种朴素的做法是：选取 $x \in \mathbb{Z}_N^*$，计算 $q := [x^2 \bmod N]$，然后检查 $q$ 是否为整数上的平方（即不做模 $N$ 归约）。如果是，则存在整数 $y$ 使 $q = y^2$，从而 $x^2 = y^2 \bmod N$。这种做法构成了由费马提出的更早的一个因子分解算法的基础。遗憾的是，$[x^2 \bmod N]$ 是平方的概率太低，以至于上述过程必须重复指数级多次。
+二次筛法试图生成满足 $x^2 = y^2 \bmod N$ 且 $x \neq \pm y \bmod N$ 的 $x, y$。一种朴素的做法是：选取 $x \in \mathbb{Z}_N^*$，计算 $q := [x^2 \bmod N]$，然后检查 $q$ 是否为整数上的平方（即不做模 $N$ 归约）。如果是，则存在整数 $y$ 使 $q = y^2$，从而 $x^2 = y^2 \bmod N$。这种做法构成了费马更早提出的因子分解算法的基础。遗憾的是，$[x^2 \bmod N]$ 是平方的概率太低，以至于上述过程必须重复指数级多次。
 
 A significant improvement is obtained by generating a sequence of values $q_1 := [x_1^2 \bmod N], \ldots$ and identifying a subset of those values whose product is a square over the integers. In the quadratic sieve algorithm this is accomplished using the following two steps:
 
@@ -263,13 +266,13 @@ $$
 
 we have obtained two square roots (modulo $N$) of $z$. Although there is no guarantee that these square roots will enable factorization of $N$ (for reasons discussed at the beginning of this section), heuristically they do with constant probability. By taking $\ell > k + 1$ we can obtain multiple subsets $S$ with the desired property and try to factor $N$ using each possibility.
 
-我们就得到了 $z$ 的两个（模 $N$ 意义下的）平方根。虽然无法保证这些平方根一定能分解 $N$（原因见本节开头的讨论），但启发式地，它们能以常数概率做到这一点。取 $\ell > k + 1$ 可以得到多个具有所需性质的子集 $S$，并对每种可能分别尝试分解 $N$。
+我们就得到了 $z$ 的两个（模 $N$ 意义下的）平方根。虽然无法保证这些平方根一定能分解 $N$（原因见本节开头的讨论），但在启发式假设下，它们能以常数概率做到这一点。取 $\ell > k + 1$ 可以得到多个具有所需性质的子集 $S$，并对每种可能分别尝试分解 $N$。
 
 **Example 10.3**　**例 10.3**
 
 Take $N = 377753$. We have ${6647} = [620^{2} \bmod N]$, and we can factor ${6647}$ (over the integers, without any modular reduction) as
 
-取 $N = 377753$。我们有 ${6647} = [620^{2} \bmod N]$，并且可以把 ${6647}$ 分解为（在整数上，不做任何模归约）：
+取 $N = 377753$。我们有 ${6647} = [620^{2} \bmod N]$，并且可以在整数上（不做任何模归约）把 ${6647}$ 分解为：
 
 $$
 \left[620^{2}\bmod N\right]=6647=17^{2}\cdot23.
@@ -309,7 +312,7 @@ with ${127194} \neq \pm45335 \bmod N$. Computing $\gcd(127194 - 45335, 377753) =
 
 Running time. Choosing a larger value of $B$ makes it more likely that a uniform value $q = [x^2 \bmod N]$ is $B$-smooth; on the other hand, it means we will have to work harder to identify and factor $B$-smooth numbers, and we will have to find more of them (since we require $\ell > k$, where $k$ is the number of primes less than or equal to $B$). It also means that the matrix $\Gamma$ will be larger, and so the linear-algebraic step will be slower. Choosing the optimal value of $B$ gives an algorithm that (heuristically, at least) factors $N$ in time ${2}^{\mathcal{O}(\sqrt{\log N \cdot \log\log N})}$. (In fact, the constant term in the exponent can be determined quite precisely.) The important point for our purposes is that this is sub-exponential in the length of $N$.
 
-**运行时间。** 把 $B$ 取得更大会使均匀选取的值 $q = [x^2 \bmod N]$ 是 $B$ 光滑的可能性更高；但另一方面，这也意味着识别并分解 $B$ 光滑数要花更多功夫，而且需要找到更多这样的数（因为我们要求 $\ell > k$，其中 $k$ 是小于等于 $B$ 的素数个数）。同时矩阵 $\Gamma$ 也更大，线性代数那一步因此会更慢。选取最优的 $B$ 值，得到的算法（至少启发式地）能在时间 ${2}^{\mathcal{O}(\sqrt{\log N \cdot \log\log N})}$ 内分解 $N$。（事实上，指数中的常数项可以被相当精确地确定。）对我们的目的而言，关键在于它关于 $N$ 的长度是亚指数级的。
+**运行时间。** 把 $B$ 取得更大会使均匀选取的值 $q = [x^2 \bmod N]$ 是 $B$ 光滑的可能性更高；但另一方面，这也意味着识别并分解 $B$ 光滑数要花更多功夫，而且需要找到更多这样的数（因为我们要求 $\ell > k$，其中 $k$ 是小于等于 $B$ 的素数个数）。同时矩阵 $\Gamma$ 也更大，线性代数那一步因此会更慢。选取最优的 $B$ 值，得到的算法（至少在启发式假设下如此）能在时间 ${2}^{\mathcal{O}(\sqrt{\log N \cdot \log\log N})}$ 内分解 $N$。（事实上，指数中的常数项可以被相当精确地确定。）对我们的目的而言，关键在于它关于 $N$ 的长度是亚指数级的。
 
 ## 10.2 Algorithms for Computing Discrete Logarithms　计算离散对数的算法
 
@@ -319,7 +322,7 @@ Let $\mathbb{G}$ be a cyclic group of known order $q$. An instance of the discre
 
 Algorithms for solving the discrete-logarithm problem fall into two categories: those that are generic and apply to any group $\mathbb{G}$, and those that are tailored to work for some specific class of groups. We begin in this section by discussing three generic algorithms:
 
-求解离散对数问题的算法分为两类：一类是通用的，适用于任何群 $\mathbb{G}$；另一类则是针对某类特定群量身定制的。本节先讨论三种通用算法：
+求解离散对数问题的算法分为两类：一类是泛型（generic）的，适用于任何群 $\mathbb{G}$；另一类则是针对某类特定群量身定制的。本节先讨论三种泛型算法：
 
 - When the group order $q$ is not prime and a (partial or full) factorization of $q$ is known, the Pohlig–Hellman algorithm reduces the problem of finding discrete logarithms in $\mathbb{G}$ to that of finding discrete logarithms in subgroups of $\mathbb{G}$. When the complete factorization of $q$ is known, the effect is to reduce the complexity of computing discrete logarithms in a group of order $q$ to the complexity of computing discrete logarithms in a group of order $q^{\prime}$, where $q^{\prime}$ is the largest prime dividing $q$. This explains the preference for using prime-order groups (cf. Section 9.3.2).
 
@@ -335,11 +338,11 @@ Algorithms for solving the discrete-logarithm problem fall into two categories: 
 
 It can be shown that the time complexity of the latter two algorithms is optimal as far as generic algorithms are concerned. Thus, to have any hope of doing better we must look at algorithms for specific groups that exploit the binary representation of elements in those groups, i.e., the way group elements are encoded as bit-strings. This point bears some discussion. From a mathematical point of view, any two cyclic groups of the same order are isomorphic, meaning that the groups are identical up to a “renaming” of the group elements. From a computational/algorithmic point of view, however, this “renaming” can have a significant impact. For example, consider the cyclic group $\mathbb{Z}_q$ of integers $\{0, \ldots, q-1\}$ under addition modulo $q$. Computing discrete logarithms in this group is trivial: Say we are given $g, h \in \mathbb{Z}_q$ with $g$ a generator, and we want to find $x$ such that $x \cdot g = h \bmod q$. We must have $\gcd(g, q) = 1$ (cf. Theorem B.16) and so $g$ has a multiplicative inverse $g^{-1}$ modulo $q$. Moreover, $g^{-1}$ can be computed efficiently, as described in Appendix B.2.2. But then $x = h \cdot g^{-1} \bmod q$ is the desired solution. Note that, formally, $x$ here denotes an integer and not a group element—after all, the group operation is addition, not multiplication. Nevertheless, in solving the discrete-logarithm problem in $\mathbb{Z}_q$ we can make use of the fact that another operation (namely, multiplication) can be defined on the elements of that group. The main takeaway point is that the group representation matters.
 
-可以证明，就通用算法而言，后两种算法的时间复杂度已是最优的。因此，要想有任何机会做得更好，就必须研究针对特定群的算法，利用这些群中元素的二进制表示，也就是群元素被编码为比特串的方式。这一点值得稍作讨论。从数学角度看，任意两个同阶的循环群都同构，也就是说，这些群仅在群元素的“重命名”意义下才有所不同。但从计算/算法的角度看，这种“重命名”可能产生重大影响。例如，考虑整数 $\{0, \ldots, q-1\}$ 在模 $q$ 加法下构成的循环群 $\mathbb{Z}_q$。在这个群里计算离散对数是平凡的：设给定 $g, h \in \mathbb{Z}_q$，其中 $g$ 是生成元，要找满足 $x \cdot g = h \bmod q$ 的 $x$。必有 $\gcd(g, q) = 1$（参见定理 B.16），故 $g$ 在模 $q$ 下有乘法逆元 $g^{-1}$；而且如附录 B.2.2 所述，$g^{-1}$ 可以高效计算。于是 $x = h \cdot g^{-1} \bmod q$ 就是所求解。注意，严格来说这里的 $x$ 表示一个整数而非群元素——毕竟这个群的运算是加法而非乘法。尽管如此，在求解 $\mathbb{Z}_q$ 中的离散对数问题时，我们可以利用这样一个事实：该群的元素上还能定义另一种运算（即乘法）。主要结论是：群的表示很重要。
+可以证明，就泛型算法而言，后两种算法的时间复杂度已是最优的。因此，要想有任何机会做得更好，就必须研究针对特定群的算法，利用这些群中元素的二进制表示，也就是群元素被编码为比特串的方式。这一点值得稍作讨论。从数学角度看，任意两个同阶的循环群都同构，也就是说，这些群仅在群元素的“重命名”意义下才有所不同。但从计算/算法的角度看，这种“重命名”可能产生重大影响。例如，考虑整数 $\{0, \ldots, q-1\}$ 在模 $q$ 加法下构成的循环群 $\mathbb{Z}_q$。在这个群里计算离散对数是平凡的：设给定 $g, h \in \mathbb{Z}_q$，其中 $g$ 是生成元，要找满足 $x \cdot g = h \bmod q$ 的 $x$。必有 $\gcd(g, q) = 1$（参见定理 B.16），故 $g$ 在模 $q$ 下有乘法逆元 $g^{-1}$；而且如附录 B.2.2 所述，$g^{-1}$ 可以高效计算。于是 $x = h \cdot g^{-1} \bmod q$ 就是所求解。注意，严格来说这里的 $x$ 表示一个整数而非群元素——毕竟这个群的运算是加法而非乘法。尽管如此，在求解 $\mathbb{Z}_q$ 中的离散对数问题时，我们可以利用这样一个事实：该群的元素上还能定义另一种运算（即乘法）。主要结论是：群的表示很重要。
 
 Turning to groups with cryptographic significance, in Section 10.3 we focus our attention on (subgroups of) $\mathbb{Z}_p^*$ for $p$ prime. (See Section 9.3.3.) As a nontrivial example of an algorithm that is not generic, we give a high-level overview of the index calculus algorithm for solving the discrete-logarithm problem in such groups in sub-exponential time. Currently, the best known algorithm for this class of groups is the general number field sieve, $^2$ which heuristically runs in time ${2}^{\mathcal{O}((\log p)^{1/3} \cdot (\log \log p)^{2/3})}$. Sub-exponential algorithms for computing discrete logarithms in multiplicative subgroups of arbitrary finite fields are also known, but these are beyond our scope.
 
-转向具有密码学意义的群：10.3 节将把注意力集中在素数 $p$ 对应的 $\mathbb{Z}_p^*$（及其子群）上。（参见 9.3.3 节。）作为非通用算法的一个不平凡的例子，我们将概要介绍指标计算法，它能以亚指数时间求解此类群中的离散对数问题。目前，这类群上已知最好的算法是一般数域筛法，$^2$ 启发式地，其运行时间为 ${2}^{\mathcal{O}((\log p)^{1/3} \cdot (\log \log p)^{2/3})}$。在任意有限域的乘法子群中计算离散对数的亚指数算法同样存在，但这超出了本书的范围。
+转向具有密码学意义的群：10.3 节将把注意力集中在素数 $p$ 对应的 $\mathbb{Z}_p^*$（及其子群）上。（参见 9.3.3 节。）作为非泛型算法的一个不平凡的例子，我们将概要介绍指标计算法，它能以亚指数时间求解此类群中的离散对数问题。目前，这类群上已知最好的算法是一般数域筛法，$^2$ 在启发式假设下，其运行时间为 ${2}^{\mathcal{O}((\log p)^{1/3} \cdot (\log \log p)^{2/3})}$。在任意有限域的乘法子群中计算离散对数的亚指数算法同样存在，但这超出了本书的范围。
 
 > $^2$ The algorithm is related to the general number field sieve for factoring.
 
@@ -531,7 +534,7 @@ We describe the high-level idea. Fix a generator $g \in \mathbb{G}$ and an eleme
 
 It only remains to address a few technical details. One is that the small-space birthday attack described in Section 6.4.2 assumes that the range of the hash function is a subset of its domain; that is not the case here, and in fact (depending on the representation being used for elements of $\mathbb{G}$) it could even be that $H_{g,h}$ is not compressing. A second issue is that the analysis in Section 6.4.2 treated the hash function as a random function, whereas $H_{g,h}$ has a significant amount of algebraic structure.
 
-剩下只需处理几个技术细节。其一，6.4.2 节描述的小空间生日攻击假定哈希函数的值域是其定义域的子集；这里并非如此，而且（取决于 $\mathbb{G}$ 中元素所用的表示）$H_{g,h}$ 甚至可能不是压缩的。其二，6.4.2 节的分析把哈希函数当作随机函数处理，而 $H_{g,h}$ 蕴含相当丰富的代数结构。
+剩下只需处理几个技术细节。其一，6.4.2 节描述的小空间生日攻击假定哈希函数的值域是其定义域的子集；这里并非如此，而且（取决于 $\mathbb{G}$ 中元素所用的表示）$H_{g,h}$ 甚至可能不是压缩的。其二，6.4.2 节的分析把哈希函数当作随机函数处理，而 $H_{g,h}$ 具有相当丰富的代数结构。
 
 Pollard’s rho algorithm provides one way to deal with these issues. We describe a different algorithm that can be viewed as a more direct implementation of the above ideas. (In practice, Pollard’s algorithm would be more efficient, although both algorithms use only $\mathcal{O}(\sqrt{q})$ group operations.) Let $F : \mathbb{G} \to \mathbb{Z}_q \times \mathbb{Z}_q$ denote a cryptographic hash function obtained by, e.g., a suitable modification of SHA-2. Define $H : \mathbb{G} \to \mathbb{G}$ by $H(k) \stackrel{\mathrm{def}}{=} H_{g,h}(F(k))$. We can use Algorithm 6.9, with natural modifications, to find a collision in $H$ using an expected $\mathcal{O}(\sqrt{|\mathbb{G}|}) = \mathcal{O}(\sqrt{q})$ evaluations of $H$ (and constant memory). With overwhelming probability, this yields a collision in $H_{g,h}$. You are asked to flesh out the details in Exercise 10.7.
 
@@ -545,7 +548,7 @@ It is interesting to observe here a certain duality: the proof that hardness of 
 
 We conclude with a brief look at the (non-generic) index calculus algorithm for computing discrete logarithms in the cyclic group $\mathbb{Z}_p^*$ (for $p$ prime). In contrast to the preceding (generic) algorithms, this approach has running time sub-exponential in the size of the group. The algorithm bears some resemblance to the quadratic sieve algorithm introduced in Section 10.1.3, and we assume readers are familiar with the discussion there. As in that case, we discuss the main ideas of the index calculus method but leave a detailed analysis outside the scope of our treatment. Also, some simplifications are introduced to clarify the presentation.
 
-最后，我们简要考察在循环群 $\mathbb{Z}_p^*$（$p$ 为素数）中计算离散对数的（非通用）指标计算法。与前述（通用）算法不同，这种方法的运行时间关于群的规模是亚指数级的。该算法与 10.1.3 节介绍的二次筛法有几分相似，我们假定读者已熟悉那一节的讨论。与那里一样，我们只讨论指标计算法的主要思想，详细分析不在本书的讨论范围之内。此外，为使叙述清晰，还引入了一些简化。
+最后，我们简要考察在循环群 $\mathbb{Z}_p^*$（$p$ 为素数）中计算离散对数的（非泛型）指标计算法。与前述（泛型）算法不同，这种方法的运行时间关于群的规模是亚指数级的。该算法与 10.1.3 节介绍的二次筛法有几分相似，我们假定读者已熟悉那一节的讨论。与那里一样，我们只讨论指标计算法的主要思想，详细分析不在本书的讨论范围之内。此外，为使叙述清晰，还引入了一些简化。
 
 As in the quadratic sieve algorithm, the index calculus method uses a two-step process. Importantly, the first step requires knowledge only of the modulus $p$ and the base $g$ and so it can be run as a preprocessing step before h—the value whose discrete logarithm we wish to compute—is known. For the same reason, it suffices to run the first step only once in order to solve multiple instances of the discrete-logarithm problem (as long as all those instances share the same $p$ and $g$).
 
@@ -569,7 +572,7 @@ $$
 
 Taking discrete logarithms, we can transform these into the linear equations
 
-对这些等式取离散对数，可将它们化为线性方程
+对上述等式两边取离散对数，可将它们化为线性方程
 
 $$
 \begin{aligned}
@@ -630,21 +633,24 @@ Adding the second and third equations and subtracting the first, we derive ${4} 
 
 Running time. Choosing a larger value of $B$ makes it more likely that a uniform value in $\mathbb{Z}_p^*$ is $B$-smooth; however, it means we will have to work harder to identify and factor $B$-smooth numbers, and we will have to find more of them. Because the system of equations will be larger, solving the system will take longer. Choosing the optimal value of $B$ gives an algorithm that (heuristically, at least) computes discrete logarithms in $\mathbb{Z}_p^*$ in time ${2}^{\mathcal{O}(\sqrt{\log p \cdot \log\log p})}$. The important point for our purposes is that this is sub-exponential in the length of $p$.
 
-**运行时间。** 把 $B$ 取得更大会使 $\mathbb{Z}_p^*$ 中均匀选取的值是 $B$ 光滑的可能性更高；然而，这也意味着识别并分解 $B$ 光滑数要花更多功夫，而且需要找到更多这样的数。由于方程组更大，求解所需时间也更长。选取最优的 $B$ 值，得到的算法（至少启发式地）能在时间 ${2}^{\mathcal{O}(\sqrt{\log p \cdot \log\log p})}$ 内计算 $\mathbb{Z}_p^*$ 中的离散对数。对我们的目的而言，关键在于它关于 $p$ 的长度是亚指数级的。
+**运行时间。** 把 $B$ 取得更大会使 $\mathbb{Z}_p^*$ 中均匀选取的值是 $B$ 光滑的可能性更高；然而，这也意味着识别并分解 $B$ 光滑数要花更多功夫，而且需要找到更多这样的数。由于方程组更大，求解所需时间也更长。选取最优的 $B$ 值，得到的算法（至少在启发式假设下如此）能在时间 ${2}^{\mathcal{O}(\sqrt{\log p \cdot \log\log p})}$ 内计算 $\mathbb{Z}_p^*$ 中的离散对数。对我们的目的而言，关键在于它关于 $p$ 的长度是亚指数级的。
 
 ## 10.4 Recommended Key Lengths　推荐密钥长度
 
 Understanding the best available algorithms for solving various cryptographic problems is essential for determining the appropriate key length for achieving a desired level of security. Figure 10.1 summarizes the key lengths currently recommended by the US National Institute of Standards and Technology $^{4}$ (NIST) [14]. The “effective key length” is a value $n$ such that the best known algorithm for solving a problem takes time roughly ${2}^n$, i.e., the computational difficulty of solving a problem is approximately equivalent to that of performing a brute-force search against a symmetric-key scheme with an $n$-bit key, or the time to find collisions in a hash function with a ${2}n$-bit output length. NIST deems a 112-bit effective key length acceptable for security until the year 2030, but recommends 128-bit or higher key lengths for applications where security is required beyond then.
 
-要确定达到期望安全级别所需的合适密钥长度，就必须理解求解各类密码学问题的现有最佳算法。图 10.1 总结了美国国家标准与技术研究院 $^{4}$（NIST）[14] 目前推荐的密钥长度。“有效密钥长度”是指这样的值 $n$：求解该问题的已知最佳算法所需时间约为 ${2}^n$；也就是说，求解该问题的计算难度，大致等同于对一个密钥为 $n$ 比特的私钥方案执行暴力搜索的难度，或等同于在输出长度为 ${2}n$ 比特的哈希函数中找碰撞所需的时间。NIST 认为，到 2030 年之前，112 比特的有效密钥长度是可以接受的安全水平；而对于需要在 2030 年之后仍保证安全的应用，则推荐使用 128 比特或更高的密钥长度。
+要确定达到期望安全级别所需的合适密钥长度，就必须理解求解各类密码学问题的现有最佳算法。图 10.1 总结了美国国家标准与技术研究院 $^{4}$（NIST）[14] 目前推荐的密钥长度。“有效密钥长度”是指这样的值 $n$：求解该问题的已知最佳算法所需时间约为 ${2}^n$；也就是说，求解该问题的计算难度，大致等同于对一个密钥为 $n$ 比特的对称密钥方案执行暴力搜索的难度，或等同于在输出长度为 ${2}n$ 比特的哈希函数中找碰撞所需的时间。NIST 认为，到 2030 年之前，112 比特的有效密钥长度是可以接受的安全水平；而对于需要在 2030 年之后仍保证安全的应用，则推荐使用 128 比特或更高的密钥长度。
+
+> $^{4}$ Other groups have made their own recommendations; see http://keylength.com.
+> $^{4}$ 其他机构也给出了各自的推荐参数；参见 http://keylength.com。
 
 Given what we have learned in this chapter, it is instructive to look more closely at some of the numbers in the table. One thing to notice is that elliptic-curve groups can be used to realize any given level of security with smaller parameters than for RSA or subgroups of $\mathbb{Z}_p^*$. This is simply because no subexponential algorithms are known for solving the discrete-logarithm problem in elliptic-curve groups (when chosen appropriately). Achieving $n$-bit security, however, requires an elliptic-curve group whose order $q$ is ${2}n$-bits long. This is a consequence of the generic algorithms we have seen in this chapter, which solve the discrete-logarithm problem (in any group) in time $\mathcal{O}(\sqrt{q})$.
 
-结合本章所学，仔细审视表中的某些数字颇有启发。需要注意的一点是：椭圆曲线群能够以比 RSA 或 $\mathbb{Z}_p^*$ 的子群更小的参数实现任意给定的安全级别。原因很简单：在椭圆曲线群中（适当选取时）求解离散对数问题尚无已知的亚指数算法。然而，要达到 $n$ 比特的安全性，需要一个阶 $q$ 的长度为 ${2}n$ 比特的椭圆曲线群。这正是本章所见通用算法带来的结果：它们能以 $\mathcal{O}(\sqrt{q})$ 时间求解（任何群中的）离散对数问题。
+结合本章所学，仔细审视表中的某些数字颇有启发。需要注意的一点是：椭圆曲线群能够以比 RSA 或 $\mathbb{Z}_p^*$ 的子群更小的参数实现任意给定的安全级别。原因很简单：在椭圆曲线群中（适当选取时）求解离散对数问题尚无已知的亚指数算法。然而，要达到 $n$ 比特的安全性，需要一个阶 $q$ 的长度为 ${2}n$ 比特的椭圆曲线群。这正是本章所见泛型算法带来的结果：它们能以 $\mathcal{O}(\sqrt{q})$ 时间求解（任何群中的）离散对数问题。
 
 Turning to the case of $\mathbb{Z}_p^*$ we see that here, too, a ${2}n$-bit value of $q$ is needed for $n$-bit security (for the same reason). The length of $p$, however, must be significantly larger, because non-generic algorithms like the index calculus method or the number field sieve can be used to compute discrete logarithms in $\mathbb{Z}_p^*$ in time sub-exponential in the length of $p$. That is, $p$ and $q$ are chosen such that the running time of the number field sieve, which depends on the length of $p$, and the running time of a generic algorithm, which depends on the length of $q$, are approximately equal and both around ${2}^n$. The practical ramifications of this are that, for any desired security level, elliptic-curve cryptosystems can use significantly smaller parameters (and thus give better efficiency for honest users) than cryptosystems based on subgroups of $\mathbb{Z}_p^*$. (See Figure 10.1.)
 
-再看 $\mathbb{Z}_p^*$ 的情形：出于同样的原因，这里同样需要长度为 ${2}n$ 比特的 $q$ 才能达到 $n$ 比特安全性。但 $p$ 的长度必须显著更大，因为指标计算法或数域筛法这类非通用算法可以用来在 $\mathbb{Z}_p^*$ 中以关于 $p$ 的长度亚指数的时间计算离散对数。也就是说，$p$ 和 $q$ 的选取应使得：数域筛法的运行时间（取决于 $p$ 的长度）与通用算法的运行时间（取决于 $q$ 的长度）近似相等，且都在 ${2}^n$ 左右。其实际影响是：对任意期望的安全级别，椭圆曲线密码系统都可以使用比基于 $\mathbb{Z}_p^*$ 子群的密码系统小得多的参数（从而给诚实用户带来更好的效率）。（参见图 10.1。）
+再看 $\mathbb{Z}_p^*$ 的情形：出于同样的原因，这里同样需要长度为 ${2}n$ 比特的 $q$ 才能达到 $n$ 比特安全性。但 $p$ 的长度必须显著更大，因为指标计算法或数域筛法这类非泛型算法可以用来在 $\mathbb{Z}_p^*$ 中以关于 $p$ 的长度亚指数的时间计算离散对数。也就是说，$p$ 和 $q$ 的选取应使得：数域筛法的运行时间（取决于 $p$ 的长度）与泛型算法的运行时间（取决于 $q$ 的长度）近似相等，且都在 ${2}^n$ 左右。其实际影响是：对任意期望的安全级别，椭圆曲线密码系统都可以使用比基于 $\mathbb{Z}_p^*$ 子群的密码系统小得多的参数（从而给诚实用户带来更好的效率）。（参见图 10.1。）
 
 | Effective Key Length | RSA (modulus $N$) | Discrete Logarithm, subgroup of $\mathbb{Z}_p^*$ | Discrete Logarithm, elliptic-curve group (order $q$) |
 |---|---|---|---|
@@ -670,7 +676,7 @@ Pollard $p-1$ 算法发表于 1974 年 [160]，他提出的用于因子分解的
 
 The Pohlig–Hellman algorithm was published in 1978 [159]. The baby-step/giant-step algorithm is due to Shanks [176]. Pollard’s paper introducing the rho algorithm for computing discrete logarithms [162] also includes his famous “kangaroo” algorithm for the same problem. A nice feature of the kangaroo method is that it is more flexible; in particular, it can be used to compute discrete logarithms known to lie in a given interval $[a, b]$ using $\mathcal{O}(\sqrt{b - a})$ steps. (Although the baby-step/giant-step algorithm can also be adapted for that case—see Exercise 10.6—the kangaroo algorithm stores only a constant number of group elements.) Lower bounds on the running time of generic algorithms for computing discrete logarithms, which asymptotically match the running times of the algorithms described in this chapter, were given by Nechaev [152] and Shoup [179].
 
-Pohlig–Hellman 算法发表于 1978 年 [159]。大步小步算法由 Shanks 提出 [176]。Pollard 引入用于计算离散对数的 ρ 算法的论文 [162] 中，还包含了他解决同一问题的著名“袋鼠”（kangaroo）算法。袋鼠方法的一个优点是更为灵活；特别是，当已知离散对数位于给定区间 $[a, b]$ 内时，可以用 $\mathcal{O}(\sqrt{b - a})$ 步将其计算出来。（虽然大步小步算法经过调整也能处理这种情况——见习题 10.6——但袋鼠算法只存储常数个群元素。）关于通用离散对数算法运行时间的下界由 Nechaev [152] 和 Shoup [179] 给出，这些下界在渐近意义上与本章所述算法的运行时间吻合。
+Pohlig–Hellman 算法发表于 1978 年 [159]。大步小步算法由 Shanks 提出 [176]。Pollard 引入用于计算离散对数的 ρ 算法的论文 [162] 中，还包含了他解决同一问题的著名“袋鼠”（kangaroo）算法。袋鼠方法的一个优点是更为灵活；特别是，当已知离散对数位于给定区间 $[a, b]$ 内时，可以用 $\mathcal{O}(\sqrt{b - a})$ 步将其计算出来。（虽然大步小步算法经过调整也能处理这种情况——见习题 10.6——但袋鼠算法只存储常数个群元素。）关于泛型离散对数算法运行时间的下界由 Nechaev [152] 和 Shoup [179] 给出，这些下界在渐近意义上与本章所述算法的运行时间吻合。
 
 The index calculus algorithm as we have described it is by Adleman [4]. The texts by Wagstaff [201], Shoup [183], Crandall and Pomerance [59], Joux [105], and Galbraith [76] provide further information on algorithms for factoring and computing discrete logarithms in finite fields, including descriptions of the (general) number field sieve. The current state-of-the-art for factoring and computing discrete logarithms in $\mathbb{Z}_p^*$ for large $p$ is surveyed in a recent article by Boudot et al. [45].
 
@@ -752,4 +758,4 @@ and use the same ideas as in the Pohlig–Hellman algorithm.
 
 10.7 Based on the ideas described in Section 10.2.3, give pseudocode for a generic algorithm that computes discrete logarithms in a group of order $q$ using $\mathcal{O}(\sqrt{q})$ group operations and $\mathcal{O}(1)$ memory. Also give a heuristic analysis of the probability with which your algorithm succeeds.
 
-习题 10.7　根据 10.2.3 节描述的思想，给出一个通用算法的伪代码：它在阶为 $q$ 的群中，用 $\mathcal{O}(\sqrt{q})$ 次群运算和 $\mathcal{O}(1)$ 内存计算离散对数。并对你给出的算法成功的概率作启发式分析。
+习题 10.7　根据 10.2.3 节描述的思想，给出一个泛型算法的伪代码：它在阶为 $q$ 的群中，用 $\mathcal{O}(\sqrt{q})$ 次群运算和 $\mathcal{O}(1)$ 内存计算离散对数。并对你给出的算法成功的概率作启发式分析。

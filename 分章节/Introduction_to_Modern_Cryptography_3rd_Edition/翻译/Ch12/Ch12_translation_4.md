@@ -12,7 +12,7 @@ We begin by describing a simple encryption scheme based on the RSA problem. Alth
 
 Let GenRSA be a PPT algorithm that, on input ${1}^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, along with integers $e,d$ satisfying $ed=1\bmod\phi(N)$. (As usual, the algorithm may fail with negligible probability but we ignore that here.) Recall from Section 9.2.4 that such an algorithm can be easily constructed from any algorithm GenModulus that outputs a composite modulus $N$ along with its factorization; see Algorithm 12.25.
 
-设 GenRSA 是一个 PPT 算法，以 ${1}^n$ 为输入，输出一个模数 $N$（它是两个 $n$ 比特素数的乘积）以及满足 $ed=1\bmod\phi(N)$ 的整数 $e,d$。（与往常一样，该算法可能以可忽略的概率失败，这里我们忽略这一点。）回顾 9.2.4 节，这样的算法可以很容易地由任意一个输出合数模数 $N$ 及其因子分解的算法 GenModulus 构造出来；见算法 12.25。
+设 $\mathsf{GenRSA}$ 是一个 PPT 算法，以 ${1}^n$ 为输入，输出一个模数 $N$（它是两个 $n$ 比特素数的乘积）以及满足 $ed=1\bmod\phi(N)$ 的整数 $e,d$。（与往常一样，该算法可能以可忽略的概率失败，这里我们忽略这一点。）回顾 9.2.4 节，这样的算法可以很容易地由任意一个输出合数模数 $N$ 及其因子分解的算法 GenModulus 构造出来；见算法 12.25。
 
 ALGORITHM 12.25
 RSA key generation GenRSA
@@ -26,7 +26,7 @@ compute $d := [e^{-1} \bmod \phi(N)]$
 return $N, e, d$
 
 算法 12.25
-RSA 密钥生成 GenRSA
+RSA 密钥生成 $\mathsf{GenRSA}$
 
 输入：安全参数 ${1}^{n}$
 输出：如正文所述的 N, e, d
@@ -54,7 +54,7 @@ as discussed in Section 9.2.4. On the other hand, without knowledge of $d$—eve
 
 Let GenRSA be as in the text. Define a public-key encryption scheme as follows:
 
-设 GenRSA 如正文所述。如下定义一个公钥加密方案：
+设 $\mathsf{GenRSA}$ 如正文所述。如下定义一个公钥加密方案：
 
 - Gen: on input ${1}^{n}$ run $\mathsf{GenRSA}({1}^{n})$ to obtain $N, e$, and $d$. The public key is $\langle N, e \rangle$ and the private key is $\langle N, d \rangle$.
 
@@ -92,7 +92,7 @@ The following gives a worked example of the above (see also Example 9.49).
 
 Say GenRSA outputs $(N, e, d) = (391, 3, 235)$. (Note that ${391} = 17 \cdot 23$ and so $\phi(391) = 16 \cdot 22 = 352$. Moreover, ${3} \cdot 235 = 1 \mod 352$.) So the public key is $\langle 391, 3 \rangle$ and the private key is $\langle 391, 235 \rangle$.
 
-设 GenRSA 输出 $(N, e, d) = (391, 3, 235)$。（注意 ${391} = 17 \cdot 23$，所以 $\phi(391) = 16 \cdot 22 = 352$；而且 ${3} \cdot 235 = 1 \mod 352$。）于是公钥为 $\langle 391, 3 \rangle$，私钥为 $\langle 391, 235 \rangle$。
+设 $\mathsf{GenRSA}$ 输出 $(N, e, d) = (391, 3, 235)$。（注意 ${391} = 17 \cdot 23$，所以 $\phi(391) = 16 \cdot 22 = 352$；而且 ${3} \cdot 235 = 1 \mod 352$。）于是公钥为 $\langle 391, 3 \rangle$，私钥为 $\langle 391, 235 \rangle$。
 
 To encrypt the message $m = 158 \in \mathbb{Z}_{391}^*$ using the public key $(391,3)$, we simply compute $c := [158^3 \mod 391] = 295$; this is the ciphertext. To decrypt, the receiver computes $[295^{235} \mod 391] = 158$.
 
@@ -100,14 +100,14 @@ To encrypt the message $m = 158 \in \mathbb{Z}_{391}^*$ using the public key $(3
 
 Is the plain RSA encryption scheme secure? The factoring assumption implies that it is computationally infeasible for an attacker who is given the public key to derive the corresponding private key; see Section 9.2.5. This is necessary—but not sufficient—for a public-key encryption scheme to be secure. The RSA assumption implies that if the message $m$ is chosen uniformly from $\mathbb{Z}_N^*$ then an eavesdropper given $N$, $e$, and $c$ (namely, the public key and the ciphertext) cannot recover $m$ in its entirety. But these are weak guarantees, and fall short of the level of security we want. In particular, they leave open the possibility that an attacker can recover the message when it is not chosen uniformly from $\mathbb{Z}_N^*$—and, indeed, when $m$ is chosen from a small range it is easy to see that an attacker can compute $m$ from the public key and ciphertext. In addition, it does not rule out the possibility that an attacker can learn partial information about the message, even when it is uniform. (In fact, this is known to be possible.) Moreover, plain RSA encryption is deterministic and so cannot be CPA-secure, as we have discussed in Section 12.2.1.
 
-朴素 RSA 加密方案安全吗？因子分解假设意味着：给定公钥的攻击者在计算上无法推出对应的私钥（见 9.2.5 节）。这是公钥加密方案安全的必要条件——但并非充分条件。RSA 假设意味着：如果消息 $m$ 从 $\mathbb{Z}_N^*$ 中均匀选取，那么窃听者即使拿到 $N$、$e$ 和 $c$（即公钥与密文）也无法完整恢复 $m$。但这些都是较弱的保证，达不到我们想要的安全级别。特别地，它们并不排除攻击者在消息并非均匀取自 $\mathbb{Z}_N^*$ 时恢复消息的可能——事实上，当 $m$ 取自很小的取值范围时，容易看出攻击者能从公钥和密文算出 $m$。此外，即便消息是均匀选取的，这也不排除攻击者获知消息部分信息的可能（事实上，已知这是做得到的）。再者，朴素 RSA 加密是确定性的，因此如 12.2.1 节所讨论的，它不可能是选择明文安全（CPA 安全）的。
+朴素 RSA 加密方案安全吗？因子分解假设意味着：给定公钥的攻击者在计算上无法推出对应的私钥（见 9.2.5 节）。这是公钥加密方案安全的必要条件——但并非充分条件。RSA 假设意味着：如果消息 $m$ 从 $\mathbb{Z}_N^*$ 中均匀选取，那么窃听者即使拿到 $N$、$e$ 和 $c$（即公钥与密文）也无法完整恢复 $m$。但这些都是较弱的保证，达不到我们想要的安全级别。特别地，它们并不排除攻击者在消息并非均匀取自 $\mathbb{Z}_N^*$ 时恢复消息的可能——事实上，当 $m$ 取自很小的取值范围时，容易看出攻击者能从公钥和密文算出 $m$。此外，即便消息是均匀选取的，这也不排除攻击者获知消息部分信息的可能（事实上，已知这是做得到的）。再者，朴素 RSA 加密是确定性的，因此如 12.2.1 节所讨论的，它不可能是选择明文安全（CPA）的。
 
 ### More Attacks on Plain RSA　对朴素 RSA 的更多攻击
 
 We have already noted that plain RSA encryption is not CPA-secure. Nevertheless, there may be a temptation to use plain RSA for encrypting “random messages” and/or in situations where leaking a few bits of information about the message is acceptable. We warn against this in general, and provide here a few examples of what can go wrong. (Some of the attacks assume $e = 3$. In several cases the attacks can be extended, at least partially, to larger $e$; in any case, as noted in Section 9.2.4,
  setting $e = 3$ is often done in practice. The attacks should be taken as demonstrating that Construction 12.26 is inadequate, not as indicating that using $e = 3$ is a bad choice in general.)
 
-我们已经指出，朴素 RSA 加密不是 CPA 安全的。尽管如此，人们可能仍会想用朴素 RSA 来加密“随机消息”，或用在泄露消息的少量比特尚可接受的场合。我们总体上反对这种做法，并在此给出几个可能出问题的例子。（其中一些攻击假设 $e = 3$。在若干情形下，这些攻击至少可以部分地推广到更大的 $e$；无论如何，正如 9.2.4 节所指出的，实践中常常取 $e = 3$。应当把这些攻击看作表明构造 12.26 并不合用，而不是说取 $e = 3$ 总体上是个糟糕的选择。）
+我们已经指出，朴素 RSA 加密不是选择明文安全的。尽管如此，人们可能仍会想用朴素 RSA 来加密“随机消息”，或用在泄露消息的少量比特尚可接受的场合。我们总体上反对这种做法，并在此给出几个可能出问题的例子。（其中一些攻击假设 $e = 3$。在若干情形下，这些攻击至少可以部分地推广到更大的 $e$；无论如何，正如 9.2.4 节所指出的，实践中常常取 $e = 3$。应当把这些攻击看作表明构造 12.26 并不合用，而不是说取 $e = 3$ 总体上是个糟糕的选择。）
 
 **A quadratic improvement in recovering $m$.**
 
@@ -245,7 +245,7 @@ Moreover, using techniques similar to those shown in Section 9.1.5 it is possibl
 
 Although plain RSA is insecure, it does suggest one general approach to public-key encryption based on the RSA problem: to encrypt a message $m$ using public key $\langle N, e \rangle$, first map $m$ to an element $\hat{m} \in \mathbb{Z}_N^*$; then compute the ciphertext $c := [\hat{m}^e \mod N]$. To decrypt a ciphertext $c$, the receiver computes $\hat{m} := [c^d \mod N]$ and then recovers the original message $m$. For the receiver to be able to recover the message, the mapping from messages to elements of $\mathbb{Z}_N^*$ must be (efficiently) reversible. For a scheme following this approach to have a hope of being CPA-secure, the mapping must be randomized so encryption is not deterministic. This is, of course, a necessary condition but not a sufficient one, and security of the encryption scheme depends critically on the specific mapping that is used.
 
-尽管朴素 RSA 并不安全，但它确实提示了基于 RSA 问题构造公钥加密的一种一般思路：要用公钥 $\langle N, e \rangle$ 加密消息 $m$，先把 $m$ 映射为元素 $\hat{m} \in \mathbb{Z}_N^*$，再计算密文 $c := [\hat{m}^e \mod N]$。解密密文 $c$ 时，接收方计算 $\hat{m} := [c^d \mod N]$，然后恢复原始消息 $m$。为了使接收方能够恢复消息，从消息到 $\mathbb{Z}_N^*$ 元素的映射必须是（高效）可逆的。而遵循这一思路的方案要想有望达到 CPA 安全，该映射还必须是随机化的，使加密不再是确定性的。当然，这只是必要条件而非充分条件，加密方案的安全性关键取决于所用的具体映射。
+尽管朴素 RSA 并不安全，但它确实提示了基于 RSA 问题构造公钥加密的一种一般思路：要用公钥 $\langle N, e \rangle$ 加密消息 $m$，先把 $m$ 映射为元素 $\hat{m} \in \mathbb{Z}_N^*$，再计算密文 $c := [\hat{m}^e \mod N]$。解密密文 $c$ 时，接收方计算 $\hat{m} := [c^d \mod N]$，然后恢复原始消息 $m$。为了使接收方能够恢复消息，从消息到 $\mathbb{Z}_N^*$ 元素的映射必须是（高效）可逆的。而遵循这一思路的方案要想有望达到选择明文安全，该映射还必须是随机化的，使加密不再是确定性的。当然，这只是必要条件而非充分条件，加密方案的安全性关键取决于所用的具体映射。
 
 One simple implementation of the above idea is to randomly pad the message before encrypting. That is, to map a message $m$ (viewed as a bit-string) to an element of $\mathbb{Z}_N^*$, the sender chooses a uniform bit-string $r \in \{0,1\}^\ell$ (for some appropriate $\ell$) and sets $\hat{m} := r\|m$; the resulting value can naturally be interpreted as an integer in $\mathbb{Z}_N^*$. (This mapping is clearly reversible.) See Construction 12.30, where the bounds on $\ell(n)$ and the length of $m$ ensure that the integer $\hat{m}$ is less than $N$.
 
@@ -257,7 +257,7 @@ One simple implementation of the above idea is to randomly pad the message befor
 
 Let GenRSA be as before, and let $\ell$ be a function with $\ell(n) < 2n$. Define a public-key encryption scheme as follows:
 
-设 GenRSA 如前所述，并设 $\ell$ 是满足 $\ell(n) < 2n$ 的函数。如下定义一个公钥加密方案：
+设 $\mathsf{GenRSA}$ 如前所述，并设 $\ell$ 是满足 $\ell(n) < 2n$ 的函数。如下定义一个公钥加密方案：
 
 - Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
 
@@ -307,7 +307,7 @@ where $r$ is a randomly generated, $(k-D-3)$-byte string with none of its bytes 
 
 Unfortunately, PKCS #1 v1.5 as specified is not CPA-secure because it allows using random padding that is too short. This is best illustrated by showing that an attacker can determine the initial portion of a message known to have many trailing 0s. For simplicity, say $m = b \| \underbrace{0 \cdots 0}_{L}$ where $b \in \{0,1\}$ is unknown and $m$ is as long as possible (so $L = 8 \cdot (k - 11) - 1$). Encryption of $m$ gives a ciphertext $c$ with
 
-不幸的是，按照标准规定的 PKCS #1 v1.5 并不是 CPA 安全的，因为它允许使用过短的随机填充。最能说明这一点的是：攻击者可以确定一条已知带有许多尾部 0 的消息的开头部分。为简单起见，设 $m = b \| \underbrace{0 \cdots 0}_{L}$，其中 $b \in \{0,1\}$ 未知，且 $m$ 取到最长（于是 $L = 8 \cdot (k - 11) - 1$）。加密 $m$ 得到的密文 $c$ 满足
+不幸的是，按照标准规定的 PKCS #1 v1.5 并不是选择明文安全的，因为它允许使用过短的随机填充。最能说明这一点的是：攻击者可以确定一条已知带有许多尾部 0 的消息的开头部分。为简单起见，设 $m = b \| \underbrace{0 \cdots 0}_{L}$，其中 $b \in \{0,1\}$ 未知，且 $m$ 取到最长（于是 $L = 8 \cdot (k - 11) - 1$）。加密 $m$ 得到的密文 $c$ 满足
 
 $$
 c=(\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|b\|0\cdots0)^{e}\bmod N.
@@ -327,13 +327,13 @@ The integer $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ is 75 bits long (note that $\ma
 
 If we force $r$ to be roughly half the length of $N$, and correspondingly reduce the maximum message length, then it is reasonable to conjecture that the encryption scheme in PKCS #1 v1.5 is CPA-secure. (We stress, however, that no proof of security based on the RSA assumption is known.) Nevertheless, because of a serious chosen-ciphertext attack on the scheme, described briefly in Section 12.5.5, newer versions of the PKCS #1 standard have been introduced and should be used instead.
 
-如果强制让 $r$ 的长度大约为 $N$ 的一半，并相应缩短消息的最大长度，那么就有较充分的理由猜想 PKCS #1 v1.5 中的加密方案是 CPA 安全的。（不过我们强调，目前尚不知道任何基于 RSA 假设的安全性证明。）尽管如此，由于存在针对该方案的一种严重的选择密文攻击（12.5.5 节将简要介绍），人们引入了更新版本的 PKCS #1 标准，应当改用新版本。
+如果强制让 $r$ 的长度大约为 $N$ 的一半，并相应缩短消息的最大长度，那么就有较充分的理由猜想 PKCS #1 v1.5 中的加密方案是选择明文安全的。（不过我们强调，目前尚不知道任何基于 RSA 假设的安全性证明。）尽管如此，由于存在针对该方案的一种严重的选择密文攻击（12.5.5 节将简要介绍），人们引入了更新版本的 PKCS #1 标准，应当改用新版本。
 
-### 12.5.3 \*CPA-Secure Encryption without Random Oracles　\*无随机预言机的 CPA 安全加密
+### 12.5.3 \*CPA-Secure Encryption without Random Oracles　\*无随机预言机的选择明文安全加密
 
 In this section we show an encryption scheme that can be proven to be CPA-secure based on the RSA assumption. We begin by describing a specific hard-core predicate (see Section 8.1.3) for the RSA problem and then show how to use that hard-core predicate to encrypt a single bit. We then extend this scheme to give a KEM.
 
-本节展示一个可以基于 RSA 假设证明为 CPA 安全的加密方案。我们首先描述 RSA 问题的一个具体的难核谓词（见 8.1.3 节），然后展示如何利用该难核谓词加密单个比特，最后把该方案扩展为一个 KEM。
+本节展示一个可以基于 RSA 假设证明为选择明文安全的加密方案。我们首先描述 RSA 问题的一个具体的难核谓词（见 8.1.3 节），然后展示如何利用该难核谓词加密单个比特，最后把该方案扩展为一个 KEM。
 
 The schemes described in this section are mainly of theoretical interest and are not used in practice. This is because they are less efficient than alternative RSA-based constructions that can be proven secure in the random-oracle model (cf. Section 6.5). We will see examples of such encryption schemes in the sections that follow.
 
@@ -377,7 +377,7 @@ Observe that $\mathsf{lsb}(x)$ is a uniform bit when $x \in \mathbb{Z}_N^*$ is u
 
 THEOREM 12.31 If the RSA problem is hard relative to GenRSA then for all probabilistic polynomial-time algorithms $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{RSA\text{-}lsb}_{\mathcal{A},\mathsf{GenRSA}}(n)=1] \leq \frac{1}{2} + \mathsf{negl}(n)$.
 
-定理 12.31　如果 RSA 问题相对于 GenRSA 是困难的，那么对所有概率多项式时间算法 $\mathcal{A}$，都存在可忽略函数 $\mathsf{negl}$ 使得 $\Pr[\mathsf{RSA\text{-}lsb}_{\mathcal{A},\mathsf{GenRSA}}(n)=1] \leq \frac{1}{2} + \mathsf{negl}(n)$。
+定理 12.31　如果 RSA 问题相对于 $\mathsf{GenRSA}$ 是困难的，那么对所有概率多项式时间算法 $\mathcal{A}$，都存在可忽略函数 $\mathsf{negl}$ 使得 $\Pr[\mathsf{RSA\text{-}lsb}_{\mathcal{A},\mathsf{GenRSA}}(n)=1] \leq \frac{1}{2} + \mathsf{negl}(n)$。
 
 A full proof of this theorem is beyond the scope of this book. However, we provide some intuition for the theorem by sketching a proof of a weaker result: that the RSA assumption implies $\Pr[\mathsf{RSA\text{-}lsb}_{\mathcal{A},\mathsf{GenRSA}}(n)=1]<1$ for all probabilistic polynomial-time $\mathcal{A}$. To prove this we show that an efficient algorithm that always correctly computes $\mathsf{lsb}(r)$ from $N,e$, and $[r^e \bmod N]$ can be used to efficiently recover $x$ (in its entirety) from $N,e$, and $[x^e \bmod N]$.
 
@@ -413,7 +413,7 @@ We can use the hard-core predicate identified above to encrypt a single bit. The
 
 Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
-设 GenRSA 如常，并如下定义一个公钥加密方案：
+设 $\mathsf{GenRSA}$ 如常，并如下定义一个公钥加密方案：
 
 - Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. Output the public key $pk=\langle N,e\rangle$, and the private key $sk=\langle N,d\rangle$.
 
@@ -433,11 +433,11 @@ Single-bit encryption using a hard-core predicate for RSA.
 
 THEOREM 12.33 If the RSA problem is hard relative to GenRSA then Construction 12.32 is CPA-secure.
 
-定理 12.33　如果 RSA 问题相对于 GenRSA 是困难的，那么构造 12.32 是 CPA 安全的。
+定理 12.33　如果 RSA 问题相对于 $\mathsf{GenRSA}$ 是困难的，那么构造 12.32 是选择明文安全的。
 
 PROOF Let $\Pi$ denote Construction 12.32. We prove that $\Pi$ has indistinguishable encryptions in the presence of an eavesdropper; by Proposition 12.3, this implies it is CPA-secure.
 
-证明　用 $\Pi$ 表示构造 12.32。我们证明 $\Pi$ 在窃听者存在下具有不可区分的加密；由命题 12.3，这蕴含它是 CPA 安全的。
+证明　用 $\Pi$ 表示构造 12.32。我们证明 $\Pi$ 在窃听者存在下具有不可区分的加密；由命题 12.3，这蕴含它是选择明文安全的。
 
 Let $\mathcal{A}$ be a probabilistic polynomial-time adversary. Without loss of generality, we may assume $m_0 = 0$ and $m_1 = 1$ in experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$. So
 
@@ -487,7 +487,7 @@ $$
 
 as desired.
 
-恰如所需。
+这正是所要证明的。
 
 Constructing a KEM. We now show how to extend Construction 12.32 so as to obtain a KEM with key length $n$. A naive way of doing this would be to simply choose a uniform, $n$-bit key $k$ and then encrypt the bits of $k$ one-by-one using $n$ invocations of Construction 12.32. This would result in a rather long ciphertext consisting of $n$ elements of $\mathbb{Z}_N^*$.
 
@@ -515,7 +515,7 @@ The above is formally described as Construction 12.34.
 
 Let GenRSA be as usual, and define a KEM as follows:
 
-设 GenRSA 如常，并如下定义一个 KEM：
+设 $\mathsf{GenRSA}$ 如常，并如下定义一个 KEM：
 
 - Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Then compute $d^{\prime} := [d^n \mod \phi(N)]$ (note that $\phi(N)$ can be computed from $(N, e, d)$ or obtained during the course of running GenRSA). Output $pk = \langle N, e \rangle$ and $sk = \langle N, d^{\prime}\rangle$.
 
@@ -559,11 +559,11 @@ A KEM using a hard-core predicate for RSA.
 
 The construction is reminiscent of the approach used to construct a pseudorandom generator from a one-way permutation toward the end of Section 8.4.2. If we let $f$ denote the RSA permutation relative to some public key $\langle N, e \rangle$ (i.e., $f(x) \overset{\mathrm{def}}{=} [x^e \mod N]$), then CPA-security of Construction 12.34 is equivalent to pseudorandomness of $\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ even conditioned on the value $c = f^n(c_1)$. This, in turn, can be proven using Theorem 12.31 and the techniques from Section 8.4.2. (The only difference is that in Section 8.4.2 the value $f^n(c_1)$ was itself a uniform $n$-bit string, whereas here it is a uniform element of $\mathbb{Z}_N^*$. Pseudorandomness of the successive hard-core predicates is independent of the domain of $f$.) Summarizing:
 
-该构造让人想起 8.4.2 节末尾由单向置换构造伪随机生成器所用的方法。如果用 $f$ 表示相对于某个公钥 $\langle N, e \rangle$ 的 RSA 置换（即 $f(x) \overset{\mathrm{def}}{=} [x^e \mod N]$），那么构造 12.34 的 CPA 安全性就等价于：即使以 $c = f^n(c_1)$ 的值为条件，$\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ 仍是伪随机的。而后者又可以用定理 12.31 和 8.4.2 节的技术来证明。（唯一的差别是：在 8.4.2 节中，$f^n(c_1)$ 本身是均匀的 $n$ 比特串，而在这里它是 $\mathbb{Z}_N^*$ 中的均匀元素。相继各难核谓词的伪随机性与 $f$ 的定义域无关。）总结如下：
+该构造让人想起 8.4.2 节末尾由单向置换构造伪随机生成器所用的方法。如果用 $f$ 表示相对于某个公钥 $\langle N, e \rangle$ 的 RSA 置换（即 $f(x) \overset{\mathrm{def}}{=} [x^e \mod N]$），那么构造 12.34 的选择明文安全性就等价于：即使以 $c = f^n(c_1)$ 的值为条件，$\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ 仍是伪随机的。而后者又可以用定理 12.31 和 8.4.2 节的技术来证明。（唯一的差别是：在 8.4.2 节中，$f^n(c_1)$ 本身是均匀的 $n$ 比特串，而在这里它是 $\mathbb{Z}_N^*$ 中的均匀元素。相继各难核谓词的伪随机性与 $f$ 的定义域无关。）总结如下：
 
 THEOREM 12.35 If the RSA problem is hard relative to GenRSA then Construction 12.34 is a CPA-secure KEM.
 
-定理 12.35　如果 RSA 问题相对于 GenRSA 是困难的，那么构造 12.34 是一个 CPA 安全的 KEM。
+定理 12.35　如果 RSA 问题相对于 $\mathsf{GenRSA}$ 是困难的，那么构造 12.34 是一个选择明文安全的 KEM。
 
 Efficiency. Construction 12.34 is reasonably efficient. To be concrete, assume that $n = 128$, the RSA modulus $N$ is 2048 bits long, and the public exponent $e$ is 3 so that exponentiation to the power $e$ modulo $N$ can be computed using two modular multiplications. (See Appendix B.2.3.) Encryption then requires ${2}n = 256$ modular multiplications. Decryption can be done with one full modular exponentiation (at the cost of approximately ${1.5} \cdot 2048 = 3072$ modular multiplications) plus an additional 256 modular multiplications. The cost of decryption is thus only about 8% less efficient than for the plain RSA encryption scheme. Encryption is significantly more expensive than in plain RSA, but in many applications decryption time is more important (since it may be implemented by a server that is performing thousands of decryptions simultaneously).
 
@@ -573,11 +573,11 @@ Efficiency. Construction 12.34 is reasonably efficient. To be concrete, assume t
 
 We now consider CCA-security for RSA-based encryption schemes. We begin by showing that all the RSA-based encryption schemes we have seen so far are vulnerable to chosen-ciphertext attacks.
 
-现在考虑基于 RSA 的加密方案的选择密文安全（CCA 安全）。我们首先说明：到目前为止见过的所有基于 RSA 的加密方案都无法抵御选择密文攻击。
+现在考虑基于 RSA 的加密方案的选择密文安全（CCA）。我们首先说明：到目前为止见过的所有基于 RSA 的加密方案都无法抵御选择密文攻击。
 
 Plain RSA encryption. Plain RSA is not even CPA-secure. But it does ensure that if $m \in \mathbb{Z}_N^*$ is uniform then an attacker who eavesdrops on the encryption $c = [m^e \bmod N]$ of $m$ with respect to the public key $\langle N, e \rangle$ cannot recover $m$. Even this weak guarantee no longer holds in a setting where chosen-ciphertext attacks are possible. As in the case of El Gamal encryption, this is a consequence of the fact that plain RSA is malleable: given the encryption $c = [m^e \bmod N]$ of an unknown message $m$, it is easy to generate a ciphertext $c^{\prime}$ that is an encryption of $[2m \bmod N]$ by setting
 
-**朴素 RSA 加密。** 朴素 RSA 甚至不是 CPA 安全的。但它确实能保证：如果 $m \in \mathbb{Z}_N^*$ 是均匀的，那么窃听到 $m$ 在公钥 $\langle N, e \rangle$ 下的加密 $c = [m^e \bmod N]$ 的攻击者无法恢复 $m$。而在可能发生选择密文攻击的环境中，就连这点微弱的保证也不再成立。与 El Gamal 加密的情形一样，这是朴素 RSA 具有可延展性的结果：给定未知消息 $m$ 的加密 $c = [m^e \bmod N]$，只要令
+**朴素 RSA 加密。** 朴素 RSA 甚至不是选择明文安全的。但它确实能保证：如果 $m \in \mathbb{Z}_N^*$ 是均匀的，那么窃听到 $m$ 在公钥 $\langle N, e \rangle$ 下的加密 $c = [m^e \bmod N]$ 的攻击者无法恢复 $m$。而在可能发生选择密文攻击的环境中，就连这点微弱的保证也不再成立。与 El Gamal 加密的情形一样，这是朴素 RSA 具有可延展性的结果：给定未知消息 $m$ 的加密 $c = [m^e \bmod N]$，只要令
 
 $$
 \begin{aligned}
@@ -592,7 +592,7 @@ In fact, we have used this observation several times already.
 
 RSA PKCS #1 v1.5. Padded RSA encryption, which is conjectured to be CPA-secure for the right setting of the parameters, is vulnerable to essentially the same attack as plain RSA encryption is. But there is also a more interesting chosen-ciphertext attack on PKCS #1 v1.5 encryption that, in contrast to an attack that exploits malleability, does not require full access to a decryption oracle; it only requires access to a "partial" decryption oracle that indicates whether or not decryption of some ciphertext returns an error. This makes the attack much more practical, as it can be carried out whenever an attacker can distinguish a decryption success from a decryption failure, as in the case of the padding-oracle attack discussed in Section 5.1.1.
 
-**RSA PKCS #1 v1.5。** 填充 RSA 加密被猜想在参数设置恰当时是 CPA 安全的，但它仍会受到与朴素 RSA 加密本质上相同的攻击。不过，针对 PKCS #1 v1.5 加密还有一种更有意思的选择密文攻击：与利用可延展性的攻击不同，它不需要对解密预言机的完全访问；它只需要访问一个“部分”解密预言机，该预言机会指示某个密文的解密是否返回错误。这使该攻击实用得多，因为只要攻击者能区分解密成功与解密失败就能实施——正如 5.1.1 节讨论的填充预言机攻击的情形。
+**RSA PKCS #1 v1.5。** 填充 RSA 加密被猜想在参数设置恰当时是选择明文安全的，但它仍会受到与朴素 RSA 加密本质上相同的攻击。不过，针对 PKCS #1 v1.5 加密还有一种更有意思的选择密文攻击：与利用可延展性的攻击不同，它不需要对解密预言机的完全访问；它只需要访问一个“部分”解密预言机，该预言机会指示某个密文的解密是否返回错误。这使该攻击实用得多，因为只要攻击者能区分解密成功与解密失败就能实施——正如 5.1.1 节讨论的填充预言机攻击的情形。
 
 Recall that the public-key encryption scheme defined in the PKCS #1 v1.5 standard uses a variant of padded RSA encryption where the padding is done in a specific way. In particular, the two high-order bytes of the padded message are always $\mathtt{0x00}\|\mathtt{0x02}$. When decrypting, the receiver is supposed to check that the two high-order bytes of the intermediate result match these values, and return an error if this is not the case. In 1998, Bleichenbacher developed a chosen-ciphertext attack that exploits the fact that this check is done. Roughly, given a ciphertext $c$ that corresponds to an honest encryption of some unknown message $m$ with respect to a public key $\langle N, e \rangle$, Bleichenbacher's attack repeatedly chooses uniform $s \in \mathbb{Z}_N^*$ and submits the ciphertext $c^{\prime} := [s^e \cdot c \mod N]$ to the receiver. Say $c = [\hat{m}^e \mod N]$ where
 
@@ -608,17 +608,17 @@ as specified by PKCS #1 v1.5. Then decryption of $c^{\prime}$ will give the inte
 
 **The CPA-secure KEM.**
 
-**CPA 安全的 KEM。**
+**选择明文安全的 KEM。**
 
 In Section 12.5.3 we showed a construction of a KEM that can be proven CPA-secure based on the RSA assumption. That construction is also insecure against a chosen-ciphertext attack; we leave the details as an exercise.
 
-在 12.5.3 节我们展示了一个可以基于 RSA 假设证明为 CPA 安全的 KEM 构造。该构造在选择密文攻击下也不安全；细节留作习题。
+在 12.5.3 节我们展示了一个可以基于 RSA 假设证明为选择明文安全的 KEM 构造。该构造在选择密文攻击下也不安全；细节留作习题。
 
 ### RSA-OAEP　RSA-OAEP
 
 We explore a construction of CCA-secure encryption from RSA using what is called optimal asymmetric encryption padding (OAEP). The resulting RSA-OAEP scheme follows the idea (used also in Section 12.5.2) of taking a message $m$, mapping it to an element $\hat{m} \in \mathbb{Z}_N^*$, and then letting $c = [\hat{m}^e \mod N]$ be the ciphertext. The transformation here, however, is more complex than before. A version of RSA-OAEP has been standardized as part of RSA PKCS #1 since version 2.0.
 
-我们来探索一种利用所谓最优非对称加密填充（optimal asymmetric encryption padding, OAEP）从 RSA 构造 CCA 安全加密的方法。由此得到的 RSA-OAEP 方案沿袭了下述思路（12.5.2 节也曾使用）：取一条消息 $m$，把它映射为 $\mathbb{Z}_N^*$ 中的元素 $\hat{m}$，再令 $c = [\hat{m}^e \mod N]$ 作为密文。不过，这里的变换比之前更为复杂。RSA-OAEP 的一个版本自 2.0 版起已被标准化，成为 RSA PKCS #1 的一部分。
+我们来探索一种利用所谓最优非对称加密填充（optimal asymmetric encryption padding, OAEP）从 RSA 构造选择密文安全加密的方法。由此得到的 RSA-OAEP 方案沿袭了下述思路（12.5.2 节也曾使用）：取一条消息 $m$，把它映射为 $\mathbb{Z}_N^*$ 中的元素 $\hat{m}$，再令 $c = [\hat{m}^e \mod N]$ 作为密文。不过，这里的变换比之前更为复杂。RSA-OAEP 的一个版本自 2.0 版起已被标准化，成为 RSA PKCS #1 的一部分。
 
 Let $\ell(n)$, $k(n)$ be integer-valued functions with $k(n) = \Theta(n)$, and such that $\ell(n) + 2k(n)$ is less than the bit-length of moduli output by $\mathsf{GenRSA}(1^n)$. Fix $n$, and let $\ell = \ell(n)$ and $k = k(n)$. Let $G : \{0, 1\}^k \to \{0, 1\}^{\ell+k}$ and $H : \{0, 1\}^{\ell+k} \to \{0, 1\}^k$ be two hash functions that will be modeled as independent random oracles. (Although using more than one random oracle was not discussed in Section 6.5.1, we can do so in the natural way.) The transformation defined by OAEP is based on a two-round Feistel network with $G$ and $H$ as round functions; see Figure 12.4. Mapping a message $m \in \{0, 1\}^\ell$ to $\hat{m}$ is done as follows: first set $m^{\prime} := m\|0^k$ and choose a uniform $r \in \{0, 1\}^k$. Then compute
 
@@ -646,7 +646,7 @@ To decrypt, the receiver computes $\hat{m} := [c^d \mod N]$ and lets $s\|t := \h
 
 RSA-OAEP can be proven to be CCA-secure based on the RSA assumption if $G$ and $H$ are modeled as random oracles. The proof is rather complicated, and we do not give it here; instead, we merely provide some intuition. First consider CPA-security. During encryption the sender computes
 
-在把 $G$ 和 $H$ 建模为随机预言机的前提下，可以基于 RSA 假设证明 RSA-OAEP 是 CCA 安全的。该证明相当复杂，我们在此不予给出，只提供一些直觉。先考虑 CPA 安全性。加密过程中发送方计算
+在把 $G$ 和 $H$ 建模为随机预言机的前提下，可以基于 RSA 假设证明 RSA-OAEP 是选择密文安全的。该证明相当复杂，我们在此不予给出，只提供一些直觉。先考虑选择明文安全性。加密过程中发送方计算
 
 $$
 m^{\prime}:=m\|0^{k},\quad t:=m^{\prime}\oplus G(r),\quad s:=r\oplus H(t)
@@ -666,7 +666,7 @@ Can the attacker query $r$ to $G$? The value of $r$ is itself masked by $H(t)$. 
 
 Let GenRSA be as in the previous sections, and $\ell, k$ be as described in the text. Let $G : \{0,1\}^k \to \{0,1\}^{\ell+k}$ and $H : \{0,1\}^{\ell+k} \to \{0,1\}^k$ be functions. Construct a public-key encryption scheme as follows:
 
-设 GenRSA 与前几节相同，$\ell, k$ 如正文所述。设 $G : \{0,1\}^k \to \{0,1\}^{\ell+k}$ 和 $H : \{0,1\}^{\ell+k} \to \{0,1\}^k$ 为两个函数。如下构造一个公钥加密方案：
+设 $\mathsf{GenRSA}$ 与前几节相同，$\ell, k$ 如正文所述。设 $G : \{0,1\}^k \to \{0,1\}^{\ell+k}$ 和 $H : \{0,1\}^{\ell+k} \to \{0,1\}^k$ 为两个函数。如下构造一个公钥加密方案：
 
 - Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. The public key is $\langle N,e\rangle$ and the private key is $\langle N,d\rangle$.
 
@@ -698,11 +698,11 @@ Can the attacker query $t$ to $H$? Doing so would require the attacker to comput
 
 Arguing CCA-security involves additional complications, but the basic idea is to show that every decryption-oracle query $c$ made by the attacker falls into one of two categories: either the attacker obtained $c$ by legally encrypting some message $m$ itself (in which case the attacker learns nothing from the decryption query), or else decryption of $c$ returns an error. This is a consequence of the fact that the receiver checks that the $k$ least-significant bits of $m^{\prime}$ are 0 during decryption; if the attacker did not generate the ciphertext $c$ using the prescribed encryption algorithm, the probability that this condition holds is negligible. The formal proof is complicated by the fact that the attacker's decryption-oracle queries must be answered correctly without knowledge of the private key, which means there must be an efficient way to determine whether to return an error or not and, if not, what message to return. This is accomplished by looking at the adversary's queries to the random oracles $G, H$.
 
-论证 CCA 安全性还会带来额外的复杂性，但基本思路是证明攻击者发出的每个解密预言机查询 $c$ 都属于两类之一：要么 $c$ 是攻击者自己合法加密某条消息 $m$ 得到的（此时攻击者从该解密查询中一无所获），要么对 $c$ 的解密返回错误。这是接收方在解密时检查 $m^{\prime}$ 的最低有效 $k$ 个比特是否为 0 所带来的结果；如果攻击者不是用规定的加密算法生成密文 $c$，这一条件成立的概率是可忽略的。形式化证明的复杂之处在于：必须在不知道私钥的情况下正确回答攻击者的解密预言机查询，这意味着必须存在一种高效方法来判断是否应返回错误，以及在不应返回错误时该返回什么消息。这一点可以通过考察敌手对随机预言机 $G, H$ 的查询来实现。
+论证选择密文安全性还会带来额外的复杂性，但基本思路是证明攻击者发出的每个解密预言机查询 $c$ 都属于两类之一：要么 $c$ 是攻击者自己合法加密某条消息 $m$ 得到的（此时攻击者从该解密查询中一无所获），要么对 $c$ 的解密返回错误。这是接收方在解密时检查 $m^{\prime}$ 的最低有效 $k$ 个比特是否为 0 所带来的结果；如果攻击者不是用规定的加密算法生成密文 $c$，这一条件成立的概率是可忽略的。形式化证明的复杂之处在于：必须在不知道私钥的情况下正确回答攻击者的解密预言机查询，这意味着必须存在一种高效方法来判断是否应返回错误，以及在不应返回错误时该返回什么消息。这一点可以通过考察敌手对随机预言机 $G, H$ 的查询来实现。
 
 Manger's chosen-ciphertext attack on PKCS #1 v2.0. In 2001, James Manger showed a chosen-ciphertext attack against certain implementations of the RSA encryption scheme specified in PKCS #1 v2.0—even though what was specified was a variant of RSA-OAEP! Since Construction 12.36 can be proven to be CCA-secure, how is this possible?
 
-**Manger 对 PKCS #1 v2.0 的选择密文攻击。** 2001 年，James Manger 针对 PKCS #1 v2.0 所规定的 RSA 加密方案的某些实现给出了一个选择密文攻击——尽管标准里规定的正是 RSA-OAEP 的一个变体！既然构造 12.36 可以被证明是 CCA 安全的，这怎么可能？
+**Manger 对 PKCS #1 v2.0 的选择密文攻击。** 2001 年，James Manger 针对 PKCS #1 v2.0 所规定的 RSA 加密方案的某些实现给出了一个选择密文攻击——尽管标准里规定的正是 RSA-OAEP 的一个变体！既然构造 12.36 可以被证明是选择密文安全的，这怎么可能？
 
 Examining the decryption algorithm in Construction 12.36, note that there are two ways an error can occur: either $\hat{m} \in \mathbb{Z}_N^*$ is too large, or $m^{\prime} \in \{0,1\}^{\ell+k}$ does not have enough trailing 0s. In Construction 12.36, the receiver is supposed to return the same error (denoted $\perp$) in either case. In some implementations, however, the receiver would output different errors depending on which step failed. This single bit of additional information enabled a chosen-ciphertext attack that could recover a message $m$ in its entirety from a corresponding ciphertext using only $\approx \|N\|$ queries to an oracle leaking the type of error upon decryption. This shows the importance of implementing cryptographic schemes exactly as specified, since the resulting proof and analysis may no longer apply if aspects of the scheme are changed.
 
@@ -712,11 +712,11 @@ Note that even if the same error is returned in both cases, an attacker might be
 
 注意，即使两种情况下返回相同的错误，如果返回错误所花的时间不同，攻击者也可能据此判断错误发生在哪一步。（这是一个极好的例子，说明攻击者并不局限于检查算法的输入/输出，还可以利用侧信道信息来攻击方案。）实现应当确保两种情况下返回错误的时间完全相同。
 
-### 12.5.5 \*A CCA-Secure KEM in the Random-Oracle Model　\*随机预言机模型中的 CCA 安全 KEM
+### 12.5.5 \*A CCA-Secure KEM in the Random-Oracle Model　\*随机预言机模型中的选择密文安全 KEM
 
 We show here a construction of an RSA-based KEM that is CCA-secure in the random-oracle model; this scheme is included as part of the ISO/IEC 18033-2 standard for public-key encryption. (Recall from Theorem 12.14 that any such construction can be used in conjunction with any CCA-secure private-key encryption scheme to give a CCA-secure public-key encryption scheme.) As compared to the RSA-OAEP scheme from the previous section, the main advantage is the simplicity of both the construction and its proof of security. Its main disadvantage is that it results in longer ciphertexts when encrypting short messages since it requires the KEM/DEM paradigm whereas RSA-OAEP does not. For encrypting long messages, however, RSA-OAEP would also be used as part of a hybrid encryption scheme, and would result in an encryption scheme having similar efficiency to what would be obtained using the KEM shown here.
 
-我们在这里给出一个在随机预言机模型中 CCA 安全的基于 RSA 的 KEM 构造；该方案已被纳入公钥加密的 ISO/IEC 18033-2 标准。（回忆定理 12.14：任何这样的构造都可以与任意 CCA 安全的私钥加密方案结合，得到 CCA 安全的公钥加密方案。）与上一节的 RSA-OAEP 方案相比，它的主要优点是构造和安全证明都很简洁；主要缺点是加密短消息时会得到更长的密文，因为它需要用到 KEM/DEM 范式，而 RSA-OAEP 不需要。不过对于长消息而言，RSA-OAEP 同样会作为混合加密方案的一部分来使用，所得加密方案的效率与本节所示 KEM 得到的相近。
+我们在这里给出一个在随机预言机模型中选择密文安全的基于 RSA 的 KEM 构造；该方案已被纳入公钥加密的 ISO/IEC 18033-2 标准。（回忆定理 12.14：任何这样的构造都可以与任意选择密文安全的私钥加密方案结合，得到选择密文安全的公钥加密方案。）与上一节的 RSA-OAEP 方案相比，它的主要优点是构造和安全证明都很简洁；主要缺点是加密短消息时会得到更长的密文，因为它需要用到 KEM/DEM 范式，而 RSA-OAEP 不需要。不过对于长消息而言，RSA-OAEP 同样会作为混合加密方案的一部分来使用，所得加密方案的效率与本节所示 KEM 得到的相近。
 
 The public key of the scheme includes $\langle N, e \rangle$ as usual, as well as a specification of a function $H : \mathbb{Z}_N^* \to \{0,1\}^n$ that will be modeled as a random oracle in the analysis. (This function can be based on some underlying cryptographic hash function, as discussed in Section 6.5. We omit the details.) To encapsulate a key, the sender chooses uniform $r \in \mathbb{Z}_N^*$ and then computes the ciphertext $c := [r^e \bmod N]$ and the key $k := H(r)$. To decrypt a ciphertext $c$, the receiver simply recovers $r$ in the usual way and then re-derives the same key $k := H(r)$. See Construction 12.37.
 
@@ -724,7 +724,7 @@ The public key of the scheme includes $\langle N, e \rangle$ as usual, as well a
 
 CPA-security of the scheme is immediate. Indeed, the ciphertext $c$ is equal to $[r^e \bmod N]$ for uniform $r \in \mathbb{Z}_N^*$, and so the RSA assumption implies that an eavesdropper who observes $c$ will be unable to compute $r$. This means, in turn, that (except with negligible probability) the eavesdropper will not query $r$ to $H$, and thus the value of the key $k \stackrel{\mathrm{def}}{=} H(r)$ will remain uniform from the attacker's point of view.
 
-该方案的 CPA 安全性是显然的。事实上，密文 $c$ 等于均匀 $r \in \mathbb{Z}_N^*$ 对应的 $[r^e \bmod N]$，因此由 RSA 假设可知，观察到 $c$ 的窃听者无法计算出 $r$。这又意味着（除去可忽略的概率外）窃听者不会向 $H$ 查询 $r$，从而密钥 $k \stackrel{\mathrm{def}}{=} H(r)$ 的值在攻击者看来保持均匀。
+该方案的选择明文安全性是显然的。事实上，密文 $c$ 等于均匀 $r \in \mathbb{Z}_N^*$ 对应的 $[r^e \bmod N]$，因此由 RSA 假设可知，观察到 $c$ 的窃听者无法计算出 $r$。这又意味着（除去可忽略的概率外）窃听者不会向 $H$ 查询 $r$，从而密钥 $k \stackrel{\mathrm{def}}{=} H(r)$ 的值在攻击者看来保持均匀。
 
 **CONSTRUCTION 12.37**
 
@@ -732,7 +732,7 @@ CPA-security of the scheme is immediate. Indeed, the ciphertext $c$ is equal to 
 
 Let GenRSA be as usual, and construct a KEM as follows:
 
-设 GenRSA 如常，并如下构造一个 KEM：
+设 $\mathsf{GenRSA}$ 如常，并如下构造一个 KEM：
 
 - Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to compute $(N, e, d)$. The public key is $\langle N, e \rangle$, and the private key is $\langle N, d \rangle$.
 
@@ -752,15 +752,15 @@ As part of key generation, a function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is speci
 
 A CCA-secure KEM (in the random-oracle model).
 
-一个（随机预言机模型中的）CCA 安全 KEM。
+一个（随机预言机模型中的）选择密文安全 KEM。
 
 In fact, the above extends to show CCA-security as well. This is because answering a decapsulation-oracle query for any ciphertext $\tilde{c} \neq c$ only involves evaluating $H$ at some input $[\tilde{c}^d \bmod N] = \tilde{r} \neq r$. Thus, the attacker's decapsulation-oracle queries do not reveal any additional information about the key $H(r)$ encapsulated by the challenge ciphertext. (A formal proof is slightly more involved since we must show how it is possible to simulate the answers to decapsulation-oracle queries without knowledge of the private key. Nevertheless, this turns out to be not very difficult.)
 
-实际上，上述论证可以直接延伸以证明 CCA 安全性。这是因为回答针对任何密文 $\tilde{c} \neq c$ 的解封装预言机查询，只涉及在某个输入 $[\tilde{c}^d \bmod N] = \tilde{r} \neq r$ 处对 $H$ 求值。因此，攻击者的解封装预言机查询不会泄露关于挑战密文所封装密钥 $H(r)$ 的任何额外信息。（形式化证明稍显繁琐，因为我们必须说明如何在不知道私钥的情况下模拟解封装预言机查询的回答。不过事实证明这并不困难。）
+实际上，上述论证可以直接延伸以证明选择密文安全性。这是因为回答针对任何密文 $\tilde{c} \neq c$ 的解封装预言机查询，只涉及在某个输入 $[\tilde{c}^d \bmod N] = \tilde{r} \neq r$ 处对 $H$ 求值。因此，攻击者的解封装预言机查询不会泄露关于挑战密文所封装密钥 $H(r)$ 的任何额外信息。（形式化证明稍显繁琐，因为我们必须说明如何在不知道私钥的情况下模拟解封装预言机查询的回答。不过事实证明这并不困难。）
 
 THEOREM 12.38 If the RSA problem is hard relative to GenRSA and H is modeled as a random oracle, then Construction 12.37 is CCA-secure.
 
-定理 12.38　如果 RSA 问题相对于 GenRSA 是困难的且 H 被建模为随机预言机，那么构造 12.37 是 CCA 安全的。
+定理 12.38　如果 RSA 问题相对于 $\mathsf{GenRSA}$ 是困难的且 $H$ 被建模为随机预言机，那么构造 12.37 是选择密文安全的。
 
 PROOF Let $\Pi$ denote Construction 12.37, and let $\mathcal{A}$ be a probabilistic polynomial-time adversary. For convenience, and because this is the first proof where we use the full power of the random-oracle model, we explicitly describe the steps of experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$:
 
@@ -819,7 +819,7 @@ To complete the proof of the theorem, we show
 
 CLAIM 12.39 If the RSA problem is hard relative to GenRSA and H is modeled as a random oracle, then Pr[Query] is negligible.
 
-断言 12.39　如果 RSA 问题相对于 GenRSA 是困难的且 H 被建模为随机预言机，那么 Pr[Query] 可忽略。
+断言 12.39　如果 RSA 问题相对于 $\mathsf{GenRSA}$ 是困难的且 $H$ 被建模为随机预言机，那么 Pr[Query] 可忽略。
 
 To prove this, we construct an algorithm $\mathcal{A}^{\prime}$ that uses $\mathcal{A}$ as a subroutine. $\mathcal{A}^{\prime}$ is given an instance $N, e, c$ of the RSA problem, and its goal is to compute $r$ for which $r^e = c \bmod N$. To do so, it will run $\mathcal{A}$, answering its queries to $H$ and Decaps. Handling queries to $H$ is simple, since $\mathcal{A}^{\prime}$ can just return a random value. Queries to Decaps are trickier, however, since $\mathcal{A}^{\prime}$ does not know the private key associated with the effective public key $\langle N, e \rangle$.
 
@@ -883,7 +883,7 @@ When $\mathcal{A}$ makes a query $\mathsf{Decaps}(\tilde{c})$, answer it as foll
 
 Clearly $\mathcal{A}^{\prime}$ runs in polynomial time, and the view of $\mathcal{A}$ when run as a subroutine by $\mathcal{A}^{\prime}$ in experiment $\mathsf{RSA\text{-}inv}_{\mathcal{A}^{\prime}, \mathsf{GenRSA}}(n)$ is identical to the view of $\mathcal{A}$ in experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$: the inputs given to $\mathcal{A}$ clearly have the right distribution, the answers to $\mathcal{A}^{\prime}$'s oracle queries are consistent, and the responses to all $H$-queries are uniform and independent. Finally, $\mathcal{A}^{\prime}$ outputs the correct solution exactly when Query occurs. Hardness of the RSA problem relative to GenRSA thus implies that $\Pr[\mathsf{Query}]$ is negligible, as required.
 
-显然 $\mathcal{A}^{\prime}$ 的运行时间是多项式的，而且在实验 $\mathsf{RSA\text{-}inv}_{\mathcal{A}^{\prime}, \mathsf{GenRSA}}(n)$ 中作为 $\mathcal{A}^{\prime}$ 的子例程运行时，$\mathcal{A}$ 的视图与其在实验 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$ 中的视图完全相同：交给 $\mathcal{A}$ 的输入显然具有正确的分布，$\mathcal{A}^{\prime}$ 对预言机查询的回答是一致的，并且所有 $H$ 查询的回答都是均匀且独立的。最后，$\mathcal{A}^{\prime}$ 恰好在 Query 发生时输出正确解。于是，RSA 问题相对于 GenRSA 的困难性蕴含 $\Pr[\mathsf{Query}]$ 可忽略，证毕。
+显然 $\mathcal{A}^{\prime}$ 的运行时间是多项式的，而且在实验 $\mathsf{RSA\text{-}inv}_{\mathcal{A}^{\prime}, \mathsf{GenRSA}}(n)$ 中作为 $\mathcal{A}^{\prime}$ 的子例程运行时，$\mathcal{A}$ 的视图与其在实验 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$ 中的视图完全相同：交给 $\mathcal{A}$ 的输入显然具有正确的分布，$\mathcal{A}^{\prime}$ 对预言机查询的回答是一致的，并且所有 $H$ 查询的回答都是均匀且独立的。最后，$\mathcal{A}^{\prime}$ 恰好在 Query 发生时输出正确解。于是，RSA 问题相对于 $\mathsf{GenRSA}$ 的困难性蕴含 $\Pr[\mathsf{Query}]$ 可忽略，证毕。
 
 It is worth remarking on the various properties of the random-oracle model (see Section 6.5.1) that are used in the above proof. First, we rely on the fact that the value $H(r)$ is uniform unless $r$ is queried to $H$—even if $H$ is queried on multiple other values $\tilde{r} \neq r$. We also, implicitly, use extractability to argue that the attacker cannot query r to H; otherwise, we could use this attacker to solve the RSA problem. Finally, the proof relies on programmability in order to simulate the adversary's decapsulation-oracle queries.
 
@@ -1027,7 +1027,7 @@ Definition 12.2 is rooted in the seminal work of Goldwasser and Micali [87], who
 
 A proof of CPA-security for hybrid encryption was first given by Blum and Goldwasser [40]. The case of CCA-security was treated in [63].
 
-混合加密 CPA 安全性的证明最早由 Blum 和 Goldwasser [40] 给出；CCA 安全的情形则在 [63] 中处理。
+混合加密选择明文安全性的证明最早由 Blum 和 Goldwasser [40] 给出；选择密文安全的情形则在 [63] 中处理。
 
 Somewhat amazingly, the El Gamal encryption scheme [77] was not suggested until 1984, even though it can be viewed as a direct transformation of the Diffie–Hellman key-exchange protocol (see Exercise 12.4). DHIES was introduced in [2]. The ISO/IEC 18033-2 standard for public-key encryption can be found at http://www.shoup.net/iso.
 
@@ -1055,7 +1055,7 @@ When using any encryption scheme in practice, the question arises as to what key
 
 The first efficient CCA-secure public-key encryption scheme not relying on the random-oracle model was shown by Cramer and Shoup [58] based on the DDH assumption. Subsequently, Hoffheinz and Kiltz have shown an efficient CCA-secure scheme without random oracles based on the RSA assumption [100].
 
-第一个不依赖随机预言机模型的高效 CCA 安全公钥加密方案由 Cramer 和 Shoup [58] 基于 DDH 假设给出。随后，Hoffheinz 和 Kiltz 基于 RSA 假设给出了一个无需随机预言机的高效 CCA 安全方案 [100]。
+第一个不依赖随机预言机模型的高效选择密文安全公钥加密方案由 Cramer 和 Shoup [58] 基于 DDH 假设给出。随后，Hoffheinz 和 Kiltz 基于 RSA 假设给出了一个无需随机预言机的高效选择密文安全方案 [100]。
 
 ## Exercises　习题
 
@@ -1065,7 +1065,7 @@ The first efficient CCA-secure public-key encryption scheme not relying on the r
 
 12.2 Show that for any CPA-secure public-key encryption scheme for single-bit messages, the length of the ciphertext must be superlogarithmic in the security parameter.
 
-12.2 证明：对任何针对单比特消息的 CPA 安全公钥加密方案，密文长度必须是安全参数的超对数函数。
+12.2 证明：对任何针对单比特消息的选择明文安全公钥加密方案，密文长度必须是安全参数的超对数函数。
 
 Hint: If not, the range of possible ciphertexts has polynomial size.
 
@@ -1089,7 +1089,7 @@ $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
 
 (a) Construct a CPA-secure KEM in the random-oracle model based on a one-way public-key encryption scheme with message space $\{0,1\}^{n}$.
 
-(a) 在随机预言机模型中，基于一个消息空间为 $\{0,1\}^{n}$ 的单向公钥加密方案构造一个 CPA 安全的 KEM。
+(a) 在随机预言机模型中，基于一个消息空间为 $\{0,1\}^{n}$ 的单向公钥加密方案构造一个选择明文安全的 KEM。
 
 (b) Can a deterministic public-key encryption scheme be one-way? If not, prove impossibility; if so, give a construction based on any of the assumptions introduced in this book.
 
@@ -1097,11 +1097,11 @@ $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
 
 12.4 Show that any two-round key-exchange protocol (that is, where each party sends a single message) satisfying Definition 11.1 can be converted into a CPA-secure public-key encryption scheme.
 
-12.4 证明：任何满足定义 11.1 的两轮密钥交换协议（即每一方只发送一条消息的协议）都可以转换为 CPA 安全的公钥加密方案。
+12.4 证明：任何满足定义 11.1 的两轮密钥交换协议（即每一方只发送一条消息的协议）都可以转换为选择明文安全的公钥加密方案。
 
 12.5 Show that Claim 12.7 does not hold in the setting of CCA-security.
 
-12.5 证明断言 12.7 在 CCA 安全的设定下不成立。
+12.5 证明断言 12.7 在选择密文安全的设定下不成立。
 
 12.6 Consider the following public-key encryption scheme. The public key is $(\mathbb{G}, q, g, h)$ and the private key is x, generated exactly as in the El Gamal encryption scheme. In order to encrypt a bit b, the sender does the following:
 
@@ -1117,11 +1117,11 @@ $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
 
 Show that it is possible to decrypt efficiently given knowledge of x. Prove that this encryption scheme is CPA-secure if the decisional Diffie–Hellman problem is hard relative to G.
 
-证明：在已知 x 的情况下可以高效解密。并证明：如果判定性 Diffie–Hellman 问题相对于 G 是困难的，那么该加密方案是 CPA 安全的。
+证明：在已知 x 的情况下可以高效解密。并证明：如果判定性 Diffie–Hellman 问题相对于 $\mathcal{G}$ 是困难的，那么该加密方案是选择明文安全的。
 
 12.7 Consider the following variant of El Gamal encryption. Let $p = 2q + 1$, let $\mathbb{G}$ be the group of squares modulo $p$ (so $\mathbb{G}$ is a subgroup of $\mathbb{Z}_p^*$ of order $q$), and let $g$ be a generator of $\mathbb{G}$. The private key is $(\mathbb{G}, g, q, x)$ and the public key is $(\mathbb{G}, g, q, h)$, where $h = g^x$ and $x \in \mathbb{Z}_q$ is chosen uniformly. To encrypt a message $m \in \mathbb{Z}_p$, choose a uniform $r \in \mathbb{Z}_q$, compute $c_1 := g^r \bmod p$ and $c_2 := h^r + m \bmod p$, and let the ciphertext be $\langle c_1, c_2 \rangle$. Is this scheme CPA-secure? Prove your answer.
 
-12.7 考虑 El Gamal 加密的如下变体。设 $p = 2q + 1$，设 $\mathbb{G}$ 为模 p 的平方元构成的群（即 $\mathbb{G}$ 是 $\mathbb{Z}_p^*$ 中阶为 $q$ 的子群），并设 g 是 $\mathbb{G}$ 的生成元。私钥为 $(\mathbb{G}, g, q, x)$，公钥为 $(\mathbb{G}, g, q, h)$，其中 $h = g^x$，而 $x \in \mathbb{Z}_q$ 均匀选取。要加密消息 $m \in \mathbb{Z}_p$，均匀选取 $r \in \mathbb{Z}_q$，计算 $c_1 := g^r \bmod p$ 与 $c_2 := h^r + m \bmod p$，并取密文为 $\langle c_1, c_2 \rangle$。该方案是 CPA 安全的吗？证明你的答案。
+12.7 考虑 El Gamal 加密的如下变体。设 $p = 2q + 1$，设 $\mathbb{G}$ 为模 p 的平方元构成的群（即 $\mathbb{G}$ 是 $\mathbb{Z}_p^*$ 中阶为 $q$ 的子群），并设 g 是 $\mathbb{G}$ 的生成元。私钥为 $(\mathbb{G}, g, q, x)$，公钥为 $(\mathbb{G}, g, q, h)$，其中 $h = g^x$，而 $x \in \mathbb{Z}_q$ 均匀选取。要加密消息 $m \in \mathbb{Z}_p$，均匀选取 $r \in \mathbb{Z}_q$，计算 $c_1 := g^r \bmod p$ 与 $c_2 := h^r + m \bmod p$，并取密文为 $\langle c_1, c_2 \rangle$。该方案是选择明文安全的吗？证明你的答案。
 
 12.8 Consider the following protocol for two parties A and B to flip a fair coin (more complicated versions of this might be used for Internet gambling): (1) a trusted party T publishes her public key pk; (2) then A chooses a uniform bit $b_{A}$, encrypts it using $pk$, and announces the ciphertext $c_{A}$ to B and T; (3) next, B acts symmetrically and announces a ciphertext $c_{B} \neq c_{A}$; (4) T decrypts both $c_{A}$ and $c_{B}$, and the parties XOR the results to obtain the value of the coin.
 
@@ -1141,7 +1141,7 @@ Show that it is possible to decrypt efficiently given knowledge of x. Prove that
 
 12.9 Prove formally that the El Gamal encryption scheme is not CCA-secure.
 
-12.9 形式化证明 El Gamal 加密方案不是 CCA 安全的。
+12.9 形式化证明 El Gamal 加密方案不是选择密文安全的。
 
 12.10 In Section 12.4.4 we showed that El Gamal encryption is malleable, and specifically that given a ciphertext $\langle c_1, c_2 \rangle$ that is the encryption of some unknown message $m$, it is possible to produce a ciphertext $\langle c_1, c^{\prime}_2 \rangle$ that is the encryption of $\alpha \cdot m$ (for known $\alpha$). A receiver who receives both these ciphertexts might be suspicious since both ciphertexts share the first component. Show that it is possible to generate $\langle c^{\prime}_1, c^{\prime}_2 \rangle$ that is the encryption of $\alpha \cdot m$, with $c^{\prime}_1 \neq c_1$ and $c^{\prime}_2 \neq c_2$.
 
@@ -1153,19 +1153,19 @@ Show that it is possible to decrypt efficiently given knowledge of x. Prove that
 
 12.12 One of the attacks on plain RSA discussed in Section 12.5.1 involves a sender who encrypts two related messages using the same public key. Formulate an appropriate definition of security ruling out such attacks, and show that any CPA-secure public-key encryption scheme satisfies your definition.
 
-12.12 12.5.1 节讨论的对朴素 RSA 的攻击之一涉及这样的发送者：他用同一公钥加密两条相关的消息。给出一个恰当的安全性定义来排除这类攻击，并证明任何 CPA 安全的公钥加密方案都满足你的定义。
+12.12 12.5.1 节讨论的对朴素 RSA 的攻击之一涉及这样的发送者：他用同一公钥加密两条相关的消息。给出一个恰当的安全性定义来排除这类攻击，并证明任何选择明文安全的公钥加密方案都满足你的定义。
 
 12.13 One of the attacks on plain RSA discussed in Section 12.5.1 involves a sender who encrypts the same message to three different receivers. Formulate an appropriate definition of security ruling out such attacks, and show that any CPA-secure public-key encryption scheme satisfies your definition.
 
-12.13 12.5.1 节讨论的对朴素 RSA 的攻击之一涉及这样的发送者：他把同一条消息加密发给三个不同的接收者。给出一个恰当的安全性定义来排除这类攻击，并证明任何 CPA 安全的公钥加密方案都满足你的定义。
+12.13 12.5.1 节讨论的对朴素 RSA 的攻击之一涉及这样的发送者：他把同一条消息加密发给三个不同的接收者。给出一个恰当的安全性定义来排除这类攻击，并证明任何选择明文安全的公钥加密方案都满足你的定义。
 
 12.14 Consider the following modified version of padded RSA encryption: Assume messages to be encrypted have length exactly $\|N\|$/2. To encrypt, first compute $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$ where $r$ is a uniform string of length $\|N\|/2 - 16$. Then compute the ciphertext $c := [\hat{m}^e \mod N]$. When decrypting a ciphertext $c$, the receiver computes $\hat{m} := [c^d \mod N]$ and returns an error if $\hat{m}$ does not consist of 0x00 followed by $\|N\|$/2 - 16 arbitrary bits followed by 0x00. Show that this scheme is not CCA-secure. Why is it easier to construct a chosen-ciphertext attack on this scheme than on PKCS #1 v1.5?
 
-12.14 考虑填充 RSA 加密的如下修改版本：假设待加密消息的长度恰为 $\|N\|$/2。加密时，先计算 $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$，其中 r 是长度为 $\|N\|/2 - 16$ 的均匀串。然后计算密文 $c := [\hat{m}^e \mod N]$。解密密文 c 时，接收方计算 $\hat{m} := [c^d \mod N]$，若 $\hat{m}$ 不是由 0x00 开头、随后是 $\|N\|$/2 - 16 个任意比特、再跟着 0x00 组成，则返回错误。证明该方案不是 CCA 安全的。为什么对该方案构造选择密文攻击比对 PKCS #1 v1.5 更容易？
+12.14 考虑填充 RSA 加密的如下修改版本：假设待加密消息的长度恰为 $\|N\|$/2。加密时，先计算 $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$，其中 r 是长度为 $\|N\|/2 - 16$ 的均匀串。然后计算密文 $c := [\hat{m}^e \mod N]$。解密密文 c 时，接收方计算 $\hat{m} := [c^d \mod N]$，若 $\hat{m}$ 不是由 0x00 开头、随后是 $\|N\|$/2 - 16 个任意比特、再跟着 0x00 组成，则返回错误。证明该方案不是选择密文安全的。为什么对该方案构造选择密文攻击比对 PKCS #1 v1.5 更容易？
 
 12.15 Consider the RSA-based encryption scheme in which a user encrypts a message $m \in \{0,1\}^{\ell}$ with respect to the public key $\langle N,e\rangle$ by computing $\hat{m} := H(m)\|m$ and outputting the ciphertext $[\hat{m}^{e} \bmod N]$. (Here, let $H : \{0,1\}^{\ell} \to \{0,1\}^{n}$ and assume $\ell + n < \|N\|$.) Is this scheme CPA-secure if $H$ is modeled as a random oracle?
 
-12.15 考虑如下基于 RSA 的加密方案：用户以公钥 $\langle N,e\rangle$ 加密消息 $m \in \{0,1\}^{\ell}$ 时，计算 $\hat{m} := H(m)\|m$ 并输出密文 $[\hat{m}^{e} \bmod N]$。（此处设 $H : \{0,1\}^{\ell} \to \{0,1\}^{n}$，并假设 $\ell + n < \|N\|$。）如果 H 被建模为随机预言机，该方案是 CPA 安全的吗？
+12.15 考虑如下基于 RSA 的加密方案：用户以公钥 $\langle N,e\rangle$ 加密消息 $m \in \{0,1\}^{\ell}$ 时，计算 $\hat{m} := H(m)\|m$ 并输出密文 $[\hat{m}^{e} \bmod N]$。（此处设 $H : \{0,1\}^{\ell} \to \{0,1\}^{n}$，并假设 $\ell + n < \|N\|$。）如果 $H$ 被建模为随机预言机，该方案是选择明文安全的吗？
 
 12.16 Show a chosen-ciphertext attack on Construction 12.34.
 
@@ -1185,7 +1185,7 @@ where $H: \mathbb{Z}_{N_1}^* \to \{0,1\}^{\ell}$. Assume $\|N_1\| = \|N_2\| = \|
 
 (a) Show that this is not CPA-secure, and an adversary can recover $m$ from the ciphertext even when H is modeled as a random oracle.
 
-(a) 证明这不是 CPA 安全的：即使 H 被建模为随机预言机，敌手也能从密文中恢复 $m$。
+(a) 证明这不是选择明文安全的：即使 $H$ 被建模为随机预言机，敌手也能从密文中恢复 $m$。
 
 Hint: See Section 12.5.1.
 
@@ -1193,15 +1193,15 @@ Hint: See Section 12.5.1.
 
 (b) Show a simple way to fix this and get a CPA-secure method that transmits a ciphertext of length ${3}\ell + \mathcal{O}(n)$.
 
-(b) 展示一种简单的修复方法，得到一种传输长度为 ${3}\ell + \mathcal{O}(n)$ 的密文的 CPA 安全方法。
+(b) 展示一种简单的修复方法，得到一种传输长度为 ${3}\ell + \mathcal{O}(n)$ 的密文的选择明文安全方法。
 
 (c) Show a better approach that is still CPA-secure but with a cipher-text of length $\ell + \mathcal{O}(n)$.
 
-(c) 展示一种更好的方法，它仍然是 CPA 安全的，但密文长度为 $\ell + \mathcal{O}(n)$。
+(c) 展示一种更好的方法，它仍然是选择明文安全的，但密文长度为 $\ell + \mathcal{O}(n)$。
 
 12.18 Let $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ be a CPA-secure public-key encryption scheme, and let $\Pi^{\prime} = (\mathsf{Gen}^{\prime}, \mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ be a CCA-secure private-key encryption scheme. Consider the following construction:
 
-12.18 设 $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ 是 CPA 安全的公钥加密方案，$\Pi^{\prime} = (\mathsf{Gen}^{\prime}, \mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ 是 CCA 安全的私钥加密方案。考虑如下构造：
+12.18 设 $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ 是选择明文安全的公钥加密方案，$\Pi^{\prime} = (\mathsf{Gen}^{\prime}, \mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ 是选择密文安全的私钥加密方案。考虑如下构造：
 
 **CONSTRUCTION 12.41**
 
@@ -1229,7 +1229,7 @@ $$
 
 Does the above construction have indistinguishable encryptions under a chosen-ciphertext attack, if H is modeled as a random oracle? If yes, provide a proof. If not, where does the approach used to prove Theorem 12.38 break down?
 
-如果 H 被建模为随机预言机，上述构造在选择密文攻击下是否具有不可区分的加密？若是，给出证明；若否，用于证明定理 12.38 的方法在何处失效？
+如果 $H$ 被建模为随机预言机，上述构造在选择密文攻击下是否具有不可区分的加密？若是，给出证明；若否，用于证明定理 12.38 的方法在何处失效？
 
 12.19 Consider the following variant of Construction 12.32:
 
@@ -1241,7 +1241,7 @@ Does the above construction have indistinguishable encryptions under a chosen-ci
 
 Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
-设 GenRSA 如常，并如下定义一个公钥加密方案：
+设 $\mathsf{GenRSA}$ 如常，并如下定义一个公钥加密方案：
 
 - Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
 
@@ -1257,7 +1257,7 @@ Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
 Prove that this scheme is CPA-secure.
 
-证明该方案是 CPA 安全的。
+证明该方案是选择明文安全的。
 
 12.20 Fix an RSA public key $\langle N, e \rangle$ and assume we have an algorithm $\mathcal{A}$ that always correctly computes $\mathsf{lsb}(x)$ given $[x^e \bmod N]$. Write full pseudocode for an algorithm $\mathcal{A}^{\prime}$ that computes $x$ from $[x^e \bmod N]$.
 

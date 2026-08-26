@@ -514,7 +514,7 @@ Hint: Use the fact that $y^{1/e} \cdot r = (y \cdot r^e)^{1/e}$ mod $N$.
 
 Hint: Apply Proposition 9.2 to k, e, and express $y^{1}$ as a power of e.
 
-     提示：把命题 9.2 应用于 $k$ 和 $e$，并把 $y^{1}$ 表示成 $e$ 的幂。
+     提示：把命题 9.2 应用于 $k$ 和 $e$，并把 $y^{1}$（即 $y$）表示成某个元素的 $e$ 次幂。
 
 9.27 Let GenRSA be as in Section 9.2.4. Prove that if the RSA problem is hard relative to GenRSA then Construction 9.80 is a fixed-length collision-resistant hash function.
 

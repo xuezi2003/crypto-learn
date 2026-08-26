@@ -320,7 +320,7 @@ $$
 
 relying on Equations (8.8) and (8.9) for the first equality. (The second equality holds because the same terms are included in each sum, except for the first term of the left sum and the last term of the right sum.) Since $G$ is a pseudorandom generator, the term on the left-hand side of Equation (8.10) is negligible; because $p$ is polynomial, this implies that Equation (8.7) is negligible, completing the proof that $\hat{G}$ is a pseudorandom generator.
 
-其中第一个等号用了式 (8.8) 与式 (8.9)。（第二个等号成立是因为两个和式所含各项相同，只是左和式的第一项与右和式的最后一项除外。）由于 G 是伪随机生成器，式 (8.10) 左边的项是可忽略的；又因为 $p$ 是多项式，这就蕴含式 (8.7) 可忽略，从而完成了 $\hat{G}$ 是伪随机生成器的证明。
+其中第一个等号用了式 (8.8) 与式 (8.9)。（第二个等号成立是因为两个和式所含各项相同，只是左和式的第一项与右和式的最后一项除外。）由于 $G$ 是伪随机生成器，式 (8.10) 左边的项是可忽略的；又因为 $p$ 是多项式，这就蕴含式 (8.7) 可忽略，从而完成了 $\hat{G}$ 是伪随机生成器的证明。
 
 Putting it all together. Let $f$ be a one-way permutation. Taking the pseudorandom generator with expansion factor $n+1$ from Theorem 8.18, and increasing the expansion factor to $n+\ell$ using the approach from the proof of Theorem 8.19, we obtain the following pseudorandom generator $\hat{G}$:
 
@@ -439,7 +439,7 @@ PROOF We first show that for any polynomial $t$ it is infeasible to distinguish 
 证明　我们首先证明：对任意多项式 $t$，区分 $t(n)$ 个均匀的 ${2}n$ 比特串与 $t(n)$ 个伪随机串是不可行的；也就是说，对任意多项式 $t$ 与任意概率多项式时间算法 $\mathcal{A}$，下式是可忽略的：
 
 $$
-\left|\Pr\left[A\left(r_{1}\|\cdots\|r_{t(n)}\right)=1\right]-\Pr\left[A\left(G(s_{1})\|\cdots\|G(s_{t(n)})\right)=1\right]\right|, \tag{8.11}
+\left|\Pr\left[A\left(r_{1}\|\cdots\|r_{t(n)}\right)=1\right]-\Pr\left[A\left(G(s_{1})\|\cdots\|G(s_{t(n)})\right)=1\right]\right|,
 $$
 
 where the first probability is over uniform choice of $r_1, \ldots, r_{t(n)} \in \{0,1\}^{2n}$, and the second probability is over uniform choice of $s_1, \ldots, s_{t(n)} \in \{0,1\}^n$.
@@ -477,7 +477,7 @@ For any $n$ and ${0} \leq i \leq t(n)$, let $G_n^i$ denote the distribution on s
 $$
 \begin{aligned}
 &\left|\Pr_{y\leftarrow G_{n}^{t(n)}}[A(y)=1]-\Pr_{y\leftarrow G_{n}^{0}}[A(y)=1]\right|\\
-&=\left|\Pr[A(r_{1},\ldots,r_{t(n)})=1]-\Pr[A(G(s_{1}),\ldots,G(s_{t(n)}))=1]\right|. \tag{8.12}
+&=\left|\Pr[A(r_{1},\ldots,r_{t(n)})=1]-\Pr[A(G(s_{1}),\ldots,G(s_{t(n)}))=1]\right|. \tag{8.11}
 \end{aligned}
 $$
 
@@ -504,7 +504,7 @@ Therefore,
 $$
 \begin{aligned}
 &\left|\Pr_{r\leftarrow\{0,1\}^{2n}}[A^{\prime}(r)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[A^{\prime}(G(s))=1]\right|\\
-&=\frac{1}{t(n)}\cdot\left|\Pr_{y\leftarrow G_{n}^{t(n)}}[A(y)=1]-\Pr_{y\leftarrow G_{n}^{0}}[A(y)=1]\right|.
+&=\frac{1}{t(n)}\cdot\left|\Pr_{y\leftarrow G_{n}^{t(n)}}[A(y)=1]-\Pr_{y\leftarrow G_{n}^{0}}[A(y)=1]\right|. \tag{8.12}
 \end{aligned}
 $$
 

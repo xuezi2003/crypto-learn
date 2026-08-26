@@ -97,7 +97,7 @@ infinitely many values of $n$, algorithm $\mathcal{A}$ inverts $f$ with probabil
 
 **单向函数的成功求逆。**
 
-不是单向函数，并不意味着它总是容易求逆（甚至不意味着它“经常”容易求逆）。确切地说，定义 8.1 第二个条件的反面是：存在概率多项式时间算法 $\mathcal{A}$ 和非可忽略函数 $\gamma$，使得 $\mathcal{A}$ 以至少 $\gamma(n)$ 的概率对 $f(x)$ 求逆（概率取遍 $x \in \{0,1\}^n$ 的均匀选择和 $\mathcal{A}$ 的随机性）。这又意味着：存在正多项式 $p(\cdot)$，使得对无穷多个 $n$ 的取值，算法 $\mathcal{A}$ 以至少 ${1}/{p(n)}$ 的概率对 $f$ 求逆。因此，若存在算法 $\mathcal{A}$，对所有偶数 $n$ 以 $n^{-10}$ 的概率对 $f$ 求逆（而当 $n$ 为奇数时总是求逆失败），那么 $f$ 就不是单向函数——尽管 $\mathcal{A}$ 只在一半的 $n$ 取值上成功，而且（在其能成功的那些 $n$ 取值上）成功概率也只有 $n^{-10}$。
+不是单向函数，并不意味着它总是容易求逆（甚至不意味着它“经常”容易求逆）。确切地说，定义 8.1 第二个条件的否定是：存在概率多项式时间算法 $\mathcal{A}$ 和非可忽略函数 $\gamma$，使得 $\mathcal{A}$ 以至少 $\gamma(n)$ 的概率对 $f(x)$ 求逆（概率取遍 $x \in \{0,1\}^n$ 的均匀选择和 $\mathcal{A}$ 的随机性）。这又意味着：存在正多项式 $p(\cdot)$，使得对无穷多个 $n$ 的取值，算法 $\mathcal{A}$ 以至少 ${1}/{p(n)}$ 的概率对 $f$ 求逆。因此，若存在算法 $\mathcal{A}$，对所有偶数 $n$ 以 $n^{-10}$ 的概率对 $f$ 求逆（而当 $n$ 为奇数时总是求逆失败），那么 $f$ 就不是单向函数——尽管 $\mathcal{A}$ 只在一半的 $n$ 取值上成功，而且（在其能成功的那些 $n$ 取值上）成功概率也只有 $n^{-10}$。
 
 Exponential-time inversion. Any one-way function can be inverted at any point $y$ in exponential time, by simply trying all values $x \in \{0,1\}^n$ until a value $x$ is found such that $f(x) = y$. Thus, the existence of one-way functions is inherently an assumption about computational complexity and computational hardness. That is, it concerns a problem that can be solved in principle but is assumed to be hard to solve efficiently.
 
@@ -735,4 +735,4 @@ $$
 
 for $n$ sufficiently large. Conditioned on both the above, $\mathcal{A}^{\prime}$ outputs $x = \hat{x}$ with probability at least ${1}/{2}$. The overall probability with which $\mathcal{A}^{\prime}$ inverts its input is thus at least $\varepsilon(n)^{3}/20n = 1/(20np(n)^{3})$ for infinitely many $n$. Since ${20}np(n)^{3}$ is polynomial in $n$, this proves Proposition 8.16.
 
-当 $n$ 足够大时上式成立。在以上两个事件同时发生的条件下，$\mathcal{A}^{\prime}$ 以至少 ${1}/{2}$ 的概率输出 $x = \hat{x}$。因此，对无穷多个 $n$，$\mathcal{A}^{\prime}$ 求逆其输入的总概率至少为 $\varepsilon(n)^{3}/20n = 1/(20np(n)^{3})$。由于 ${20}np(n)^{3}$ 是 $n$ 的多项式，这就证明了命题 8.16。
+当 $n$ 足够大时上式成立。在以上两个事件同时发生的条件下，$\mathcal{A}^{\prime}$ 以至少 ${1}/{2}$ 的概率输出 $x = \hat{x}$。因此，对无穷多个 $n$，$\mathcal{A}^{\prime}$ 对其输入求逆的总概率至少为 $\varepsilon(n)^{3}/20n = 1/(20np(n)^{3})$。由于 ${20}np(n)^{3}$ 是 $n$ 的多项式，这就证明了命题 8.16。

@@ -1,4 +1,4 @@
-# Chapter 12: Public-Key Encryption　第十二章　公钥加密
+# Chapter 12: Public-Key Encryption　第 12 章　公钥加密
 
 ## 12.1 Public-Key Encryption – An Overview　公钥加密——概述
 
@@ -65,6 +65,9 @@ As we will see in Section 12.3, private-key encryption is used in the public-key
 In our entire discussion thus far, we have implicitly assumed that the adversary is passive; that is, the adversary only eavesdrops on communication between the sender and receiver but does not actively interfere with the communication. Equivalently, we assume the communication channel between the sender and receiver is authenticated, at least for the initial sharing of the public key. If the adversary has the ability to tamper with all communication between the honest parties, and the honest parties share no keys in advance, then privacy simply cannot be achieved. For example, if a receiver Alice sends her public key $pk$ to Bob but the adversary replaces it with a key $pk'$ of its own (for which it knows the matching private key $sk'$), then even though Bob encrypts his message using $pk'$ the adversary will easily be able to recover the message (using $sk'$). A similar attack works if an adversary is able to change the value of Alice's public key that is stored in some public directory, or if the adversary can tamper with the public key as it is transmitted from the public directory to Bob. If Alice and Bob do not share any information in advance, and are not willing to rely on some mutually trusted third party, there is nothing Alice or Bob can do to prevent active attacks of this sort, or even to tell that such an attack is taking place. $^{1}$
 
 到目前为止的讨论中，我们都隐含地假定敌手是被动的；也就是说，敌手只窃听发送方与接收方之间的通信，而不主动干扰通信。等价地说，我们假定发送方与接收方之间的信道是经过认证的，至少在最初共享公钥时是如此。如果敌手有能力篡改诚实双方之间的所有通信，而诚实双方事先又没有共享任何密钥，那么私密性就根本无法实现。例如，接收方 Alice 把她的公钥 $pk$ 发给 Bob，但敌手将其替换成自己的密钥 $pk'$（敌手知道与之匹配的私钥 $sk'$），那么即使 Bob 用 $pk'$ 加密了他的消息，敌手也能轻易地（用 $sk'$）恢复出该消息。如果敌手能够篡改存储在某个公共目录中的 Alice 公钥的值，或者能够在公钥从公共目录传送给 Bob 的途中对其进行篡改，类似的攻击同样奏效。如果 Alice 和 Bob 事先没有共享任何信息，又不愿意依赖某个双方共同信任的第三方，那么他们没有任何办法阻止这类主动攻击，甚至无法察觉此类攻击正在发生。$^{1}$
+
+> $^{1}$ In our “shouting-across-a-room” scenario, Alice and Bob can detect when an adversary interferes with the communication. But this is only because: (1) the adversary cannot prevent Alice’s messages from reaching Bob, and (2) Alice and Bob “share” in advance information (e.g., the sound of their voices) that allows them to “authenticate” their communication.
+> $^{1}$ 在我们“隔着房间喊话”的场景中，Alice 与 Bob 能够察觉敌手干扰通信。但这只是因为：(1) 敌手无法阻止 Alice 的消息到达 Bob；(2) Alice 与 Bob 事先“共享”了一些信息（例如彼此的嗓音），使他们得以“认证”自己的通信。
 
 Importantly, our treatment of public-key encryption in this chapter assumes that senders are able to obtain a legitimate copy of the receiver's public key. (This will be implicit in the security definitions we provide.) That is, we assume secure key distribution. This assumption is made not because active attacks of the type discussed above are of no concern—in fact, they represent a serious threat that must be dealt with in any real-world system that uses public-key encryption. Rather, this assumption is made because there exist other mechanisms for preventing active attacks (see, for example, Section 13.6), and it is therefore convenient (and useful) to decouple the study of secure public-key encryption from the study of secure public-key distribution.
 
@@ -200,7 +203,7 @@ Although Theorem 12.4 seems deceptively simple, for a long time many real-world 
 
 As in Chapter 3, it is important to understand the effect of using the same key (in this case, the same public key) for encrypting multiple messages. We could formulate security in such a setting by having an adversary output two lists of plaintexts, as in Definition 3.18. For the reasons discussed in Section 3.4.3, however, we choose instead to use a definition in which the attacker is given access to a “left-or-right” oracle $\mathsf{LR}_{pk,b}$ that, on input a pair of equal-length messages $m_0, m_1$, computes the ciphertext $c \leftarrow \mathsf{Enc}_{pk}(m_b)$ and returns $c$. The attacker is allowed to query this oracle as many times as it likes, and the definition therefore models security when multiple (unknown) messages are encrypted using the same public key.
 
-与第 3 章一样，理解用同一密钥（这里是同一公钥）加密多条消息的影响是很重要的。我们本来可以仿照定义 3.18，让敌手输出两个明文列表来形式化这种情形下的安全性。然而出于 3.4.3 节讨论过的原因，我们选择改用另一种定义：攻击者可以访问一个“left-or-right”预言机 $\mathsf{LR}_{pk,b}$，该预言机在输入一对等长消息 $m_0, m_1$ 时，计算密文 $c \leftarrow \mathsf{Enc}_{pk}(m_b)$ 并返回 $c$。攻击者可以任意多次查询该预言机，因此该定义刻画的是用同一公钥加密多条（未知）消息时的安全性。
+与第 3 章一样，理解用同一密钥（这里是同一公钥）加密多条消息的影响是很重要的。我们本来可以仿照定义 3.18，让敌手输出两个明文列表来形式化这种情形下的安全性。然而出于 3.4.3 节讨论过的原因，我们选择改用另一种定义：攻击者可以访问一个“左或右”（left-or-right）预言机 $\mathsf{LR}_{pk,b}$，该预言机在输入一对等长消息 $m_0, m_1$ 时，计算密文 $c \leftarrow \mathsf{Enc}_{pk}(m_b)$ 并返回 $c$。攻击者可以任意多次查询该预言机，因此该定义刻画的是用同一公钥加密多条（未知）消息时的安全性。
 
 Formally, consider the following experiment defined for an adversary $\mathcal{A}$ and a public-key encryption scheme $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$:
 
@@ -256,7 +259,7 @@ An analogous result in the private-key setting was stated, but not proved, as Th
 
 An immediate consequence of Theorem 12.6 is that a CPA-secure public-key encryption scheme for fixed-length messages implies a public-key encryption scheme for arbitrary-length messages satisfying the same notion of security. We illustrate this in the extreme case when the original scheme encrypts only 1-bit messages. Say $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ is an encryption scheme for single-bit messages. We can construct a new scheme $\Pi^{\prime} = (\mathsf{Gen}, \mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ that has message space $\{0,1\}^*$ by defining $\mathsf{Enc}^{\prime}$ as follows:
 
-定理 12.6 的一个直接推论是：针对定长消息的选择明文安全公钥加密方案，蕴含着针对任意长度消息、且满足同样安全概念的公钥加密方案。我们以极端情形来说明这一点：假设原方案只能加密 1 比特消息。设 $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ 是单比特消息的加密方案。我们可以构造一个消息空间为 $\{0,1\}^*$ 的新方案 $\Pi^{\prime} = (\mathsf{Gen}, \mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$，其 $\mathsf{Enc}^{\prime}$ 定义如下：
+定理 12.6 的一个直接推论是：针对定长消息的选择明文安全公钥加密方案，蕴含着一个可加密任意长度消息、且满足同样安全定义的公钥加密方案。我们以极端情形来说明这一点：假设原方案只能加密 1 比特消息。设 $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ 是单比特消息的加密方案。我们可以构造一个消息空间为 $\{0,1\}^*$ 的新方案 $\Pi^{\prime} = (\mathsf{Gen}, \mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$，其 $\mathsf{Enc}^{\prime}$ 定义如下：
 
 $$
 \mathsf{Enc}_{pk}^{\prime}(m)=\mathsf{Enc}_{pk}(m_{1}),\ldots,\mathsf{Enc}_{pk}(m_{\ell}), \tag{12.1}

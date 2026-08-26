@@ -299,7 +299,7 @@ $$
 
 Note that $y^{\prime} - y \neq 0 \bmod q$; otherwise, we would have $x - x^{\prime} = 0 \bmod q$ and then the pairs $(x, y)$ and $(x^{\prime}, y^{\prime})$ would not be distinct. Since $q$ is prime, the inverse$\Delta \stackrel{\mathrm{def}}{=} [(y^{\prime} - y)^{-1} \bmod q]$ exists. Raising each side of Equation (9.1) to this power gives:
 
-注意 $y^{\prime} - y \neq 0 \bmod q$；否则将得到 $x - x^{\prime} = 0 \bmod q$，进而 $(x, y)$ 与 $(x^{\prime}, y^{\prime})$ 就不是不同的对了。由于 $q$ 是素数，逆元$\Delta \stackrel{\mathrm{def}}{=} [(y^{\prime} - y)^{-1} \bmod q]$ 存在。把式 (9.1) 的两边同时取这个幂次，就得到：
+注意 $y^{\prime} - y \neq 0 \bmod q$；否则将得到 $x - x^{\prime} = 0 \bmod q$，进而 $(x, y)$ 与 $(x^{\prime}, y^{\prime})$ 就不是不同的对了。由于 $q$ 是素数，逆元 $\Delta \stackrel{\mathrm{def}}{=} [(y^{\prime} - y)^{-1} \bmod q]$ 存在。把式 (9.1) 的两边同时取这个幂次，就得到：
 
 $$
 g^{(x-x^{\prime})\cdot\Delta}=\left(h^{y^{\prime}-y}\right)^{\Delta}=h^{1}=h.
@@ -349,7 +349,7 @@ $$
 
 all reduced modulo $p-1$. (Note that $j+rq=j\bmod(p-1)$.) This proves that $f_r$ is an $r$-to-1 function.
 
-再全部按模 $p-1$ 约减。（注意 $j+rq=j\bmod(p-1)$。）这就证明了 $f_r$ 是 $r$ 对 1 的函数。
+再全部按模 $p-1$ 归约。（注意 $j+rq=j\bmod(p-1)$。）这就证明了 $f_r$ 是 $r$ 对 1 的函数。
 
 Besides showing existence of an appropriate subgroup, the proof of the theorem also implies that it is easy to generate a uniform element of $\mathbb{G}$ and to test whether a given element of $\mathbb{Z}_p^*$ lies in $\mathbb{G}$. Specifically, choosing a uniform element of $\mathbb{G}$ can be done by choosing a uniform $h \in \mathbb{Z}_p^*$ and computing $[h^r \bmod p]$. Determining whether a given $h \in \mathbb{Z}_p^*$ is also in the subgroup $\mathbb{G}$ can be done by checking whether $h^q \overset{?}{=} 1 \bmod p$. To see that this works, let $h = g^i$ for $g$ a generator of $\mathbb{Z}_p^*$ and $i \in \{0, \ldots, p-2\}$. Then
 
@@ -386,10 +386,10 @@ return $p, q, g$    // $\mathbb{G}$ is the order-$q$ subgroup of $\mathbb{Z}_p^*
 输出：循环群 $\mathbb{G}$、它的（素数）阶 $q$，以及生成元 $g$
 选择 $\ell$ 比特素数 $p$ 和 $n$ 比特素数 $q$，使得 $q \mid (p-1)$
 // 具体如何做到，细节从略
-until $g \neq 1$ do:
+循环执行以下步骤，直到 $g \neq 1$：
     均匀选取 $h \in \mathbb{Z}_p^*$
     令 $g := [h^{(p-1)/q} \mod p]$
-return $p, q, g$    // $\mathbb{G}$ 是由 $g$ 生成的 $\mathbb{Z}_p^*$ 的阶为 $q$ 的子群
+返回 $p, q, g$    // $\mathbb{G}$ 是由 $g$ 生成的 $\mathbb{Z}_p^*$ 的阶为 $q$ 的子群
 
 Choosing $\ell$. Let $n = \|q\|$ and $\ell = \|p\|$. Two types of algorithms are known for computing discrete logarithms in order-$q$ subgroups of $\mathbb{Z}_p^*$ (see Section 10.2): those that run in time $\mathcal{O}(\sqrt{q}) = \mathcal{O}(2^{n/2})$ and those that run in time ${2}^{\mathcal{O}((\log p)^{1/3}\cdot(\log \log p)^{2/3})} = 2^{\mathcal{O}(\ell^{1/3}\cdot(\log \ell)^{2/3})}$. Fixing some desired security parameter $n$, the value of $\ell$ should be chosen so as to balance these times. (If $\ell$ is any smaller, security is reduced; if $\ell$ is any larger, operations in $\mathbb{G}$ will be less efficient without any gain in security.) See also Section 10.4.
 
@@ -421,9 +421,9 @@ Consider the group $\mathbb{Z}_{11}^{*}$ of order 10. Let us try to find a gener
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Values: | 1 | 3 | 9 | 5 | 4 | 1 | 3 | 9 | 5 | 4 |
 
-**We see that 3 is not a generator of the entire group. Rather, it generates a subgroup $\mathbb{G} = \{1, 3, 4, 5, 9\}$ of order 5. Now, let's see what happens with 10:**
+We see that 3 is not a generator of the entire group. Rather, it generates a subgroup $\mathbb{G} = \{1, 3, 4, 5, 9\}$ of order 5. Now, let's see what happens with 10:
 
-**我们看到，3 不是整个群的生成元；它生成的其实是一个阶为 5 的子群 $\mathbb{G} = \{1, 3, 4, 5, 9\}$。接下来看看 10 会怎样：**
+我们看到，3 不是整个群的生成元；它生成的其实是一个阶为 5 的子群 $\mathbb{G} = \{1, 3, 4, 5, 9\}$。接下来看看 10 会怎样：
 
 | Powers of 10: | ${10}^{0}$ | ${10}^{1}$ | ${10}^{2}$ | ${10}^{3}$ | ${10}^{4}$ | ${10}^{5}$ | ${10}^{6}$ | ${10}^{7}$ | ${10}^{8}$ | ${10}^{9}$ |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -433,9 +433,9 @@ In this case we generate a subgroup of order 2.
 
 这里我们得到一个阶为 2 的子群。
 
-**For cryptographic purposes we want to work in a prime-order group. Since ${11} = 2 \cdot 5 + 1$ we can apply Theorem 9.66 with $q = 5$ and $r = 2$, or with $q = 2$ and $r = 5$. In the first case, the theorem tells us that the squares of all the elements of $\mathbb{Z}_{11}^{*}$ should give a subgroup of order 5. This can be easily verified:**
+For cryptographic purposes we want to work in a prime-order group. Since ${11} = 2 \cdot 5 + 1$ we can apply Theorem 9.66 with $q = 5$ and $r = 2$, or with $q = 2$ and $r = 5$. In the first case, the theorem tells us that the squares of all the elements of $\mathbb{Z}_{11}^{*}$ should give a subgroup of order 5. This can be easily verified:
 
-**出于密码学目的，我们希望在一个素数阶的群中工作。由于 ${11} = 2 \cdot 5 + 1$，我们可以按 $q = 5$、$r = 2$，或者按 $q = 2$、$r = 5$ 来应用定理 9.66。在前一种情形，定理告诉我们：$\mathbb{Z}_{11}^{*}$ 中所有元素的平方应当给出一个阶为 5 的子群。这很容易验证：**
+出于密码学目的，我们希望在一个素数阶的群中工作。由于 ${11} = 2 \cdot 5 + 1$，我们可以按 $q = 5$、$r = 2$，或者按 $q = 2$、$r = 5$ 来应用定理 9.66。在前一种情形，定理告诉我们：$\mathbb{Z}_{11}^{*}$ 中所有元素的平方应当给出一个阶为 5 的子群。这很容易验证：
 
 | Element: | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -473,6 +473,9 @@ where $A, B \in \mathbb{Z}_p$ satisfy ${4}A^3 + 27B^2 \neq 0 \mod p$. (This cond
 $$
 E(\mathbb{Z}_{p})\overset{\mathrm{def}}{=}\big\{(x,y)\mid x,y\in\mathbb{Z}_{p},\ y^{2}=x^{3}+A x+B \bmod p\big\}\cup\{\mathcal{O}\}.
 $$
+
+> $^{2}$ The theory can be adapted to deal with $p \in \{2, 3\}$ but this introduces additional complications. Elliptic curves can, in fact, be defined over arbitrary fields (cf. Section A.5), and our discussion largely carries over to fields of characteristic not equal to 2 or 3.
+> $^{2}$ 相关理论可以改造以处理 $p \in \{2, 3\}$ 的情形，但这会引入额外的复杂性。事实上，椭圆曲线可以定义在任意域上（参见 A.5 节），我们的讨论大体上也适用于特征不等于 2 或 3 的域。
 
 The elements $E(\mathbb{Z}_p)$ are called the points on the elliptic curve $E$ defined by Equation (9.2), and $\mathcal{O}$ is called the point at infinity.
 
@@ -524,7 +527,7 @@ Including the point at infinity $\mathcal{O}$, there are 6 points in $E(\mathbb{
 
 A useful way to think about $E(\mathbb{Z}_p)$ is to look at the graph of Equation (9.2) over the reals (i.e., the equation $y^2 = x^3 + Ax + B$ without reduction modulo $p$) as in Figure 9.2. This figure does not correspond exactly to $E(\mathbb{Z}_p)$ because, for example, $E(\mathbb{Z}_p)$ has a finite number of points ( $\mathbb{Z}_p$ is, after all, a finite set) while there are an infinite number of solutions to the same equation if we allow $x$ and $y$ to range over all real numbers. Nevertheless, the picture provides useful intuition. In such a figure, one can think of the “point at infinity” $\mathcal{O}$ as sitting at the top of the $y$-axis and lying on every vertical line.
 
-思考 $E(\mathbb{Z}_p)$ 的一个有用方式，是像图 9.2 那样观察式 (9.2) 在实数上的图像（即不作模 $p$ 约减的方程 $y^2 = x^3 + Ax + B$）。这幅图像与 $E(\mathbb{Z}_p)$ 并不严格对应，这是因为，例如，$E(\mathbb{Z}_p)$ 只有有限多个点（毕竟 $\mathbb{Z}_p$ 是有限集），而若允许 $x$ 和 $y$ 取遍所有实数，同一个方程就会有无穷多个解。尽管如此，这张图能提供有用的直观。在这样的图中，可以把“无穷远点” $\mathcal{O}$ 想象成位于 $y$ 轴顶端、并且落在每条竖直线上的点。
+思考 $E(\mathbb{Z}_p)$ 的一个有用方式，是像图 9.2 那样观察式 (9.2) 在实数上的图像（即不作模 $p$ 归约的方程 $y^2 = x^3 + Ax + B$）。这幅图像与 $E(\mathbb{Z}_p)$ 并不严格对应，这是因为，例如，$E(\mathbb{Z}_p)$ 只有有限多个点（毕竟 $\mathbb{Z}_p$ 是有限集），而若允许 $x$ 和 $y$ 取遍所有实数，同一个方程就会有无穷多个解。尽管如此，这张图能提供有用的直观。在这样的图中，可以把“无穷远点” $\mathcal{O}$ 想象成位于 $y$ 轴顶端、并且落在每条竖直线上的点。
 
 It can be shown that every line intersecting $E(\mathbb{Z}_p)$ at two points must also intersect it at a third point, where (1) a point $P$ is counted twice if the line is tangent to the curve at $P$, and (2) the point at infinity is also counted when the line is vertical. This fact is used to define a binary operation, called “addition” and denoted by +, on points of $E(\mathbb{Z}_p)$ in the following way:
 
@@ -746,7 +749,7 @@ is a subgroup of $E(\mathbb{Z}_p)$ of order $q$. (Note the parallel with Theorem
 
 Finally, we also want an elliptic-curve group in which the discrete-logarithm problem is as hard as possible, namely, for which the best-known algorithm for computing discrete logarithms in that group is an exponential-time “generic” algorithm. (See Section 10.2 for further discussion.) Several classes of elliptic curves are cryptographically weak and should be avoided. These include curves over $\mathbb{Z}_p$ whose order is equal to $p$ (as discrete logarithms can be computed in polynomial time in that case), as well as curves whose order divides $p^k - 1$ for “small” $k$ (since in that case the discrete-logarithm problem in $E(\mathbb{Z}_p)$ can be reduced to a discrete-logarithm problem in the field $\mathbb{F}_{p^k}$, which can in turn be solved by non-generic algorithms in sub-exponential time).
 
-最后，我们还想要一个离散对数问题尽可能困难的椭圆曲线群——也就是说，在该群中计算离散对数的已知最好算法是指数时间的“通用”（generic）算法。（进一步讨论见 10.2 节。）有几类椭圆曲线在密码学上是脆弱的，应当避免使用，其中包括阶恰好等于 $p$ 的 $\mathbb{Z}_p$ 上的曲线（在这种情形下离散对数可以在多项式时间内计算出来），以及阶整除 $p^k - 1$（$k$ 较“小”）的曲线（因为此时 $E(\mathbb{Z}_p)$ 中的离散对数问题可以归约为域 $\mathbb{F}_{p^k}$ 中的离散对数问题，而后者又能用非通用算法在亚指数时间内求解）。
+最后，我们还想要一个离散对数问题尽可能困难的椭圆曲线群——也就是说，在该群中计算离散对数的已知最好算法是指数时间的“泛型”（generic）算法。（进一步讨论见 10.2 节。）有几类椭圆曲线在密码学上是脆弱的，应当避免使用，其中包括阶恰好等于 $p$ 的 $\mathbb{Z}_p$ 上的曲线（在这种情形下离散对数可以在多项式时间内计算出来），以及阶整除 $p^k - 1$（$k$ 较“小”）的曲线（因为此时 $E(\mathbb{Z}_p)$ 中的离散对数问题可以归约为域 $\mathbb{F}_{p^k}$ 中的离散对数问题，而后者又能用非通用算法在亚指数时间内求解）。
 
 In practice, standardized curves recommended by NIST or other international standards organizations are used (see below); generating a curve of one's own for cryptographic purposes is not recommended.
 

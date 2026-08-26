@@ -148,7 +148,7 @@ $b := \left[ x^{\frac{p-1}{2}} \mod p \right]$
 
 We conclude this section by noting a nice multiplicative property of quadratic residues and non-residues modulo p.
 
-本节最后指出模 p 的二次剩余与二次非剩余所具有的一个很好的乘法性质。
+本节最后指出模 $p$ 的二次剩余与二次非剩余所具有的一个很好的乘法性质。
 
 PROPOSITION 15.19 Let $p > 2$ be a prime, and $x, y \in \mathbb{Z}_p^*$. Then
 
@@ -228,7 +228,9 @@ $$\begin{align*}(\pm x_{p},\pm x_{q})^{2}&=\Big([(\pm x_{p})^{2}\bmod p],[(\pm x
 
 （这里记号 $(\cdot,\cdot)^2$ 同样指在群 $\mathbb{Z}_p \times \mathbb{Z}_q$ 中取平方。）中国剩余定理保证式 (15.5) 中的四个元素对应 $\mathbb{Z}_N^*$ 中互不相同的元素，因为 $x_p$ 与 $-x_p$ 在模 $p$ 下互不相同（$x_q$ 与 $-x_q$ 在模 $q$ 下同理）。
 
-**Example 15.22**　**例 15.22**
+**Example 15.22**
+
+**例 15.22**
 
 Consider $\mathbb{Z}_{15}^*$ (the correspondence given by the Chinese remainder theorem is tabulated in Example 9.25). Element 4 is a quadratic residue modulo 15 with square root 2. Since ${2} \leftrightarrow (2,2)$, the other square roots of 4 are given by
 
@@ -380,7 +382,7 @@ In contrast to Corollary 15.20, it is not true that $y, y^{\prime} \in \mathcal{
 
 In Section 15.4.1, we showed an efficient algorithm for deciding whether an input $x$ is a quadratic residue modulo a prime p. Can we adapt the algorithm to work modulo a composite number N? Proposition 15.21 gives an easy solution to this problem provided the factorization of N is known. See Algorithm 15.26.
 
-15.4.1 节给出了一个高效算法，用于判定输入 $x$ 是否为模素数 p 的二次剩余。能否把该算法改造为适用于模合数 N 的情形？在已知 N 的因子分解的前提下，命题 15.21 给出了这一问题的简单解法。见算法 15.26。
+15.4.1 节给出了一个高效算法，用于判定输入 $x$ 是否为模素数 $p$ 的二次剩余。能否把该算法改造为适用于模合数 $N$ 的情形？在已知 $N$ 的因子分解的前提下，命题 15.21 给出了这一问题的简单解法。见算法 15.26。
 
 ALGORITHM 15.26
 Deciding quadratic residuosity modulo a composite
@@ -407,7 +409,7 @@ else return “quadratic non-residue”
 
 (As always, we assume the factors of N are distinct odd primes.) A simple modification of the above algorithm allows for computing $\mathcal{J}_{N}(x)$ when the factorization of N is known.
 
-（同往常一样，我们假定 N 的因子是不同的奇素数。）对上述算法作简单修改，即可在已知 N 的因子分解时计算 $\mathcal{J}_{N}(x)$。
+（同往常一样，我们假定 $N$ 的因子是不同的奇素数。）对上述算法作简单修改，即可在已知 $N$ 的因子分解时计算 $\mathcal{J}_{N}(x)$。
 
 When the factorization of $N$ is unknown, however, there is no known polynomial-time algorithm for deciding whether a given $x$ is a quadratic residue modulo $N$ or not. Somewhat surprisingly, a polynomial-time algorithm is known for computing $\mathcal{J}_{N}(x)$ without the factorization of $N$. (Although the algorithm itself is not that complicated, its proof of correctness is beyond the scope of this book and we therefore do not present the algorithm at all. The interested reader can refer to the references listed at the end of this chapter.) This leads to a partial test of quadratic residuosity: if, for a given input x, it holds that $\mathcal{J}_{N}(x) = -1$, then x cannot possibly be a quadratic residue. (See Proposition 15.23.) This test says nothing when $\mathcal{J}_{N}(x) = +1$, and there is no known polynomial-time algorithm for deciding quadratic residuosity in that case (that does better than random guessing).
 
@@ -415,11 +417,11 @@ When the factorization of $N$ is unknown, however, there is no known polynomial-
 
 We now formalize the assumption that this problem is hard. Let GenModulus be a polynomial-time algorithm that, on input ${1}^n$, outputs $(N, p, q)$ where $N = pq$, and $p$ and $q$ are $n$-bit primes except with probability negligible in $n$.
 
-现在把“该问题是困难的”这一假设形式化。设 GenModulus 是一个多项式时间算法，以 ${1}^n$ 为输入，输出 $(N, p, q)$，其中 $N = pq$，并且除关于 $n$ 可忽略的概率外，$p$ 和 $q$ 都是 $n$ 比特素数。
+现在把“该问题是困难的”这一假设形式化。设 $\mathsf{GenModulus}$ 是一个多项式时间算法，以 ${1}^n$ 为输入，输出 $(N, p, q)$，其中 $N = pq$，并且除关于 $n$ 可忽略的概率外，$p$ 和 $q$ 都是 $n$ 比特素数。
 
 DEFINITION 15.27 We say deciding quadratic residuosity is hard relative to GenModulus if for all probabilistic polynomial-time algorithms D there exists a negligible function $\mathsf{negl}$ such that
 
-定义 15.27　称判定二次剩余性相对于 GenModulus 是困难的，如果对所有概率多项式时间算法 D，都存在可忽略函数 $\mathsf{negl}$ 使得
+定义 15.27　称判定二次剩余性相对于 $\mathsf{GenModulus}$ 是困难的，如果对所有概率多项式时间算法 $\mathcal{D}$，都存在可忽略函数 $\mathsf{negl}$ 使得
 
 $$\left|\Pr[D(N,\mathsf{qr})=1]-\Pr[D(N,\mathsf{qnr})=1]\right|\leq\mathsf{negl}(n),$$
 
@@ -433,7 +435,7 @@ It is crucial in the above that $\mathfrak{qnr}$ is chosen from $\mathcal{QNR}_{
 
 The quadratic residuosity assumption is simply the assumption that there exists a GenModulus relative to which deciding quadratic residuosity is hard. It is easy to see that if deciding quadratic residuosity is hard relative to GenModulus, then factoring must be hard relative to GenModulus as well.
 
-二次剩余性假设就是：存在某个 GenModulus，使得判定二次剩余性相对于它是困难的。容易看出，若判定二次剩余性相对于 GenModulus 是困难的，则因子分解相对于 GenModulus 也必定是困难的。
+二次剩余性假设就是：存在某个 $\mathsf{GenModulus}$，使得判定二次剩余性相对于它是困难的。容易看出，若判定二次剩余性相对于 $\mathsf{GenModulus}$ 是困难的，则因子分解相对于 $\mathsf{GenModulus}$ 也必定是困难的。
 
 ### 15.4.4 The Goldwasser–Micali Encryption Scheme　Goldwasser–Micali 加密方案
 
@@ -443,7 +445,7 @@ The preceding section immediately suggests a public-key encryption scheme for si
 
 - The public key is a modulus N, and the private key is its factorization.
 
-  公钥是模数 N，私钥是它的因子分解。
+  公钥是模数 $N$，私钥是它的因子分解。
 
 - To encrypt a '0,' send a uniform quadratic residue; to encrypt a '1,' send a uniform quadratic non-residue with Jacobi symbol +1.
 
@@ -481,7 +483,7 @@ Since the above holds for every $\hat{y} \in \mathcal{QR}_N$, we see that $y$ is
 
 In general, it is not known how to choose a uniform element of $\mathcal{QNR}_N^{+1}$ if the factorization of $N$ is unknown. What saves us in the present context is that the receiver can help by including certain information in the public key. Specifically, we modify the scheme so that the receiver additionally chooses a uniform $z \in \mathcal{QNR}_N^{+1}$ and includes $z$ as part of its public key. (This is easy for the receiver to do since it knows the factorization of $N$; see Exercise 15.7.) The sender can choose a uniform element $y \in \mathcal{QNR}_N^{+1}$ by choosing a uniform $x \in \mathbb{Z}_N^*$ (as above) and setting $y := [z \cdot x^2 \mod N]$. It follows from Corollary 15.25 that $y \in \mathcal{QNR}_N^{+1}$. We leave it as an exercise to show that $y$ is uniformly distributed in $\mathcal{QNR}_N^{+1}$; we do not use this fact directly in the proof of security given below.
 
-一般而言，在不知道 $N$ 的因子分解时，如何选取 $\mathcal{QNR}_N^{+1}$ 中的均匀元素是未知的。在当前的场景下，拯救我们的是：接收方可以通过在公钥中附带某些信息来提供帮助。具体来说，我们修改方案，让接收方额外选取一个均匀的 $z \in \mathcal{QNR}_N^{+1}$，并把 $z$ 作为公钥的一部分。（接收方知道 $N$ 的因子分解，做这件事很容易；见习题 15.7。）发送方可以（像上面那样）均匀选取 $x \in \mathbb{Z}_N^*$，再令 $y := [z \cdot x^2 \mod N]$，由此得到元素 $y$，且由推论 15.25 可知 $y \in \mathcal{QNR}_N^{+1}$。$y$ 在 $\mathcal{QNR}_N^{+1}$ 中均匀分布这一点的证明留作习题；下面给出的安全性证明并不直接用到这一事实。
+一般而言，在不知道 $N$ 的因子分解时，如何选取 $\mathcal{QNR}_N^{+1}$ 中的均匀元素是未知的。所幸在当前的场景下，接收方可以通过在公钥中附带某些信息来提供帮助。具体来说，我们修改方案，让接收方额外选取一个均匀的 $z \in \mathcal{QNR}_N^{+1}$，并把 $z$ 作为公钥的一部分。（接收方知道 $N$ 的因子分解，做这件事很容易；见习题 15.7。）发送方可以（像上面那样）均匀选取 $x \in \mathbb{Z}_N^*$，再令 $y := [z \cdot x^2 \mod N]$，由此得到元素 $y$，且由推论 15.25 可知 $y \in \mathcal{QNR}_N^{+1}$。$y$ 在 $\mathcal{QNR}_N^{+1}$ 中均匀分布这一点的证明留作习题；下面给出的安全性证明并不直接用到这一事实。
 
 We give a complete description of the Goldwasser–Micali encryption scheme, implementing the above ideas, in Construction 15.28.
 
@@ -493,7 +495,7 @@ We give a complete description of the Goldwasser–Micali encryption scheme, imp
 
 Let GenModulus be as usual. Construct a public-key encryption scheme as follows:
 
-设 GenModulus 同前。如下构造公钥加密方案：
+设 $\mathsf{GenModulus}$ 同前。如下构造公钥加密方案：
 
 Gen: on input ${1}^n$, run $\mathsf{GenModulus}(1^n)$ to obtain $(N, p, q)$, and choose a uniform $z \in \mathcal{QNR}_{N}^{+1}$. The public key is $pk = \langle N, z \rangle$ and the private key is $sk = \langle p, q \rangle$.
 
@@ -515,7 +517,7 @@ Goldwasser–Micali 加密方案。
 
 THEOREM 15.29 If the quadratic residuosity problem is hard relative to GenModulus, then the Goldwasser–Micali encryption scheme is CPA-secure.
 
-定理 15.29　若二次剩余性问题相对于 GenModulus 是困难的，则 Goldwasser–Micali 加密方案是选择明文安全的。
+定理 15.29　若二次剩余性问题相对于 $\mathsf{GenModulus}$ 是困难的，则 Goldwasser–Micali 加密方案是选择明文安全的。
 
 PROOF Let $\Pi$ denote the Goldwasser–Micali encryption scheme. We prove that $\Pi$ has indistinguishable encryptions in the presence of an eavesdropper; by Theorem 12.6 this implies that it is CPA-secure.
 
@@ -523,11 +525,11 @@ PROOF Let $\Pi$ denote the Goldwasser–Micali encryption scheme. We prove that 
 
 Let A be an arbitrary probabilistic polynomial-time adversary. Consider the following PPT adversary D that attempts to solve the quadratic residuosity problem relative to GenModulus:
 
-设 A 是任意的概率多项式时间敌手。考虑如下试图求解相对于 GenModulus 的二次剩余性问题的 PPT 敌手 D：
+设 $\mathcal{A}$ 是任意的概率多项式时间敌手。考虑如下试图求解相对于 $\mathsf{GenModulus}$ 的二次剩余性问题的概率多项式时间敌手 $\mathcal{D}$：
 
 Algorithm D:
 
-算法 D：
+算法 $\mathcal{D}$：
 
 The algorithm is given $N$ and $z$ as input, and its goal is to determine if $z \in \mathcal{QR}_N$ or $z \in \mathcal{QNR}_N^{+1}$.
 
@@ -547,7 +549,7 @@ The algorithm is given $N$ and $z$ as input, and its goal is to determine if $z 
 
 Let us analyze the behavior of D. There are two cases to consider:
 
-下面分析 D 的行为。分两种情形：
+下面分析 $\mathcal{D}$ 的行为。分两种情形：
 
 Case 1: Say the input to $D$ was generated by running $\mathsf{GenModulus}(1^n)$ to obtain $(N, p, q)$ and then choosing a uniform $z \in \mathcal{QNR}_N^{+1}$. Then $D$ runs $\mathcal{A}$ on a public key constructed exactly as in $\Pi$, and we see that in this case the view of $\mathcal{A}$ when run as a subroutine by $D$ is distributed identically to $\mathcal{A}$'s view in experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$. Since $D$ outputs 1 exactly when the output $b^{\prime}$ of $\mathcal{A}$ is equal to $b$, we have
 
@@ -573,7 +575,7 @@ Case 2: Say the input to $D$ was generated by running $\mathsf{GenModulus}(1^n)$
 
 Since $\mathcal{A}$'s view is independent of b, the probability that $b^{\prime} = b$ in this case is exactly $\frac{1}{2}$. That is,
 
-由于 $\mathcal{A}$ 的视图与 b 无关，此时 $b^{\prime} = b$ 的概率恰好是 $\frac{1}{2}$。即
+由于 $\mathcal{A}$ 的视图与 $b$ 无关，此时 $b^{\prime} = b$ 的概率恰好是 $\frac{1}{2}$。即
 
 $$\Pr[D(N,\mathsf{qr})=1]=\frac{1}{2},$$
 
@@ -589,7 +591,7 @@ $$\left|\Pr[D(N,\mathfrak{q}\mathfrak{r})=1]-\Pr[D(N,\mathfrak{q}\mathfrak{n}\ma
 
 By the assumption that the quadratic residuosity problem is hard relative to GenModulus, there is a negligible function $\mathsf{negl}$.  Let $\varepsilon(n) \stackrel{\mathrm{def}}{=} \Pr[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1]$. Then
 
-由二次剩余性问题相对于 GenModulus 困难的假设，存在可忽略函数 $\mathsf{negl}$。令 $\varepsilon(n) \stackrel{\mathrm{def}}{=} \Pr[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1]$。则
+由二次剩余性问题相对于 $\mathsf{GenModulus}$ 困难的假设，存在可忽略函数 $\mathsf{negl}$ 使得下式成立（其中 $\varepsilon(n) \stackrel{\mathrm{def}}{=} \Pr[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1]$）：
 
 $$\left|\varepsilon(n)-\tfrac{1}{2}\right|\leq\mathsf{negl}(n);$$
 
@@ -601,7 +603,7 @@ thus, $\varepsilon(n) \leq \frac{1}{2} + \mathsf{negl}(n)$. This completes the p
 
 As mentioned at the beginning of this chapter, the Rabin encryption scheme is attractive because its security is equivalent to the assumption that factoring is hard. An analogous result is not known for RSA-based encryption, and the RSA problem may potentially be easier than factoring. (The same is true of the Goldwasser–Micali encryption scheme, and it is possible that deciding quadratic residuosity modulo N is easier than factoring N.)
 
-正如本章开头所提到的，Rabin 加密方案之所以吸引人，是因为它的安全性与因子分解困难假设等价。对基于 RSA 的加密而言，人们并不知道类似的结果，而且 RSA 问题有可能比因子分解更容易。（Goldwasser–Micali 加密方案也是如此：判定模 N 的二次剩余性有可能比分解 N 更容易。）
+正如本章开头所提到的，Rabin 加密方案之所以吸引人，是因为它的安全性与因子分解困难假设等价。对基于 RSA 的加密而言，人们并不知道类似的结果，而且 RSA 问题有可能比因子分解更容易。（Goldwasser–Micali 加密方案也是如此：判定模 $N$ 的二次剩余性有可能比分解 $N$ 更容易。）
 
 Interestingly, the Rabin encryption scheme is (superficially, at least) very similar to the RSA encryption scheme yet has the advantage of being based on a potentially weaker assumption. The fact that RSA is more widely used than the former seems to be due more to historical factors than technical ones; we discuss this further at the end of this section.
 
@@ -653,9 +655,11 @@ $$a^{2^{\ell}m}=a^{\frac{p-1}{2}}=1\bmod p. \tag{15.6}$$
 
 This means that $a^{2^{\ell-1}m} \mod p$ is a square root of 1. The square roots of 1 modulo p are $\pm 1 \mod p$, so $a^{2^{\ell-1}m} = \pm 1 \mod p$. If $a^{2^{\ell-1}m} = 1 \mod p$, we are in the same situation as in Equation (15.6) except that the exponent of $a$ is now divisible by a smaller power of 2. This is progress in the right direction: if we can get to the point where the exponent of $a$ is not divisible by any power of 2 (as would be the case here if $\ell = 1$), then the exponent of $a$ is odd and we can compute a square root as discussed earlier. We give an example, and discuss in a moment how to deal with the case when $a^{2^{\ell-1}m} = -1 \bmod p$.
 
-这意味着 $a^{2^{\ell-1}m} \mod p$ 是 1 的一个平方根。1 模 p 的平方根是 $\pm 1 \mod p$，所以 $a^{2^{\ell-1}m} = \pm 1 \mod p$。若 $a^{2^{\ell-1}m} = 1 \mod p$，则所处情形与式 (15.6) 相同，只是 $a$ 的指数现在只能被更小的 2 的幂整除。这是朝正确方向迈出的一步：如果能把 $a$ 的指数约化至不再被任何 2 的幂整除（这里若 $\ell = 1$ 即属此情形），那么 $a$ 的指数就是奇数，就可以按前面讨论的方法计算平方根了。我们先举一个例子，稍后再讨论 $a^{2^{\ell-1}m} = -1 \bmod p$ 的情形如何处理。
+这意味着 $a^{2^{\ell-1}m} \mod p$ 是 1 的一个平方根。1 模 $p$ 的平方根是 $\pm 1 \mod p$，所以 $a^{2^{\ell-1}m} = \pm 1 \mod p$。若 $a^{2^{\ell-1}m} = 1 \mod p$，则所处情形与式 (15.6) 相同，只是 $a$ 的指数现在只能被更小的 2 的幂整除。这是朝正确方向迈出的一步：如果能把 $a$ 的指数约化至不再被任何 2 的幂整除（这里若 $\ell = 1$ 即属此情形），那么 $a$ 的指数就是奇数，就可以按前面讨论的方法计算平方根了。我们先举一个例子，稍后再讨论 $a^{2^{\ell-1}m} = -1 \bmod p$ 的情形如何处理。
 
-**Example 15.30**　**例 15.30**
+**Example 15.30**
+
+**例 15.30**
 
 Take $p = 29$ and $a = 7$. Since ${7}$ is a quadratic residue modulo ${29}$, we have ${7}^{14} \mod 29 = 1$ and we know that ${7}^{7} \mod 29$ is a square root of 1. In fact,
 
@@ -669,7 +673,7 @@ and the exponent 7 is odd. So ${7}^{(7+1)/2} = 7^4 = 23 \mod 29$ is a square roo
 
 To summarize the algorithm so far: we begin with $a^{2^{\ell} m} = 1 \mod p$ and we pull out factors of 2 from the exponent until one of two things happen: either $a^m = 1 \mod p$, or $a^{2^{\ell^{\prime}} m} = -1 \mod p$ for some $\ell^{\prime} < \ell$. In the first case, since $m$ is odd we can immediately compute asquare root of a as in Example 15.30. In the second case, we will “restore” the +1 on the right-hand side of the equation by multiplying each side of the equation by -1 mod p. However, as motivated at the beginning of this discussion, we want to achieve this by multiplying the left-hand side of the equation by some element b raised to an even power. If we have available a quadratic non-residue $b \in \mathbb{Z}_p^*$, this is easy: since $b^{2^{\ell} m} = b^{\frac{p-1}{2}} = -1 \mod p$, we have
 
-总结一下到目前为止的算法：从 $a^{2^{\ell} m} = 1 \mod p$ 出发，不断从指数中剥离因子 2，直到出现两种情形之一：要么 $a^m = 1 \mod p$，要么对某个 $\ell^{\prime} < \ell$ 有 $a^{2^{\ell^{\prime}} m} = -1 \mod p$。第一种情形下，由于 $m$ 是奇数，可以像例 15.30 那样立即算出 a 的平方根。第二种情形下，我们将给等式两边同乘 -1 mod p，把等式右端“恢复”为 +1。不过，正如本讨论开头所说明的，我们希望这一操作通过给等式左端乘以某个元素 b 的偶数次幂来实现。如果手头有一个二次非剩余 $b \in \mathbb{Z}_p^*$，这很容易：由于 $b^{2^{\ell} m} = b^{\frac{p-1}{2}} = -1 \mod p$，于是有
+总结一下到目前为止的算法：从 $a^{2^{\ell} m} = 1 \mod p$ 出发，不断从指数中剥离因子 2，直到出现两种情形之一：要么 $a^m = 1 \mod p$，要么对某个 $\ell^{\prime} < \ell$ 有 $a^{2^{\ell^{\prime}} m} = -1 \mod p$。第一种情形下，由于 $m$ 是奇数，可以像例 15.30 那样立即算出 $a$ 的平方根。第二种情形下，我们将给等式两边同乘 -1 mod p，把等式右端“恢复”为 +1。不过，正如本讨论开头所说明的，我们希望这一操作通过给等式左端乘以某个元素 $b$ 的偶数次幂来实现。如果手头有一个二次非剩余 $b \in \mathbb{Z}_p^*$，这很容易：由于 $b^{2^{\ell} m} = b^{\frac{p-1}{2}} = -1 \mod p$，于是有
 
 $$a^{2^{\ell^{\prime}}m}\cdot b^{2^{\ell}m}=(-1)(-1)=+1\bmod p.$$
 
@@ -724,7 +728,9 @@ case $p = 1 \mod 4$:
     // 此时 $r = m$，$r^{\prime}$ 为偶数，且 $a^r \cdot b^{r^{\prime}} = 1 \mod p$
     返回 $[a^{\frac{r+1}{2}} \cdot b^{\frac{r^{\prime}}{2}} \mod p]$
 
-**Example 15.32**　**例 15.32**
+**Example 15.32**
+
+**例 15.32**
 
 Here we consider the “worst case,” when taking a square root always gives -1. Let $a \in \mathbb{Z}_p^*$ be the element whose square root we are trying to compute; let $b \in \mathbb{Z}_p^*$ be a quadratic non-residue; and let $\frac{p-1}{2} = 2^3 \cdot m$ where $m$ is odd.
 
@@ -750,7 +756,7 @@ $$a^{m}\cdot b^{2m}\cdot b^{2^{2}m}\cdot b^{2^{3}m}=1\bmod p.$$
 
 We are now where we want to be. To conclude the algorithm, multiply both sides by a to obtain
 
-现在到达了想要的状态。最后，两边同乘 a，得到
+现在到达了想要的状态。最后，两边同乘 $a$，得到
 
 $$a^{m+1}\cdot b^{2m+2^{2}m+2^{3}m}=a\bmod p.$$
 
@@ -758,11 +764,13 @@ Since $m$ is odd, $(m+1)/2$ is an integer and $a^{\frac{m+1}{2}} \cdot b^{m+2m+2
 
 由于 $m$ 是奇数，$(m+1)/2$ 是整数，故 $a^{\frac{m+1}{2}} \cdot b^{m+2m+2^2m} \mod p$ 是 $a$ 的一个平方根。
 
-**Example 15.33**　**例 15.33**
+**Example 15.33**
+
+**例 15.33**
 
 Here we work out a concrete example. Let p = 17, a = 2, and b = 3. Note that here $(p - 1)/2 = 2^3$ and m = 1.
 
-这里完整演算一个具体例子。取 p = 17、a = 2、b = 3。注意此时 $(p - 1)/2 = 2^3$，m = 1。
+这里完整演算一个具体例子。取 $p = 17$、$a = 2$、$b = 3$。注意此时 $(p - 1)/2 = 2^3$，$m = 1$。
 
 We begin with ${2}^{2^3} = 1 \mod 17$. So ${2}^{2^2}$ should be equal to $\pm1 \mod 17$; by calculation, ${2}^{2^2} = -1 \mod 17$. Multiplying by ${3}^{2^3}$ gives ${2}^{2^2} \cdot 3^{2^3} = 1 \mod 17$. Continuing, we know that ${2}^2 \cdot 3^{2^2}$ is a square root of 1 and so must be equal to $\pm1 \mod 17$; calculation gives ${2}^2 \cdot 3^{2^2} = 1 \mod 17$. So no correction term is needed here.
 
@@ -772,11 +780,11 @@ Halving the exponents again we find that ${2} \cdot 3^2 = 1 \mod 17$. We are now
 
 再把指数减半，得到 ${2} \cdot 3^2 = 1 \mod 17$。现在离完成只差一步：两边同乘 2 得 ${2}^2 \cdot 3^2 = 2 \mod 17$，所以 ${2} \cdot 3 = 6 \mod 17$ 是 2 的一个平方根。
 
-#### Computing Square Roots Modulo N　计算模 N 的平方根
+#### Computing Square Roots Modulo N　计算模 $N$ 的平方根
 
 It is not hard to see that the algorithm we have shown for computing square roots modulo a prime extends easily to the case of computing square roots modulo a composite $N = pq$ of known factorization. Specifically, let $a \in \mathbb{Z}_N^*$ be a quadratic residue with $a \leftrightarrow (a_p, a_q)$ via the Chinese remainder theorem. Computing the square roots $x_p, x_q$ of $a_p, a_q$ modulo $p$ and $q$, respectively, gives a square root $(x_p, x_q)$ of a (see Section 15.4.2). Given $x_p$ and $x_q$, the representation $x$ corresponding to $(x_p, x_q)$ can be recovered as discussed in Section 9.1.5. That is, to compute a square root of a modulo an integer $N = pq$ of known factorization:
 
-不难看出，上述计算模素数平方根的算法很容易推广到在因子分解已知时计算模合数 $N = pq$ 的平方根。具体来说，设 $a \in \mathbb{Z}_N^*$ 是二次剩余，并在中国剩余定理下有 $a \leftrightarrow (a_p, a_q)$。分别计算 $a_p$ 模 $p$ 的平方根 $x_p$ 和 $a_q$ 模 $q$ 的平方根 $x_q$，就得到 a 的平方根 $(x_p, x_q)$（见 15.4.2 节）。有了 $x_p$ 和 $x_q$ 之后，可按 9.1.5 节讨论的方法恢复与 $(x_p, x_q)$ 对应的表示 $x$。也就是说，要在因子分解已知时计算 a 模整数 $N = pq$ 的平方根：
+不难看出，上述计算模素数平方根的算法很容易推广到在因子分解已知时计算模合数 $N = pq$ 的平方根。具体来说，设 $a \in \mathbb{Z}_N^*$ 是二次剩余，并在中国剩余定理下有 $a \leftrightarrow (a_p, a_q)$。分别计算 $a_p$ 模 $p$ 的平方根 $x_p$ 和 $a_q$ 模 $q$ 的平方根 $x_q$，就得到 $a$ 的平方根 $(x_p, x_q)$（见 15.4.2 节）。有了 $x_p$ 和 $x_q$ 之后，可按 9.1.5 节讨论的方法恢复与 $(x_p, x_q)$ 对应的表示 $x$。也就是说，要在因子分解已知时计算 $a$ 模整数 $N = pq$ 的平方根：
 
 • Compute $a_p := [a \bmod p]$ and $a_q := [a \bmod q]$.
 
@@ -784,21 +792,21 @@ It is not hard to see that the algorithm we have shown for computing square root
 
 Using Algorithm 15.31, compute a square root $x_{p}$ of $a_{p}$ modulo p and a square root $x_{q}$ of $a_{q}$ modulo q.
 
-用算法 15.31 计算 $a_{p}$ 模 p 的平方根 $x_{p}$ 和 $a_{q}$ 模 q 的平方根 $x_{q}$。
+用算法 15.31 计算 $a_{p}$ 模 $p$ 的平方根 $x_{p}$ 和 $a_{q}$ 模 $q$ 的平方根 $x_{q}$。
 
 - Convert from the representation $(x_p, x_q) \in \mathbb{Z}_p^* \times \mathbb{Z}_q^*$ to $x \in \mathbb{Z}_N^*$ with $x \leftrightarrow (x_p, x_q)$. Output $x$, which is a square root of a modulo $N$.
 
-  把表示 $(x_p, x_q) \in \mathbb{Z}_p^* \times \mathbb{Z}_q^*$ 转换为满足 $x \leftrightarrow (x_p, x_q)$ 的 $x \in \mathbb{Z}_N^*$。输出 $x$，它就是 a 模 $N$ 的平方根。
+  把表示 $(x_p, x_q) \in \mathbb{Z}_p^* \times \mathbb{Z}_q^*$ 转换为满足 $x \leftrightarrow (x_p, x_q)$ 的 $x \in \mathbb{Z}_N^*$。输出 $x$，它就是 $a$ 模 $N$ 的平方根。
 
 It is easy to modify the algorithm so that it returns all four square roots of a.
 
-很容易修改该算法，使其返回 a 的全部四个平方根。
+很容易修改该算法，使其返回 $a$ 的全部四个平方根。
 
 ### 15.5.2 A Trapdoor Permutation Based on Factoring　基于因子分解的陷门置换
 
 We have seen that computing square roots modulo N can be carried out in polynomial time if the factorization of N is known. We show here that, in contrast, computing square roots modulo a composite N of unknown factorization is as hard as factoring N.
 
-我们已经看到，在已知 N 的因子分解时，计算模 N 的平方根可以在多项式时间内完成。这里要证明的是：反过来，在因子分解未知时，计算模合数 N 的平方根与分解 N 一样困难。
+我们已经看到，在已知 $N$ 的因子分解时，计算模 $N$ 的平方根可以在多项式时间内完成。这里要证明的是：反过来，在因子分解未知时，计算模合数 $N$ 的平方根与分解 $N$ 一样困难。
 
 More formally, let $\mathsf{GenModulus}$ be a polynomial-time algorithm that, on input ${1}^{n}$, outputs $(N, p, q)$ where $N = pq$ and $p$ and $q$ are $n$-bit primes except with probability negligible in $n$. Consider the following experiment for a given algorithm $\mathcal{A}$ and parameter $n$:
 
@@ -826,13 +834,13 @@ The square-root computation experiment $\mathsf{SQR}_{\mathcal{A},\mathsf{GenMod
 
 DEFINITION 15.34 We say that computing square roots is hard relative to GenModulus if for all probabilistic polynomial-time algorithms A there exists a negligible function negl such that
 
-定义 15.34　称计算平方根相对于 GenModulus 是困难的，如果对所有概率多项式时间算法 A，都存在可忽略函数 negl 使得
+定义 15.34　称计算平方根相对于 $\mathsf{GenModulus}$ 是困难的，如果对所有概率多项式时间算法 $\mathcal{A}$，都存在可忽略函数 $\mathsf{negl}$ 使得
 
 $$\Pr[\mathsf{SQR}_{\mathcal{A},\mathsf{GenModulus}}(n)=1]\leq\mathsf{negl}(n).$$
 
 It is easy to see that if computing square roots is hard relative to GenModulus then factoring must be hard relative to GenModulus too: if moduli N output by GenModulus could be factored easily, then it would be easy to compute square roots modulo N by first factoring N and then applying the algorithm discussed in the previous section. Our goal now is to show the converse: that if factoring is hard relative to GenModulus then so is the problem of computing square roots. We emphasize again that an analogous result is not known for the RSA problem or the problem of deciding quadratic residuosity.
 
-容易看出，若计算平方根相对于 GenModulus 是困难的，则因子分解相对于 GenModulus 也必定是困难的：如果 GenModulus 输出的模数 N 可以被轻易分解，那么先分解 N、再应用上一节讨论的算法，就能轻易计算模 N 的平方根。我们现在的目标是证明反方向：若因子分解相对于 GenModulus 是困难的，则计算平方根问题也同样困难。再次强调，对 RSA 问题或判定二次剩余性问题，人们并不知道类似的结果。
+容易看出，若计算平方根相对于 $\mathsf{GenModulus}$ 是困难的，则因子分解相对于 $\mathsf{GenModulus}$ 也必定是困难的：如果 $\mathsf{GenModulus}$ 输出的模数 $N$ 可以被轻易分解，那么先分解 $N$、再应用上一节讨论的算法，就能轻易计算模 $N$ 的平方根。我们现在的目标是证明反方向：若因子分解相对于 $\mathsf{GenModulus}$ 是困难的，则计算平方根问题也同样困难。再次强调，对 RSA 问题或判定二次剩余性问题，人们并不知道类似的结果。
 
 The key is the following lemma, which says that two “unrelated” square roots of any element in $\mathbb{Z}_{N}^{*}$ can be used to factor $N$.
 
@@ -864,7 +872,7 @@ $$[x+\hat{x}\bmod N]\leftrightarrow(x_{p},x_{q})+(-x_{p},x_{q})=(0,[2x_{q}\bmod 
 
 and we see that $x + \hat{x} = 0 \bmod p$ while $x + \hat{x} \neq 0 \bmod q$. It follows that $\gcd(N, x + \hat{x}) = p$, a factor of N.
 
-可见 $x + \hat{x} = 0 \bmod p$ 而 $x + \hat{x} \neq 0 \bmod q$。由此可得 $\gcd(N, x + \hat{x}) = p$，即 N 的一个因子。
+可见 $x + \hat{x} = 0 \bmod p$ 而 $x + \hat{x} \neq 0 \bmod q$。由此可得 $\gcd(N, x + \hat{x}) = p$，即 $N$ 的一个因子。
 
 We can now prove the main result of this section.
 
@@ -872,11 +880,11 @@ We can now prove the main result of this section.
 
 THEOREM 15.36 If factoring is hard relative to GenModulus, then computing square roots is hard relative to GenModulus.
 
-定理 15.36　若因子分解相对于 GenModulus 是困难的，则计算平方根相对于 GenModulus 也是困难的。
+定理 15.36　若因子分解相对于 $\mathsf{GenModulus}$ 是困难的，则计算平方根相对于 $\mathsf{GenModulus}$ 也是困难的。
 
 PROOF Let A be a probabilistic polynomial-time algorithm computing square roots (as in Definition 15.34). Consider the following probabilistic polynomial-time algorithm $A_{fact}$ for factoring moduli output by GenModulus:
 
-证明　设 A 是计算平方根的概率多项式时间算法（如定义 15.34 所述）。考虑如下用于分解 GenModulus 输出的模数的概率多项式时间算法 $A_{fact}$：
+证明　设 $\mathcal{A}$ 是计算平方根的概率多项式时间算法（如定义 15.34 所述）。考虑如下用于分解 $\mathsf{GenModulus}$ 输出的模数的概率多项式时间算法 $A_{fact}$：
 
 Algorithm $A_{fact}$:
 
@@ -924,7 +932,7 @@ $$\Pr\left[\mathsf{Factor}_{\mathcal{A}_{\mathsf{fact}},\mathsf{GenModulus}}(n)=
 
 Since factoring is hard relative to GenModulus, there is a negligible function negl such that
 
-由于因子分解相对于 GenModulus 是困难的，存在可忽略函数 negl 使得
+由于因子分解相对于 $\mathsf{GenModulus}$ 是困难的，存在可忽略函数 $\mathsf{negl}$ 使得
 
 $$\begin{array}{r}{\Pr[\mathsf{Factor}_{\mathcal{A}_{\mathsf{fact}},\mathsf{GenModulus}}(n)=1]\leq\mathsf{negl}(n),}\end{array}$$
 
@@ -934,11 +942,11 @@ which implies $\Pr\left[\mathsf{SQR}_{\mathcal{A},\mathsf{GenModulus}}(n)=1\righ
 
 The previous theorem leads directly to a family of one-way functions (see Definition 9.76) based on any GenModulus relative to which factoring is hard:
 
-由上述定理可直接得到一个单向函数族（见定义 9.76），它基于任意使因子分解困难的 GenModulus：
+由上述定理可直接得到一个单向函数族（见定义 9.76），它基于任意使因子分解困难的 $\mathsf{GenModulus}$：
 
 Algorithm Gen, on input ${1}^n$, runs GenModulus( ${1}^n$) to obtain $(N, p, q)$ and outputs $I = N$. The domain $\mathcal{D}_I$ is $\mathbb{Z}_N^*$ and the range $\mathcal{R}_I$ is $\mathcal{QR}_N$.
 
-算法 Gen：以 ${1}^n$ 为输入，运行 GenModulus( ${1}^n$) 得到 $(N, p, q)$，输出 $I = N$。定义域 $\mathcal{D}_I$ 为 $\mathbb{Z}_N^*$，值域 $\mathcal{R}_I$ 为 $\mathcal{QR}_N$。
+算法 $\mathsf{Gen}$：以 ${1}^n$ 为输入，运行 $\mathsf{GenModulus}({1}^n)$ 得到 $(N, p, q)$，输出 $I = N$。定义域 $\mathcal{D}_I$ 为 $\mathbb{Z}_N^*$，值域 $\mathcal{R}_I$ 为 $\mathcal{QR}_N$。
 
 Algorithm Samp, on input $N$, chooses a uniform element $x \in \mathbb{Z}_N^*$.
 
@@ -950,7 +958,7 @@ Algorithm Samp, on input $N$, chooses a uniform element $x \in \mathbb{Z}_N^*$.
 
 The preceding theorem shows that this family is one-way if factoring is hard relative to GenModulus.
 
-上述定理表明，若因子分解相对于 GenModulus 是困难的，则该族是单向的。
+上述定理表明，若因子分解相对于 $\mathsf{GenModulus}$ 是困难的，则该族是单向的。
 
 We can turn this into a family of one-way permutations by using moduli $N$ of a special form and letting $\mathcal{D}_I$ be a subset of $\mathbb{Z}_N^*$. (See Exercise 15.20 for another way to make this a permutation.) Call $N = pq$ a Blum integer if $p$ and $q$ are distinct primes with $p \equiv q \equiv 3 \bmod 4$. The key to building a permutation is the following proposition.
 
@@ -958,7 +966,7 @@ We can turn this into a family of one-way permutations by using moduli $N$ of a 
 
 PROPOSITION 15.37 Let N be a Blum integer. Then every quadratic residue modulo N has exactly one square root that is also a quadratic residue.
 
-命题 15.37　设 N 为 Blum 整数。则模 N 的每个二次剩余都恰好有一个本身也是二次剩余的平方根。
+命题 15.37　设 $N$ 为 Blum 整数。则模 $N$ 的每个二次剩余都恰好有一个本身也是二次剩余的平方根。
 
 PROOF Say $N = pq$ with $p \equiv q \equiv 3 \bmod 4$. Using Proposition 15.17, we see that $-1$ is not a quadratic residue modulo $p$ or $q$. This is because for $p = 3 \mod 4$ it holds that $p = 4i + 3$ for some $i$ and so
 
@@ -988,7 +996,7 @@ Expressed differently, the above proposition says that when $N$ is a Blum intege
 
 THEOREM 15.38 Let GenModulus be an algorithm that, on input ${1}^{n}$, outputs $(N, p, q)$ where $N = pq$ and $p$ and $q$ are distinct primes (except possibly with negligible probability) with $p \equiv q \equiv 3 \bmod 4$. If factoring is hard relative to GenModulus, then there exists a family of trapdoor permutations.
 
-定理 15.38　设 GenModulus 是一个算法，以 ${1}^{n}$ 为输入，输出 $(N, p, q)$，其中 $N = pq$，且（除可能以可忽略的概率外）$p$ 和 $q$ 是满足 $p \equiv q \equiv 3 \bmod 4$ 的不同素数。若因子分解相对于 GenModulus 是困难的，则存在陷门置换族。
+定理 15.38　设 $\mathsf{GenModulus}$ 是一个算法，以 ${1}^{n}$ 为输入，输出 $(N, p, q)$，其中 $N = pq$，且（除可能以可忽略的概率外）$p$ 和 $q$ 是满足 $p \equiv q \equiv 3 \bmod 4$ 的不同素数。若因子分解相对于 $\mathsf{GenModulus}$ 是困难的，则存在陷门置换族。
 
 ### 15.5.3 The Rabin Encryption Scheme　Rabin 加密方案
 
@@ -1002,11 +1010,11 @@ We can apply the results of Section 15.1.2 to the Rabin trapdoor permutation to 
 
 Let GenModulus be a polynomial-time algorithm that, on input ${1}^{n}$, outputs $(N, p, q)$ where $N = pq$ and $p$ and $q$ are $n$-bit primes (except with probability negligible in $n$) with $p \equiv q \equiv 3 \bmod 4$. Construct a public-key encryption scheme as follows:
 
-设 GenModulus 是一个多项式时间算法，以 ${1}^{n}$ 为输入，输出 $(N, p, q)$，其中 $N = pq$，并且（除关于 $n$ 可忽略的概率外）$p$ 和 $q$ 是满足 $p \equiv q \equiv 3 \bmod 4$ 的 $n$ 比特素数。如下构造公钥加密方案：
+设 $\mathsf{GenModulus}$ 是一个多项式时间算法，以 ${1}^{n}$ 为输入，输出 $(N, p, q)$，其中 $N = pq$，并且（除关于 $n$ 可忽略的概率外）$p$ 和 $q$ 是满足 $p \equiv q \equiv 3 \bmod 4$ 的 $n$ 比特素数。如下构造公钥加密方案：
 
 Gen: on input ${1}^{n}$ run GenModulus( ${1}^{n}$) to obtain $(N, p, q)$. The public key is $N$, and the private key is $\langle p, q \rangle$.
 
-Gen：以 ${1}^{n}$ 为输入，运行 GenModulus( ${1}^{n}$) 得到 $(N, p, q)$。公钥为 $N$，私钥为 $\langle p, q \rangle$。
+Gen：以 ${1}^{n}$ 为输入，运行 $\mathsf{GenModulus}$( ${1}^{n}$) 得到 $(N, p, q)$。公钥为 $N$，私钥为 $\langle p, q \rangle$。
 
 - Enc: on input a public-key $N$ and message $m \in \{0,1\}$, choose a uniform $x \in \mathcal{QR}_N$ subject to the constraint that $\mathsf{lsb}(x) = m$. Output the ciphertext $c := [x^2 \bmod N]$.
 
@@ -1026,7 +1034,7 @@ Theorems 15.5 and 15.38 imply the following result.
 
 THEOREM 15.40 If factoring is hard relative to GenModulus, then Construction 15.39 is CPA-secure.
 
-定理 15.40　若因子分解相对于 GenModulus 是困难的，则构造 15.39 是选择明文安全的。
+定理 15.40　若因子分解相对于 $\mathsf{GenModulus}$ 是困难的，则构造 15.39 是选择明文安全的。
 
 #### Rabin Encryption vs. RSA Encryption　Rabin 加密与 RSA 加密的比较
 
@@ -1154,19 +1162,19 @@ Hint: Use the previous exercise.
 
 (a) Prove that for $N$ of the stated form, $[-1 \mod N] \in \mathcal{QNR}_{N}^{+1}$.
 
-     (a) 证明：对具有上述形式的 N，有 $[-1 \mod N] \in \mathcal{QNR}_{N}^{+1}$。
+     (a) 证明：对具有上述形式的 $N$，有 $[-1 \mod N] \in \mathcal{QNR}_{N}^{+1}$。
 
 (b) Prove that the scheme described has indistinguishable encryptions under a chosen-plaintext attack if deciding quadratic residuosity is hard relative to GenModulus.
 
-     (b) 证明：若判定二次剩余性相对于 GenModulus 是困难的，则所述方案在选择明文攻击下具有不可区分加密。
+     (b) 证明：若判定二次剩余性相对于 $\mathsf{GenModulus}$ 是困难的，则所述方案在选择明文攻击下具有不可区分加密。
 
 15.13 Assume deciding quadratic residuosity is hard for GenModulus. Show that this implies the hardness of distinguishing a uniform element of $\mathcal{QR}_N$ from a uniform element of $\mathcal{J}_N^{+1}$.
 
-     15.13 假设判定二次剩余性相对于 GenModulus 是困难的。证明：这意味着区分 $\mathcal{QR}_N$ 中的均匀元素与 $\mathcal{J}_N^{+1}$ 中的均匀元素也是困难的。
+     15.13 假设判定二次剩余性相对于 $\mathsf{GenModulus}$ 是困难的。证明：这意味着区分 $\mathcal{QR}_N$ 中的均匀元素与 $\mathcal{J}_N^{+1}$ 中的均匀元素也是困难的。
 
 15.14 Show that plain RSA encryption of a message $m$ leaks $\mathcal{J}_N(m)$.
 
-     15.14 证明：对消息 m 的朴素 RSA 加密会泄露 $\mathcal{J}_N(m)$。
+     15.14 证明：对消息 $m$ 的朴素 RSA 加密会泄露 $\mathcal{J}_N(m)$。
 
 15.15 Consider the following variation of the Goldwasser–Micali encryption scheme: $\mathsf{GenModulus}(1^n)$ is run to obtain $(N, p, q)$. The public key is $N$ and the private key is $\langle p, q \rangle$. To encrypt a 0, the sender chooses $n$ uniform elements $c_1, \ldots, c_n \in \mathcal{QR}_N$. To encrypt a 1, the sender chooses $n$ uniform elements $c_1, \ldots, c_n \in \mathcal{J}_N^{+1}$. In each case, the resulting ciphertext is $c^* = \langle c_1, \ldots, c_n \rangle$.
 
@@ -1182,7 +1190,7 @@ Hint: Use the previous exercise.
 
 (c) Prove that if deciding quadratic residuosity is hard relative to GenModulus, this scheme is CPA-secure.
 
-     (c) 证明：若判定二次剩余性相对于 GenModulus 是困难的，则该方案是选择明文安全的。
+     (c) 证明：若判定二次剩余性相对于 $\mathsf{GenModulus}$ 是困难的，则该方案是选择明文安全的。
 
 Hint: Use the previous exercise.
 
@@ -1190,7 +1198,7 @@ Hint: Use the previous exercise.
 
 15.16 Let $\mathcal{G}$ be a polynomial-time algorithm that, on input ${1}^n$, outputs a prime $p$ with $\|p\| = n$ and a generator $g$ of $\mathbb{Z}_p^*$. Prove that the DDH problem is not hard relative to $\mathcal{G}$.
 
-     15.16 设 $\mathcal{G}$ 是一个多项式时间算法，输入 ${1}^n$ 时输出满足 $\|p\| = n$ 的素数 p 和 $\mathbb{Z}_p^*$ 的生成元 g。证明：DDH 问题相对于 $\mathcal{G}$ 并不困难。
+     15.16 设 $\mathcal{G}$ 是一个多项式时间算法，输入 ${1}^n$ 时输出满足 $\|p\| = n$ 的素数 $p$ 和 $\mathbb{Z}_p^*$ 的生成元 g。证明：DDH 问题相对于 $\mathcal{G}$ 并不困难。
 
 Hint: Use the fact that quadratic residuosity can be decided efficiently modulo a prime.
 
@@ -1240,4 +1248,4 @@ $$f(x)=\left([x^{2}\bmod N],\mathcal{J}_{N}(x),\mathsf{half}_{N}(x)\right)$$
 
 is one-to-one.
 
-     是一一对应的。
+     是单射。

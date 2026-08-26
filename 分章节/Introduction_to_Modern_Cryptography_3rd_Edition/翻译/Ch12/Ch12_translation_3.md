@@ -8,7 +8,7 @@ So far we have discussed public-key encryption abstractly, but have not yet seen
 
 In 1985, Taher El Gamal observed that the Diffie–Hellman key-exchange protocol (cf. Section 11.3) could be adapted to give a public-key encryption scheme. Recall that in the Diffie–Hellman protocol, Alice sends a message to Bob and then Bob responds with a message to Alice; based on these messages, Alice and Bob can derive a shared value $k$ which is indistinguishable (to an eavesdropper) from a uniform element of some group $\mathbb{G}$. We could imagine Bob using that shared value to encrypt a message $m \in \mathbb{G}$ by simply sending $k \cdot m$ to Alice; Alice can clearly recover $m$ using her knowledge of $k$, and we will argue below that an eavesdropper learns nothing about $m$.
 
-1985 年，Taher El Gamal 注意到，Diffie–Hellman 密钥交换协议（参见 11.3 节）可以改造为公钥加密方案。回顾 Diffie–Hellman 协议：Alice 向 Bob 发送一条消息，Bob 再向 Alice 回复一条消息；基于这些消息，Alice 和 Bob 可以导出一个共享值 $k$，它（在窃听者看来）与某群 $\mathbb{G}$ 中的均匀元素不可区分。可以设想 Bob 用这个共享值来加密消息 $m \in \mathbb{G}$：只需把 $k \cdot m$ 发给 Alice。Alice 凭借对 $k$ 的了解显然能恢复 $m$，而下面将论证窃听者得不到关于 $m$ 的任何信息。
+1985 年，Taher El Gamal 注意到，Diffie–Hellman 密钥交换协议（参见 11.3 节）可以改造为公钥加密方案。回顾 Diffie–Hellman 协议：Alice 向 Bob 发送一条消息，Bob 再向 Alice 回复一条消息；基于这些消息，Alice 和 Bob 可以导出一个共享值 $k$，它（在窃听者看来）与某群 $\mathbb{G}$ 中的均匀元素不可区分。可以设想 Bob 用这个共享值来加密消息 $m \in \mathbb{G}$：只需把 $k \cdot m$ 发给 Alice。Alice 知道 $k$，显然能恢复出 $m$，而下面将论证窃听者得不到关于 $m$ 的任何信息。
 
 In the El Gamal encryption scheme we simply change our perspective on the above interaction. We view Alice's initial message as her public key, and Bob's reply (both his initial response and $k \cdot m$) as a ciphertext. CPA-security based on the decisional Diffie–Hellman (DDH) assumption follows fairly easily from security of the Diffie–Hellman key-exchange protocol (Theorem 11.3).
 
@@ -77,7 +77,7 @@ $$
 
 **构造 12.16**
 
-设 G 如正文所述。定义如下公钥加密方案：
+设 $\mathcal{G}$ 如正文所述。定义如下公钥加密方案：
 
 - Gen：输入 ${1}^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。然后均匀选取 $x \in \mathbb{Z}_q$ 并计算 $h := g^x$。公钥为 $\langle \mathbb{G}, q, g, h \rangle$，私钥为 $\langle \mathbb{G}, q, g, x \rangle$。消息空间为 $\mathbb{G}$。
 
@@ -137,7 +137,7 @@ We now prove security of the scheme. (The reader may want to compare the proof o
 
 THEOREM 12.18 If the DDH problem is hard relative to G, then the El Gamal encryption scheme is CPA-secure.
 
-定理 12.18　若 DDH 问题相对于 G 是困难的，则 El Gamal 加密方案是选择明文安全的。
+定理 12.18　若 DDH 问题相对于 $\mathcal{G}$ 是困难的，则 El Gamal 加密方案是选择明文安全的。
 
 PROOF Let $\Pi$ denote the El Gamal encryption scheme. We prove that $\Pi$ has indistinguishable encryptions in the presence of an eavesdropper; by Proposition 12.3, this implies it is CPA-secure.
 
@@ -309,7 +309,7 @@ Let G be as in the previous section. Define a KEM as follows:
 
 **构造 12.19**
 
-设 G 如上一节所述。定义如下 KEM：
+设 $\mathcal{G}$ 如上一节所述。定义如下 KEM：
 
 - Gen：输入 ${1}^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。均匀选取 $x \in \mathbb{Z}_q$ 并令 $h := g^x$。此外指定一个函数 $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$，其中 $\ell$ 为某个函数（见正文）。公钥为 $\langle \mathbb{G}, q, g, h, H \rangle$，私钥为 $\langle \mathbb{G}, q, g, x \rangle$。
 
@@ -341,7 +341,7 @@ In either of the above cases, a proof of CPA-security based on the decisional Di
 
 THEOREM 12.20 If the DDH problem is hard relative to G, and H is chosen as described, then Construction 12.19 is a CPA-secure KEM.
 
-定理 12.20　若 DDH 问题相对于 G 是困难的，且 H 按上述方式选取，则构造 12.19 是选择明文安全的 KEM。
+定理 12.20　若 DDH 问题相对于 $\mathcal{G}$ 是困难的，且 $H$ 按上述方式选取，则构造 12.19 是选择明文安全的 KEM。
 
 If one is willing to model $H$ as a random oracle, Construction 12.19 can be proven CPA-secure based on the (weaker) computational Diffie–Hellman (CDH) assumption. We discuss this in the following section.
 
@@ -363,7 +363,7 @@ As indicated by the intuition above, the proof inherently relies on modeling $H$
 
 THEOREM 12.21 If the CDH problem is hard relative to G, and H is modeled as a random oracle, then Construction 12.19 is CPA-secure.
 
-定理 12.21　若 CDH 问题相对于 G 是困难的，且 H 被建模为随机预言机，则构造 12.19 是选择明文安全的。
+定理 12.21　若 CDH 问题相对于 $\mathcal{G}$ 是困难的，且 $H$ 被建模为随机预言机，则构造 12.19 是选择明文安全的。
 
 PROOF Let $\Pi$ denote Construction 12.19, and let $\mathcal{A}$ be a PPT adversary. We want to show that there is a negligible function $\mathsf{negl}$ such that
 
@@ -488,11 +488,11 @@ A proof of the following is very similar to the proof of Theorem 12.38.
 
 THEOREM 12.22 If the gap-CDH problem is hard relative to G, and H is modeled as a random oracle, then Construction 12.19 is CCA-secure.
 
-定理 12.22　若 gap-CDH 问题相对于 G 是困难的，且 H 被建模为随机预言机，则构造 12.19 是选择密文安全的。
+定理 12.22　若 gap-CDH 问题相对于 $\mathcal{G}$ 是困难的，且 $H$ 被建模为随机预言机，则构造 12.19 是选择密文安全的。
 
 It is interesting to observe that the same construction (namely, Construction 12.19) can be analyzed under different assumptions and in different models, yielding different results. Assuming only that the DDH problem is hard (and for $H$ chosen appropriately), the scheme is CPA-secure. If we model $H$ as a random oracle (which imposes more stringent requirements on H), then we obtain CPA-security under the weaker CDH assumption, and CCA-security under the stronger gap-CDH assumption.
 
-值得注意的是，同一个构造（即构造 12.19）可以在不同的假设和不同的模型下进行分析，并得出不同的结果。仅假设 DDH 问题困难（并适当选取 $H$）时，该方案是选择明文安全的。若把 $H$ 建模为随机预言机（这对 H 提出了更严格的要求），则在更弱的 CDH 假设下得到选择明文安全，在更强的 gap-CDH 假设下得到选择密文安全。
+值得注意的是，同一个构造（即构造 12.19）可以在不同的假设和不同的模型下进行分析，并得出不同的结果。仅假设 DDH 问题困难（并适当选取 $H$）时，该方案是选择明文安全的。若把 $H$ 建模为随机预言机（这对 $H$ 提出了更严格的要求），则在更弱的 CDH 假设下得到选择明文安全，在更强的 gap-CDH 假设下得到选择密文安全。
 
 **CONSTRUCTION 12.23**
 
@@ -528,7 +528,7 @@ $$
 
 where $\mathsf{Enc}^{\prime}$ denotes a CPA-secure private-key encryption scheme and $c^{\prime}$ denotes $\mathsf{Enc}_{k_E}^{\prime}(m)$. DHIES, the Diffie–Hellman Integrated Encryption Scheme, can be used generically to refer to any scheme of this form, or to refer specifically to the case when the group $\mathbb{G}$ is a cyclic subgroup of a finite field. ECIES, the Elliptic Curve Integrated Encryption Scheme, refers to the case when $\mathbb{G}$ is an elliptic-curve group. We remark that in Construction 12.23 it is critical to check during decryption that $c$, the first component of the ciphertext, is in $\mathbb{G}$. Otherwise, an attacker might request decryption of a malformed ciphertext $\langle c, c^{\prime}, t \rangle$ in which $c \notin \mathbb{G}$; decrypting such a ciphertext (i.e., without returning $\perp$) might leak information about the private key.
 
-其中 $\mathsf{Enc}^{\prime}$ 表示选择明文安全的私钥加密方案，$c^{\prime}$ 表示 $\mathsf{Enc}_{k_E}^{\prime}(m)$。DHIES 即 Diffie–Hellman 集成加密方案（Diffie–Hellman Integrated Encryption Scheme），既可泛指具有这种形式的任何方案，也可特指群 $\mathbb{G}$ 为有限域循环子群的情形。ECIES 即椭圆曲线集成加密方案（Elliptic Curve Integrated Encryption Scheme），指 $\mathbb{G}$ 为椭圆曲线群的情形。需要指出，在构造 12.23 中，解密时检查密文的第一个分量 $c$ 是否属于 $\mathbb{G}$ 至关重要。否则，攻击者可能请求解密一个满足 $c \notin \mathbb{G}$ 的畸形密文 $\langle c, c^{\prime}, t \rangle$；对这样的密文进行解密（即不返回 $\perp$）可能泄露私钥信息。
+其中 $\mathsf{Enc}^{\prime}$ 表示选择明文安全的私钥加密方案，$c^{\prime}$ 表示 $\mathsf{Enc}_{k_E}^{\prime}(m)$。DHIES 即 Diffie–Hellman 集成加密方案（Diffie–Hellman Integrated Encryption Scheme），既可泛指具有这种形式的任何方案，也可特指群 $\mathbb{G}$ 为有限域（乘法群）中循环子群的情形。ECIES 即椭圆曲线集成加密方案（Elliptic Curve Integrated Encryption Scheme），指 $\mathbb{G}$ 为椭圆曲线群的情形。需要指出，在构造 12.23 中，解密时检查密文的第一个分量 $c$ 是否属于 $\mathbb{G}$ 至关重要。否则，攻击者可能请求解密一个满足 $c \notin \mathbb{G}$ 的畸形密文 $\langle c, c^{\prime}, t \rangle$；对这样的密文进行解密（即不返回 $\perp$）可能泄露私钥信息。
 
 By Theorem 5.7, encrypting a message and then applying a (strong) message authentication code yields a CCA-secure private-key encryption scheme. Combining this with Theorem 12.14, we conclude:
 

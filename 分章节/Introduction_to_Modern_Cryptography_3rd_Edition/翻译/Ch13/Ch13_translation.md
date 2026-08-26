@@ -26,7 +26,7 @@ Both message authentication codes and digital signature schemes are used to ensu
 
 A qualitative advantage that digital signatures have as compared to message authentication codes is that signatures are publicly verifiable. This means that if a receiver verifies that a signature on a given message is legitimate, then all other parties who receive this signed message will also verify it as legitimate. This feature is not achieved by message authentication codes if the signer shares a separate key with each receiver: in such a setting a malicious sender might compute a correct MAC tag with respect to the key it shares with receiver A but an incorrect MAC tag with respect to the key it shares with a different user B. In this case, A knows that he received an authentic message from the sender but has no guarantee that B will agree.
 
-与消息认证码相比，数字签名的一个质的优点在于签名是公开可验证的。这意味着：如果某个接收方验证了给定消息上的签名是合法的，那么收到该已签名消息的所有其他方也都会验证其为合法。若签名者与每个接收方分别共享不同的密钥，消息认证码就无法实现这一特性：在这种情形下，恶意的发送方可能对它与接收方 A 共享的密钥计算出正确的 MAC 标签，却对它与另一用户 B 共享的密钥计算出错误的 MAC 标签。这样一来，A 知道自己收到的是来自发送方的真实消息，但无法保证 B 也会认可。
+与消息认证码相比，数字签名的一个本质性的优点在于签名是公开可验证的。这意味着：如果某个接收方验证了给定消息上的签名是合法的，那么收到该已签名消息的所有其他方也都会验证其为合法。若签名者与每个接收方分别共享不同的密钥，消息认证码就无法实现这一特性：在这种情形下，恶意的发送方可能对它与接收方 A 共享的密钥计算出正确的 MAC 标签，却对它与另一用户 B 共享的密钥计算出错误的 MAC 标签。这样一来，A 知道自己收到的是来自发送方的真实消息，但无法保证 B 也会认可。
 
 Public verifiability implies that signatures are transferable: a signature $\sigma$ on a message $m$ by a signer S can be shown to a third party, who can then verify herself that $\sigma$ is a legitimate signature on $m$ with respect to S's public key (here, we assume this third party also knows S's public key). By making a copy of the signature, this third party can then show the signature to another party and convince them that S authenticated m, and so on. Public verifiability and transferability are essential for the application of digital signatures to certificates and public-key infrastructures, as we will discuss in Section 13.6.
 
@@ -46,6 +46,9 @@ As in the case of private-key vs. public-key encryption, message authentication 
 Digital signatures are often mistakenly viewed as the “inverse” of public-key encryption, with the roles of the sender and receiver interchanged. Historically, $^{1}$ in fact, it has been suggested that digital signatures can be obtained by “reversing” public-key encryption, i.e., signing a message $m$ by decrypting it (using the private key) to obtain $\sigma$, and verifying a signature $\sigma$ by encrypting it (using the corresponding public key) and checking whether the result is m. The suggestion to construct signature schemes in this way is completely unfounded: in most cases, it is simply inapplicable, and even in cases where it can be applied it results in signature schemes that are not secure.
 
 数字签名常被误认为是公钥加密的“逆操作”，只是发送方与接收方的角色互换。事实上，历史上$^{1}$曾有人提出，可以通过“反转”公钥加密来获得数字签名，即：对消息 $m$ 签名就是用（私钥）解密 $m$ 得到 $\sigma$，而验证签名 $\sigma$ 就是用（相应的公钥）加密它，并检查结果是否等于 m。这种构造签名方案的思路是完全没有根据的：在大多数情况下它根本行不通；即便在可以套用的情形下，得到的签名方案也不安全。
+
+> $^{1}$ This view no doubt arose because, as we will see in Section 13.4.1, plain RSA signatures are the reverse of plain RSA encryption. However, neither plain RSA signatures nor plain RSA encryption meet even minimal notions of security.
+> $^{1}$ 这种看法无疑源于：正如我们将在 13.4.1 节看到的，朴素 RSA 签名恰好是朴素 RSA 加密的逆。然而，朴素 RSA 签名与朴素 RSA 加密连最低限度的安全性概念都不满足。
 
 ## 13.2 Definitions　定义
 
@@ -133,7 +136,7 @@ Strong security can be defined analogously to Definition 4.3.
 
 As in the case of public-key vs. private-key encryption, “native” signature schemes are orders of magnitude less efficient than message authentication codes. Fortunately, as with hybrid encryption (see Section 12.3), it is possible to obtain the functionality of digital signatures at the asymptotic cost of a private-key operation, at least for sufficiently long messages. This can be done using the hash-and-sign approach, discussed next.
 
-与公钥加密和私钥加密的对比一样，“原生”签名方案的效率比消息认证码低好几个数量级。幸运的是，正如混合加密（参见 12.3 节）那样，至少对于足够长的消息，我们可以以私钥操作的渐近代价获得数字签名的功能。这可以通过接下来讨论的哈希-签名方法来实现。
+与公钥加密和私钥加密的对比一样，“原生”签名方案的效率比消息认证码低好几个数量级。幸运的是，正如混合加密（参见 12.3 节）那样，至少对于足够长的消息，渐近意义上只需承担私钥操作的代价，即可获得数字签名的功能。这可以通过接下来讨论的哈希-签名方法来实现。
 
 The intuition behind the hash-and-sign approach is straightforward. Say we have a signature scheme for messages of length $\ell$, and wish to sign a (longer) message $m \in \{0,1\}^*$. Rather than sign $m$ itself, we can instead use a hash function $H$ to hash the message to a fixed-length digest $H(m)$ of length $\ell$, and then sign the resulting digest. This approach is exactly analogous to the hash-and-MAC approach discussed in Section 6.3.1.
 
@@ -327,7 +330,7 @@ and $\mathcal{A}^{\prime}$ can output $\sigma$ as the solution to its given RSA 
 
 Handling the case when the adversary is allowed to request signatures on messages of its choice is more difficult. The complication arises since our algorithm $\mathcal{A}^{\prime}$ above does not know the decryption exponent $d$, yet now has to compute valid signatures on messages queried by $\mathcal{A}$ to its signing oracle. This seems impossible (and possibly even contradictory!) until we realize that $\mathcal{A}^{\prime}$ can correctly compute a signature on a message $m$ as long as it sets $H(m)$ to be equal to $[\sigma^e \bmod N]$ for a known value $\sigma$. (Here we are using the fact that the random oracle is “programmable.”) If $\sigma$ is uniform then $[\sigma^e \bmod N]$ is uniform as well, and so the random oracle is still emulated “properly” by $\mathcal{A}^{\prime}$.
 
-处理敌手可以请求其自选消息上签名的情形更为困难。困难在于：上面我们的算法 $\mathcal{A}^{\prime}$ 并不知道解密指数 $d$，但现在却必须对 $\mathcal{A}$ 向其签名预言机查询的消息计算出有效签名。这似乎不可能（甚至自相矛盾！）——直到我们意识到：只要 $\mathcal{A}^{\prime}$ 把 $H(m)$ 设定为等于 $[\sigma^e \bmod N]$（其中 $\sigma$ 是它已知的值），它就能正确计算消息 $m$ 上的签名。（这里我们利用了随机预言机是“可编程的”这一事实。）若 $\sigma$ 是均匀的，则 $[\sigma^e \bmod N]$ 也是均匀的，因此 $\mathcal{A}^{\prime}$ 仍然“恰当地”模拟了随机预言机。
+处理敌手可以请求其自选消息上签名的情形更为困难。困难在于：我们前面的算法 $\mathcal{A}^{\prime}$ 并不知道解密指数 $d$，但现在却必须对 $\mathcal{A}$ 向其签名预言机查询的消息计算出有效签名。这似乎不可能（甚至自相矛盾！）——直到我们意识到：只要 $\mathcal{A}^{\prime}$ 把 $H(m)$ 设定为等于 $[\sigma^e \bmod N]$（其中 $\sigma$ 是它已知的值），它就能正确计算消息 $m$ 上的签名。（这里我们利用了随机预言机是“可编程的”这一事实。）若 $\sigma$ 是均匀的，则 $[\sigma^e \bmod N]$ 也是均匀的，因此 $\mathcal{A}^{\prime}$ 仍然“恰当地”模拟了随机预言机。
 
 The above intuition is formalized in the proof of the following:
 
@@ -381,9 +384,9 @@ We define a modified experiment $\mathsf{Sig-forge}^{\prime}_{\mathcal{A},\Pi}(n
 
 > $^2$ 这里 $m_i$ 表示向 $H$ 提出的第 $i$ 次查询。回想一下，根据假设，若 $\mathcal{A}$ 请求消息 $m$ 上的签名，则它必已事先向 $H$ 查询过 $m$。
 
-Since $j$ is uniform and independent of everything else, the probability that $j = i$ (even conditioned on the event that $\mathcal{A}$ outputs a forgery) is exactly ${1}/q$. Therefore $\Pr[\mathsf{Sig\text{-}forge}^{\prime}_{\mathcal{A},\Pi}(n) = 1] = \frac{1}{q(n)} \cdot \Pr[\mathsf{Sig\text{-}forge}_{\mathcal{A},\Pi}(n) = 1]$.
+Since $j$ is uniform and independent of everything else, the probability that $j = i$ (even conditioned on the event that $\mathcal{A}$ outputs a forgery) is exactly ${1}/q$. Therefore $\Pr[\mathsf{Sig-forge}^{\prime}_{\mathcal{A},\Pi}(n) = 1] = \frac{1}{q(n)} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}(n) = 1]$.
 
-由于 $j$ 是均匀的且与其他一切相互独立，$j = i$ 的概率（即使以 $\mathcal{A}$ 输出伪造为条件）恰好是 ${1}/q$。因此 $\Pr[\mathsf{Sig\text{-}forge}^{\prime}_{\mathcal{A},\Pi}(n) = 1] = \frac{1}{q(n)} \cdot \Pr[\mathsf{Sig\text{-}forge}_{\mathcal{A},\Pi}(n) = 1]$。
+由于 $j$ 是均匀的且与其他一切相互独立，$j = i$ 的概率（即使以 $\mathcal{A}$ 输出伪造为条件）恰好是 ${1}/q$。因此 $\Pr[\mathsf{Sig-forge}^{\prime}_{\mathcal{A},\Pi}(n) = 1] = \frac{1}{q(n)} \cdot \Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}(n) = 1]$。
 
 Now consider the modified experiment $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{\prime\prime}(n)$ in which the experiment is aborted if $\mathcal{A}$ ever requests a signature on the message $m_j$ (where $m_j$ denotes the $j$th message queried to $H$, and $j$ is the uniform value chosen at the outset). This does not change the probability that the output of the experiment is 1, since if $\mathcal{A}$ ever requests a signature on $m_{j}$ then it cannot possibly output a forgery on $m_{j}$. In words,
 
@@ -435,6 +438,9 @@ When $\mathcal{A}$ requests a signature on message $m$, let $i$ be such that $m 
 
 - 若 $i \neq j$，则表中存在表项 $(m_i, \sigma_i, y_i)$。返回 $\sigma_i$ 作为该查询的回答。
 
+> $^3$ Here $m_i$ denotes the $i$th query made to $H$. Recall, by assumption, that if $\mathcal{A}$ requests a signature on a message $m$, then it must have previously queried $m$ to $H$.
+> $^3$ 这里 $m_i$ 表示向 $H$ 提出的第 $i$ 次查询。回想一下，根据假设，若 $\mathcal{A}$ 请求消息 $m$ 上的签名，则它必已事先向 $H$ 查询过 $m$。
+
 4. At the end of $\mathcal{A}$'s execution, it outputs $(m,\sigma)$. If $m=m_j$ and $\sigma^e=y\bmod N$, then output $\sigma$.
 
    在 $\mathcal{A}$ 执行结束时，它输出 $(m,\sigma)$。若 $m=m_j$ 且 $\sigma^e=y\bmod N$，则输出 $\sigma$。
@@ -449,13 +455,13 @@ Clearly, $\mathcal{A}^{\prime}$ runs in probabilistic polynomial time. Say the i
 
 - Queries $H(m_i)$ with $i \neq j$ are answered with $y_i = [\sigma_i^e \bmod N]$, where $\sigma_i$ is uniform in $\mathbb{Z}_N^*$. Since exponentiation to the $eth$ power is a one-to-one function, $y_i$ is uniformly distributed as well.
 
-- 对 $i \neq j$ 的查询 $H(m_i)$ 用 $y_i = [\sigma_i^e \bmod N]$ 回答，其中 $\sigma_i$ 在 $\mathbb{Z}_N^*$ 中均匀。由于 e 次幂运算是一一映射，$y_i$ 也是均匀分布的。
+- 对 $i \neq j$ 的查询 $H(m_i)$ 用 $y_i = [\sigma_i^e \bmod N]$ 回答，其中 $\sigma_i$ 在 $\mathbb{Z}_N^*$ 中均匀。由于 $e$ 次幂运算是一一映射，$y_i$ 也是均匀分布的。
 
 Finally, observe that whenever experiment $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{\prime\prime}(n)$ would output 1, then $\mathcal{A}^{\prime}$ outputs a correct solution to its given RSA instance. This follows since $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{\prime\prime}(n) = 1$ implies that $j = i$ and $\sigma^e = H(m_i) \mod N$. Now, when $j = i$, algorithm $\mathcal{A}^{\prime}$ does not abort and in addition $H(m_i) = y$. Thus, $\sigma^e = H(m_i) = y \mod N$, and so $\sigma$ is the desired inverse. Using Equation (13.1), this means that
 
 最后注意，每当实验 $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{\prime\prime}(n)$ 输出 1 时，$\mathcal{A}^{\prime}$ 就输出给定 RSA 实例的一个正确解。这是因为 $\mathsf{Sig-forge}_{\mathcal{A},\Pi}^{\prime\prime}(n) = 1$ 蕴含 $j = i$ 且 $\sigma^e = H(m_i) \mod N$。而当 $j = i$ 时，算法 $\mathcal{A}^{\prime}$ 不会中止，且另有 $H(m_i) = y$。于是 $\sigma^e = H(m_i) = y \mod N$，故 $\sigma$ 就是所求的逆元。利用式 (13.1)，这意味着
 
-$$\begin{aligned}\Pr[\mathsf{RSA\text{-}inv}_{\mathcal{A}^{\prime},\mathsf{GenRSA}}(n)=1]&=\Pr[\mathsf{Sig\text{-}forge}^{\prime \prime}_{\mathcal{A},\Pi}(n)=1]\\&=\frac{\Pr[\mathsf{Sig\text{-}forge}_{\mathcal{A},\Pi}(n)=1]}{q(n)}.\end{aligned} \tag{13.2}$$
+$$\begin{aligned}\Pr[\mathsf{RSA\text{-}inv}_{\mathcal{A}^{\prime},\mathsf{GenRSA}}(n)=1]&=\Pr[\mathsf{Sig-forge}^{\prime \prime}_{\mathcal{A},\Pi}(n)=1]\\&=\frac{\Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}(n)=1]}{q(n)}.\end{aligned} \tag{13.2}$$
 
 If the RSA problem is hard relative to GenRSA, there is a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{RSA-inv}_{\mathcal{A}^{\prime},\mathsf{GenRSA}}(n) = 1] \leq \mathsf{negl}(n)$. Since $q(n)$ is polynomial, we conclude from Equation (13.2) that $\Pr[\mathsf{Sig-forge}_{\mathcal{A},\Pi}(n) = 1]$ is negligible as well. This completes the proof.
 
@@ -500,7 +506,7 @@ For technical reasons, we assume identification schemes that are “non-degenera
 
 The basic security requirement of an identification scheme is that an adversary who does not know the prover's secret key should be unable to fool the verifier into accepting. This should hold even if the attacker is able to passively eavesdrop on multiple (honest) executions of the protocol between the prover and verifier. We formalize such eavesdropping via an oracle $\mathsf{Trans}_{sk}$ that, when called without any input, runs an honest execution of the protocol and returns to the adversary the entire transcript $(I, r, s)$ of the interaction.
 
-身份识别方案的基本安全要求是：不知道证明者密钥的敌手应无法骗过验证者使其接受。即使攻击者能够被动窃听证明者与验证者之间协议的多次（诚实）执行，这一点也应成立。我们通过一个预言机 $\mathsf{Trans}_{sk}$ 来形式化这种窃听：该预言机在无输入被调用时，运行协议的一次诚实执行，并把交互的完整记录 $(I, r, s)$ 返回给敌手。
+身份识别方案的基本安全要求是：不知道证明者密钥的敌手应无法骗过验证者使其接受。即使攻击者能够被动窃听证明者与验证者之间协议的多次（诚实）执行，这一点也应成立。我们通过一个预言机 $\mathsf{Trans}_{sk}$ 来形式化这种窃听：该预言机被调用时不需要输入，它运行协议的一次诚实执行，并把交互的完整记录 $(I, r, s)$ 返回给敌手。
 
 Let $\Pi = (\mathrm{Gen}, \mathcal{P}_1, \mathcal{P}_2, \mathcal{V})$ be an identification scheme, and consider the following experiment for an adversary $\mathcal{A}$ and parameter $n$:
 
@@ -540,7 +546,7 @@ It is also possible to consider stronger notions of security, for example, where
 
 The Fiat-Shamir transform (Construction 13.9) provides a way to convert any (interactive) identification scheme into a (non-interactive) signature scheme. The basic idea is for the signer to act as a prover, running the identification protocol by itself. That is, to sign a message $m$, the signer first computes $I$, and next generates the challenge $r$ by applying some function $H$ to $I$ and $m$. It then derives the correct response $s$. The signature on $m$ is $(r,s)$, which can be verified by (1) recomputing $I := \mathcal{V}(pk, r, s)$ and then (2) checking that $H(I, m) \overset{?}{=} r$.
 
-Fiat–Shamir 变换（构造 13.9）提供了一种把任何（交互式）身份识别方案转换为（非交互式）签名方案的方法。基本思想是让签名者充当证明者，自己运行身份识别协议。也就是说，要对消息 $m$ 签名，签名者先计算 $I$，再对 $I$ 和 $m$ 施加某个函数 $H$ 生成挑战值 $r$，然后导出正确的响应 $s$。$m$ 上的签名是 $(r,s)$，验证方法是：(1) 重新计算 $I := \mathcal{V}(pk, r, s)$；(2) 检查 $H(I, m) \overset{?}{=} r$ 是否成立。
+Fiat–Shamir 变换（构造 13.9）提供了一种把任何（交互式）身份识别方案转换为（非交互式）签名方案的方法。基本思想是让签名者充当证明者，自己运行身份识别协议。也就是说，要对消息 $m$ 签名，签名者先计算 $I$，再把某个函数 $H$ 作用于 $I$ 和 $m$ 生成挑战值 $r$，然后导出正确的响应 $s$。$m$ 上的签名是 $(r,s)$，验证方法是：(1) 重新计算 $I := \mathcal{V}(pk, r, s)$；(2) 检查 $H(I, m) \overset{?}{=} r$ 是否成立。
 
 **CONSTRUCTION 13.9**
 
@@ -594,7 +600,7 @@ A signature $(r,s)$ is “bound” to a specific message $m$ because $r$ is a fu
 
 THEOREM 13.10 Let $\Pi$ be an identification scheme, and let $\Pi^{\prime}$ be the signature scheme that results by applying the Fiat-Shamir transform to it. If $\Pi$ is secure and H is modeled as a random oracle, then $\Pi^{\prime}$ is secure.
 
-定理 13.10　设 $\Pi$ 是一个身份识别方案，$\Pi^{\prime}$ 是对其施加 Fiat–Shamir 变换得到的签名方案。若 $\Pi$ 是安全的且 H 被建模为随机预言机，则 $\Pi^{\prime}$ 是安全的。
+定理 13.10　设 $\Pi$ 是一个身份识别方案，$\Pi^{\prime}$ 是对其施加 Fiat–Shamir 变换得到的签名方案。若 $\Pi$ 是安全的且 $H$ 被建模为随机预言机，则 $\Pi^{\prime}$ 是安全的。
 
 PROOF Let $\mathcal{A}^{\prime}$ be a probabilistic polynomial-time adversary attacking the signature scheme $\Pi^{\prime}$, with $q = q(n)$ an upper bound on the number of queries that $\mathcal{A}^{\prime}$ makes to $H$. We make a number of simplifying assumptions without loss of generality. First, we assume that $\mathcal{A}^{\prime}$ makes any given query to $H$ only once. We also assume that after being given a signature $(r, s)$ on a message $m$ with $\mathcal{V}(pk, r, s) = I$, the adversary $\mathcal{A}^{\prime}$ never queries $H(I, m)$ (since it knows the answer will be $r$). Finally, we assume that if $\mathcal{A}^{\prime}$ outputs a forged signature $(r, s)$ on a message $m$ with $\mathcal{V}(pk, r, s) = I$, then $\mathcal{A}^{\prime}$ had previously queried $H(I, m)$.
 
@@ -654,7 +660,7 @@ When $\mathcal{A}^{\prime}$ requests a signature on $m$, answer it as follows:
 
 The view of $\mathcal{A}^{\prime}$ when run as a subroutine by $\mathcal{A}$ in experiment $\mathsf{Ident}_{\mathcal{A},\Pi}(n)$ is almost identical to the view of $\mathcal{A}^{\prime}$ in experiment $\mathsf{Sig-forge}_{\mathcal{A}^{\prime},\Pi^{\prime}}(n)$. Indeed, all the $H$-queries that $\mathcal{A}^{\prime}$ makes are answered with a uniform value from $\Omega_{pk}$, and all the signing queries that $\mathcal{A}^{\prime}$ makes are answered with valid signatures having the correct distribution. The only difference between the views is that when $\mathcal{A}^{\prime}$ is run as a subroutine by $\mathcal{A}$ it is possible for there to be an inconsistency in the answers $\mathcal{A}^{\prime}$ receives from its queries to $H$: specifically, this happens if $\mathcal{A}$ ever answers a signing query for a message $m$ using a transcript $(I,r,s)$ for which $H(I,m)$ is already defined (that is, $\mathcal{A}^{\prime}$ had previously queried $(I,m)$ to $H$) and $H(I,m) \neq r$. However, if $\Pi$ is non-degenerate then this only ever happens with negligible probability. Thus, the probability that $\mathcal{A}^{\prime}$ outputs a forgery when run as a subroutine by $\mathcal{A}$ is $\Pr[\mathsf{Sig-forge}_{\mathcal{A}^{\prime},\Pi^{\prime}}(n)=1] - \mathsf{negl}(n)$ for some negligible function *negl*.
 
-在实验 $\mathsf{Ident}_{\mathcal{A},\Pi}(n)$ 中，$\mathcal{A}^{\prime}$ 作为 $\mathcal{A}$ 的子程序运行时的视图，与 $\mathcal{A}^{\prime}$ 在实验 $\mathsf{Sig-forge}_{\mathcal{A}^{\prime},\Pi^{\prime}}(n)$ 中的视图几乎完全相同。事实上，$\mathcal{A}^{\prime}$ 发起的所有 $H$ 查询都是用 $\Omega_{pk}$ 中的均匀值回答的，所有签名查询也都是用具有正确分布的有效签名回答的。两种视图之间唯一的差别在于：当 $\mathcal{A}^{\prime}$ 作为 $\mathcal{A}$ 的子程序运行时，$\mathcal{A}^{\prime}$ 从 $H$ 查询得到的回答有可能出现不一致——具体地说，如果 $\mathcal{A}$ 用某条记录 $(I,r,s)$ 回答关于消息 $m$ 的签名查询，而 $H(I,m)$ 已经被定义过（即 $\mathcal{A}^{\prime}$ 此前曾向 $H$ 查询过 $(I,m)$）且 $H(I,m) \neq r$，就会发生这种情况。然而，若 $\Pi$ 是非退化的，这种情况发生的概率是可忽略的。因此，$\mathcal{A}^{\prime}$ 作为 $\mathcal{A}$ 的子程序运行时输出伪造的概率为 $\Pr[\mathsf{Sig-forge}_{\mathcal{A}^{\prime},\Pi^{\prime}}(n)=1] - \mathsf{negl}(n)$，其中 negl 是某个可忽略函数。
+在实验 $\mathsf{Ident}_{\mathcal{A},\Pi}(n)$ 中，$\mathcal{A}^{\prime}$ 作为 $\mathcal{A}$ 的子程序运行时的视图，与 $\mathcal{A}^{\prime}$ 在实验 $\mathsf{Sig-forge}_{\mathcal{A}^{\prime},\Pi^{\prime}}(n)$ 中的视图几乎完全相同。事实上，$\mathcal{A}^{\prime}$ 发起的所有 $H$ 查询都是用 $\Omega_{pk}$ 中均匀选取的值回答的，所有签名查询也都是用具有正确分布的有效签名回答的。两种视图之间唯一的差别在于：当 $\mathcal{A}^{\prime}$ 作为 $\mathcal{A}$ 的子程序运行时，$\mathcal{A}^{\prime}$ 从 $H$ 查询得到的回答有可能出现不一致——具体地说，如果 $\mathcal{A}$ 用某条记录 $(I,r,s)$ 回答关于消息 $m$ 的签名查询，而 $H(I,m)$ 已经被定义过（即 $\mathcal{A}^{\prime}$ 此前曾向 $H$ 查询过 $(I,m)$）且 $H(I,m) \neq r$，就会发生这种情况。然而，若 $\Pi$ 是非退化的，这种情况发生的概率是可忽略的。因此，$\mathcal{A}^{\prime}$ 作为 $\mathcal{A}$ 的子程序运行时输出伪造的概率为 $\Pr[\mathsf{Sig-forge}_{\mathcal{A}^{\prime},\Pi^{\prime}}(n)=1] - \mathsf{negl}(n)$，其中 negl 是某个可忽略函数。
 
 Consider an execution of experiment $\mathsf{Ident}_{\mathcal{A},\Pi}(n)$ in which $\mathcal{A}^{\prime}$ outputs a forged signature $(r,s)$ on a message $m$, and let $I:=\mathcal{V}(pk,r,s)$. Since $j$ is uniform and independent of everything else, the probability that $(I,m)=(I_j,m_j)$ (even conditioned on the event that $\mathcal{A}^{\prime}$ outputs a forgery) is exactly ${1}/q$. (Recall we assume that if $\mathcal{A}^{\prime}$ outputs a forged signature $(r,s)$ on a message $m$ with $\mathcal{V}(pk,r,s)=I$, then $\mathcal{A}^{\prime}$ had previously queried $H(I,m)$. When both events happen, $\mathcal{A}$ successfully impersonates the prover. Indeed, $\mathcal{A}$ sends $I_j$ as its initial message, receives in response a challenge $r$, and responds with $s$. But $H(I_j,m_j)=r$ and (since the forged signature is valid) $\mathcal{V}(pk,r,s)=I$. Putting everything together, we see that
 
@@ -714,7 +720,7 @@ contradicting the assumed hardness of the discrete-logarithm problem.
 
 THEOREM 13.11 If the discrete-logarithm problem is hard relative to G, then the Schnorr identification scheme is secure.
 
-定理 13.11　若离散对数问题相对于 G 是困难的，则 Schnorr 身份识别方案是安全的。
+定理 13.11　若离散对数问题相对于 $\mathcal{G}$ 是困难的，则 Schnorr 身份识别方案是安全的。
 
 PROOF Let $\Pi$ denote the Schnorr identification scheme, and let $\mathcal{A}$ be a PPT adversary attacking the scheme. We construct the following PPT algorithm $\mathcal{A}^{\prime}$ solving the discrete-logarithm problem relative to $\mathcal{G}$:
 
@@ -890,7 +896,7 @@ $$r\stackrel{?}{=}F\left(g^{H(m)\cdot s^{-1}}y^{r\cdot s^{-1}}\right).$$
 
 Assuming hardness of the discrete-logarithm problem, DSA and ECDSA can be proven secure if $H$ and $F$ are modeled as random oracles. As we have discussed above, however, while the random-oracle model may be reasonable for H, it is not an appropriate model for F. No proofs of security are known for the specific choices of F in the standard. Nevertheless, DSA and ECDSA have been used and studied for decades without any attacks being found.
 
-在离散对数问题困难的假设下，如果把 $H$ 和 $F$ 都建模为随机预言机，那么 DSA 和 ECDSA 可以被证明是安全的。然而，正如我们上面讨论过的，随机预言机模型对 H 或许还算合理，对 F 却并不是一个恰当的模型。对于标准中 F 的具体取法，目前尚不知道任何安全性证明。尽管如此，DSA 和 ECDSA 已被使用和研究了数十年，至今未发现任何攻击。
+在离散对数问题困难的假设下，如果把 $H$ 和 $F$ 都建模为随机预言机，那么 DSA 和 ECDSA 可以被证明是安全的。然而，正如我们上面讨论过的，随机预言机模型对 $H$ 或许还算合理，对 $F$ 却并不是一个恰当的模型。对于标准中 $F$ 的具体取法，目前尚不知道任何安全性证明。尽管如此，DSA 和 ECDSA 已被使用和研究了数十年，至今未发现任何攻击。
 
 **Proper generation of $k$.**
 
@@ -916,9 +922,9 @@ In this section we briefly discuss one of the primary applications of digital si
 
 在本节中，我们简要讨论数字签名的主要应用之一：公钥的安全分发。这使我们关于公钥密码学的讨论形成了一个完整的闭环。在本章和上一章中，我们已经看到在公钥被安全分发的前提下如何使用公钥密码学；现在我们要展示公钥密码学本身如何被用来安全地分发公钥。这听起来像是循环论证，但其实不然。我们将展示的是：一旦属于某个可信方的单个公钥以安全的方式被分发出去，这个密钥就可以用来“引导”任意多个其他公钥的安全分发。因此，至少在原则上，密钥安全分发问题只需解决一次。
 
-The key notion here is a digital certificate, which is simply a signature binding an entity to some public key. To be concrete, say a party Charlie has generated keys ( $pk_C, sk_C$) for a secure digital signature scheme (in this section, we will only be concerned with signature schemes satisfying Definition 13.2). Assume further that another party Bob has also generated keys ( $pk_B, sk_B$) (in the present discussion, these may be keys for either a signature scheme or a public-key encryption scheme), and that Charlie knows that $pk_B$ is Bob's public key. Then Charlie can compute the signature
+The key notion here is a digital certificate, which is simply a signature binding an entity to some public key. To be concrete, say a party Charlie has generated keys ($pk_C, sk_C$) for a secure digital signature scheme (in this section, we will only be concerned with signature schemes satisfying Definition 13.2). Assume further that another party Bob has also generated keys ( $pk_B, sk_B$) (in the present discussion, these may be keys for either a signature scheme or a public-key encryption scheme), and that Charlie knows that $pk_B$ is Bob's public key. Then Charlie can compute the signature
 
-这里的关键概念是数字证书，它无非就是把某个实体与某个公钥绑定在一起的一个签名。具体来说，设一方 Charlie 已为某个安全的数字签名方案生成了密钥 ( $pk_C, sk_C$)（在本节中，我们只关心满足定义 13.2 的签名方案）。进一步假设另一方 Bob 也已生成密钥 ( $pk_B, sk_B$)（在当前的讨论中，这可以是签名方案的密钥，也可以是公钥加密方案的密钥），且 Charlie 知道 $pk_B$ 是 Bob 的公钥。于是 Charlie 可以计算签名
+这里的关键概念是数字证书，它无非就是把某个实体与某个公钥绑定在一起的一个签名。具体来说，设一方 Charlie 已为某个安全的数字签名方案生成了密钥 ($pk_C, sk_C$)（在本节中，我们只关心满足定义 13.2 的签名方案）。进一步假设另一方 Bob 也已生成密钥 ( $pk_B, sk_B$)（在当前的讨论中，这可以是签名方案的密钥，也可以是公钥加密方案的密钥），且 Charlie 知道 $pk_B$ 是 Bob 的公钥。于是 Charlie 可以计算签名
 
 $$\mathsf{cert}_{C\to B}~{\stackrel{\mathrm{def}}{=}}~\mathsf{Sign}_{sk_C}(\text{``Bob's key is } pk_B\text{''})$$
 
@@ -984,7 +990,7 @@ Now, if Alice wants to communicate with some fourth party Dave who knows Charlie
 
 现在，如果 Alice 想与第四方 Dave 通信，而 Dave 知道 Charlie 的公钥（却不知道 Bob 的公钥），那么 Alice 可以把
 
-$$p k_{A},\mathsf{cert}_{B\to A},p k_{B},\mathsf{cert}_{C\to B},$$
+$$pk_{A},\mathsf{cert}_{B\to A},pk_{B},\mathsf{cert}_{C\to B},$$
 
 to Dave. What can Dave deduce from this? Well, he can first verify that Charlie, whom he trusts and whose public key is already in his possession, has signed a certificate $\mathsf{cert}_{C \to B}$ indicating that $pk_B$ indeed belongs to someone named Bob. Dave can also verify that this person named Bob has signed a certificate $\mathsf{cert}_{B \to A}$ indicating that $pk_A$ indeed belongs to Alice. If Dave trusts Charlie to issue certificates only to trustworthy people, then Dave may accept $pk_A$ as being the authentic key of Alice.
 
@@ -1016,7 +1022,7 @@ In this model, as described, users are expected to collect both public keys of o
 
 Public keys and certificates can also be stored in a central database, and this is done for PGP (see http://pgp.mit.edu). When Alice wants to send an encrypted message to Bob, she can search for Bob's public key in this database; along with Bob's public key, the database will return a list of all certificates it holds that have been issued for Bob's public key. It is also possible that multiple public keys for Bob will be found in the database, and each of these public keys may be certified by certificates issued by a different set of parties. Once again, Alice then needs to decide how much trust to place in any of these public keys before using them.
 
-公钥和证书也可以存放在一个中央数据库中，PGP 正是这么做的（见 http://pgp.mit.edu）。当 Alice 想给 Bob 发送加密消息时，她可以在这个数据库中搜索 Bob 的公钥；数据库除了返回 Bob 的公钥之外，还会返回它所保存的、为 Bob 公钥签发的全部证书的列表。数据库中也可能找到 Bob 的多个不同公钥，而且其中每个公钥可能由不同的主体集合所签发的证书加以认证。同样，Alice 在使用其中任何一个公钥之前，都需要决定对其信任多少。
+公钥和证书也可以存放在一个中央数据库中，PGP 正是这么做的（见 http://pgp.mit.edu）。当 Alice 想给 Bob 发送加密消息时，她可以在这个数据库中搜索 Bob 的公钥；数据库除了返回 Bob 的公钥之外，还会返回它所保存的、为 Bob 公钥签发的全部证书的列表。数据库中也可能找到 Bob 的多个不同公钥，而且其中每个公钥可能由不同的一组主体所签发的证书来认证。同样，Alice 在使用其中任何一个公钥之前，都需要决定对其信任多少。
 
 The web of trust model is attractive because it does not require trust in any central authority. On the other hand, while it may work well for the average user encrypting their email, it does not seem appropriate for settings where security is more critical, or for the distribution of organizational public keys (e.g., for e-commerce on the web). If a user wants to communicate with his bank, for example, it is unlikely that he would trust people he met at a conference to certify his bank's public key, and also unlikely that a bank representative will go to a key-signing party to get the bank's key certified.
 
@@ -1101,7 +1107,7 @@ This message from $C$ also includes information about which cryptographic algori
 
 2. $S$ completes the Diffie–Hellman key exchange by sending a message to the client containing $g^y$ for a random secret value $y$ chosen by the server. The server also includes its own uniform value $N_S \in \{0,1\}^n$.
 
-   $S$ 向客户端发送一条包含 $g^y$ 的消息来完成 Diffie–Hellman 密钥交换，其中 $y$ 是服务器选取的一个随机秘密值。服务器还会附上自己的均匀取值 $N_S \in \{0,1\}^n$。
+   $S$ 向客户端发送一条包含 $g^y$ 的消息来完成 Diffie–Hellman 密钥交换，其中 $y$ 是服务器选取的一个随机秘密值。服务器还会附上自己均匀选取的值 $N_S \in \{0,1\}^n$。
 
 At this point, $S$ can compute a shared secret $K = g^{xy}$. It applies a key-derivation function (cf. Section 6.6.4) to $K$ to derive keys $k^{\prime}_S, k^{\prime}_C, k_S, k_C$ for an authenticated encryption (AE) scheme. Supported AE schemes include GCM, CCM, and ChaCha20-Poly1305 (cf. Section 5.3.2).
 
@@ -1139,7 +1145,7 @@ Once keys have been agreed upon by $C$ and $S$, the parties use those keys to en
 
 一旦 $C$ 和 $S$ 商定了密钥，双方就用这些密钥并通过某个 AE 方案对其后续的全部通信进行加密和认证。$C$ 用 $k_{C}$ 保护它发送给 $S$ 的消息，而 $S$ 用 $k_{S}$ 保护它发送给 $C$ 的消息。如 5.4 节所讨论的，序号被用来防止重放攻击。
 
-## 13.8 \*Signcryption　\*签密
+## 13.8 \*Signcryption　签密
 
 To close this chapter, we briefly and informally discuss the issue of joint secrecy and integrity in the public-key setting. While this parallels our treatment from Section 5.2, the fact that we are now in the public-key setting introduces several additional complications.
 
@@ -1165,11 +1171,11 @@ One could instead try an “authenticate-then-encrypt” approach. Here, $S$ wou
 
 另一种做法是尝试“先认证后加密”的方法。此时，$S$ 会先计算签名 $\sigma \leftarrow \mathsf{Sign}_{sk_S}(m)$，然后发送
 
-$$\langle S,\mathsf{Enc}_{e k_{R}}(m||\sigma)\rangle.$$
+$$\langle S,\mathsf{Enc}_{ek_{R}}(m\|\sigma)\rangle.$$
 
-(Note that this solves the non-repudiation issue mentioned above.) If the encryption scheme is only CPA-secure then problems just like those mentioned in Section 5.2 apply, so let us assume a CCA-secure encryption scheme is used instead. Even then, there is an attack that can be carried out by a malicious $R$. Upon receiving $\langle S, \mathsf{Enc}_{ek_R}(m\|\sigma)\rangle$ from $S$, a malicious $R$ can decrypt to obtain $m\|\sigma$, and then re-encrypt and send $\langle S, \mathsf{Enc}_{ek_{R^{\prime}}}(m\|\sigma)\rangle$ to another receiver $R^{\prime}$. This (honest) receiver $R^{\prime}$ will then think that $S$ sent it the message $m$. This can have serious consequences, e.g., if $m$ is the message “I owe you 100.”
+(Note that this solves the non-repudiation issue mentioned above.) If the encryption scheme is only CPA-secure then problems just like those mentioned in Section 5.2 apply, so let us assume a CCA-secure encryption scheme is used instead. Even then, there is an attack that can be carried out by a malicious $R$. Upon receiving $\langle S, \mathsf{Enc}_{ek_R}(m\|\sigma)\rangle$ from $S$, a malicious $R$ can decrypt to obtain $m\|\sigma$, and then re-encrypt and send $\langle S, \mathsf{Enc}_{ek_{R^{\prime}}}(m\|\sigma)\rangle$ to another receiver $R^{\prime}$. This (honest) receiver $R^{\prime}$ will then think that $S$ sent it the message $m$. This can have serious consequences, e.g., if $m$ is the message “I owe you \$100.”
 
-（注意，这解决了上面提到的不可否认性问题。）如果加密方案只有 CPA 安全性，那么与 5.2 节所提到的类似问题依然存在，因此让我们假设改用 CCA 安全的加密方案。即便如此，仍然存在一种可由恶意 $R$ 实施的攻击。收到来自 $S$ 的 $\langle S, \mathsf{Enc}_{ek_R}(m\|\sigma)\rangle$ 后，恶意 $R$ 可以解密得到 $m\|\sigma$，然后重新加密并把 $\langle S, \mathsf{Enc}_{ek_{R^{\prime}}}(m\|\sigma)\rangle$ 发送给另一个接收方 $R^{\prime}$。这个（诚实的）接收方 $R^{\prime}$ 随后会以为 $S$ 给它发了消息 $m$。这可能造成严重后果，例如当 $m$ 是消息“I owe you 100.”（我欠你 100 元）时。
+（注意，这解决了上面提到的不可否认性问题。）如果加密方案只有 CPA 安全性，那么与 5.2 节所提到的类似问题依然存在，因此让我们假设改用 CCA 安全的加密方案。即便如此，仍然存在一种可由恶意 $R$ 实施的攻击。收到来自 $S$ 的 $\langle S, \mathsf{Enc}_{ek_R}(m\|\sigma)\rangle$ 后，恶意 $R$ 可以解密得到 $m\|\sigma$，然后重新加密并把 $\langle S, \mathsf{Enc}_{ek_{R^{\prime}}}(m\|\sigma)\rangle$ 发送给另一个接收方 $R^{\prime}$。这个（诚实的）接收方 $R^{\prime}$ 随后会以为 $S$ 给它发了消息 $m$。这可能造成严重后果，例如当 $m$ 是消息“I owe you \$100.”（我欠你 100 美元）时。
 
 These attacks can be prevented if parties are more careful about how they handle identifiers. When encrypting, a sender should encrypt its own identity along with the message; when signing, a party should sign the identity of the intended recipient along with what is being signed. For example, the second approach would be modified so that $S$ first computes $\sigma \leftarrow \mathsf{Sign}_{sk_S}(m \| R)$, and then sends $\langle S, \mathsf{Enc}_{ek_R}(S\|m\|\sigma)\rangle$ to $R$. When decrypting, the receiver should check that the decrypted value includes the (purported) sender's identity; when verifying, the receiver should check that what was signed incorporates its own identity. When including identities in this way, both authenticate-then-encrypt and encrypt-then-authenticate are secure if a CCA-secure encryption scheme and a strongly secure signature scheme are used.
 
@@ -1195,7 +1201,7 @@ Fiat–Shamir 变换 [72] 与 Schnorr 签名方案 [175] 都诞生于 20 世纪 
 
 The notion of certificates was first described by Kohnfelder [118] in his undergraduate thesis. Public-key infrastructures are discussed in greater detail in [113, Chapter 15]; see also [3, 69]. The TLS version 1.3 standard is available as an RFC [170]. A formal treatment of combined secrecy and integrity in the public-key setting is given by An et al. [10].
 
-证书的概念最早由 Kohnfelder [118] 在其本科毕业论文中描述。公钥基础设施在 [113, Chapter 15] 中有更详细的讨论；另见 [3, 69]。TLS 1.3 版标准以 RFC 形式发布 [170]。An 等人 [10] 给出了公钥场景中保密性与完整性联合处理的规范化论述。
+证书的概念最早由 Kohnfelder [118] 在其本科毕业论文中描述。公钥基础设施在 [113，第 15 章] 中有更详细的讨论；另见 [3, 69]。TLS 1.3 版标准以 RFC 形式发布 [170]。An 等人 [10] 给出了公钥场景中保密性与完整性联合处理的规范化论述。
 
 ## Exercises　习题
 

@@ -23,13 +23,9 @@ Next, we present three schemes based on problems related to factoring:
 
 ## 15.1 Encryption from Trapdoor Permutations　由陷门置换构造加密
 
-In Section 12.5.3 we saw how to construct a CPA-secure public-key encryption scheme based on the RSA assumption. By distilling those properties of
+In Section 12.5.3 we saw how to construct a CPA-secure public-key encryption scheme based on the RSA assumption. By distilling those properties of RSA that are used in the construction, and defining an abstract notion that encapsulates those properties, we obtain a general template for constructing secure encryption schemes based on any primitive satisfying the same set of properties. Trapdoor permutations turn out to be the “right” abstraction here.
 
-在 12.5.3 节中，我们看到如何基于 RSA 假设构造一个选择明文安全的公钥加密方案。通过提炼
-
-RSA that are used in the construction, and defining an abstract notion that encapsulates those properties, we obtain a general template for constructing secure encryption schemes based on any primitive satisfying the same set of properties. Trapdoor permutations turn out to be the “right” abstraction here.
-
-RSA 在该构造中所用到的那些性质，并定义一个刻画这些性质的抽象概念，我们就得到了一个通用模板，可以基于任何满足同一组性质的原语来构造安全的加密方案。陷门置换正是这里“恰当的”抽象。
+在 12.5.3 节中，我们看到如何基于 RSA 假设构造一个选择明文安全的公钥加密方案。通过提炼 RSA 在该构造中所用到的那些性质，并定义一个刻画这些性质的抽象概念，我们就得到了一个通用模板，可以基于任何满足同一组性质的原语来构造安全的加密方案。陷门置换正是这里“恰当的”抽象。
 
 In the following section we define (families of) trapdoor permutations and observe that the RSA family of one-way permutations (Construction 9.77) satisfies the additional requirements needed to be a family of trapdoor permutations. In Section 15.1.2 we generalize the construction from Section 12.5.3 and show that public-key encryption can be constructed from any trapdoor permutation. These results will be used again in Section 15.5, where we show a second example of a trapdoor permutation, this time based directly on the factoring assumption.
 
@@ -473,7 +469,7 @@ We have described encryption above as though it is taking place in $\mathbb{Z}_N
 
 **加密。**
 
-上面对加密的描述仿佛是在 $\mathbb{Z}_N \times \mathbb{Z}_N^*$ 中进行的，但实际上它发生在与之同构的群 $\mathbb{Z}_{N^2}^*$ 中。也就是说，发送方均匀选取 $^1$ $r \in \mathbb{Z}_N^*$，然后计算
+上面对加密的描述仿佛是在 $\mathbb{Z}_N \times \mathbb{Z}_N^*$ 中进行的，但实际上它发生在与之同构的群 $\mathbb{Z}_{N^2}^*$ 中。也就是说，发送方均匀$^{1}$选取 $r \in \mathbb{Z}_N^*$，然后计算
 
 $$
 c:=[(1+N)^{m}\cdot r^{N}\bmod N^{2}].
@@ -732,9 +728,9 @@ The last part of the definition ensures that if ciphertexts $c_1 \leftarrow \mat
 
 定义的最后一部分保证了：若生成密文 $c_1 \leftarrow \mathsf{Enc}_{pk}(m_1)$ 和 $c_2 \leftarrow \mathsf{Enc}_{pk}(m_2)$，再计算 $c_3 := c_1 \cdot c_2$，那么所得密文 $c_3$ 所包含的关于 $m_1$ 或 $m_2$ 的信息，不会比它们的和 $m_3$ 所包含的更多。
 
-The Paillier encryption scheme with $pk = N$ is homomorphic with $\mathcal{M} = \mathbb{Z}_N$ and $\mathcal{C} = \mathbb{Z}_{N^2}$. This is not the first example of a homomorphic encryption scheme we have seen; El Gamal encryption is also homomorphic. Specifically, for public key $pk = \langle \mathbb{G}, q, g, h \rangle$ we can take $\mathcal{M} = \mathbb{G}$ and $\mathcal{C} = \mathbb{G} \times \mathbb{G}$; then
+The Paillier encryption scheme with $pk = N$ is homomorphic with $\mathcal{M} = \mathbb{Z}_N$ and $\mathcal{C} = \mathbb{Z}_{N^2}^*$. This is not the first example of a homomorphic encryption scheme we have seen; El Gamal encryption is also homomorphic. Specifically, for public key $pk = \langle \mathbb{G}, q, g, h \rangle$ we can take $\mathcal{M} = \mathbb{G}$ and $\mathcal{C} = \mathbb{G} \times \mathbb{G}$; then
 
-以 $pk = N$ 为公钥的 Paillier 加密方案是同态的，其中 $\mathcal{M} = \mathbb{Z}_N$、$\mathcal{C} = \mathbb{Z}_{N^2}$。这并不是我们见过的第一个同态加密方案——El Gamal 加密也是同态的。具体地，对公钥 $pk = \langle \mathbb{G}, q, g, h \rangle$，可以取 $\mathcal{M} = \mathbb{G}$、$\mathcal{C} = \mathbb{G} \times \mathbb{G}$；于是
+以 $pk = N$ 为公钥的 Paillier 加密方案是同态的，其中 $\mathcal{M} = \mathbb{Z}_N$、$\mathcal{C} = \mathbb{Z}_{N^2}^*$。这并不是我们见过的第一个同态加密方案——El Gamal 加密也是同态的。具体地，对公钥 $pk = \langle \mathbb{G}, q, g, h \rangle$，可以取 $\mathcal{M} = \mathbb{G}$、$\mathcal{C} = \mathbb{G} \times \mathbb{G}$；于是
 
 $$
 \langle g^{y_{1}},~h^{y_{1}}\cdot m_{1}\rangle\cdot\langle g^{y_{2}},~h^{y_{2}}\cdot m_{2}\rangle=\langle g^{y_{1}+y_{2}},~h^{y_{1}+y_{2}}\cdot m_{1}m_{2}\rangle,
@@ -810,7 +806,7 @@ thus, even conditioned on some fixed values for $s$ and the shares of the other 
 
 We can extend this to obtain a solution for $t < N$. The basic idea is to replicate the above scheme for each subset $T \subset N$ of size $t$. That is, for each such subset $T = \{P_{i_1}, \ldots, P_{i_t}\}$, we choose uniform shares $s_{T,i_1}, \ldots, s_{T,i_t}$ subject to the constraint that $\oplus_{j=1}^t s_{T,i_j} = s$, and give $s_{T,i_j}$ to user $P_{i_j}$. It is not hard to see that this satisfies the requirements.
 
-我们可以对这个方案加以扩展，得到 $t < N$ 时的解法。基本想法是对每个大小为 $t$ 的子集 $T \subset N$ 复制上述方案。也就是说，对每个这样的子集 $T = \{P_{i_1}, \ldots, P_{i_t}\}$，在约束 $\oplus_{j=1}^t s_{T,i_j} = s$ 下均匀选取份额 $s_{T,i_1}, \ldots, s_{T,i_t}$，并把 $s_{T,i_j}$ 分给用户 $P_{i_j}$。不难看出这满足各项要求。
+我们可以对这个方案加以扩展，得到 $t < N$ 时的解法。基本想法是对每个大小为 $t$ 的子集 $T \subset N$（原书此处的 $N$ 指用户集合 $\{P_1, \ldots, P_N\}$）复制上述方案。也就是说，对每个这样的子集 $T = \{P_{i_1}, \ldots, P_{i_t}\}$，在约束 $\oplus_{j=1}^t s_{T,i_j} = s$ 下均匀选取份额 $s_{T,i_1}, \ldots, s_{T,i_t}$，并把 $s_{T,i_j}$ 分给用户 $P_{i_j}$。不难看出这满足各项要求。
 
 Unfortunately, this extension of the original scheme is not efficient. Each user now stores a share $s_{T,i}$ for every subset T of which she is a member. For each user there are $\binom{N-1}{t-1}$ such subsets, which is exponential in N if $t \approx N/2$.
 
@@ -884,6 +880,8 @@ More formally, we allow any $t-1$ users to be corrupted and to collude with each
 
 更形式化地说，我们允许任意 $t-1$ 个用户被腐化并相互勾结，还可能与分发者勾结。我们要求：(1a) 在共享阶段结束时确定了一个秘密 $s$，使得任何包含 $t$ 个未腐化用户的用户集合都能在重构阶段成功恢复 $s$；此外，(1b) 若分发者是诚实的，则 $s$ 对应于分发者的秘密。另外，(2) 当分发者诚实时，如前所述，任意 $t-1$ 个被腐化的用户都无法从他们的份额以及分发者公开的任何信息中获知关于秘密的任何内容。因为我们希望即使有 $t-1$ 个用户被腐化，仍有 $t$ 个未腐化的用户存在，所以要求 $N \geq t + (t-1)$，即 $N > 2t$；换句话说，我们假设多数用户保持未腐化。
 
+> 译注：原书此处印作 “$N \geq t + (t-1)$ or $N > 2t$”。严格地说，$N \geq t + (t-1)$ 即 $N \geq 2t - 1$，等价于 $N > 2t - 2$。
+
 We describe a VSS scheme due to Feldman that relies on an algorithm $\mathcal{G}$ relative to which the discrete-logarithm problem is hard. For simplicity, we describe it in the random-oracle model and let $H$ denote a function to be modeled as a random oracle. We also assume that some trusted parameters $(\mathbb{G}, q, g)$, generated using $\mathcal{G}(1^n)$, are published in advance, where $q$ is prime and so $\mathbb{Z}_q$ is a field. Finally, we assume that all users have access to a broadcast channel, such that a message broadcast by any user is heard by everyone.
 
 我们描述一种由 Feldman 提出的 VSS 方案，它依赖于一个算法 $\mathcal{G}$，相对于该算法离散对数问题是困难的。为简单起见，我们在随机预言机模型下描述该方案，并令 $H$ 表示一个将被建模为随机预言机的函数。我们还假设某些可信参数 $(\mathbb{G}, q, g)$ 已事先公布，这些参数由 $\mathcal{G}(1^n)$ 生成，其中 $q$ 是素数，因而 $\mathbb{Z}_q$ 是一个域。最后，我们假设所有用户都能访问一个广播信道，任一用户广播的消息所有人都能听到。
@@ -936,9 +934,9 @@ In the reconstruction phase, say a group of users (that includes at least $t$ un
 
 在重构阶段，设有某组用户（其中至少包含 $t$ 个未腐化的用户）汇集他们的份额。若用户 $P_i$ 提供的份额 $s_i$ 不满足式 (15.3)，则将其丢弃。在剩下的份额中任取 $t$ 个，按照与 Shamir 方案完全相同的方式来恢复 $a_0$。随后计算原始秘密 $s := c \oplus H(a_0)$。
 
-We now argue that this protocol meets the desired security requirements. We first show that, assuming the dealer is not disqualified, the value recovered in the reconstruction phase is uniquely determined by the public information; specifically, the recovered value is $c \oplus H(\log_g A_0)$. (Combined with the fact that an honest dealer is never disqualified, this proves that conditions (1a) and (1b) hold.) Define $a_i := \log_g A_i$ for ${0} \leq i \leq t - 1$; the $\{a_i\}$ cannot be computed efficiently if the discrete-logarithm problem is hard, but they are still well-defined. Define the polynomial $p(X) \overset{\mathrm{def}}{\equiv} \sum_{i=0}^{t-1} a_i X^i$. Any share $s_i$, contributed by party $P_i$, that is not discarded during the reconstruction phase must satisfy Equation (15.3), and hence satisfies $s_i = p(i)$. It follows that, regardless of which shares are used, the parties will reconstruct polynomial $p$, compute $a_0 = p(0)$, and then recover $s = c \oplus H(a_0)$.
+We now argue that this protocol meets the desired security requirements. We first show that, assuming the dealer is not disqualified, the value recovered in the reconstruction phase is uniquely determined by the public information; specifically, the recovered value is $c \oplus H(\log_g A_0)$. (Combined with the fact that an honest dealer is never disqualified, this proves that conditions (1a) and (1b) hold.) Define $a_i := \log_g A_i$ for ${0} \leq i \leq t - 1$; the $\{a_i\}$ cannot be computed efficiently if the discrete-logarithm problem is hard, but they are still well-defined. Define the polynomial $p(X) \overset{\mathrm{def}}{=} \sum_{i=0}^{t-1} a_i X^i$. Any share $s_i$, contributed by party $P_i$, that is not discarded during the reconstruction phase must satisfy Equation (15.3), and hence satisfies $s_i = p(i)$. It follows that, regardless of which shares are used, the parties will reconstruct polynomial $p$, compute $a_0 = p(0)$, and then recover $s = c \oplus H(a_0)$.
 
-下面我们论证该协议满足所期望的安全需求。我们首先证明：假设分发者未被取消资格，那么重构阶段恢复出的值由公开信息唯一确定；具体而言，恢复出的值为 $c \oplus H(\log_g A_0)$。（结合“诚实的分发者绝不会被取消资格”这一事实，这就证明了条件 (1a) 和 (1b) 成立。）对 ${0} \leq i \leq t - 1$ 定义 $a_i := \log_g A_i$；若离散对数问题是困难的，这些 $\{a_i\}$ 无法被高效计算，但它们仍然是良定义的。定义多项式 $p(X) \overset{\mathrm{def}}{\equiv} \sum_{i=0}^{t-1} a_i X^i$。重构阶段中任何一方 $P_i$ 提交的、未被丢弃的份额 $s_i$ 必然满足式 (15.3)，因而满足 $s_i = p(i)$。由此可知，无论使用了哪些份额，各方都会重构出多项式 $p$，计算 $a_0 = p(0)$，进而恢复 $s = c \oplus H(a_0)$。
+下面我们论证该协议满足所期望的安全需求。我们首先证明：假设分发者未被取消资格，那么重构阶段恢复出的值由公开信息唯一确定；具体而言，恢复出的值为 $c \oplus H(\log_g A_0)$。（结合“诚实的分发者绝不会被取消资格”这一事实，这就证明了条件 (1a) 和 (1b) 成立。）对 ${0} \leq i \leq t - 1$ 定义 $a_i := \log_g A_i$；若离散对数问题是困难的，这些 $\{a_i\}$ 无法被高效计算，但它们仍然是良定义的。定义多项式 $p(X) \overset{\mathrm{def}}{=} \sum_{i=0}^{t-1} a_i X^i$。重构阶段中任何一方 $P_i$ 提交的、未被丢弃的份额 $s_i$ 必然满足式 (15.3)，因而满足 $s_i = p(i)$。由此可知，无论使用了哪些份额，各方都会重构出多项式 $p$，计算 $a_0 = p(0)$，进而恢复 $s = c \oplus H(a_0)$。
 
 It is also possible to show that condition (2) holds for computationally bounded adversaries if the discrete-logarithm problem is hard for $\mathcal{G}$. (In contrast to Shamir's secret-sharing scheme, secrecy here is no longer unconditional. Unconditionally secure VSS schemes are possible, but are beyond the scope of our treatment.) Intuitively, this is because the secret $s$ is masked by the random value $H(a_0)$, and the information given to any $t-1$ users in the sharing phase—namely, their shares and the public values $\{A_i\}$—reveals only $g^{a_0}$, from which it is hard to compute $a_0$. This intuition can be made rigorous, but we do not do so here.
 

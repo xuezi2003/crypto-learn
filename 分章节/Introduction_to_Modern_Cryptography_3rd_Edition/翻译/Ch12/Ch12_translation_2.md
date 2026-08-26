@@ -40,9 +40,9 @@ It is required that all but negligible probability over the randomness of Gen an
 
 要求：除去由 $\mathsf{Gen}$ 与 $\mathsf{Encaps}$ 的随机性引起的可忽略概率外，若 $\mathsf{Encaps}_{pk}(1^{n})$ 输出 $(c,k)$，则 $\mathsf{Decaps}_{sk}(c)$ 输出 $k$。
 
-In the definition we assume for simplicity that Encaps always outputs (a ciphertext $c$ and) a key of some fixed length $\ell(n)$. One could also consider a more general definition in which Encaps takes ${1}^{\ell}$ as an addition
+In the definition we assume for simplicity that Encaps always outputs (a ciphertext $c$ and) a key of some fixed length $\ell(n)$. One could also consider a more general definition in which Encaps takes ${1}^{\ell}$ as an additional input.
 
-在该定义中，为简单起见，我们假定 $\mathsf{Encaps}$ 总是输出（一个密文 $c$ 和）某个固定长度 $\ell(n)$ 的密钥。也可以考虑一种更一般的定义，其中 $\mathsf{Encaps}$ 额外地以 ${1}^{\ell}$ 为输入
+在该定义中，为简单起见，我们假定 $\mathsf{Encaps}$ 总是输出（一个密文 $c$ 和）某个固定长度 $\ell(n)$ 的密钥。也可以考虑一种更一般的定义，其中 $\mathsf{Encaps}$ 额外以 ${1}^{\ell}$ 为输入。
 
 Any public-key encryption scheme trivially gives a KEM by choosing a random key $k$ and encrypting it. As we will see, however, dedicated constructions of KEMs can be more efficient.
 
@@ -128,17 +128,17 @@ In contrast, when using block-by-block encryption as in Equation (12.1), and ass
 
 相比之下，若像式 (12.1) 那样逐块加密，并假设用 $\mathsf{Enc}$ 对 $n$ 比特消息做公钥加密得到长度为 $L$ 的密文，则加密消息 $m$ 所得的密文长度为 $L \cdot \lceil |m|/n \rceil$。对于足够长的 $m$，式 (12.9) 给出的密文长度是一个显著的改进。
 
-We can use some rough estimates to get a sense for what the above results mean in practice. (We stress that these numbers are only meant to give the reader a feel for the improvement; realistic values would depend on a variety of factors.) A typical value for the length of the key $k$ might be $n = 128$. Furthermore, a “base” public-key encryption scheme might yield 256-bit ciphertexts when encrypting 128-bit messages; assume a KEM has ciphertexts of the same length when encapsulating a 128-bit key. Letting $\alpha$, as before, denote the computational cost of public-key encryption/encapsulation of a 128-bit key, we see that block-by-block encryption as in Equation (12.1) would encrypt a 1 Mb ( $\approx 2^{20}$-bit) message with computational cost $\alpha \cdot \lceil 2^{20}/128 \rceil \approx 8200 \cdot \alpha$ and the ciphertext would be 2 MB long. Compare this to the efficiency of hybrid encryption. Letting $\beta$, as before, denote the per-bit computational cost of private-key encryption, a reasonable approximation is $\beta \approx \alpha/2^{11}$. Using Equation (12.8), we see that the overall computational cost for hybrid encryption for a 1 Mb message is
+We can use some rough estimates to get a sense for what the above results mean in practice. (We stress that these numbers are only meant to give the reader a feel for the improvement; realistic values would depend on a variety of factors.) A typical value for the length of the key $k$ might be $n = 128$. Furthermore, a “base” public-key encryption scheme might yield 256-bit ciphertexts when encrypting 128-bit messages; assume a KEM has ciphertexts of the same length when encapsulating a 128-bit key. Letting $\alpha$, as before, denote the computational cost of public-key encryption/encapsulation of a 128-bit key, we see that block-by-block encryption as in Equation (12.1) would encrypt a 1 Mb ( $\approx 2^{20}$-bit) message with computational cost $\alpha \cdot \lceil 2^{20}/128 \rceil \approx 8200 \cdot \alpha$ and the ciphertext would be 2 Mb long. Compare this to the efficiency of hybrid encryption. Letting $\beta$, as before, denote the per-bit computational cost of private-key encryption, a reasonable approximation is $\beta \approx \alpha/2^{11}$. Using Equation (12.8), we see that the overall computational cost for hybrid encryption for a 1 Mb message is
 
-我们可以通过一些粗略估计来体会上述结果在实践中意味着什么。（我们强调，这些数字只是为了让读者直观感受改进的幅度；实际数值取决于多种因素。）密钥 $k$ 的典型长度可能是 $n = 128$。此外，“基础”公钥加密方案加密 128 比特消息时可能产生 256 比特的密文；假设 KEM 封装 128 比特密钥时密文长度与此相同。与前面一样，令 $\alpha$ 表示对 128 比特密钥做公钥加密/封装的计算开销，可以看到，如式 (12.1) 那样逐块加密一条 1 Mb（$\approx 2^{20}$ 比特）消息的计算开销为 $\alpha \cdot \lceil 2^{20}/128 \rceil \approx 8200 \cdot \alpha$，且密文长达 2 MB。再对比混合加密的效率：与前面一样，令 $\beta$ 表示私钥加密每比特的计算开销，合理的近似为 $\beta \approx \alpha/2^{11}$。由式 (12.8) 可知，混合加密一条 1 Mb 消息的总计算开销为
+我们可以通过一些粗略估计来体会上述结果在实践中意味着什么。（我们强调，这些数字只是为了让读者直观感受改进的幅度；实际数值取决于多种因素。）密钥 $k$ 的典型长度可能是 $n = 128$。此外，“基础”公钥加密方案加密 128 比特消息时可能产生 256 比特的密文；假设 KEM 封装 128 比特密钥时密文长度与此相同。与前面一样，令 $\alpha$ 表示对 128 比特密钥做公钥加密/封装的计算开销，可以看到，如式 (12.1) 那样逐块加密一条 1 Mb（$\approx 2^{20}$ 比特）消息的计算开销为 $\alpha \cdot \lceil 2^{20}/128 \rceil \approx 8200 \cdot \alpha$，且密文长达 2 Mb。再对比混合加密的效率：与前面一样，令 $\beta$ 表示私钥加密每比特的计算开销，合理的近似为 $\beta \approx \alpha/2^{11}$。由式 (12.8) 可知，混合加密一条 1 Mb 消息的总计算开销为
 
 $$
 \alpha+2^{20}\cdot\frac{\alpha}{2^{11}}\approx512\cdot\alpha,
 $$
 
-and the ciphertext would be only slightly longer than 1 MB. Thus, hybrid encryption improves the computational efficiency in this case by a factor of 16, and the ciphertext length by a factor of 2.
+and the ciphertext would be only slightly longer than 1 Mb. Thus, hybrid encryption improves the computational efficiency in this case by a factor of 16, and the ciphertext length by a factor of 2.
 
-而密文仅比 1 MB 略长。因此在这一情形下，混合加密把计算效率提高了 16 倍，把密文长度缩短了一半。
+而密文仅比 1 Mb 略长。因此在这一情形下，混合加密把计算效率提高了 16 倍，把密文长度缩短了一半。
 
 It remains to analyze the security of $\Pi^{hy}$. This, of course, depends on the security of its underlying components $\Pi$ and $\Pi^{\prime}$. In the following sections we define notions of CPA-security and CCA-security for KEMs, and show:
 
@@ -308,9 +308,9 @@ Adversary $A_{1}$
 
    $\mathcal{A}_1$ 获得 $(pk, c, \hat{k})$。
 
-2. $\mathcal{A}_1$ runs $\mathcal{A}^{\mathsf{hy}}(pk)$ to obtain two messages $m_0, m_1$. Then $\mathcal{A}_1$ computes $c^{\prime} \leftarrow \mathsf{Enc}_{k}^{\prime}(m_0)$, gives ciphertext $\langle c, c^{\prime} \rangle$ to $\mathcal{A}^{\mathsf{hy}}$, and outputs the bit $b^{\prime}$ that $\mathcal{A}^{\mathsf{hy}}$ outputs.
+2. $\mathcal{A}_1$ runs $\mathcal{A}^{\mathsf{hy}}(pk)$ to obtain two messages $m_0, m_1$. Then $\mathcal{A}_1$ computes $c^{\prime} \leftarrow \mathsf{Enc}^{\prime}_{\hat{k}}(m_0)$, gives ciphertext $\langle c, c^{\prime} \rangle$ to $\mathcal{A}^{\mathsf{hy}}$, and outputs the bit $b^{\prime}$ that $\mathcal{A}^{\mathsf{hy}}$ outputs.
 
-   $\mathcal{A}_1$ 运行 $\mathcal{A}^{\mathsf{hy}}(pk)$ 得到两条消息 $m_0, m_1$。然后 $\mathcal{A}_1$ 计算 $c^{\prime} \leftarrow \mathsf{Enc}_{k}^{\prime}(m_0)$，把密文 $\langle c, c^{\prime} \rangle$ 交给 $\mathcal{A}^{\mathsf{hy}}$，并输出 $\mathcal{A}^{\mathsf{hy}}$ 输出的比特 $b^{\prime}$。
+   $\mathcal{A}_1$ 运行 $\mathcal{A}^{\mathsf{hy}}(pk)$ 得到两条消息 $m_0, m_1$。然后 $\mathcal{A}_1$ 计算 $c^{\prime} \leftarrow \mathsf{Enc}^{\prime}_{\hat{k}}(m_0)$，把密文 $\langle c, c^{\prime} \rangle$ 交给 $\mathcal{A}^{\mathsf{hy}}$，并输出 $\mathcal{A}^{\mathsf{hy}}$ 输出的比特 $b^{\prime}$。
 
 Consider the behavior of $\mathcal{A}_1$ when attacking $\Pi$ in experiment $\mathsf{KEM}_{\mathcal{A}_1,\Pi}^{\mathsf{cpa}}(n)$. When $b=0$ in that experiment, then $\mathcal{A}_1$ is given $(pk,c,\hat{k})$ where $c$ and $\hat{k}$ were both output by $\mathsf{Encaps}_{pk}(1^n)$. This means that $\mathcal{A}^{\mathsf{hy}}$ is given a ciphertext of the form $\langle c,c^{\prime}\rangle=\langle c,\mathsf{Enc}_{k}^{\prime}(m_0)\rangle$, where $k$ is the key encapsulated by $c$. So,
 

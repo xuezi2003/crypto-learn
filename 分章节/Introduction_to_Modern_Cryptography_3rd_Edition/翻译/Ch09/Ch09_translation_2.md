@@ -42,7 +42,7 @@ $$
 
 is negligible for every PPT algorithm $\mathcal{A}$? Not at all. For starters, the number $N$ in the above experiment is even with probability ${3}/{4}$ (this occurs when either $x_1$ or $x_2$ is even); it is, of course, easy for $\mathcal{A}$ to factor $N$ in this case. While we can make $\mathcal{A}$'s job more difficult by requiring $\mathcal{A}$ to output integers $x^{\prime}_1, x^{\prime}_2$ of length $n$, it remains the case that $x_1$ or $x_2$ (and hence $N$) might have small prime factors that can still be easily found. For cryptographic applications, we will need to prevent this.
 
-对所有 PPT 算法 $\mathcal{A}$ 都是可忽略的？绝非如此。首先，上述实验中的数 $N$ 以 ${3}/{4}$ 的概率是偶数（当 $x_1$ 或 $x_2$ 为偶数时就会如此）；这种情况下 $\mathcal{A}$ 当然容易分解 $N$。虽然可以通过要求 $\mathcal{A}$ 输出长度为 $n$ 的整数 $x^{\prime}_1, x^{\prime}_2$ 来增加它的难度，但 $x_1$ 或 $x_2$（从而 $N$）仍可能含有容易找到的小素因子。在密码学应用中，我们需要防止这种情况。
+对所有概率多项式时间算法 $\mathcal{A}$ 都是可忽略的？绝非如此。首先，上述实验中的数 $N$ 以 ${3}/{4}$ 的概率是偶数（当 $x_1$ 或 $x_2$ 为偶数时就会如此）；这种情况下 $\mathcal{A}$ 当然容易分解 $N$。虽然可以通过要求 $\mathcal{A}$ 输出长度为 $n$ 的整数 $x^{\prime}_1, x^{\prime}_2$ 来增加它的难度，但 $x_1$ 或 $x_2$（从而 $N$）仍可能含有容易找到的小素因子。在密码学应用中，我们需要防止这种情况。
 
 As this discussion indicates, the “hardest” numbers to factor are those having only large prime factors. This suggests redefining the above experiment so that $x_{1}, x_{2}$ are random n-bit primes rather than random n-bit integers, and in fact such an experiment will be used when we formally define the factoring assumption in Section 9.2.3. For this experiment to be useful in a cryptographic setting, however, it is necessary to be able to generate random n-bit primes efficiently. This is the topic of the next two sections.
 
@@ -82,7 +82,7 @@ return fail
 
 Note that the algorithm forces the output to be an integer of length exactly $n$ (rather than length at most $n$) by fixing the high-order bit of $p$ to “1.” Our convention throughout this book is that an “integer of length n” means an integer whose binary representation with most significant bit equal to 1 is exactly n bits long.
 
-注意，该算法通过把 $p$ 的最高位固定为“1”，强制输出恰为 $n$ 位长的整数（而不是至多 $n$ 位长）。本书通篇的约定是：“长度为 $n$ 的整数”指其二进制表示（最高位为 1）恰好为 $n$ 位长的整数。
+注意，该算法通过把 $p$ 的最高位固定为“1”，强制输出恰为 $n$ 比特长的整数（而不是至多 $n$ 比特长）。本书通篇的约定是：“长度为 $n$ 的整数”指其二进制表示（最高位为 1）恰好为 $n$ 比特长的整数。
 
 Given a way to determine whether or not a given integer $p$ is prime, the above algorithm outputs a uniform $n$-bit prime conditioned on the event that it does not output fail. The probability that the algorithm outputs fail depends on $t$, and for our purposes we will want to set $t$ so as to obtain a failure probability that is negligible in $n$. To show that Algorithm 9.31 leads to an efficient (i.e., polynomial-time in $n$) algorithm for generating primes, we need a better understanding of two issues: (1) the probability that a uniform $n$-bit integer is prime and (2) how to efficiently test whether a given integer $p$ is prime. We discuss these issues briefly now, and defer a more in-depth exploration of the second topic to the following section.
 
