@@ -10,14 +10,14 @@ We begin by describing a simple encryption scheme based on the RSA problem. Alth
 
 我们首先描述一个基于 RSA 问题的简单加密方案。虽然这个方案并不安全，但它为随后给出的安全方案提供了有益的出发点。
 
-Let GenRSA be a PPT algorithm that, on input ${1}^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, along with integers $e,d$ satisfying $ed=1\bmod\phi(N)$. (As usual, the algorithm may fail with negligible probability but we ignore that here.) Recall from Section 9.2.4 that such an algorithm can be easily constructed from any algorithm GenModulus that outputs a composite modulus $N$ along with its factorization; see Algorithm 12.25.
+Let GenRSA be a PPT algorithm that, on input $1^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, along with integers $e,d$ satisfying $ed=1 \bmod \phi(N)$. (As usual, the algorithm may fail with negligible probability but we ignore that here.) Recall from Section 9.2.4 that such an algorithm can be easily constructed from any algorithm GenModulus that outputs a composite modulus $N$ along with its factorization; see Algorithm 12.25.
 
-设 $\mathsf{GenRSA}$ 是一个 PPT 算法，以 ${1}^n$ 为输入，输出一个模数 $N$（它是两个 $n$ 比特素数的乘积）以及满足 $ed=1\bmod\phi(N)$ 的整数 $e,d$。（与往常一样，该算法可能以可忽略的概率失败，这里我们忽略这一点。）回顾 9.2.4 节，这样的算法可以很容易地由任意一个输出合数模数 $N$ 及其因子分解的算法 GenModulus 构造出来；见算法 12.25。
+设 $\mathsf{GenRSA}$ 是一个 PPT 算法，以 $1^n$ 为输入，输出一个模数 $N$（它是两个 $n$ 比特素数的乘积）以及满足 $ed=1 \bmod \phi(N)$ 的整数 $e,d$。（与往常一样，该算法可能以可忽略的概率失败，这里我们忽略这一点。）回顾 9.2.4 节，这样的算法可以很容易地由任意一个输出合数模数 $N$ 及其因子分解的算法 GenModulus 构造出来；见算法 12.25。
 
 ALGORITHM 12.25
 RSA key generation GenRSA
 
-Input: Security parameter ${1}^{n}$
+Input: Security parameter $1^{n}$
 Output: N, e, d as described in the text
 $(N, p, q) \leftarrow \mathsf{GenModulus}(1^{n})$
 $\phi(N) := (p - 1) \cdot (q - 1)$
@@ -28,7 +28,7 @@ return $N, e, d$
 算法 12.25
 RSA 密钥生成 $\mathsf{GenRSA}$
 
-输入：安全参数 ${1}^{n}$
+输入：安全参数 $1^{n}$
 输出：如正文所述的 N, e, d
 $(N, p, q) \leftarrow \mathsf{GenModulus}(1^{n})$
 $\phi(N) := (p - 1) \cdot (q - 1)$
@@ -56,9 +56,9 @@ Let GenRSA be as in the text. Define a public-key encryption scheme as follows:
 
 设 $\mathsf{GenRSA}$ 如正文所述。如下定义一个公钥加密方案：
 
-- Gen: on input ${1}^{n}$ run $\mathsf{GenRSA}({1}^{n})$ to obtain $N, e$, and $d$. The public key is $\langle N, e \rangle$ and the private key is $\langle N, d \rangle$.
+- Gen: on input $1^{n}$ run $\mathsf{GenRSA}(1^{n})$ to obtain $N, e$, and $d$. The public key is $\langle N, e \rangle$ and the private key is $\langle N, d \rangle$.
 
-- Gen：以 ${1}^{n}$ 为输入，运行 $\mathsf{GenRSA}({1}^{n})$ 得到 $N, e$ 和 $d$。公钥为 $\langle N, e \rangle$，私钥为 $\langle N, d \rangle$。
+- Gen：以 $1^{n}$ 为输入，运行 $\mathsf{GenRSA}(1^{n})$ 得到 $N, e$ 和 $d$。公钥为 $\langle N, e \rangle$，私钥为 $\langle N, d \rangle$。
 
 - Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \mathbb{Z}_N^*$, compute the ciphertext
 
@@ -90,13 +90,13 @@ The following gives a worked example of the above (see also Example 9.49).
 
 **例 12.27**
 
-Say GenRSA outputs $(N, e, d) = (391, 3, 235)$. (Note that ${391} = 17 \cdot 23$ and so $\phi(391) = 16 \cdot 22 = 352$. Moreover, ${3} \cdot 235 = 1 \mod 352$.) So the public key is $\langle 391, 3 \rangle$ and the private key is $\langle 391, 235 \rangle$.
+Say GenRSA outputs $(N, e, d) = (391, 3, 235)$. (Note that $391 = 17 \cdot 23$ and so $\phi(391) = 16 \cdot 22 = 352$. Moreover, $3 \cdot 235 = 1 \bmod 352$.) So the public key is $\langle 391, 3 \rangle$ and the private key is $\langle 391, 235 \rangle$.
 
-设 $\mathsf{GenRSA}$ 输出 $(N, e, d) = (391, 3, 235)$。（注意 ${391} = 17 \cdot 23$，所以 $\phi(391) = 16 \cdot 22 = 352$；而且 ${3} \cdot 235 = 1 \mod 352$。）于是公钥为 $\langle 391, 3 \rangle$，私钥为 $\langle 391, 235 \rangle$。
+设 $\mathsf{GenRSA}$ 输出 $(N, e, d) = (391, 3, 235)$。（注意 $391 = 17 \cdot 23$，所以 $\phi(391) = 16 \cdot 22 = 352$；而且 $3 \cdot 235 = 1 \bmod 352$。）于是公钥为 $\langle 391, 3 \rangle$，私钥为 $\langle 391, 235 \rangle$。
 
-To encrypt the message $m = 158 \in \mathbb{Z}_{391}^*$ using the public key $(391,3)$, we simply compute $c := [158^3 \mod 391] = 295$; this is the ciphertext. To decrypt, the receiver computes $[295^{235} \mod 391] = 158$.
+To encrypt the message $m = 158 \in \mathbb{Z}_{391}^*$ using the public key $(391,3)$, we simply compute $c := [158^3 \bmod 391] = 295$; this is the ciphertext. To decrypt, the receiver computes $[295^{235} \bmod 391] = 158$.
 
-要用公钥 $(391,3)$ 加密消息 $m = 158 \in \mathbb{Z}_{391}^*$，只需计算 $c := [158^3 \mod 391] = 295$，这就是密文。解密时，接收方计算 $[295^{235} \mod 391] = 158$。
+要用公钥 $(391,3)$ 加密消息 $m = 158 \in \mathbb{Z}_{391}^*$，只需计算 $c := [158^3 \bmod 391] = 295$，这就是密文。解密时，接收方计算 $[295^{235} \bmod 391] = 158$。
 
 Is the plain RSA encryption scheme secure? The factoring assumption implies that it is computationally infeasible for an attacker who is given the public key to derive the corresponding private key; see Section 9.2.5. This is necessary—but not sufficient—for a public-key encryption scheme to be secure. The RSA assumption implies that if the message $m$ is chosen uniformly from $\mathbb{Z}_N^*$ then an eavesdropper given $N$, $e$, and $c$ (namely, the public key and the ciphertext) cannot recover $m$ in its entirety. But these are weak guarantees, and fall short of the level of security we want. In particular, they leave open the possibility that an attacker can recover the message when it is not chosen uniformly from $\mathbb{Z}_N^*$—and, indeed, when $m$ is chosen from a small range it is easy to see that an attacker can compute $m$ from the public key and ciphertext. In addition, it does not rule out the possibility that an attacker can learn partial information about the message, even when it is uniform. (In fact, this is known to be possible.) Moreover, plain RSA encryption is deterministic and so cannot be CPA-secure, as we have discussed in Section 12.2.1.
 
@@ -113,57 +113,57 @@ We have already noted that plain RSA encryption is not CPA-secure. Nevertheless,
 
 **恢复 $m$ 的平方根级加速。**
 
-Since plain RSA encryption is deterministic, if an attacker knows that $m < B$ then the attacker can determine $m$ from the ciphertext $c = [m^e \mod N]$ in time $\mathcal{O}(B)$ using the brute-force attack discussed in Section 12.2.1. One might hope, however, that plain RSA encryption can be used if $B$ is large, i.e., if the message is chosen from a reasonably large set of values. One possible scenario where this might occur is in the context of hybrid encryption (cf. Section 12.3), where the “message” is a uniform $n$-bit key and so $B = 2^n$. Unfortunately, there is a clever attack that recovers $m$, with high probability, in time roughly $\mathcal{O}(\sqrt{B})$. This can make a significant difference in practice: a ${2}^{80}$-time attack (say) is infeasible, but an attack running in time ${2}^{40}$ is relatively easy to carry out.
+Since plain RSA encryption is deterministic, if an attacker knows that $m < B$ then the attacker can determine $m$ from the ciphertext $c = [m^e \bmod N]$ in time $\mathcal{O}(B)$ using the brute-force attack discussed in Section 12.2.1. One might hope, however, that plain RSA encryption can be used if $B$ is large, i.e., if the message is chosen from a reasonably large set of values. One possible scenario where this might occur is in the context of hybrid encryption (cf. Section 12.3), where the “message” is a uniform $n$-bit key and so $B = 2^n$. Unfortunately, there is a clever attack that recovers $m$, with high probability, in time roughly $\mathcal{O}(\sqrt{B})$. This can make a significant difference in practice: a $2^{80}$-time attack (say) is infeasible, but an attack running in time $2^{40}$ is relatively easy to carry out.
 
-由于朴素 RSA 加密是确定性的，如果攻击者知道 $m < B$，就可以用 12.2.1 节讨论的穷举攻击，在 $\mathcal{O}(B)$ 时间内从密文 $c = [m^e \mod N]$ 确定 $m$。不过人们或许希望，只要 $B$ 较大——即消息取自一个相当大的取值集合——就仍然可以使用朴素 RSA 加密。一个可能出现这种情形的场景是混合加密（参见 12.3 节）：此时“消息”是一个均匀的 $n$ 比特密钥，于是 $B = 2^n$。不幸的是，有一种巧妙的攻击能以高概率在大约 $\mathcal{O}(\sqrt{B})$ 的时间内恢复 $m$。这在实践中会造成显著差别：例如，${2}^{80}$ 量级的攻击是不可行的，但运行时间为 ${2}^{40}$ 的攻击实施起来相对容易。
+由于朴素 RSA 加密是确定性的，如果攻击者知道 $m < B$，就可以用 12.2.1 节讨论的穷举攻击，在 $\mathcal{O}(B)$ 时间内从密文 $c = [m^e \bmod N]$ 确定 $m$。不过人们或许希望，只要 $B$ 较大——即消息取自一个相当大的取值集合——就仍然可以使用朴素 RSA 加密。一个可能出现这种情形的场景是混合加密（参见 12.3 节）：此时“消息”是一个均匀的 $n$ 比特密钥，于是 $B = 2^n$。不幸的是，有一种巧妙的攻击能以高概率在大约 $\mathcal{O}(\sqrt{B})$ 的时间内恢复 $m$。这在实践中会造成显著差别：例如，$2^{80}$ 量级的攻击是不可行的，但运行时间为 $2^{40}$ 的攻击实施起来相对容易。
 
-A description of the attack is given as Algorithm 12.28. In our description, we assume $B = 2^n$ and let $\alpha \in (\frac{1}{2}, 1)$ denote some fixed constant (see below). Binary search is used in the second-to-last line to check whether there exists an $r$ with $x_r = [s^e \bmod N]$. The time for the attack is dominated by the time to perform ${2}T = \mathcal{O}(2^{\alpha n})$ exponentiations.
+A description of the attack is given as Algorithm 12.28. In our description, we assume $B = 2^n$ and let $\alpha \in (\frac{1}{2}, 1)$ denote some fixed constant (see below). Binary search is used in the second-to-last line to check whether there exists an $r$ with $x_r = [s^e \bmod N]$. The time for the attack is dominated by the time to perform $2T = \mathcal{O}(2^{\alpha n})$ exponentiations.
 
-该攻击的描述见算法 12.28。在我们的描述中，假设 $B = 2^n$，并用 $\alpha \in (\frac{1}{2}, 1)$ 表示某个固定常数（见下文）。倒数第二行用二分搜索检查是否存在满足 $x_r = [s^e \bmod N]$ 的 $r$。该攻击的时间主要取决于执行 ${2}T = \mathcal{O}(2^{\alpha n})$ 次幂运算所需的时间。
+该攻击的描述见算法 12.28。在我们的描述中，假设 $B = 2^n$，并用 $\alpha \in (\frac{1}{2}, 1)$ 表示某个固定常数（见下文）。倒数第二行用二分搜索检查是否存在满足 $x_r = [s^e \bmod N]$ 的 $r$。该攻击的时间主要取决于执行 $2T = \mathcal{O}(2^{\alpha n})$ 次幂运算所需的时间。
 
 ALGORITHM 12.28
 An attack on plain RSA encryption
 
-Input: Public key $\langle N, e \rangle$; ciphertext $c$; bound ${2}^n$
-Output: $m < 2^n$ such that $m^e = c \mod N$
+Input: Public key $\langle N, e \rangle$; ciphertext $c$; bound $2^n$
+Output: $m < 2^n$ such that $m^e = c \bmod N$
 
 set $T := 2^{\alpha n}$
 
 for $r = 1$ to $T$:
- $x_r := [c/r^e \mod N]$
+ $x_r := [c/r^e \bmod N]$
 
 sort the pairs $\{(r, x_r)\}_{r=1}^T$ by their second component
 for $s = 1$ to $T$:
-    if $[s^e \mod N] \stackrel{?}{=} x_r$ for some $r$
-        return $[r \cdot s \mod N]$
+    if $[s^e \bmod N] \stackrel{?}{=} x_r$ for some $r$
+        return $[r \cdot s \bmod N]$
 
 算法 12.28
 针对朴素 RSA 加密的一种攻击
 
-输入：公钥 $\langle N, e \rangle$；密文 $c$；上界 ${2}^n$
-输出：满足 $m^e = c \mod N$ 的 $m < 2^n$
+输入：公钥 $\langle N, e \rangle$；密文 $c$；上界 $2^n$
+输出：满足 $m^e = c \bmod N$ 的 $m < 2^n$
 
 令 $T := 2^{\alpha n}$
 
 for $r = 1$ to $T$:
- $x_r := [c/r^e \mod N]$
+ $x_r := [c/r^e \bmod N]$
 
 将数对 $\{(r, x_r)\}_{r=1}^T$ 按第二分量排序
 for $s = 1$ to $T$:
-    if 存在某个 $r$ 使 $[s^e \mod N] \stackrel{?}{=} x_r$
-        return $[r \cdot s \mod N]$
+    if 存在某个 $r$ 使 $[s^e \bmod N] \stackrel{?}{=} x_r$
+        return $[r \cdot s \bmod N]$
 
-We now sketch why the attack recovers $m$ with high probability. Let $c = m^e \bmod N$. For appropriate choice of $\alpha \approx \frac{1}{2}$, it can be shown that if $m$ is a uniform $n$-bit integer then with high probability there exist $r, s$ with ${1} < r \leq s \leq 2^{\alpha n}$ for which $m = r \cdot s$. (For example, if $n = 64$ and so $m$ is a uniform 64-bit string, then with probability 0.35 there exist $r, s$ of length at most 34 bits such that $m = r \cdot s$. See the references at the end of the chapter for details.) Assuming this to be the case, the above algorithm finds $m$ since
+We now sketch why the attack recovers $m$ with high probability. Let $c = m^e \bmod N$. For appropriate choice of $\alpha \approx \frac{1}{2}$, it can be shown that if $m$ is a uniform $n$-bit integer then with high probability there exist $r, s$ with $1 < r \leq s \leq 2^{\alpha n}$ for which $m = r \cdot s$. (For example, if $n = 64$ and so $m$ is a uniform 64-bit string, then with probability 0.35 there exist $r, s$ of length at most 34 bits such that $m = r \cdot s$. See the references at the end of the chapter for details.) Assuming this to be the case, the above algorithm finds $m$ since
 
-现在概述该攻击为何能以高概率恢复 $m$。设 $c = m^e \bmod N$。可以证明：当适当选取 $\alpha \approx \frac{1}{2}$ 时，如果 $m$ 是均匀的 $n$ 比特整数，则以高概率存在满足 ${1} < r \leq s \leq 2^{\alpha n}$ 的 $r, s$ 使得 $m = r \cdot s$。（例如，若 $n = 64$，从而 $m$ 是均匀的 64 比特串，则以概率 0.35 存在长度至多为 34 比特的 $r, s$ 使得 $m = r \cdot s$。详见本章末的参考文献。）假设情况确实如此，那么上述算法能找到 $m$，因为
+现在概述该攻击为何能以高概率恢复 $m$。设 $c = m^e \bmod N$。可以证明：当适当选取 $\alpha \approx \frac{1}{2}$ 时，如果 $m$ 是均匀的 $n$ 比特整数，则以高概率存在满足 $1 < r \leq s \leq 2^{\alpha n}$ 的 $r, s$ 使得 $m = r \cdot s$。（例如，若 $n = 64$，从而 $m$ 是均匀的 64 比特串，则以概率 0.35 存在长度至多为 34 比特的 $r, s$ 使得 $m = r \cdot s$。详见本章末的参考文献。）假设情况确实如此，那么上述算法能找到 $m$，因为
 
 $$
 c=m^{e}=(r\cdot s)^{e}=r^{e}\cdot s^{e}\bmod N,
 $$
 
-and so $x_r = c/r^e = s^e \mod N$ with $r, s \leq T$.
+and so $x_r = c/r^e = s^e \bmod N$ with $r, s \leq T$.
 
-从而 $x_r = c/r^e = s^e \mod N$，其中 $r, s \leq T$。
+从而 $x_r = c/r^e = s^e \bmod N$，其中 $r, s \leq T$。
 
 **Encrypting short messages using small $e$.**
 
@@ -197,9 +197,9 @@ Due to the dependence of the running time on $e$, the attack is only practical f
 
 由于运行时间依赖于 $e$，该攻击只对较小的 $e$ 才实际可行。下文为具体起见，假设 $e = 3$。
 
-Assume a sender encrypts a message $m = m_1 \parallel m_2$, where $m_1$ is known but $m_2$ is not. Say $m_2$ is k bits long, so $m = 2^k \cdot m_1 + m_2$. Given the resulting ciphertext $c = [(m_1 \parallel m_2)^3 \mod N]$, an eavesdropper can define $p(x) \stackrel{\mathrm{def}}{=} (2^k \cdot m_1 + x)^3 - c$, a cubic polynomial. This polynomial has $m_2$ as a root (modulo $N$), and $|m_2| < 2^k$. Theorem 12.29 thus implies that the attacker can compute $m_2$ efficiently as long as ${2}^k \leq N^{1/3}$. A similar attack works when $m_2$ is known but $m_1$ is not.
+Assume a sender encrypts a message $m = m_1 \parallel m_2$, where $m_1$ is known but $m_2$ is not. Say $m_2$ is k bits long, so $m = 2^k \cdot m_1 + m_2$. Given the resulting ciphertext $c = [(m_1 \parallel m_2)^3 \bmod N]$, an eavesdropper can define $p(x) \stackrel{\mathrm{def}}{=} (2^k \cdot m_1 + x)^3 - c$, a cubic polynomial. This polynomial has $m_2$ as a root (modulo $N$), and $|m_2| < 2^k$. Theorem 12.29 thus implies that the attacker can compute $m_2$ efficiently as long as $2^k \leq N^{1/3}$. A similar attack works when $m_2$ is known but $m_1$ is not.
 
-假设发送方加密消息 $m = m_1 \parallel m_2$，其中 $m_1$ 已知而 $m_2$ 未知。设 $m_2$ 长 k 比特，于是 $m = 2^k \cdot m_1 + m_2$。给定所得密文 $c = [(m_1 \parallel m_2)^3 \mod N]$，窃听者可以定义三次多项式 $p(x) \stackrel{\mathrm{def}}{=} (2^k \cdot m_1 + x)^3 - c$。该多项式以 $m_2$ 为根（模 $N$ 意义下），且 $|m_2| < 2^k$。于是定理 12.29 意味着，只要 ${2}^k \leq N^{1/3}$，攻击者就能高效地算出 $m_2$。当 $m_2$ 已知而 $m_1$ 未知时，类似的攻击同样有效。
+假设发送方加密消息 $m = m_1 \parallel m_2$，其中 $m_1$ 已知而 $m_2$ 未知。设 $m_2$ 长 k 比特，于是 $m = 2^k \cdot m_1 + m_2$。给定所得密文 $c = [(m_1 \parallel m_2)^3 \bmod N]$，窃听者可以定义三次多项式 $p(x) \stackrel{\mathrm{def}}{=} (2^k \cdot m_1 + x)^3 - c$。该多项式以 $m_2$ 为根（模 $N$ 意义下），且 $|m_2| < 2^k$。于是定理 12.29 意味着，只要 $2^k \leq N^{1/3}$，攻击者就能高效地算出 $m_2$。当 $m_2$ 已知而 $m_1$ 未知时，类似的攻击同样有效。
 
 **Encrypting related messages.**³ This attack assumes a sender who encrypts two related messages to the same receiver (something that should not result in an attack when using a secure encryption scheme). Assume the sender encrypts both $m$ and $m+\delta$, where the offset $\delta$ is known but $m$ is not. Given the two ciphertexts $c_1 = [m^e \bmod N]$ and $c_2 = [(m+\delta)^e \bmod N]$, an eavesdropper can define the two polynomials $f_1(x) \overset{\mathrm{def}}{=} x^e - c_1$ and $f_2(x) \overset{\mathrm{def}}{=} (x+\delta)^e - c_2$, each of degree $e$. Note that $x = m$ is a root (modulo $N$) of both polynomials, and so the linear term $(x-m)$ is a factor of both. Thus, if the greatest common divisor of $f_1(x)$ and $f_2(x)$ (modulo $N$) is linear, it will reveal $m$. The greatest common divisor can be computed in time $\mathsf{poly}(\|N\|, e)$ using an algorithm similar to the one in Appendix B.1.2; thus, this attack is feasible for small $e$.
 
@@ -243,9 +243,9 @@ Moreover, using techniques similar to those shown in Section 9.1.5 it is possibl
 
 ### 12.5.2 Padded RSA and PKCS #1 v1.5　填充 RSA 与 PKCS #1 v1.5
 
-Although plain RSA is insecure, it does suggest one general approach to public-key encryption based on the RSA problem: to encrypt a message $m$ using public key $\langle N, e \rangle$, first map $m$ to an element $\hat{m} \in \mathbb{Z}_N^*$; then compute the ciphertext $c := [\hat{m}^e \mod N]$. To decrypt a ciphertext $c$, the receiver computes $\hat{m} := [c^d \mod N]$ and then recovers the original message $m$. For the receiver to be able to recover the message, the mapping from messages to elements of $\mathbb{Z}_N^*$ must be (efficiently) reversible. For a scheme following this approach to have a hope of being CPA-secure, the mapping must be randomized so encryption is not deterministic. This is, of course, a necessary condition but not a sufficient one, and security of the encryption scheme depends critically on the specific mapping that is used.
+Although plain RSA is insecure, it does suggest one general approach to public-key encryption based on the RSA problem: to encrypt a message $m$ using public key $\langle N, e \rangle$, first map $m$ to an element $\hat{m} \in \mathbb{Z}_N^*$; then compute the ciphertext $c := [\hat{m}^e \bmod N]$. To decrypt a ciphertext $c$, the receiver computes $\hat{m} := [c^d \bmod N]$ and then recovers the original message $m$. For the receiver to be able to recover the message, the mapping from messages to elements of $\mathbb{Z}_N^*$ must be (efficiently) reversible. For a scheme following this approach to have a hope of being CPA-secure, the mapping must be randomized so encryption is not deterministic. This is, of course, a necessary condition but not a sufficient one, and security of the encryption scheme depends critically on the specific mapping that is used.
 
-尽管朴素 RSA 并不安全，但它确实提示了基于 RSA 问题构造公钥加密的一种一般思路：要用公钥 $\langle N, e \rangle$ 加密消息 $m$，先把 $m$ 映射为元素 $\hat{m} \in \mathbb{Z}_N^*$，再计算密文 $c := [\hat{m}^e \mod N]$。解密密文 $c$ 时，接收方计算 $\hat{m} := [c^d \mod N]$，然后恢复原始消息 $m$。为了使接收方能够恢复消息，从消息到 $\mathbb{Z}_N^*$ 元素的映射必须是（高效）可逆的。而遵循这一思路的方案要想有望达到选择明文安全，该映射还必须是随机化的，使加密不再是确定性的。当然，这只是必要条件而非充分条件，加密方案的安全性关键取决于所用的具体映射。
+尽管朴素 RSA 并不安全，但它确实提示了基于 RSA 问题构造公钥加密的一种一般思路：要用公钥 $\langle N, e \rangle$ 加密消息 $m$，先把 $m$ 映射为元素 $\hat{m} \in \mathbb{Z}_N^*$，再计算密文 $c := [\hat{m}^e \bmod N]$。解密密文 $c$ 时，接收方计算 $\hat{m} := [c^d \bmod N]$，然后恢复原始消息 $m$。为了使接收方能够恢复消息，从消息到 $\mathbb{Z}_N^*$ 元素的映射必须是（高效）可逆的。而遵循这一思路的方案要想有望达到选择明文安全，该映射还必须是随机化的，使加密不再是确定性的。当然，这只是必要条件而非充分条件，加密方案的安全性关键取决于所用的具体映射。
 
 One simple implementation of the above idea is to randomly pad the message before encrypting. That is, to map a message $m$ (viewed as a bit-string) to an element of $\mathbb{Z}_N^*$, the sender chooses a uniform bit-string $r \in \{0,1\}^\ell$ (for some appropriate $\ell$) and sets $\hat{m} := r\|m$; the resulting value can naturally be interpreted as an integer in $\mathbb{Z}_N^*$. (This mapping is clearly reversible.) See Construction 12.30, where the bounds on $\ell(n)$ and the length of $m$ ensure that the integer $\hat{m}$ is less than $N$.
 
@@ -259,9 +259,9 @@ Let GenRSA be as before, and let $\ell$ be a function with $\ell(n) < 2n$. Defin
 
 设 $\mathsf{GenRSA}$ 如前所述，并设 $\ell$ 是满足 $\ell(n) < 2n$ 的函数。如下定义一个公钥加密方案：
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
 
-- Gen：以 ${1}^n$ 为输入，运行 $\mathsf{GenRSA}({1}^n)$ 得到 $(N, e, d)$。输出公钥 $pk = \langle N, e \rangle$ 和私钥 $sk = \langle N, d \rangle$。
+- Gen：以 $1^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N, e, d)$。输出公钥 $pk = \langle N, e \rangle$ 和私钥 $sk = \langle N, d \rangle$。
 
 - Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}^{|N|- \ell(n)-1}$, choose a uniform string $r \in \{0,1\}^{\ell(n)}$ and interpret $\hat{m} := r\|m$ as an element of $\mathbb{Z}_N^*$. Output the ciphertext
 
@@ -287,15 +287,15 @@ The padded RSA encryption scheme.
 
 填充 RSA 加密方案。
 
-The construction is parameterized by a value $\ell$ that determines the length of the random padding used. Security of the scheme depends on $\ell$. There is an obvious brute-force attack on the scheme that runs in time ${2}^{\ell}$, so if $\ell$ is too short (in particular, if $\ell(n) = \mathcal{O}(\log n)$), the scheme is insecure. At the other extreme, the result we show in the following section shows that when the padding is as large as possible, and $m$ is just a single bit, then it is possible to prove security based on the RSA assumption. In intermediate cases, the situation is less clear: for certain $\ell$ we cannot prove security based on the RSA assumption but no polynomial-time attacks are known either. We defer further discussion until after our treatment of PKCS #1 v1.5 next.
+The construction is parameterized by a value $\ell$ that determines the length of the random padding used. Security of the scheme depends on $\ell$. There is an obvious brute-force attack on the scheme that runs in time $2^{\ell}$, so if $\ell$ is too short (in particular, if $\ell(n) = \mathcal{O}(\log n)$), the scheme is insecure. At the other extreme, the result we show in the following section shows that when the padding is as large as possible, and $m$ is just a single bit, then it is possible to prove security based on the RSA assumption. In intermediate cases, the situation is less clear: for certain $\ell$ we cannot prove security based on the RSA assumption but no polynomial-time attacks are known either. We defer further discussion until after our treatment of PKCS #1 v1.5 next.
 
-该构造由决定随机填充长度的值 $\ell$ 参数化。方案的安全性取决于 $\ell$。该方案存在一个运行时间为 ${2}^{\ell}$ 的明显的穷举攻击，因此若 $\ell$ 太短（特别地，若 $\ell(n) = \mathcal{O}(\log n)$），方案就不安全。在另一个极端，下一节给出的结果表明：当填充长度取到尽可能大、而 $m$ 仅为单个比特时，可以基于 RSA 假设证明安全性。介于两者之间的情况则不太明朗：对某些 $\ell$，我们既无法基于 RSA 假设证明安全性，也没有已知的多项式时间攻击。进一步的讨论留待下文介绍完 PKCS #1 v1.5 之后进行。
+该构造由决定随机填充长度的值 $\ell$ 参数化。方案的安全性取决于 $\ell$。该方案存在一个运行时间为 $2^{\ell}$ 的明显的穷举攻击，因此若 $\ell$ 太短（特别地，若 $\ell(n) = \mathcal{O}(\log n)$），方案就不安全。在另一个极端，下一节给出的结果表明：当填充长度取到尽可能大、而 $m$ 仅为单个比特时，可以基于 RSA 假设证明安全性。介于两者之间的情况则不太明朗：对某些 $\ell$，我们既无法基于 RSA 假设证明安全性，也没有已知的多项式时间攻击。进一步的讨论留待下文介绍完 PKCS #1 v1.5 之后进行。
 
-RSA PKCS #1 v1.5. The RSA Laboratories Public-Key Cryptography Standard (PKCS) #1 version 1.5, issued in 1993, utilizes a variant of padded RSA encryption. For a public key $pk = \langle N, e \rangle$ of the usual form, let $k$ denote the length of $N$ in bytes; i.e., $k$ is the integer satisfying ${2}^{8(k-1)} \leq N < 2^{8k}$. Messages $m$ to be encrypted are assumed to have length an integer number of bytes ranging from one to $k-11$. Encryption of a D-byte message $m$ is computed as
+RSA PKCS #1 v1.5. The RSA Laboratories Public-Key Cryptography Standard (PKCS) #1 version 1.5, issued in 1993, utilizes a variant of padded RSA encryption. For a public key $pk = \langle N, e \rangle$ of the usual form, let $k$ denote the length of $N$ in bytes; i.e., $k$ is the integer satisfying $2^{8(k-1)} \leq N < 2^{8k}$. Messages $m$ to be encrypted are assumed to have length an integer number of bytes ranging from one to $k-11$. Encryption of a D-byte message $m$ is computed as
 
 **RSA PKCS #1 v1.5。**
 
-RSA 实验室的公钥密码学标准（PKCS）#1 的 1.5 版本发布于 1993 年，采用了填充 RSA 加密的一个变体。对于通常形式的公钥 $pk = \langle N, e \rangle$，用 $k$ 表示 $N$ 的字节长度；即 $k$ 是满足 ${2}^{8(k-1)} \leq N < 2^{8k}$ 的整数。假定待加密消息 $m$ 的长度为整数个字节，范围从 1 到 $k-11$。对 D 字节消息 $m$ 的加密按下式计算：
+RSA 实验室的公钥密码学标准（PKCS）#1 的 1.5 版本发布于 1993 年，采用了填充 RSA 加密的一个变体。对于通常形式的公钥 $pk = \langle N, e \rangle$，用 $k$ 表示 $N$ 的字节长度；即 $k$ 是满足 $2^{8(k-1)} \leq N < 2^{8k}$ 的整数。假定待加密消息 $m$ 的长度为整数个字节，范围从 1 到 $k-11$。对 D 字节消息 $m$ 的加密按下式计算：
 
 $$
 [\left(\mathtt{0x00}\middle|\mathtt{0x02}\middle|r\middle|\mathtt{0x00}\middle|m\right)^{e}\bmod{N}],
@@ -313,17 +313,17 @@ $$
 c=(\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|b\|0\cdots0)^{e}\bmod N.
 $$
 
-An attacker can compute $c^{\prime} := c/(2^L)^e \mod N$; note that
+An attacker can compute $c^{\prime} := c/(2^L)^e \bmod N$; note that
 
-攻击者可以计算 $c^{\prime} := c/(2^L)^e \mod N$；注意
+攻击者可以计算 $c^{\prime} := c/(2^L)^e \bmod N$；注意
 
 $$
 c^{\prime}=\left(\frac{\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|b\|0\cdots0}{10\cdots0}\right)^{e}=(\mathtt{0x02}\|r\|\mathtt{0x00}\|b)^{e}\bmod N.
 $$
 
-The integer $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ is 75 bits long (note that $\mathtt{0x02} = 00000010$, and all the high-order 0-bits don't count), and so an attacker can now apply the “short-message attack,” or the attack based on encrypting a partially known message, from the previous section. To avoid these attacks we need to take $r$ of length at least $\|N\|/e$. Even if $e$ is large, however, the “quadratic-improvement attack” from the previous section shows that $r$ can be recovered, with high probability, in time roughly ${2}^{\|r\|/2}$.
+The integer $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ is 75 bits long (note that $\mathtt{0x02} = 00000010$, and all the high-order 0-bits don't count), and so an attacker can now apply the “short-message attack,” or the attack based on encrypting a partially known message, from the previous section. To avoid these attacks we need to take $r$ of length at least $\|N\|/e$. Even if $e$ is large, however, the “quadratic-improvement attack” from the previous section shows that $r$ can be recovered, with high probability, in time roughly $2^{\|r\|/2}$.
 
-整数 $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ 只有 75 比特长（注意 $\mathtt{0x02} = 00000010$，所有高位的 0 比特都不计入长度），因此攻击者现在可以套用上一节的“短消息攻击”，或者基于加密部分已知消息的攻击。要避免这些攻击，需要取 $r$ 的长度至少为 $\|N\|/e$。然而，即使 $e$ 较大，上一节的“平方根级加速攻击”也表明，$r$ 可以以高概率在大约 ${2}^{\|r\|/2}$ 的时间内被恢复。
+整数 $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ 只有 75 比特长（注意 $\mathtt{0x02} = 00000010$，所有高位的 0 比特都不计入长度），因此攻击者现在可以套用上一节的“短消息攻击”，或者基于加密部分已知消息的攻击。要避免这些攻击，需要取 $r$ 的长度至少为 $\|N\|/e$。然而，即使 $e$ 较大，上一节的“平方根级加速攻击”也表明，$r$ 可以以高概率在大约 $2^{\|r\|/2}$ 的时间内被恢复。
 
 If we force $r$ to be roughly half the length of $N$, and correspondingly reduce the maximum message length, then it is reasonable to conjecture that the encryption scheme in PKCS #1 v1.5 is CPA-secure. (We stress, however, that no proof of security based on the RSA assumption is known.) Nevertheless, because of a serious chosen-ciphertext attack on the scheme, described briefly in Section 12.5.5, newer versions of the PKCS #1 standard have been introduced and should be used instead.
 
@@ -355,9 +355,9 @@ The RSA hard-core predicate experiment $\mathsf{RSA\text{-}lsb}_{A,\mathsf{GenRS
 
 RSA 难核谓词实验 $\mathsf{RSA\text{-}lsb}_{A,\mathsf{GenRSA}}(1^{n})$：
 
-1. Run $\mathsf{GenRSA}({1}^{n})$ to obtain $(N,e,d)$.
+1. Run $\mathsf{GenRSA}(1^{n})$ to obtain $(N,e,d)$.
 
-   运行 $\mathsf{GenRSA}({1}^{n})$ 得到 $(N,e,d)$。
+   运行 $\mathsf{GenRSA}(1^{n})$ 得到 $(N,e,d)$。
 
 2. Choose a uniform $x \in \mathbb{Z}_N^*$ and compute $y := [x^e \bmod N]$.
 
@@ -371,9 +371,9 @@ RSA 难核谓词实验 $\mathsf{RSA\text{-}lsb}_{A,\mathsf{GenRSA}}(1^{n})$：
 
    当且仅当 $\mathsf{lsb}(x)=b$ 时，实验输出为 1。
 
-Observe that $\mathsf{lsb}(x)$ is a uniform bit when $x \in \mathbb{Z}_N^*$ is uniform. $\mathcal{A}$ can guess $\mathsf{lsb}(x)$ with probability ${1}/{2}$ by simply outputting a uniform bit $b$. The following theorem states that if the RSA problem is hard, then no efficient algorithm $\mathcal{A}$ can do significantly better than this; i.e., the least-significant bit is a hard-core predicate of the RSA permutation.
+Observe that $\mathsf{lsb}(x)$ is a uniform bit when $x \in \mathbb{Z}_N^*$ is uniform. $\mathcal{A}$ can guess $\mathsf{lsb}(x)$ with probability $1/2$ by simply outputting a uniform bit $b$. The following theorem states that if the RSA problem is hard, then no efficient algorithm $\mathcal{A}$ can do significantly better than this; i.e., the least-significant bit is a hard-core predicate of the RSA permutation.
 
-注意，当 $x \in \mathbb{Z}_N^*$ 均匀时，$\mathsf{lsb}(x)$ 是一个均匀比特。$\mathcal{A}$ 只要输出一个均匀比特 $b$，就能以 ${1}/{2}$ 的概率猜中 $\mathsf{lsb}(x)$。下面的定理表明：如果 RSA 问题是困难的，那么任何高效算法 $\mathcal{A}$ 都无法明显做得更好；也就是说，最低有效位是 RSA 置换的难核谓词。
+注意，当 $x \in \mathbb{Z}_N^*$ 均匀时，$\mathsf{lsb}(x)$ 是一个均匀比特。$\mathcal{A}$ 只要输出一个均匀比特 $b$，就能以 $1/2$ 的概率猜中 $\mathsf{lsb}(x)$。下面的定理表明：如果 RSA 问题是困难的，那么任何高效算法 $\mathcal{A}$ 都无法明显做得更好；也就是说，最低有效位是 RSA 置换的难核谓词。
 
 THEOREM 12.31 If the RSA problem is hard relative to GenRSA then for all probabilistic polynomial-time algorithms $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{RSA\text{-}lsb}_{\mathcal{A},\mathsf{GenRSA}}(n)=1] \leq \frac{1}{2} + \mathsf{negl}(n)$.
 
@@ -387,13 +387,13 @@ Fix $N$ and $e$, and let $\mathcal{A}$ be an algorithm such that $\mathcal{A}([r
 
 固定 $N$ 和 $e$，并设 $\mathcal{A}$ 是满足 $\mathcal{A}([r^e \bmod N]) = \mathsf{lsb}(r)$ 的算法。给定 $N, e$ 和 $y = [x^e \bmod N]$，我们将从最低有效位到最高有效位逐位恢复 $x$。要确定 $\mathsf{lsb}(x)$，只需运行 $\mathcal{A}(y)$。接下来分两种情形：
 
-Case 1: $\mathsf{lsb}(x) = 0$. Note that $y/2^e = (x/2)^e \bmod N$, and because $x$ is even (i.e., $\mathsf{lsb}(x) = 0$), 2 divides the integer x. So $x/2$ is just the right-wise bit-shift of $x$, and $\mathsf{lsb}(x/2)$ is equal to ${2}\mathsf{sb}(x)$, the 2nd-least-significant bit of $x$. So we can obtain ${2}\mathsf{sb}(x)$ by computing $y^{\prime} := [y/2^e \bmod N]$ and then running $\mathcal{A}(y^{\prime})$.
+Case 1: $\mathsf{lsb}(x) = 0$. Note that $y/2^e = (x/2)^e \bmod N$, and because $x$ is even (i.e., $\mathsf{lsb}(x) = 0$), 2 divides the integer x. So $x/2$ is just the right-wise bit-shift of $x$, and $\mathsf{lsb}(x/2)$ is equal to $2\mathsf{sb}(x)$, the 2nd-least-significant bit of $x$. So we can obtain $2\mathsf{sb}(x)$ by computing $y^{\prime} := [y/2^e \bmod N]$ and then running $\mathcal{A}(y^{\prime})$.
 
-情形 1：$\mathsf{lsb}(x) = 0$。注意 $y/2^e = (x/2)^e \bmod N$，且因为 $x$ 是偶数（即 $\mathsf{lsb}(x) = 0$），2 整除整数 x。所以 $x/2$ 就是 $x$ 右移一位的结果，而 $\mathsf{lsb}(x/2)$ 等于 ${2}\mathsf{sb}(x)$，即 $x$ 的次低有效位。于是，我们可以通过计算 $y^{\prime} := [y/2^e \bmod N]$ 再运行 $\mathcal{A}(y^{\prime})$ 来得到 ${2}\mathsf{sb}(x)$。
+情形 1：$\mathsf{lsb}(x) = 0$。注意 $y/2^e = (x/2)^e \bmod N$，且因为 $x$ 是偶数（即 $\mathsf{lsb}(x) = 0$），2 整除整数 x。所以 $x/2$ 就是 $x$ 右移一位的结果，而 $\mathsf{lsb}(x/2)$ 等于 $2\mathsf{sb}(x)$，即 $x$ 的次低有效位。于是，我们可以通过计算 $y^{\prime} := [y/2^e \bmod N]$ 再运行 $\mathcal{A}(y^{\prime})$ 来得到 $2\mathsf{sb}(x)$。
 
-Case 2: $\mathsf{lsb}(x) = 1$. Here $[x/2 \bmod N] = (x + N)/2$. So $\mathsf{lsb}([x/2 \bmod N])$ is equal to ${2}\mathsf{sb}(x + N)$; the latter is equal to ${1} \oplus {2}\mathsf{sb}(N) \oplus {2}\mathsf{sb}(x)$ (we have a carry bit in the second position because both $x$ and $N$ are odd). So if we compute $y^{\prime} := [y/2^e \mod N]$, then ${2}\mathsf{sb}(x) = \mathcal{A}(y^{\prime}) \oplus 1 \oplus {2}\mathsf{sb}(N)$.
+Case 2: $\mathsf{lsb}(x) = 1$. Here $[x/2 \bmod N] = (x + N)/2$. So $\mathsf{lsb}([x/2 \bmod N])$ is equal to $2\mathsf{sb}(x + N)$; the latter is equal to $1 \oplus {2}\mathsf{sb}(N) \oplus {2}\mathsf{sb}(x)$ (we have a carry bit in the second position because both $x$ and $N$ are odd). So if we compute $y^{\prime} := [y/2^e \bmod N]$, then $2\mathsf{sb}(x) = \mathcal{A}(y^{\prime}) \oplus 1 \oplus {2}\mathsf{sb}(N)$.
 
-情形 2：$\mathsf{lsb}(x) = 1$。此时 $[x/2 \bmod N] = (x + N)/2$。所以 $\mathsf{lsb}([x/2 \bmod N])$ 等于 ${2}\mathsf{sb}(x + N)$；后者等于 ${1} \oplus {2}\mathsf{sb}(N) \oplus {2}\mathsf{sb}(x)$（因为 $x$ 和 $N$ 都是奇数，在第二位上有一个进位比特）。因此，只要计算 $y^{\prime} := [y/2^e \mod N]$，就有 ${2}\mathsf{sb}(x) = \mathcal{A}(y^{\prime}) \oplus 1 \oplus {2}\mathsf{sb}(N)$。
+情形 2：$\mathsf{lsb}(x) = 1$。此时 $[x/2 \bmod N] = (x + N)/2$。所以 $\mathsf{lsb}([x/2 \bmod N])$ 等于 $2\mathsf{sb}(x + N)$；后者等于 $1 \oplus {2}\mathsf{sb}(N) \oplus {2}\mathsf{sb}(x)$（因为 $x$ 和 $N$ 都是奇数，在第二位上有一个进位比特）。因此，只要计算 $y^{\prime} := [y/2^e \bmod N]$，就有 $2\mathsf{sb}(x) = \mathcal{A}(y^{\prime}) \oplus 1 \oplus {2}\mathsf{sb}(N)$。
 
 Continuing in this way, we can recover all the bits of x.
 
@@ -403,9 +403,9 @@ Continuing in this way, we can recover all the bits of x.
 
 **加密单个比特。**
 
-We can use the hard-core predicate identified above to encrypt a single bit. The idea is straightforward: to encrypt the message $m \in \{0,1\}$, the sender chooses uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$; the ciphertext is $c := [r^e \mod N]$. See Construction 12.32.
+We can use the hard-core predicate identified above to encrypt a single bit. The idea is straightforward: to encrypt the message $m \in \{0,1\}$, the sender chooses uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$; the ciphertext is $c := [r^e \bmod N]$. See Construction 12.32.
 
-我们可以利用上面确定的难核谓词来加密单个比特。思路很直接：要加密消息 $m \in \{0,1\}$，发送方在满足 $\mathsf{lsb}(r) = m$ 的约束下均匀选取 $r \in \mathbb{Z}_N^*$；密文为 $c := [r^e \mod N]$。见构造 12.32。
+我们可以利用上面确定的难核谓词来加密单个比特。思路很直接：要加密消息 $m \in \{0,1\}$，发送方在满足 $\mathsf{lsb}(r) = m$ 的约束下均匀选取 $r \in \mathbb{Z}_N^*$；密文为 $c := [r^e \bmod N]$。见构造 12.32。
 
 **CONSTRUCTION 12.32**
 
@@ -415,13 +415,13 @@ Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
 设 $\mathsf{GenRSA}$ 如常，并如下定义一个公钥加密方案：
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. Output the public key $pk=\langle N,e\rangle$, and the private key $sk=\langle N,d\rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. Output the public key $pk=\langle N,e\rangle$, and the private key $sk=\langle N,d\rangle$.
 
-- Gen：以 ${1}^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N,e,d)$。输出公钥 $pk=\langle N,e\rangle$ 和私钥 $sk=\langle N,d\rangle$。
+- Gen：以 $1^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N,e,d)$。输出公钥 $pk=\langle N,e\rangle$ 和私钥 $sk=\langle N,d\rangle$。
 
-- Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}$, choose a uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$. Output the ciphertext $c := [r^e \mod N]$.
+- Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}$, choose a uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$. Output the ciphertext $c := [r^e \bmod N]$.
 
-- Enc：以公钥 $pk = \langle N, e \rangle$ 和消息 $m \in \{0,1\}$ 为输入，在满足 $\mathsf{lsb}(r) = m$ 的约束下均匀选取 $r \in \mathbb{Z}_N^*$。输出密文 $c := [r^e \mod N]$。
+- Enc：以公钥 $pk = \langle N, e \rangle$ 和消息 $m \in \{0,1\}$ 为输入，在满足 $\mathsf{lsb}(r) = m$ 的约束下均匀选取 $r \in \mathbb{Z}_N^*$。输出密文 $c := [r^e \bmod N]$。
 
 - Dec: on input a private key $sk = \langle N, d \rangle$ and a ciphertext $c$, compute $r := [c^d \bmod N]$ and output $\mathsf{lsb}(r)$.
 
@@ -502,7 +502,7 @@ It is possible to implement decryption more efficiently using the fact that the 
 利用接收方知道群 $\mathbb{Z}_N^*$ 的阶这一事实，可以更高效地实现解密。在密钥生成时，接收方可以预先计算 $d^{\prime} := [d^n \bmod \phi(N)]$，并把 $d^{\prime}$ 存为私钥的一部分。解密时，接收方就可以直接计算 $c_1 := [c^{d^{\prime}} \bmod N]$，然后再计算 $c_1^e, \ldots, c_1^{e^n}$。（由于实践中 $e \ll d$，$e$ 次幂运算比 $d$ 次幂运算更高效。）这当然是可行的，因为
 
 $$
-c^{d^{n}}\bmod N=c^{[d^{n}\bmod\phi(N)]}=c^{d^{\prime}}\bmod N.
+c^{d^{n}}\bmod N=c^{[d^{n} \bmod \phi(N)]}=c^{d^{\prime}}\bmod N.
 $$
 
 The above is formally described as Construction 12.34.
@@ -517,9 +517,9 @@ Let GenRSA be as usual, and define a KEM as follows:
 
 设 $\mathsf{GenRSA}$ 如常，并如下定义一个 KEM：
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Then compute $d^{\prime} := [d^n \mod \phi(N)]$ (note that $\phi(N)$ can be computed from $(N, e, d)$ or obtained during the course of running GenRSA). Output $pk = \langle N, e \rangle$ and $sk = \langle N, d^{\prime}\rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$. Then compute $d^{\prime} := [d^n \bmod \phi(N)]$ (note that $\phi(N)$ can be computed from $(N, e, d)$ or obtained during the course of running GenRSA). Output $pk = \langle N, e \rangle$ and $sk = \langle N, d^{\prime}\rangle$.
 
-- Gen：以 ${1}^n$ 为输入，运行 $\mathsf{GenRSA}({1}^n)$ 得到 $(N, e, d)$。然后计算 $d^{\prime} := [d^n \mod \phi(N)]$（注意 $\phi(N)$ 可以由 $(N, e, d)$ 算出，也可以在运行 GenRSA 的过程中获得）。输出 $pk = \langle N, e \rangle$ 和 $sk = \langle N, d^{\prime}\rangle$。
+- Gen：以 $1^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N, e, d)$。然后计算 $d^{\prime} := [d^n \bmod \phi(N)]$（注意 $\phi(N)$ 可以由 $(N, e, d)$ 算出，也可以在运行 GenRSA 的过程中获得）。输出 $pk = \langle N, e \rangle$ 和 $sk = \langle N, d^{\prime}\rangle$。
 
 - Encaps: on input $pk = \langle N, e \rangle$, choose a uniform $c_1 \in \mathbb{Z}_N^*$. Then for $i = 1, \ldots, n$ do:
 
@@ -529,25 +529,25 @@ Let GenRSA be as usual, and define a KEM as follows:
 
       计算 $k_i := \mathsf{lsb}(c_i)$。
 
-   2. Compute $c_{i+1} := [c_i^e \mod N]$.
+   2. Compute $c_{i+1} := [c_i^e \bmod N]$.
 
-      计算 $c_{i+1} := [c_i^e \mod N]$。
+      计算 $c_{i+1} := [c_i^e \bmod N]$。
 
    Output the ciphertext $c_{n+1}$ and the key $k = k_1 \cdots k_n$.
 
    输出密文 $c_{n+1}$ 和密钥 $k = k_1 \cdots k_n$。
 
-- Decaps: on input $sk = \langle N, d^{\prime} \rangle$ and a ciphertext $c$, compute $c_1 := [c^{d^{\prime}} \mod N]$. Then for $i = 1, \ldots, n$ do:
+- Decaps: on input $sk = \langle N, d^{\prime} \rangle$ and a ciphertext $c$, compute $c_1 := [c^{d^{\prime}} \bmod N]$. Then for $i = 1, \ldots, n$ do:
 
-- Decaps：以 $sk = \langle N, d^{\prime} \rangle$ 和密文 $c$ 为输入，计算 $c_1 := [c^{d^{\prime}} \mod N]$。然后对 $i = 1, \ldots, n$ 执行：
+- Decaps：以 $sk = \langle N, d^{\prime} \rangle$ 和密文 $c$ 为输入，计算 $c_1 := [c^{d^{\prime}} \bmod N]$。然后对 $i = 1, \ldots, n$ 执行：
 
    1. Compute $k_i := \mathsf{lsb}(c_i)$.
 
       计算 $k_i := \mathsf{lsb}(c_i)$。
 
-   2. Compute $c_{i+1} := [c_i^e \mod N]$.
+   2. Compute $c_{i+1} := [c_i^e \bmod N]$.
 
-      计算 $c_{i+1} := [c_i^e \mod N]$。
+      计算 $c_{i+1} := [c_i^e \bmod N]$。
 
    Output the key $k = k_1 \cdots k_n$.
 
@@ -557,17 +557,17 @@ A KEM using a hard-core predicate for RSA.
 
 使用 RSA 难核谓词的 KEM。
 
-The construction is reminiscent of the approach used to construct a pseudorandom generator from a one-way permutation toward the end of Section 8.4.2. If we let $f$ denote the RSA permutation relative to some public key $\langle N, e \rangle$ (i.e., $f(x) \overset{\mathrm{def}}{=} [x^e \mod N]$), then CPA-security of Construction 12.34 is equivalent to pseudorandomness of $\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ even conditioned on the value $c = f^n(c_1)$. This, in turn, can be proven using Theorem 12.31 and the techniques from Section 8.4.2. (The only difference is that in Section 8.4.2 the value $f^n(c_1)$ was itself a uniform $n$-bit string, whereas here it is a uniform element of $\mathbb{Z}_N^*$. Pseudorandomness of the successive hard-core predicates is independent of the domain of $f$.) Summarizing:
+The construction is reminiscent of the approach used to construct a pseudorandom generator from a one-way permutation toward the end of Section 8.4.2. If we let $f$ denote the RSA permutation relative to some public key $\langle N, e \rangle$ (i.e., $f(x) \overset{\mathrm{def}}{=} [x^e \bmod N]$), then CPA-security of Construction 12.34 is equivalent to pseudorandomness of $\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ even conditioned on the value $c = f^n(c_1)$. This, in turn, can be proven using Theorem 12.31 and the techniques from Section 8.4.2. (The only difference is that in Section 8.4.2 the value $f^n(c_1)$ was itself a uniform $n$-bit string, whereas here it is a uniform element of $\mathbb{Z}_N^*$. Pseudorandomness of the successive hard-core predicates is independent of the domain of $f$.) Summarizing:
 
-该构造让人想起 8.4.2 节末尾由单向置换构造伪随机生成器所用的方法。如果用 $f$ 表示相对于某个公钥 $\langle N, e \rangle$ 的 RSA 置换（即 $f(x) \overset{\mathrm{def}}{=} [x^e \mod N]$），那么构造 12.34 的选择明文安全性就等价于：即使以 $c = f^n(c_1)$ 的值为条件，$\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ 仍是伪随机的。而后者又可以用定理 12.31 和 8.4.2 节的技术来证明。（唯一的差别是：在 8.4.2 节中，$f^n(c_1)$ 本身是均匀的 $n$ 比特串，而在这里它是 $\mathbb{Z}_N^*$ 中的均匀元素。相继各难核谓词的伪随机性与 $f$ 的定义域无关。）总结如下：
+该构造让人想起 8.4.2 节末尾由单向置换构造伪随机生成器所用的方法。如果用 $f$ 表示相对于某个公钥 $\langle N, e \rangle$ 的 RSA 置换（即 $f(x) \overset{\mathrm{def}}{=} [x^e \bmod N]$），那么构造 12.34 的选择明文安全性就等价于：即使以 $c = f^n(c_1)$ 的值为条件，$\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ 仍是伪随机的。而后者又可以用定理 12.31 和 8.4.2 节的技术来证明。（唯一的差别是：在 8.4.2 节中，$f^n(c_1)$ 本身是均匀的 $n$ 比特串，而在这里它是 $\mathbb{Z}_N^*$ 中的均匀元素。相继各难核谓词的伪随机性与 $f$ 的定义域无关。）总结如下：
 
 THEOREM 12.35 If the RSA problem is hard relative to GenRSA then Construction 12.34 is a CPA-secure KEM.
 
 定理 12.35　如果 RSA 问题相对于 $\mathsf{GenRSA}$ 是困难的，那么构造 12.34 是一个选择明文安全的 KEM。
 
-Efficiency. Construction 12.34 is reasonably efficient. To be concrete, assume that $n = 128$, the RSA modulus $N$ is 2048 bits long, and the public exponent $e$ is 3 so that exponentiation to the power $e$ modulo $N$ can be computed using two modular multiplications. (See Appendix B.2.3.) Encryption then requires ${2}n = 256$ modular multiplications. Decryption can be done with one full modular exponentiation (at the cost of approximately ${1.5} \cdot 2048 = 3072$ modular multiplications) plus an additional 256 modular multiplications. The cost of decryption is thus only about 8% less efficient than for the plain RSA encryption scheme. Encryption is significantly more expensive than in plain RSA, but in many applications decryption time is more important (since it may be implemented by a server that is performing thousands of decryptions simultaneously).
+Efficiency. Construction 12.34 is reasonably efficient. To be concrete, assume that $n = 128$, the RSA modulus $N$ is 2048 bits long, and the public exponent $e$ is 3 so that exponentiation to the power $e$ modulo $N$ can be computed using two modular multiplications. (See Appendix B.2.3.) Encryption then requires $2n = 256$ modular multiplications. Decryption can be done with one full modular exponentiation (at the cost of approximately $1.5 \cdot 2048 = 3072$ modular multiplications) plus an additional 256 modular multiplications. The cost of decryption is thus only about 8% less efficient than for the plain RSA encryption scheme. Encryption is significantly more expensive than in plain RSA, but in many applications decryption time is more important (since it may be implemented by a server that is performing thousands of decryptions simultaneously).
 
-**效率。** 构造 12.34 相当高效。具体地说，假设 $n = 128$，RSA 模数 $N$ 长 2048 比特，公开指数 $e$ 为 3，于是模 $N$ 的 $e$ 次幂运算可以用两次模乘法完成。（见附录 B.2.3。）此时加密需要 ${2}n = 256$ 次模乘法。解密则可以用一次完整的模幂运算（代价约为 ${1.5} \cdot 2048 = 3072$ 次模乘法）加上额外的 256 次模乘法完成。因此，解密的开销仅比朴素 RSA 加密方案高约 8%。加密比朴素 RSA 昂贵得多，但在许多应用中解密时间更为重要（因为解密可能由一台同时要执行数千次解密的服务器来完成）。
+**效率。** 构造 12.34 相当高效。具体地说，假设 $n = 128$，RSA 模数 $N$ 长 2048 比特，公开指数 $e$ 为 3，于是模 $N$ 的 $e$ 次幂运算可以用两次模乘法完成。（见附录 B.2.3。）此时加密需要 $2n = 256$ 次模乘法。解密则可以用一次完整的模幂运算（代价约为 $1.5 \cdot 2048 = 3072$ 次模乘法）加上额外的 256 次模乘法完成。因此，解密的开销仅比朴素 RSA 加密方案高约 8%。加密比朴素 RSA 昂贵得多，但在许多应用中解密时间更为重要（因为解密可能由一台同时要执行数千次解密的服务器来完成）。
 
 ### 12.5.4 OAEP and PKCS #1 v2　OAEP 与 PKCS #1 v2
 
@@ -594,17 +594,17 @@ RSA PKCS #1 v1.5. Padded RSA encryption, which is conjectured to be CPA-secure f
 
 **RSA PKCS #1 v1.5。** 填充 RSA 加密被猜想在参数设置恰当时是选择明文安全的，但它仍会受到与朴素 RSA 加密本质上相同的攻击。不过，针对 PKCS #1 v1.5 加密还有一种更有意思的选择密文攻击：与利用可延展性的攻击不同，它不需要对解密预言机的完全访问；它只需要访问一个“部分”解密预言机，该预言机会指示某个密文的解密是否返回错误。这使该攻击实用得多，因为只要攻击者能区分解密成功与解密失败就能实施——正如 5.1.1 节讨论的填充预言机攻击的情形。
 
-Recall that the public-key encryption scheme defined in the PKCS #1 v1.5 standard uses a variant of padded RSA encryption where the padding is done in a specific way. In particular, the two high-order bytes of the padded message are always $\mathtt{0x00}\|\mathtt{0x02}$. When decrypting, the receiver is supposed to check that the two high-order bytes of the intermediate result match these values, and return an error if this is not the case. In 1998, Bleichenbacher developed a chosen-ciphertext attack that exploits the fact that this check is done. Roughly, given a ciphertext $c$ that corresponds to an honest encryption of some unknown message $m$ with respect to a public key $\langle N, e \rangle$, Bleichenbacher's attack repeatedly chooses uniform $s \in \mathbb{Z}_N^*$ and submits the ciphertext $c^{\prime} := [s^e \cdot c \mod N]$ to the receiver. Say $c = [\hat{m}^e \mod N]$ where
+Recall that the public-key encryption scheme defined in the PKCS #1 v1.5 standard uses a variant of padded RSA encryption where the padding is done in a specific way. In particular, the two high-order bytes of the padded message are always $\mathtt{0x00}\|\mathtt{0x02}$. When decrypting, the receiver is supposed to check that the two high-order bytes of the intermediate result match these values, and return an error if this is not the case. In 1998, Bleichenbacher developed a chosen-ciphertext attack that exploits the fact that this check is done. Roughly, given a ciphertext $c$ that corresponds to an honest encryption of some unknown message $m$ with respect to a public key $\langle N, e \rangle$, Bleichenbacher's attack repeatedly chooses uniform $s \in \mathbb{Z}_N^*$ and submits the ciphertext $c^{\prime} := [s^e \cdot c \bmod N]$ to the receiver. Say $c = [\hat{m}^e \bmod N]$ where
 
-回想一下，PKCS #1 v1.5 标准定义的公钥加密方案使用的是填充 RSA 加密的一个变体，其中填充以特定的方式完成。特别地，填充后消息的最高两个字节总是 $\mathtt{0x00}\|\mathtt{0x02}$。解密时，接收方应当检查中间结果的最高两个字节是否与这些值相符，若不相符则返回错误。1998 年，Bleichenbacher 提出了一种选择密文攻击，利用的正是“会进行这一检查”的事实。粗略地说，给定密文 $c$——它对应于某个未知消息 $m$ 在公钥 $\langle N, e \rangle$ 下的诚实加密——Bleichenbacher 的攻击反复选取均匀的 $s \in \mathbb{Z}_N^*$，并把密文 $c^{\prime} := [s^e \cdot c \mod N]$ 提交给接收方。设 $c = [\hat{m}^e \mod N]$，其中
+回想一下，PKCS #1 v1.5 标准定义的公钥加密方案使用的是填充 RSA 加密的一个变体，其中填充以特定的方式完成。特别地，填充后消息的最高两个字节总是 $\mathtt{0x00}\|\mathtt{0x02}$。解密时，接收方应当检查中间结果的最高两个字节是否与这些值相符，若不相符则返回错误。1998 年，Bleichenbacher 提出了一种选择密文攻击，利用的正是“会进行这一检查”的事实。粗略地说，给定密文 $c$——它对应于某个未知消息 $m$ 在公钥 $\langle N, e \rangle$ 下的诚实加密——Bleichenbacher 的攻击反复选取均匀的 $s \in \mathbb{Z}_N^*$，并把密文 $c^{\prime} := [s^e \cdot c \bmod N]$ 提交给接收方。设 $c = [\hat{m}^e \bmod N]$，其中
 
 $$
 \hat{m}=\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|m,
 $$
 
-as specified by PKCS #1 v1.5. Then decryption of $c^{\prime}$ will give the intermediate result $\hat{m}^{\prime} = [s \cdot \hat{m} \mod N]$, and the receiver will return an error unless the top two bytes of $\hat{m}^{\prime}$ are exactly 0x00||0x02. (Other checks are done as well, but we ignore those for simplicity.) Thus, whenever decryption succeeds the attacker learns that the top two bytes of $s \cdot \hat{m} \mod N$ are 0x00||0x02, where $s$ is known. Sufficiently many equations of this type suffice for the attacker to learn $\hat{m}$ and recover all of the original message $m$.
+as specified by PKCS #1 v1.5. Then decryption of $c^{\prime}$ will give the intermediate result $\hat{m}^{\prime} = [s \cdot \hat{m} \bmod N]$, and the receiver will return an error unless the top two bytes of $\hat{m}^{\prime}$ are exactly 0x00||0x02. (Other checks are done as well, but we ignore those for simplicity.) Thus, whenever decryption succeeds the attacker learns that the top two bytes of $s \cdot \hat{m} \bmod N$ are 0x00||0x02, where $s$ is known. Sufficiently many equations of this type suffice for the attacker to learn $\hat{m}$ and recover all of the original message $m$.
 
-如 PKCS #1 v1.5 所规定的那样。那么解密 $c^{\prime}$ 将给出中间结果 $\hat{m}^{\prime} = [s \cdot \hat{m} \mod N]$，而除非 $\hat{m}^{\prime}$ 的最高两个字节恰好是 0x00||0x02，否则接收方都会返回错误。（还会进行其他检查，但为简单起见我们将其忽略。）因此，每当解密成功，攻击者就知道 $s \cdot \hat{m} \mod N$ 的最高两个字节是 0x00||0x02，其中 $s$ 是已知的。足够多这样的方程就足以让攻击者求出 $\hat{m}$，进而恢复整个原始消息 $m$。
+如 PKCS #1 v1.5 所规定的那样。那么解密 $c^{\prime}$ 将给出中间结果 $\hat{m}^{\prime} = [s \cdot \hat{m} \bmod N]$，而除非 $\hat{m}^{\prime}$ 的最高两个字节恰好是 0x00||0x02，否则接收方都会返回错误。（还会进行其他检查，但为简单起见我们将其忽略。）因此，每当解密成功，攻击者就知道 $s \cdot \hat{m} \bmod N$ 的最高两个字节是 0x00||0x02，其中 $s$ 是已知的。足够多这样的方程就足以让攻击者求出 $\hat{m}$，进而恢复整个原始消息 $m$。
 
 **The CPA-secure KEM.**
 
@@ -616,9 +616,9 @@ In Section 12.5.3 we showed a construction of a KEM that can be proven CPA-secur
 
 ### RSA-OAEP　RSA-OAEP
 
-We explore a construction of CCA-secure encryption from RSA using what is called optimal asymmetric encryption padding (OAEP). The resulting RSA-OAEP scheme follows the idea (used also in Section 12.5.2) of taking a message $m$, mapping it to an element $\hat{m} \in \mathbb{Z}_N^*$, and then letting $c = [\hat{m}^e \mod N]$ be the ciphertext. The transformation here, however, is more complex than before. A version of RSA-OAEP has been standardized as part of RSA PKCS #1 since version 2.0.
+We explore a construction of CCA-secure encryption from RSA using what is called optimal asymmetric encryption padding (OAEP). The resulting RSA-OAEP scheme follows the idea (used also in Section 12.5.2) of taking a message $m$, mapping it to an element $\hat{m} \in \mathbb{Z}_N^*$, and then letting $c = [\hat{m}^e \bmod N]$ be the ciphertext. The transformation here, however, is more complex than before. A version of RSA-OAEP has been standardized as part of RSA PKCS #1 since version 2.0.
 
-我们来探索一种利用所谓最优非对称加密填充（optimal asymmetric encryption padding, OAEP）从 RSA 构造选择密文安全加密的方法。由此得到的 RSA-OAEP 方案沿袭了下述思路（12.5.2 节也曾使用）：取一条消息 $m$，把它映射为 $\mathbb{Z}_N^*$ 中的元素 $\hat{m}$，再令 $c = [\hat{m}^e \mod N]$ 作为密文。不过，这里的变换比之前更为复杂。RSA-OAEP 的一个版本自 2.0 版起已被标准化，成为 RSA PKCS #1 的一部分。
+我们来探索一种利用所谓最优非对称加密填充（optimal asymmetric encryption padding, OAEP）从 RSA 构造选择密文安全加密的方法。由此得到的 RSA-OAEP 方案沿袭了下述思路（12.5.2 节也曾使用）：取一条消息 $m$，把它映射为 $\mathbb{Z}_N^*$ 中的元素 $\hat{m}$，再令 $c = [\hat{m}^e \bmod N]$ 作为密文。不过，这里的变换比之前更为复杂。RSA-OAEP 的一个版本自 2.0 版起已被标准化，成为 RSA PKCS #1 的一部分。
 
 Let $\ell(n)$, $k(n)$ be integer-valued functions with $k(n) = \Theta(n)$, and such that $\ell(n) + 2k(n)$ is less than the bit-length of moduli output by $\mathsf{GenRSA}(1^n)$. Fix $n$, and let $\ell = \ell(n)$ and $k = k(n)$. Let $G : \{0, 1\}^k \to \{0, 1\}^{\ell+k}$ and $H : \{0, 1\}^{\ell+k} \to \{0, 1\}^k$ be two hash functions that will be modeled as independent random oracles. (Although using more than one random oracle was not discussed in Section 6.5.1, we can do so in the natural way.) The transformation defined by OAEP is based on a two-round Feistel network with $G$ and $H$ as round functions; see Figure 12.4. Mapping a message $m \in \{0, 1\}^\ell$ to $\hat{m}$ is done as follows: first set $m^{\prime} := m\|0^k$ and choose a uniform $r \in \{0, 1\}^k$. Then compute
 
@@ -636,13 +636,13 @@ and set $\hat{m} := s\|t$.
 
 **FIGURE 12.4: The OAEP transformation. / 图 12.4：OAEP 变换**
 
-(The PKCS #1 standard differs from what we have described, but the differences are unimportant for our purposes.) To encrypt a message $m$ with respect to the public key $\langle N, e \rangle$, the sender generates $\hat{m}$ as above and outputs the ciphertext $c := [\hat{m}^e \mod N]$. (Note that $\hat{m}$, interpreted as an integer, is less than $N$ because of the constraints on $\ell, k$.)
+(The PKCS #1 standard differs from what we have described, but the differences are unimportant for our purposes.) To encrypt a message $m$ with respect to the public key $\langle N, e \rangle$, the sender generates $\hat{m}$ as above and outputs the ciphertext $c := [\hat{m}^e \bmod N]$. (Note that $\hat{m}$, interpreted as an integer, is less than $N$ because of the constraints on $\ell, k$.)
 
-（PKCS #1 标准与我们描述的有所差异，但这些差异对我们的目的无关紧要。）要用公钥 $\langle N, e \rangle$ 加密消息 $m$，发送方按上述方式生成 $\hat{m}$，并输出密文 $c := [\hat{m}^e \mod N]$。（注意，由于 $\ell, k$ 所受的约束，$\hat{m}$ 按整数解释时小于 $N$。）
+（PKCS #1 标准与我们描述的有所差异，但这些差异对我们的目的无关紧要。）要用公钥 $\langle N, e \rangle$ 加密消息 $m$，发送方按上述方式生成 $\hat{m}$，并输出密文 $c := [\hat{m}^e \bmod N]$。（注意，由于 $\ell, k$ 所受的约束，$\hat{m}$ 按整数解释时小于 $N$。）
 
-To decrypt, the receiver computes $\hat{m} := [c^d \mod N]$ and lets $s\|t := \hat{m}$ with $s$ and $t$ of the appropriate lengths. It then inverts the Feistel network by computing $r := H(t) \oplus s$ and $m^{\prime} := G(r) \oplus t$. Importantly, the receiver then verifies that the trailing $k$ bits of $m^{\prime}$ are all 0; if not, the ciphertext is rejected and an error message is returned. Otherwise, the $k$ least-significant 0s of $m^{\prime}$ are discarded, and the remaining $\ell$ bits of $m^{\prime}$ are output as the message. This process is described in Construction 12.36.
+To decrypt, the receiver computes $\hat{m} := [c^d \bmod N]$ and lets $s\|t := \hat{m}$ with $s$ and $t$ of the appropriate lengths. It then inverts the Feistel network by computing $r := H(t) \oplus s$ and $m^{\prime} := G(r) \oplus t$. Importantly, the receiver then verifies that the trailing $k$ bits of $m^{\prime}$ are all 0; if not, the ciphertext is rejected and an error message is returned. Otherwise, the $k$ least-significant 0s of $m^{\prime}$ are discarded, and the remaining $\ell$ bits of $m^{\prime}$ are output as the message. This process is described in Construction 12.36.
 
-解密时，接收方计算 $\hat{m} := [c^d \mod N]$，并将 $s\|t := \hat{m}$ 按相应的长度解析出 $s$ 与 $t$。然后它通过计算 $r := H(t) \oplus s$ 和 $m^{\prime} := G(r) \oplus t$ 来逆转该 Feistel 网络。重要的是，接收方接着要验证 $m^{\prime}$ 的末尾 $k$ 个比特是否全为 0；若不是，则拒绝该密文并返回错误消息。否则，丢弃 $m^{\prime}$ 中最低有效位的 $k$ 个 0，并把 $m^{\prime}$ 其余的 $\ell$ 个比特作为消息输出。这一过程见构造 12.36。
+解密时，接收方计算 $\hat{m} := [c^d \bmod N]$，并将 $s\|t := \hat{m}$ 按相应的长度解析出 $s$ 与 $t$。然后它通过计算 $r := H(t) \oplus s$ 和 $m^{\prime} := G(r) \oplus t$ 来逆转该 Feistel 网络。重要的是，接收方接着要验证 $m^{\prime}$ 的末尾 $k$ 个比特是否全为 0；若不是，则拒绝该密文并返回错误消息。否则，丢弃 $m^{\prime}$ 中最低有效位的 $k$ 个 0，并把 $m^{\prime}$ 其余的 $\ell$ 个比特作为消息输出。这一过程见构造 12.36。
 
 RSA-OAEP can be proven to be CCA-secure based on the RSA assumption if $G$ and $H$ are modeled as random oracles. The proof is rather complicated, and we do not give it here; instead, we merely provide some intuition. First consider CPA-security. During encryption the sender computes
 
@@ -668,9 +668,9 @@ Let GenRSA be as in the previous sections, and $\ell, k$ be as described in the 
 
 设 $\mathsf{GenRSA}$ 与前几节相同，$\ell, k$ 如正文所述。设 $G : \{0,1\}^k \to \{0,1\}^{\ell+k}$ 和 $H : \{0,1\}^{\ell+k} \to \{0,1\}^k$ 为两个函数。如下构造一个公钥加密方案：
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. The public key is $\langle N,e\rangle$ and the private key is $\langle N,d\rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. The public key is $\langle N,e\rangle$ and the private key is $\langle N,d\rangle$.
 
-- Gen：以 ${1}^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N,e,d)$。公钥为 $\langle N,e\rangle$，私钥为 $\langle N,d\rangle$。
+- Gen：以 $1^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N,e,d)$。公钥为 $\langle N,e\rangle$，私钥为 $\langle N,d\rangle$。
 
 - Enc: on input a public key $\langle N, e \rangle$ and a message $m \in \{0,1\}^{\ell}$, set $m^{\prime} := m\|0^k$ and choose a uniform $r \in \{0,1\}^k$. Then compute
 
@@ -680,9 +680,9 @@ $$
 t:=m^{\prime}\oplus G(r),\quad s:=r\oplus H(t)
 $$
 
-and set $\hat{m} := s\|t$. Output the ciphertext $c := [\hat{m}^{e} \mod N]$.
+and set $\hat{m} := s\|t$. Output the ciphertext $c := [\hat{m}^{e} \bmod N]$.
 
-并置 $\hat{m} := s\|t$。输出密文 $c := [\hat{m}^{e} \mod N]$。
+并置 $\hat{m} := s\|t$。输出密文 $c := [\hat{m}^{e} \bmod N]$。
 
 - Dec: on input a private key $\langle N, d \rangle$ and a ciphertext $c \in \mathbb{Z}_N^*$, compute $\hat{m} := [c^d \bmod N]$. If $\|\hat{m}\| > \ell + 2k$, output $\perp$. Otherwise, parse $\hat{m}$ as $s\|t$ with $s \in \{0,1\}^k$ and $t \in \{0,1\}^{\ell+k}$. Compute $r := H(t) \oplus s$ and $m^{\prime} := G(r) \oplus t$. If the $k$ least-significant bits of $m^{\prime}$ are not all 0, output $\perp$. Otherwise, output the $\ell$ most-significant bits of $m^{\prime}$.
 
@@ -734,17 +734,17 @@ Let GenRSA be as usual, and construct a KEM as follows:
 
 设 $\mathsf{GenRSA}$ 如常，并如下构造一个 KEM：
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to compute $(N, e, d)$. The public key is $\langle N, e \rangle$, and the private key is $\langle N, d \rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to compute $(N, e, d)$. The public key is $\langle N, e \rangle$, and the private key is $\langle N, d \rangle$.
 
-- Gen：以 ${1}^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 计算 $(N, e, d)$。公钥为 $\langle N, e \rangle$，私钥为 $\langle N, d \rangle$。
+- Gen：以 $1^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 计算 $(N, e, d)$。公钥为 $\langle N, e \rangle$，私钥为 $\langle N, d \rangle$。
 
 As part of key generation, a function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is specified, but we leave this implicit.
 
 作为密钥生成的一部分，还要指定一个函数 $H: \mathbb{Z}_N^* \to \{0,1\}^n$，但我们将其隐含处理。
 
-- Encaps: on input public key $\langle N, e \rangle$, choose a uniform $r \in \mathbb{Z}_N^*$. Output the ciphertext $c := [r^e \mod N]$ and the key $k := H(r)$.
+- Encaps: on input public key $\langle N, e \rangle$, choose a uniform $r \in \mathbb{Z}_N^*$. Output the ciphertext $c := [r^e \bmod N]$ and the key $k := H(r)$.
 
-- Encaps：以公钥 $\langle N, e \rangle$ 为输入，均匀选取 $r \in \mathbb{Z}_N^*$。输出密文 $c := [r^e \mod N]$ 和密钥 $k := H(r)$。
+- Encaps：以公钥 $\langle N, e \rangle$ 为输入，均匀选取 $r \in \mathbb{Z}_N^*$。输出密文 $c := [r^e \bmod N]$ 和密钥 $k := H(r)$。
 
 - Decaps: on input private key $\langle N, d \rangle$ and a ciphertext $c \in \mathbb{Z}_N^*$, compute $r := [c^d \bmod N]$ and output the key $k := H(r)$.
 
@@ -766,9 +766,9 @@ PROOF Let $\Pi$ denote Construction 12.37, and let $\mathcal{A}$ be a probabilis
 
 证明　用 $\Pi$ 表示构造 12.37，并设 $\mathcal{A}$ 是概率多项式时间敌手。为方便起见，也由于这是我们首次在证明中动用随机预言机模型的全部威力，我们明确写出实验 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$ 的各个步骤：
 
-1. $\mathsf{GenRSA}({1}^n)$ is run to obtain $(N, e, d)$. In addition, a random function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is chosen.
+1. $\mathsf{GenRSA}(1^n)$ is run to obtain $(N, e, d)$. In addition, a random function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is chosen.
 
-   运行 $\mathsf{GenRSA}({1}^n)$ 得到 $(N, e, d)$。此外，选取一个随机函数 $H: \mathbb{Z}_N^* \to \{0,1\}^n$。
+   运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N, e, d)$。此外，选取一个随机函数 $H: \mathbb{Z}_N^* \to \{0,1\}^n$。
 
 2. Uniform $r \in \mathbb{Z}_N^*$ is chosen, and the ciphertext $c := [r^e \bmod N]$ and key $k := H(r)$ are computed.
 
@@ -853,9 +853,9 @@ When $\mathcal{A}$ makes a query $H(\tilde{r})$, answer it as follows:
 
   若 $L_{H}$ 中存在形如 $(\tilde{r}, k)$（$k$ 为某个值）的条目，则返回 $k$。
 
-- Otherwise, let $\tilde{c} := [\tilde{r}^{e} \mod N]$. If there is an entry in $L_{\mathsf{Decaps}}$ of the form $(\tilde{c}, k)$ for some $k$, return $k$ and store $(\tilde{r}, k)$ in $L_{H}$.
+- Otherwise, let $\tilde{c} := [\tilde{r}^{e} \bmod N]$. If there is an entry in $L_{\mathsf{Decaps}}$ of the form $(\tilde{c}, k)$ for some $k$, return $k$ and store $(\tilde{r}, k)$ in $L_{H}$.
 
-  否则，令 $\tilde{c} := [\tilde{r}^{e} \mod N]$。若 $L_{\mathsf{Decaps}}$ 中存在形如 $(\tilde{c}, k)$（$k$ 为某个值）的条目，则返回 $k$，并把 $(\tilde{r}, k)$ 存入 $L_{H}$。
+  否则，令 $\tilde{c} := [\tilde{r}^{e} \bmod N]$。若 $L_{\mathsf{Decaps}}$ 中存在形如 $(\tilde{c}, k)$（$k$ 为某个值）的条目，则返回 $k$，并把 $(\tilde{r}, k)$ 存入 $L_{H}$。
 
 - Otherwise, choose a uniform $k \in \{0,1\}^n$, return $k$, and store $(\tilde{r}, k)$ in $L_H$.
 
@@ -923,9 +923,9 @@ Note that $[d \bmod (p-1)]$ and $[d \bmod (q-1)]$ could be pre-computed since th
 
 注意，$[d \bmod (p-1)]$ 和 $[d \bmod (q-1)]$ 可以预先算好，因为它们与 y 无关。
 
-Why is this better? Assume exponentiation modulo an $\ell$-bit integer takes $\gamma \cdot \ell^3$ operations for some constant $\gamma$. If $p, q$ are each $n$ bits long, then naively computing $[y^d \bmod N]$ takes $\gamma \cdot (2n)^3 = 8\gamma \cdot n^3$ steps (because $\|N\| = 2n$). Using Chinese remainder reduces this to roughly ${2} \cdot (\gamma \cdot n^3)$ steps (because $\|p\| = \|q\| = n$), or roughly ${1}/{4}$ of the time.
+Why is this better? Assume exponentiation modulo an $\ell$-bit integer takes $\gamma \cdot \ell^3$ operations for some constant $\gamma$. If $p, q$ are each $n$ bits long, then naively computing $[y^d \bmod N]$ takes $\gamma \cdot (2n)^3 = 8\gamma \cdot n^3$ steps (because $\|N\| = 2n$). Using Chinese remainder reduces this to roughly $2 \cdot (\gamma \cdot n^3)$ steps (because $\|p\| = \|q\| = n$), or roughly $1/4$ of the time.
 
-为什么这样更好？假设对一个 $\ell$ 比特整数做模幂运算需要 $\gamma \cdot \ell^3$ 次操作，其中 $\gamma$ 为常数。如果 $p, q$ 各长 $n$ 比特，那么朴素地计算 $[y^d \bmod N]$ 需要 $\gamma \cdot (2n)^3 = 8\gamma \cdot n^3$ 步（因为 $\|N\| = 2n$）。使用中国剩余定理可将此降至约 ${2} \cdot (\gamma \cdot n^3)$ 步（因为 $\|p\| = \|q\| = n$），即约为原来的 ${1}/{4}$ 时间。
+为什么这样更好？假设对一个 $\ell$ 比特整数做模幂运算需要 $\gamma \cdot \ell^3$ 次操作，其中 $\gamma$ 为常数。如果 $p, q$ 各长 $n$ 比特，那么朴素地计算 $[y^d \bmod N]$ 需要 $\gamma \cdot (2n)^3 = 8\gamma \cdot n^3$ 步（因为 $\|N\| = 2n$）。使用中国剩余定理可将此降至约 $2 \cdot (\gamma \cdot n^3)$ 步（因为 $\|p\| = \|q\| = n$），即约为原来的 $1/4$ 时间。
 
 **Example 12.40**
 
@@ -943,9 +943,9 @@ $$
 \end{aligned}
 $$
 
-We can compute ${1}_p = 78 \leftrightarrow (1,0)$ and ${1}_q = 66 \leftrightarrow (0,1)$, as discussed in Section 9.1.5. (Note these values can be pre-computed, as they are independent of $y$.) Then $(3,-1) \leftrightarrow 3 \cdot 1_p - 1_q = 3 \cdot 78 - 66 = 168 = 25 \mod 143$, in agreement with the answer previously obtained.
+We can compute $1_p = 78 \leftrightarrow (1,0)$ and $1_q = 66 \leftrightarrow (0,1)$, as discussed in Section 9.1.5. (Note these values can be pre-computed, as they are independent of $y$.) Then $(3,-1) \leftrightarrow 3 \cdot 1_p - 1_q = 3 \cdot 78 - 66 = 168 = 25 \bmod 143$, in agreement with the answer previously obtained.
 
-如 9.1.5 节所述，我们可以计算出 ${1}_p = 78 \leftrightarrow (1,0)$ 和 ${1}_q = 66 \leftrightarrow (0,1)$。（注意这些值与 $y$ 无关，因而可以预先计算。）于是 $(3,-1) \leftrightarrow 3 \cdot 1_p - 1_q = 3 \cdot 78 - 66 = 168 = 25 \mod 143$，与前文得到的答案一致。
+如 9.1.5 节所述，我们可以计算出 $1_p = 78 \leftrightarrow (1,0)$ 和 $1_q = 66 \leftrightarrow (0,1)$。（注意这些值与 $y$ 无关，因而可以预先计算。）于是 $(3,-1) \leftrightarrow 3 \cdot 1_p - 1_q = 3 \cdot 78 - 66 = 168 = 25 \bmod 143$，与前文得到的答案一致。
 
 **A fault attack when using Chinese remaindering.**
 
@@ -967,9 +967,9 @@ Dependent public keys I. When multiple receivers wish to utilize the same encryp
 
 **相关联的公钥 I。** 当多个接收方希望使用同一个加密方案时，他们应当使用相互独立的公钥。本段以及下一段的攻击说明了不这样做会导致什么问题。
 
-Imagine a company wants to use the same modulus $N$ for each of its employees. Since it is not desirable for messages encrypted to one employee to be read by any other employee, the company issues different $(e_i, d_i)$ pairs to each employee. That is, the public key of the $i$th employee is $pk_i = \langle N, e_i \rangle$ and their private key is $sk = \langle N, d_i \rangle$, where $e_i \cdot d_i = 1 \mod \phi(N)$ for all $i$.
+Imagine a company wants to use the same modulus $N$ for each of its employees. Since it is not desirable for messages encrypted to one employee to be read by any other employee, the company issues different $(e_i, d_i)$ pairs to each employee. That is, the public key of the $i$th employee is $pk_i = \langle N, e_i \rangle$ and their private key is $sk = \langle N, d_i \rangle$, where $e_i \cdot d_i = 1 \bmod \phi(N)$ for all $i$.
 
-设想一家公司想让其所有员工共用同一个模数 $N$。由于发给某位员工的加密消息不应被任何其他员工读懂，公司为每位员工发放不同的 $(e_i, d_i)$ 对。也就是说，第 $i$ 位员工的公钥是 $pk_i = \langle N, e_i \rangle$，私钥是 $sk = \langle N, d_i \rangle$，其中对所有 $i$ 都有 $e_i \cdot d_i = 1 \mod \phi(N)$。
+设想一家公司想让其所有员工共用同一个模数 $N$。由于发给某位员工的加密消息不应被任何其他员工读懂，公司为每位员工发放不同的 $(e_i, d_i)$ 对。也就是说，第 $i$ 位员工的公钥是 $pk_i = \langle N, e_i \rangle$，私钥是 $sk = \langle N, d_i \rangle$，其中对所有 $i$ 都有 $e_i \cdot d_i = 1 \bmod \phi(N)$。
 
 This approach is insecure and allows any employee to read messages encrypted to all other employees. The reason is that, as noted in Section 9.2.4, given $N$ and $e_i$, $d_i$ with $e_i \cdot d_i = 1 \bmod \phi(N)$, the factorization of $N$ can be efficiently computed. Given the factorization of $N$, of course, it is possible to compute $d_j := e_j^{-1} \bmod \phi(N)$ for any $j$.
 
@@ -987,7 +987,7 @@ $$
 c_{1}=m^{e_{1}}\bmod N\quad\text{and}\quad c_{2}=m^{e_{2}}\bmod N.
 $$
 
-Since $\gcd(e_1, e_2) = 1$, there exist integers $X, Y$ such that $X e_1 + Y e_2 = 1$ by Proposition 9.2. Moreover, given the public exponents $e_1$ and $e_2$ it is possible to efficiently compute $X$ and $Y$ using the extended Euclidean algorithm (see Appendix B.1.2). We claim that $m = [c_1^X \cdot c_2^Y \mod N]$, which can easily be calculated. This is true because
+Since $\gcd(e_1, e_2) = 1$, there exist integers $X, Y$ such that $X e_1 + Y e_2 = 1$ by Proposition 9.2. Moreover, given the public exponents $e_1$ and $e_2$ it is possible to efficiently compute $X$ and $Y$ using the extended Euclidean algorithm (see Appendix B.1.2). We claim that $m = [c_1^X \cdot c_2^Y \bmod N]$, which can easily be calculated. This is true because
 
 由于 $\gcd(e_1, e_2) = 1$，由命题 9.2 可知存在整数 $X, Y$ 使得 $X e_1 + Y e_2 = 1$。而且给定公开指数 $e_1$ 和 $e_2$，可以用扩展欧几里得算法（见附录 B.1.2）高效算出 $X$ 和 $Y$。我们断言 $m = [c_1^X \cdot c_2^Y \bmod N]$，而这很容易计算。理由如下：
 
@@ -1007,9 +1007,9 @@ Throughout this book, we always assume that honest parties have access to suffic
 
 在整本书中，我们总是假设诚实各方能够获得充足的高质量随机性。当这一假设被违反时，安全性就可能失效。例如，如果一个 $\ell$ 比特串是从某个集合 $S \subset \{0,1\}^{\ell}$ 而非从 $\{0,1\}^{\ell}$ 中均匀选出的，攻击者就可以进行暴力搜索（耗时 $\mathcal{O}(|S|)$）来攻击系统。
 
-In some cases the situation may be even worse. Consider in particular the case of RSA key generation, where random bits $r_p$ is used to choose the first prime $p$, and random bits $r_q$ is used to generate the second prime $q$. Assume further that many public/private keys are generated using the same source of poor-quality randomness, in which $r_p, r_q$ are each chosen uniformly from some set $S$ of size ${2}^s$. After generating roughly ${2}^{s/2}$ public keys (see Appendix A.4), we expect to obtain two different moduli $N, N^{\prime}$ that were generated using identical randomness $r_p = r_p^{\prime}$ but different randomness $r_q \neq r_q^{\prime}$. These two moduli share a prime factor which can be easily found by computing $\gcd(N, N^{\prime})$. An attacker can attempt to exploit this by scraping the Internet for a large set of RSA public keys, computing their pairwise gcds, and thus hoping to factor some subset of them. Although computing pairwise gcds of ${2}^{s/2}$ moduli would naively take time $\mathcal{O}(2^s)$, it turns out that this can be significantly improved using a “divide-and-conquer” approach that is beyond the scope of this book. The upshot is that an attacker can factor a small number of public moduli in time less than ${2}^s$. Note also that the attack works even if the set $S$ is unknown to the attacker.
+In some cases the situation may be even worse. Consider in particular the case of RSA key generation, where random bits $r_p$ is used to choose the first prime $p$, and random bits $r_q$ is used to generate the second prime $q$. Assume further that many public/private keys are generated using the same source of poor-quality randomness, in which $r_p, r_q$ are each chosen uniformly from some set $S$ of size $2^s$. After generating roughly $2^{s/2}$ public keys (see Appendix A.4), we expect to obtain two different moduli $N, N^{\prime}$ that were generated using identical randomness $r_p = r_p^{\prime}$ but different randomness $r_q \neq r_q^{\prime}$. These two moduli share a prime factor which can be easily found by computing $\gcd(N, N^{\prime})$. An attacker can attempt to exploit this by scraping the Internet for a large set of RSA public keys, computing their pairwise gcds, and thus hoping to factor some subset of them. Although computing pairwise gcds of $2^{s/2}$ moduli would naively take time $\mathcal{O}(2^s)$, it turns out that this can be significantly improved using a “divide-and-conquer” approach that is beyond the scope of this book. The upshot is that an attacker can factor a small number of public moduli in time less than $2^s$. Note also that the attack works even if the set $S$ is unknown to the attacker.
 
-在某些情况下，情形可能更糟。特别考虑 RSA 密钥生成的情形：用随机比特 $r_p$ 选出第一个素数 $p$，用随机比特 $r_q$ 生成第二个素数 $q$。进一步假设许多公钥/私钥是用同一个低质量的随机性来源生成的，其中 $r_p, r_q$ 各自从某个大小为 ${2}^s$ 的集合 $S$ 中均匀选出。在生成约 ${2}^{s/2}$ 个公钥之后（见附录 A.4），我们可以期望得到两个不同的模数 $N, N^{\prime}$，它们是用相同的随机性 $r_p = r_p^{\prime}$ 但不同的随机性 $r_q \neq r_q^{\prime}$ 生成的。这两个模数共享一个素因子，通过计算 $\gcd(N, N^{\prime})$ 就能轻易找到它。攻击者可以尝试加以利用：从互联网上抓取大量 RSA 公钥，计算它们的两两 gcd，从而有望分解其中的一部分。虽然朴素地计算 ${2}^{s/2}$ 个模数的两两 gcd 需要 $\mathcal{O}(2^s)$ 时间，但事实证明，利用一种超出本书范围的“分治”方法可以显著改进这一点。其结果是，攻击者可以在少于 ${2}^s$ 的时间内分解少量公开的模数。还要注意，即使攻击者不知道集合 $S$，该攻击依然奏效。
+在某些情况下，情形可能更糟。特别考虑 RSA 密钥生成的情形：用随机比特 $r_p$ 选出第一个素数 $p$，用随机比特 $r_q$ 生成第二个素数 $q$。进一步假设许多公钥/私钥是用同一个低质量的随机性来源生成的，其中 $r_p, r_q$ 各自从某个大小为 $2^s$ 的集合 $S$ 中均匀选出。在生成约 $2^{s/2}$ 个公钥之后（见附录 A.4），我们可以期望得到两个不同的模数 $N, N^{\prime}$，它们是用相同的随机性 $r_p = r_p^{\prime}$ 但不同的随机性 $r_q \neq r_q^{\prime}$ 生成的。这两个模数共享一个素因子，通过计算 $\gcd(N, N^{\prime})$ 就能轻易找到它。攻击者可以尝试加以利用：从互联网上抓取大量 RSA 公钥，计算它们的两两 gcd，从而有望分解其中的一部分。虽然朴素地计算 $2^{s/2}$ 个模数的两两 gcd 需要 $\mathcal{O}(2^s)$ 时间，但事实证明，利用一种超出本书范围的“分治”方法可以显著改进这一点。其结果是，攻击者可以在少于 $2^s$ 的时间内分解少量公开的模数。还要注意，即使攻击者不知道集合 $S$，该攻击依然奏效。
 
 The above scenario was verified experimentally by two research teams working independently, who carried out exactly the above attack on public keys obtained over the Internet, and were able to successfully factor a significant fraction of the keys they found.
 
@@ -1075,9 +1075,9 @@ Hint: If not, the range of possible ciphertexts has polynomial size.
 
 12.3 称公钥加密方案 $(\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ 是单向的，如果任何 PPT 敌手 $\mathcal{A}$ 在以下实验中的成功概率都可忽略：
 
-$\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
+$\mathsf{Gen}(1^{n})$ is run to obtain keys $(pk, sk)$.
 
-运行 $\mathsf{Gen}({1}^{n})$ 得到密钥 $(pk, sk)$。
+运行 $\mathsf{Gen}(1^{n})$ 得到密钥 $(pk, sk)$。
 
 - A uniform message $m$ in the message space is chosen, and a ciphertext $c \leftarrow \mathsf{Enc}_{pk}(m)$ is computed.
 
@@ -1159,9 +1159,9 @@ Show that it is possible to decrypt efficiently given knowledge of x. Prove that
 
 12.13 12.5.1 节讨论的对朴素 RSA 的攻击之一涉及这样的发送者：他把同一条消息加密发给三个不同的接收者。给出一个恰当的安全性定义来排除这类攻击，并证明任何选择明文安全的公钥加密方案都满足你的定义。
 
-12.14 Consider the following modified version of padded RSA encryption: Assume messages to be encrypted have length exactly $\|N\|$/2. To encrypt, first compute $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$ where $r$ is a uniform string of length $\|N\|/2 - 16$. Then compute the ciphertext $c := [\hat{m}^e \mod N]$. When decrypting a ciphertext $c$, the receiver computes $\hat{m} := [c^d \mod N]$ and returns an error if $\hat{m}$ does not consist of 0x00 followed by $\|N\|$/2 - 16 arbitrary bits followed by 0x00. Show that this scheme is not CCA-secure. Why is it easier to construct a chosen-ciphertext attack on this scheme than on PKCS #1 v1.5?
+12.14 Consider the following modified version of padded RSA encryption: Assume messages to be encrypted have length exactly $\|N\|$/2. To encrypt, first compute $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$ where $r$ is a uniform string of length $\|N\|/2 - 16$. Then compute the ciphertext $c := [\hat{m}^e \bmod N]$. When decrypting a ciphertext $c$, the receiver computes $\hat{m} := [c^d \bmod N]$ and returns an error if $\hat{m}$ does not consist of 0x00 followed by $\|N\|$/2 - 16 arbitrary bits followed by 0x00. Show that this scheme is not CCA-secure. Why is it easier to construct a chosen-ciphertext attack on this scheme than on PKCS #1 v1.5?
 
-12.14 考虑填充 RSA 加密的如下修改版本：假设待加密消息的长度恰为 $\|N\|$/2。加密时，先计算 $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$，其中 r 是长度为 $\|N\|/2 - 16$ 的均匀串。然后计算密文 $c := [\hat{m}^e \mod N]$。解密密文 c 时，接收方计算 $\hat{m} := [c^d \mod N]$，若 $\hat{m}$ 不是由 0x00 开头、随后是 $\|N\|$/2 - 16 个任意比特、再跟着 0x00 组成，则返回错误。证明该方案不是选择密文安全的。为什么对该方案构造选择密文攻击比对 PKCS #1 v1.5 更容易？
+12.14 考虑填充 RSA 加密的如下修改版本：假设待加密消息的长度恰为 $\|N\|$/2。加密时，先计算 $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$，其中 r 是长度为 $\|N\|/2 - 16$ 的均匀串。然后计算密文 $c := [\hat{m}^e \bmod N]$。解密密文 c 时，接收方计算 $\hat{m} := [c^d \bmod N]$，若 $\hat{m}$ 不是由 0x00 开头、随后是 $\|N\|$/2 - 16 个任意比特、再跟着 0x00 组成，则返回错误。证明该方案不是选择密文安全的。为什么对该方案构造选择密文攻击比对 PKCS #1 v1.5 更容易？
 
 12.15 Consider the RSA-based encryption scheme in which a user encrypts a message $m \in \{0,1\}^{\ell}$ with respect to the public key $\langle N,e\rangle$ by computing $\hat{m} := H(m)\|m$ and outputting the ciphertext $[\hat{m}^{e} \bmod N]$. (Here, let $H : \{0,1\}^{\ell} \to \{0,1\}^{n}$ and assume $\ell + n < \|N\|$.) Is this scheme CPA-secure if $H$ is modeled as a random oracle?
 
@@ -1191,9 +1191,9 @@ Hint: See Section 12.5.1.
 
 提示：见 12.5.1 节。
 
-(b) Show a simple way to fix this and get a CPA-secure method that transmits a ciphertext of length ${3}\ell + \mathcal{O}(n)$.
+(b) Show a simple way to fix this and get a CPA-secure method that transmits a ciphertext of length $3\ell + \mathcal{O}(n)$.
 
-(b) 展示一种简单的修复方法，得到一种传输长度为 ${3}\ell + \mathcal{O}(n)$ 的密文的选择明文安全方法。
+(b) 展示一种简单的修复方法，得到一种传输长度为 $3\ell + \mathcal{O}(n)$ 的密文的选择明文安全方法。
 
 (c) Show a better approach that is still CPA-secure but with a cipher-text of length $\ell + \mathcal{O}(n)$.
 
@@ -1211,9 +1211,9 @@ Let $H: \{0,1\}^n \to \{0,1\}^n$ be a function. Construct a public-key encryptio
 
 设 $H: \{0,1\}^n \to \{0,1\}^n$ 为函数。如下构造一个公钥加密方案：
 
-- Gen*: on input ${1}^n$, run $\mathsf{Gen}(1^n)$ to obtain $(pk, sk)$. Output these as the public and private keys, respectively.
+- Gen*: on input $1^n$, run $\mathsf{Gen}(1^n)$ to obtain $(pk, sk)$. Output these as the public and private keys, respectively.
 
-- Gen*：以 ${1}^n$ 为输入，运行 $\mathsf{Gen}(1^n)$ 得到 $(pk, sk)$。分别输出它们作为公钥和私钥。
+- Gen*：以 $1^n$ 为输入，运行 $\mathsf{Gen}(1^n)$ 得到 $(pk, sk)$。分别输出它们作为公钥和私钥。
 
 - Enc*: on input a public key $pk$ and a message $m \in \{0,1\}^n$, choose a uniform $r \in \{0,1\}^n$ and output the ciphertext
 
@@ -1243,9 +1243,9 @@ Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
 设 $\mathsf{GenRSA}$ 如常，并如下定义一个公钥加密方案：
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
 
-- Gen：以 ${1}^n$ 为输入，运行 $\mathsf{GenRSA}({1}^n)$ 得到 $(N, e, d)$。输出公钥 $pk = \langle N, e \rangle$ 和私钥 $sk = \langle N, d \rangle$。
+- Gen：以 $1^n$ 为输入，运行 $\mathsf{GenRSA}(1^n)$ 得到 $(N, e, d)$。输出公钥 $pk = \langle N, e \rangle$ 和私钥 $sk = \langle N, d \rangle$。
 
 - Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}$, choose a uniform $r \in \mathbb{Z}_N^*$. Output the ciphertext $\langle [r^e \bmod N], \mathsf{lsb}(r) \oplus m\rangle$.
 

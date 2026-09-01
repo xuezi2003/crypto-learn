@@ -4,15 +4,15 @@
 
 In previous chapters we have seen how private-key cryptography can be used to ensure secrecy and integrity for two parties communicating over an insecure channel, if we are willing to assume those two parties hold a shared, secret key. The question we have deferred since Chapter 1, however, is:
 
-How can the parties share a secret key in the first place?
+*How can the parties share a secret key in the first place?*
 
 Clearly, the key cannot simply be sent over the insecure communication channel because an eavesdropping adversary would then be able to observe the key and it would no longer be secret. Some other mechanism must be used.
 
-In some situations, the parties may have access to a secure channel that they can use to reliably share a secret key. One common example is when the two parties are physically co-located at some point in time, during which they can share a key. Alternatively, the parties might be able to use a trusted courier service as a secure channel. We stress that even if the parties have access to a secure channel at some point, this does not make private-key cryptography useless: in the first example, the parties have a secure channel at one point in time but not later; in the second example, utilizing the secure channel might be slower and more costly than communicating over an insecure channel.
+In some situations, the parties may have access to a secure channel that they can use to reliably share a secret key. One common example is when the two parties are physically co-located at some point in time, during which they can share a key. Alternatively, the parties might be able to use a trusted courier service as a secure channel. We stress that even if the parties have access to a secure channel at some point, this does *not* make private-key cryptography useless: in the first example, the parties have a secure channel at one point in time but not later; in the second example, utilizing the secure channel might be slower and more costly than communicating over an insecure channel.
 
 The above approaches have been used to share keys in government, diplomatic, and military settings. As an example, the “red phone” connecting Moscow and Washington in the 1960s was encrypted using a one-time pad, with keys shared by couriers who flew from one country to the other carrying briefcases full of print-outs. Such approaches can also be used in corporations, e.g., to set up a shared key between a central database and a new employee on his/her first day of work. (We return to this example in the next section.)
 
-Relying on a secure channel to distribute keys, however, does not work well in many other situations. For example, consider a large, multinational corporation in which every pair of employees might need the ability to communicate securely, with their communication protected from other employees as well. It will be inconvenient, to say the least, for each pair of employees to meet so they can securely share a key; for employees working in different cities, this may even be impossible. Even if the current set of employees could somehow share keys with each other, it would be impractical for them to share keys with new employees who join after this initial sharing is done.
+Relying on a secure channel to distribute keys, however, does not work well in many other situations. For example, consider a large, multinational corporation in which *every pair* of employees might need the ability to communicate securely, with their communication protected from other employees as well. It will be inconvenient, to say the least, for each pair of employees to meet so they can securely share a key; for employees working in different cities, this may even be impossible. Even if the current set of employees could somehow share keys with each other, it would be impractical for them to share keys with new employees who join after this initial sharing is done.
 
 Even assuming these $N$ employees are somehow able to securely share keys with each other, another significant drawback is that each employee would have to manage and store $N-1$ secret keys (one for each other employee in the company). In fact, this may significantly under-count the number of keys stored by each user, because employees may also need keys to communicate securely with remote resources such as databases, servers, printers, and so on. The proliferation of so many secret keys is a significant logistical problem. Moreover, all these keys must be stored securely. The more keys there are, the harder it is to protect them, and the higher the chance of some keys being stolen by an attacker. Computer systems are often infected by viruses, worms, and other forms of malicious software that can steal secret keys and send them quietly over the network to an attacker. Thus, storing keys on employees’ personal computers is not always a safe solution.
 
@@ -28,13 +28,13 @@ One way to address some of the concerns from the previous section is to use a ke
 
 When a new employee joins, the KDC can share a key with that employee (in person, in a secure location) as part of that employee’s first day of work. At the same time, the KDC could also distribute shared keys between that employee and all existing employees. That is, when the $i$th employee joins, the KDC could (in addition to sharing a key between itself and this new employee) generate $i-1$ keys $k_1, \ldots, k_{i-1}$, give these keys to the new employee, and then send key $k_j$ to the $j$th existing employee by encrypting it using the key that employee already shares with the KDC. Following this, the new employee shares a key with every other employee (as well as with the KDC).
 
-A better approach, which avoids requiring employees to store and manage multiple keys, is to utilize the KDC in an online fashion to generate keys “on demand” whenever two employees wish to communicate securely. As before, the KDC will share a (different) key with each employee, something that can be done securely on each employee’s first day of work. Say the KDC shares key $k_{A}$ with employee Alice, and $k_{B}$ with employee Bob. At some later time, when Alice wishes to communicate securely with Bob, she can simply send the message ‘I, Alice, want to talk to Bob’ to the KDC. (If desired, this message can be authenticated using the key shared by Alice and the KDC.) The KDC then chooses a new, random key—called a session key—and sends this key $k$ to Alice encrypted using $k_{A}$, and to Bob encrypted using $k_{B}$. (This protocol is too simplistic to be used in practice; see further discussion below.) Once Alice and Bob both recover this session key, they can use it to communicate securely. When they are done with their conversation, they can (and should) erase the session key because they can always contact the KDC again if they wish to communicate at some later time.
+A better approach, which avoids requiring employees to store and manage multiple keys, is to utilize the KDC in an online fashion to generate keys “on demand” whenever two employees wish to communicate securely. As before, the KDC will share a (different) key with each employee, something that can be done securely on each employee’s first day of work. Say the KDC shares key $k_{A}$ with employee Alice, and $k_{B}$ with employee Bob. At some later time, when Alice wishes to communicate securely with Bob, she can simply send the message “I, Alice, want to talk to Bob” to the KDC. (If desired, this message can be authenticated using the key shared by Alice and the KDC.) The KDC then chooses a new, random key—called a session key—and sends this key $k$ to Alice encrypted using $k_{A}$, and to Bob encrypted using $k_{B}$. (This protocol is too simplistic to be used in practice; see further discussion below.) Once Alice and Bob both recover this session key, they can use it to communicate securely. When they are done with their conversation, they can (and should) erase the session key because they can always contact the KDC again if they wish to communicate at some later time.
 
 Consider the advantages of this approach:
 
 1. Each employee needs to store only one long-term secret key (namely, the one they share with the KDC). Employees still need to manage and store session keys, but these are short-term keys that are erased once a communication session concludes.
 
-    The KDC needs to store many long-term keys. However, the KDC can be kept in a secure location and be given the highest possible protection against network attacks.
+   The KDC needs to store many long-term keys. However, the KDC can be kept in a secure location and be given the highest possible protection against network attacks.
 
 2. When an employee joins the organization, all that must be done is to set up a key between this employee and the KDC. No other employees need to update the set of keys they hold.
 
@@ -70,27 +70,27 @@ The existence of secure key-exchange protocols is quite amazing. It means that y
 
 The influence of Diffie and Hellman’s paper was enormous. In addition to introducing a fundamentally new way of looking at cryptography, it was one of the first steps toward moving cryptography out of the private domain and into the public one. We quote the first two paragraphs of their paper:
 
-We stand today on the brink of a revolution in cryptography. The development of cheap digital hardware has freed it from the design limitations of mechanical computing and brought the cost of high-grade cryptographic devices down to where they can be used in such commercial applications as remote cash dispensers and computer terminals.
+> We stand today on the brink of a revolution in cryptography. The development of cheap digital hardware has freed it from the design limitations of mechanical computing and brought the cost of high grade cryptographic devices down to where they can be used in such commercial applications as remote cash dispensers and computer terminals.
 
-In turn, such applications create a need for new types of cryptographic systems which minimize the necessity of secure key distribution channels. ...At the same time, theoretical developments in information theory and computer science show promise of providing provably secure cryptosystems, changing this ancient art into a science.
+> In turn, such applications create a need for new types of cryptographic systems which minimize the necessity of secure key distribution channels. . . . At the same time, theoretical developments in information theory and computer science show promise of providing provably secure cryptosystems, changing this ancient art into a science.
 
 Diffie and Hellman were not exaggerating, and the revolution they spoke of was due in great part to their work.
 
 In this section we present the Diffie–Hellman key-exchange protocol. We prove its security against eavesdropping adversaries or, equivalently, under the assumption that the parties communicate over a public but authenticated channel (so an attacker cannot interfere with their communication). Security against an eavesdropping adversary is a relatively weak guarantee, and in practice key-exchange protocols must satisfy stronger notions of security that are beyond our present scope. (Moreover, we are interested here in the setting where the communicating parties have no prior shared information, in which case there is nothing that can be done to prevent an adversary from impersonating one of the parties. We return to this point later.)
 
-The setting and definition of security. We consider a setting with two parties—traditionally called Alice and Bob—who run a probabilistic protocol $\Pi$ in order to generate a shared, secret key; $\Pi$ can be viewed as the set of instructions for Alice and Bob in the protocol. Alice and Bob begin by holding the security parameter ${1}^n$; they then run $\Pi$ using (independent) random bits. At the end of the protocol, Alice and Bob output keys $k_A, k_B \in \{0,1\}^n$, respectively. The basic correctness requirement is that $k_A = k_B$. Since we will only deal with protocols that satisfy this requirement, we will speak simply of the key $k = k_A = k_B$ generated in some honest execution of $\Pi$. (Since $\Pi$ is randomized the key will, in general, be different every time $\Pi$ is run.)
+The setting and definition of security. We consider a setting with two parties—traditionally called Alice and Bob—who run a probabilistic protocol $\Pi$ in order to generate a shared, secret key; $\Pi$ can be viewed as the set of instructions for Alice and Bob in the protocol. Alice and Bob begin by holding the security parameter $1^n$; they then run $\Pi$ using (independent) random bits. At the end of the protocol, Alice and Bob output keys $k_A, k_B \in \{0,1\}^n$, respectively. The basic correctness requirement is that $k_A = k_B$. Since we will only deal with protocols that satisfy this requirement, we will speak simply of the key $k = k_A = k_B$ generated in some honest execution of $\Pi$. (Since $\Pi$ is randomized the key will, in general, be different every time $\Pi$ is run.)
 
-We now turn to defining security. Intuitively, a key-exchange protocol is secure if the key output by Alice and Bob is completely hidden from an eavesdropping adversary. This is formally defined by requiring that an adversary who has eavesdropped on an execution of the protocol should be unable to distinguish the key k generated by that execution (and now shared by Alice and Bob) from a uniform key of length n. This is much stronger than simply requiring that the adversary be unable to guess k exactly, and this stronger notion is necessary if the parties will subsequently use k for some cryptographic application (e.g., as a key for a private-key encryption scheme).
+We now turn to defining security. Intuitively, a key-exchange protocol is secure if the key output by Alice and Bob is completely hidden from an eavesdropping adversary. This is formally defined by requiring that an adversary who has eavesdropped on an execution of the protocol should be unable to distinguish the key $k$ generated by that execution (and now shared by Alice and Bob) from a uniform key of length $n$. This is much stronger than simply requiring that the adversary be unable to guess $k$ exactly, and this stronger notion is necessary if the parties will subsequently use $k$ for some cryptographic application (e.g., as a key for a private-key encryption scheme).
 
 Formalizing the above, let $\Pi$ be a key-exchange protocol, $\mathcal{A}$ an adversary, and $n$ the security parameter. We have the following experiment:
 
 The key-exchange experiment $\mathsf{KE}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$:
 
-1. Two parties holding ${1}^{n}$ execute protocol $\Pi$. This results in a transcript trans containing all the messages sent by the parties, and a key $k$ output by each of the parties.
+1. Two parties holding $1^{n}$ execute protocol $\Pi$. This results in a transcript trans containing all the messages sent by the parties, and a key $k$ output by each of the parties.
 
 2. A uniform bit $b \in \{0,1\}$ is chosen. If $b = 0$ set $\hat{k} := k$, and if $b = 1$ then choose uniform $\hat{k} \in \{0,1\}^n$.
 
-3. $\mathcal{A}$ is given trans and $\hat{k}$, and outputs a bit $b'$.
+3. $\mathcal{A}$ is given trans and $\hat{k}$, and outputs a bit $b^{\prime}$.
 
 4. The output of the experiment is defined to be 1 if $b^{\prime} = b$, and 0 otherwise. (In case $\mathsf{KE}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n) = 1$, we say that $\mathcal{A}$ succeeds.)
 
@@ -104,15 +104,15 @@ $$\Pr\left[\mathsf{KE}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\right]\leq\frac{1}{
 
 The aim of a key-exchange protocol is almost always to generate a shared key $k$ that will be used by the parties for some further cryptographic purpose, e.g., to encrypt and authenticate their subsequent communication using, say, an authenticated encryption scheme. Intuitively, using a shared key generated by a secure key-exchange protocol should be “as good as” using a key shared over a private channel. It is possible to prove this formally; see Exercise 11.1.
 
-The Diffie–Hellman key-exchange protocol. We now describe the key-exchange protocol that appeared in the original paper by Diffie and Hellman (although they were less formal than we will be here). Let $\mathcal{G}$ be a probabilistic polynomial-time algorithm that, on input ${1}^n$, outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g \in \mathbb{G}$. (See Section 9.3.2.) The Diffie–Hellman key-exchange protocol is described formally as Construction 11.2 and illustrated in Figure 11.2.
+The Diffie–Hellman key-exchange protocol. We now describe the key-exchange protocol that appeared in the original paper by Diffie and Hellman (although they were less formal than we will be here). Let $\mathcal{G}$ be a probabilistic polynomial-time algorithm that, on input $1^n$, outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g \in \mathbb{G}$. (See Section 9.3.2.) The Diffie–Hellman key-exchange protocol is described formally as Construction 11.2 and illustrated in Figure 11.2.
 
 **CONSTRUCTION 11.2**
 
-• Common input: The security parameter ${1}^{n}$
+- Common input: The security parameter $1^{n}$
 
-• The protocol:
+- The protocol:
 
-1. Alice runs $\mathcal{G}({1}^{n})$ to obtain $(\mathbb{G}, q, g)$.
+1. Alice runs $\mathcal{G}(1^{n})$ to obtain $(\mathbb{G}, q, g)$.
 
 2. Alice chooses a uniform $x \in \mathbb{Z}_q$, and computes $h_A := g^x$.
 
@@ -121,6 +121,8 @@ The Diffie–Hellman key-exchange protocol. We now describe the key-exchange pro
 4. Bob receives $(\mathbb{G}, q, g, h_A)$. He chooses a uniform $y \in \mathbb{Z}_q$, and computes $h_B := g^y$. Bob sends $h_B$ to Alice and outputs the key $k_B := h_A^y$.
 
 5. Alice receives $h_{B}$ and outputs the key $k_{A} := h_{B}^{x}$.
+
+**The Diffie–Hellman key-exchange protocol.**
 
 ![Image](./assets/Ch11/image_222_120_663_446.jpg)
 
@@ -150,14 +152,13 @@ THEOREM 11.3 If the decisional Diffie–Hellman problem is hard relative to $\ma
 
 PROOF Let $\mathcal{A}$ be a PPT adversary. Since $\Pr[b=0] = \Pr[b=1] = 1/2$, we have
 
-$$\begin{align*}\Pr&\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\right]\\&=\frac{1}{2}\cdot\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\mid b=0\right]+\frac{1}{2}\cdot\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\mid b=1\right].\end{align*}$$
+$$\begin{aligned}\Pr&\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\right]\\&=\frac{1}{2}\cdot\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\mid b=0\right]+\frac{1}{2}\cdot\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\mid b=1\right].\end{aligned}$$
 
-In experiment $\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$ the adversary $\mathcal{A}$ receives $(\mathbb{G}, q, g, h_A, h_B, \hat{k})$, where $(\mathbb{G}, q, g, h_A, h_B)$ represents the transcript of the protocol execution, and $\hat{k}$ is either the actual key computed by the parties (if $b = 0$) or a uniform group element (if $b = 1$). Distinguishing between these two cases is exactly
-equivalent to solving the decisional Diffie–Hellman problem. That is
+In experiment $\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$ the adversary $\mathcal{A}$ receives $(\mathbb{G}, q, g, h_A, h_B, \hat{k})$, where $(\mathbb{G}, q, g, h_A, h_B)$ represents the transcript of the protocol execution, and $\hat{k}$ is either the actual key computed by the parties (if $b = 0$) or a uniform group element (if $b = 1$). Distinguishing between these two cases is exactly equivalent to solving the decisional Diffie–Hellman problem. That is
 
 $$\begin{aligned}&\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\right]\\ &=\frac{1}{2}\cdot\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\mid b=0\right]+\frac{1}{2}\cdot\Pr\left[\widehat{\mathsf{KE}}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)=1\mid b=1\right]\\ &=\frac{1}{2}\cdot\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{xy})=0]+\frac{1}{2}\cdot\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]\\ &=\frac{1}{2}\cdot\left(1-\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{xy})=1]\right)+\frac{1}{2}\cdot\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]\\ &=\frac{1}{2}+\frac{1}{2}\cdot\left(\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]-\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{xy})=1]\right)\\ &\leq\frac{1}{2}+\frac{1}{2}\cdot\left|\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]-\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{xy})=1]\right|,\end{aligned}$$
 
-where the probabilities are all taken over $(\mathbb{G}, q, g)$ output by $\mathcal{G}({1}^n)$, and uniform choice of $x, y, z \in \mathbb{Z}_q$. (Note that since $g$ is a generator, $g^z$ is a uniform element of $\mathbb{G}$ when $z$ is uniformly distributed in $\mathbb{Z}_q$.) If the decisional Diffie–Hellman assumption is hard relative to $\mathcal{G}$, that exactly means that there is a negligible function $\mathsf{negl}$ for which
+where the probabilities are all taken over $(\mathbb{G}, q, g)$ output by $\mathcal{G}(1^n)$, and uniform choice of $x, y, z \in \mathbb{Z}_q$. (Note that since $g$ is a generator, $g^z$ is a uniform element of $\mathbb{G}$ when $z$ is uniformly distributed in $\mathbb{Z}_q$.) If the decisional Diffie–Hellman assumption is hard relative to $\mathcal{G}$, that exactly means that there is a negligible function $\mathsf{negl}$ for which
 
 $$\left|\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]-\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{xy})=1]\right|\leq\mathsf{negl}(n).$$
 
@@ -186,7 +187,9 @@ In a public-key encryption scheme, the public key generated by some party serves
 
 **FIGURE 11.3: Cryptographic primitives in the private-key and the public-key settings.**
 
-To allow for secret communication, then, a receiver can simply send her public key to a potential sender (without having to worry about an eavesdropper who observes it), or publicize her public key on her webpage or in some central database. A public-key encryption scheme thus enables private communication without relying on a private channel for key distribution. $^{1}$
+To allow for secret communication, then, a receiver can simply send her public key to a potential sender (without having to worry about an eavesdropper who observes it), or publicize her public key on her webpage or in some central database. A public-key encryption scheme thus enables private communication without relying on a private channel for key distribution.$^{1}$
+
+> $^{1}$ For now, however, we do assume an authenticated channel that allows the sender to obtain a legitimate copy of the receiver’s public key. In Section 13.6 we show how public-key cryptography can be used to solve that problem as well.
 
 A digital signature scheme is a public-key analogue of a message authentication code (MAC). Here, the private key serves as an “authentication key” (called a signing key) that enables the party who knows this key to generate “authentication tags” (aka signatures) for messages it sends. The public key acts as a verification key, allowing anyone who knows it to verify signatures issued by the sender. As with MACs, a digital signature scheme can be used to prevent undetected tampering of a message; here, however, security holds even against an adversary who knows the public key. The fact that verification is public (i.e., can be done by anyone who knows the public key of the sender) has far-reaching ramifications, as it makes it possible to take a document signed by Alice and present it to a third party (say, a judge) for verification. This property is called non-repudiation and has extensive applications in e-commerce (e.g., for signing legal documents). Digital signatures are also used for the secure distribution of public keys as part of a public-key infrastructure, as discussed in more detail in Section 13.6.
 
@@ -214,7 +217,7 @@ Interestingly, aspects of public-key cryptography were discovered in the intelli
 
 ## Exercises
 
-11.1 Let $\Pi$ be a key-exchange protocol, and ($\mathsf{Enc},\mathsf{Dec}$) be a private-key encryption scheme. Consider the following interactive protocol $\Pi^{\prime}$ for encrypting a message: first, the sender and receiver run $\Pi$ to generate a shared key $k$. Next, the sender computes $c \leftarrow \mathsf{Enc}_k(m)$ and sends $c$ to the other party, who decrypts and recovers $m$ using $k$.
+11.1 Let $\Pi$ be a key-exchange protocol, and ($\mathsf{Enc}, \mathsf{Dec}$) be a private-key encryption scheme. Consider the following interactive protocol $\Pi^{\prime}$ for encrypting a message: first, the sender and receiver run $\Pi$ to generate a shared key $k$. Next, the sender computes $c \leftarrow \mathsf{Enc}_k(m)$ and sends $c$ to the other party, who decrypts and recovers $m$ using $k$.
 
 (a) Formulate a definition of indistinguishable encryptions in the presence of an eavesdropper (cf. Definition 3.8) appropriate for this interactive setting.
 

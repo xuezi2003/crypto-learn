@@ -22,11 +22,11 @@ The inverting experiment $\mathsf{Invert}_{\mathcal{A}, f}(n)$
 
 1. Choose uniform $x \in \{0,1\}^{n}$, and compute $y := f(x)$.
 
-2. $\mathcal{A}$ is given ${1}^{n}$ and $y$ as input, and outputs $x^{\prime}$.
+2. $\mathcal{A}$ is given $1^n$ and $y$ as input, and outputs $x^{\prime}$.
 
 3. The output of the experiment is defined to be 1 if $f(x^{\prime}) = y$, and 0 otherwise.
 
-We stress that $\mathcal{A}$ need not find the original preimage $x$; it suffices for $\mathcal{A}$ to find any value $x^{\prime}$ for which $f(x^{\prime}) = y = f(x)$. The security parameter ${1}^n$ is given to $\mathcal{A}$ in the second step to stress that $\mathcal{A}$ may run in time polynomial in the security parameter $n$, regardless of the length of $y$.
+We stress that $\mathcal{A}$ need not find the original preimage $x$; it suffices for $\mathcal{A}$ to find any value $x^{\prime}$ for which $f(x^{\prime}) = y = f(x)$. The security parameter $1^n$ is given to $\mathcal{A}$ in the second step to stress that $\mathcal{A}$ may run in time polynomial in the security parameter $n$, regardless of the length of $y$.
 
 We can now define what it means for a function $f$ to be one-way.
 
@@ -34,13 +34,13 @@ DEFINITION 8.1 A function $f: \{0,1\}^* \to \{0,1\}^*$ is one-way if the followi
 
 1. (Easy to compute:) There exists a polynomial-time algorithm $M_{f}$ computing $f$; that is, $M_{f}(x) = f(x)$ for all $x$.
 
-2. (Hard to invert:) For every probabilistic polynomial-time algorithm A, there is a negligible function $\mathsf{negl}$ such that
+2. (Hard to invert:) For every probabilistic polynomial-time algorithm $\mathcal{A}$, there is a negligible function $\mathsf{negl}$ such that
 
 $$
 \Pr[\mathsf{Invert}_{\mathcal{A},f}(n)=1]\leq\mathsf{negl}(n).
 $$
 
-Notation. In this chapter we will often make the probability space more explicit by subscripting (part of) it in the probability notation. For example, we can succinctly express the second requirement in the definition above as follows: For every probabilistic polynomial-time algorithm A, there exists a negligible function $\mathsf{negl}$ such that
+Notation. In this chapter we will often make the probability space more explicit by subscripting (part of) it in the probability notation. For example, we can succinctly express the second requirement in the definition above as follows: For every probabilistic polynomial-time algorithm $\mathcal{A}$, there exists a negligible function $\mathsf{negl}$ such that
 
 $$
 \Pr_{x\leftarrow\{0,1\}^{n}}\left[\mathcal{A}(1^{n},f(x))\in f^{-1}(f(x))\right]\leq\mathsf{negl}(n).
@@ -49,23 +49,23 @@ $$
 (Recall that $x \leftarrow \{0,1\}^n$ means that $x$ is chosen uniformly from $\{0,1\}^n$.) The probability above is also taken over the randomness used by $\mathcal{A}$, which here is left implicit.
 
 Successful inversion of one-way functions. A function that is not one-way is not necessarily easy to invert all the time (or even “often”). Rather, the converse of the second condition of Definition 8.1 is that there exists a probabilistic polynomial-time algorithm $\mathcal{A}$ and a non-negligible function $\gamma$ such that $\mathcal{A}$ inverts $f(x)$ with probability at least $\gamma(n)$ (where the probability is taken over uniform choice of $x \in \{0,1\}^n$ and the randomness of $\mathcal{A}$). This means, in turn, that there exists a positive polynomial $p(\cdot)$ such that for
-infinitely many values of $n$, algorithm $\mathcal{A}$ inverts $f$ with probability at least ${1}/{p(n)}$. Thus, if there exists an $\mathcal{A}$ that inverts $f$ with probability $n^{-10}$ for all even values of $n$ (but always fails to invert $f$ when $n$ is odd), then $f$ is not one-way—even though $\mathcal{A}$ only succeeds on half the values of $n$, and only succeeds with probability $n^{-10}$ (for values of $n$ where it succeeds at all).
+infinitely many values of $n$, algorithm $\mathcal{A}$ inverts $f$ with probability at least $1/p(n)$. Thus, if there exists an $\mathcal{A}$ that inverts $f$ with probability $n^{-10}$ for all even values of $n$ (but always fails to invert $f$ when $n$ is odd), then $f$ is not one-way—even though $\mathcal{A}$ only succeeds on half the values of $n$, and only succeeds with probability $n^{-10}$ (for values of $n$ where it succeeds at all).
 
 Exponential-time inversion. Any one-way function can be inverted at any point $y$ in exponential time, by simply trying all values $x \in \{0,1\}^n$ until a value $x$ is found such that $f(x) = y$. Thus, the existence of one-way functions is inherently an assumption about computational complexity and computational hardness. That is, it concerns a problem that can be solved in principle but is assumed to be hard to solve efficiently.
 
 One-way permutations. We will often be interested in one-way functions with additional structural properties. We say a function $f$ is length-preserving if $|f(x)| = |x|$ for all $x$. A one-way function that is length-preserving and one-to-one is called a one-way permutation. If $f$ is a one-way permutation, then any value $y$ has a unique preimage $x = f^{-1}(y)$. Nevertheless, it is still hard to find $x$ in polynomial time.
 
-One-way function/permutation families. The above definitions of one-way functions and permutations are convenient in that they consider a single function over an infinite domain and range. However, most candidate one-way functions and permutations do not fit neatly into this framework. Instead, there is an algorithm generating some set of parameters I that define a function $f_I$; one-wayness here means essentially that $f_I$ should be one-way with all but negligible probability over choice of I. Because each value of I defines a different function, we now refer to families of one-way functions (resp., permutations). We give the definition now, and refer the reader to the next section for a concrete example. (See also Section 9.4.1.)
+One-way function/permutation families. The above definitions of one-way functions and permutations are convenient in that they consider a single function over an infinite domain and range. However, most candidate one-way functions and permutations do not fit neatly into this framework. Instead, there is an algorithm generating some set of parameters $I$ that define a function $f_I$; one-wayness here means essentially that $f_I$ should be one-way with all but negligible probability over choice of $I$. Because each value of $I$ defines a different function, we now refer to families of one-way functions (resp., permutations). We give the definition now, and refer the reader to the next section for a concrete example. (See also Section 9.4.1.)
 
 DEFINITION 8.2 A tuple $\Pi = (\mathsf{Gen}, \mathsf{Samp}, f)$ of probabilistic polynomial-time algorithms is a function family if the following hold:
 
-1. The parameter-generation algorithm Gen, on input ${1}^n$, outputs parameters $I$ with $|I| \geq n$. Each value of $I$ output by Gen defines sets $\mathcal{D}_I$ and $\mathcal{R}_I$ that constitute the domain and range, respectively, of a function $f_I$.
+1. The parameter-generation algorithm $\mathsf{Gen}$, on input $1^n$, outputs parameters $I$ with $|I| \geq n$. Each value of $I$ output by $\mathsf{Gen}$ defines sets $\mathcal{D}_I$ and $\mathcal{R}_I$ that constitute the domain and range, respectively, of a function $f_I$.
 
 2. The sampling algorithm $\mathsf{Samp}$, on input $I$, outputs a uniformly distributed element of $\mathcal{D}_{I}$.
 
 3. The deterministic evaluation algorithm $f$, on input $I$ and $x \in \mathcal{D}_I$, outputs an element $y \in \mathcal{R}_I$. We write this as $y := f_I(x)$.
 
- $\Pi$ is a permutation family if for each value of $I$ output by $\mathsf{Gen}(1^n)$, it holds that $\mathcal{D}_I = \mathcal{R}_I$ and the function $f_I : \mathcal{D}_I \to \mathcal{D}_I$ is a bijection.
+$\Pi$ is a permutation family if for each value of $I$ output by $\mathsf{Gen}(1^n)$, it holds that $\mathcal{D}_I = \mathcal{R}_I$ and the function $f_I : \mathcal{D}_I \to \mathcal{D}_I$ is a bijection.
 
 Let $\Pi$ be a function family. What follows is the natural analogue of the experiment introduced previously.
 
@@ -73,7 +73,7 @@ The inverting experiment $\mathsf{Invert}_{\mathcal{A}, \Pi}(n)$:
 
 1. $\mathsf{Gen}(1^n)$ is run to obtain $I$, and then $\mathsf{Samp}(I)$ is run to obtain a uniform $x \in \mathcal{D}_I$. Finally, $y := f_I(x)$ is computed.
 
-2. A is given I and y as input, and outputs x'.
+2. $\mathcal{A}$ is given $I$ and $y$ as input, and outputs $x^{\prime}$.
 
 3. The output of the experiment is 1 if $f_{I}(x^{\prime}) = y$.
 
@@ -87,23 +87,23 @@ Throughout this chapter we work with one-way functions/permutations over an infi
 
 ### 8.1.2 Candidate One-Way Functions
 
-One-way functions are of interest only if they exist. We do not know how to prove they exist unconditionally (this would be a major breakthrough in complexity theory), so we must conjecture or assume their existence. Such a conjecture is based on the fact that several natural computational problems have received much attention, yet still are not known to be solvable by any polynomial-time algorithm. Perhaps the most famous such problem is integer factorization, i.e., finding the prime factors of a large integer. It is easy to multiply two numbers and obtain their product, but difficult to take a number and find its factors. This leads us to define the function $f_{\mathsf{mult}}(x, y) = x \cdot y$. If we do not restrict the lengths of $x$ and $y$, however, $f_{\mathsf{mult}}$ is easy to invert: with high probability $x \cdot y$ will be even, in which case $(2, xy/2)$ is an inverse. This issue can be addressed by restricting the domain of $f_{\mathsf{mult}}$ to equal-length primes x and y. We return to this idea in Section 9.2.
+One-way functions are of interest only if they exist. We do not know how to prove they exist unconditionally (this would be a major breakthrough in complexity theory), so we must conjecture or assume their existence. Such a conjecture is based on the fact that several natural computational problems have received much attention, yet still are not known to be solvable by any polynomial-time algorithm. Perhaps the most famous such problem is integer factorization, i.e., finding the prime factors of a large integer. It is easy to multiply two numbers and obtain their product, but difficult to take a number and find its factors. This leads us to define the function $f_{\mathsf{mult}}(x, y) = x \cdot y$. If we do not restrict the lengths of $x$ and $y$, however, $f_{\mathsf{mult}}$ is easy to invert: with high probability $x \cdot y$ will be even, in which case $(2, xy/2)$ is an inverse. This issue can be addressed by restricting the domain of $f_{\mathsf{mult}}$ to equal-length primes $x$ and $y$. We return to this idea in Section 9.2.
 
 Another candidate one-way function, not relying directly on number theory, is based on the subset-sum problem and is defined by
 
 $$
-f_{\mathsf{ss}}(x_{1},\ldots,x_{n},J)=\left(x_{1},\ldots,x_{n},\;\left[\textstyle\sum_{j\in J}x_{j}\bmod2^{n}\right]\right),
+f_{\mathsf{ss}}(x_{1},\ldots,x_{n},J)=\left(x_{1},\ldots,x_{n},\;\left[\textstyle\sum_{j\in J}x_{j}\bmod 2^{n}\right]\right),
 $$
 
 where each $x_i$ is an $n$-bit string interpreted as an integer, and $J$ is an $n$-bit string interpreted as specifying a subset of $\{1, \ldots, n\}$. Inverting $f_{\mathsf{ss}}$ on an output $(x_1, \ldots, x_n, y)$ requires finding a subset $J^{\prime} \subseteq \{1, \ldots, n\}$ such that
 
 $$
-\sum_{j \in J} x_j = y \mod 2^n.
+\sum_{j \in J^{\prime}} x_j = y \bmod 2^n.
 $$
 
-Readers who have studied $\mathcal{NP}$-completeness may recall that this problem is $\mathcal{NP}$-complete. But even $\mathcal{P} \neq \mathcal{NP}$ would not imply that $f_{\mathsf{ss}}$ is one-way: $\mathcal{P} \neq \mathcal{NP}$ would mean that every polynomial-time algorithm fails to solve the subset-sum problem on at least one input, whereas for $f_{\text{ss}}$ to be one-way it is required that every polynomial-time algorithm fails to solve the subset-sum problem (at least for certain parameters) almost always. Thus, our belief that the function above is one-way is based on the lack of known algorithms to solve this problem even with “small” probability on random inputs, and not merely the fact that the problem is $\mathcal{NP}$-complete.
+Readers who have studied $\mathcal{NP}$-completeness may recall that this problem is $\mathcal{NP}$-complete. But even $\mathcal{P} \neq \mathcal{NP}$ would not imply that $f_{\mathsf{ss}}$ is one-way: $\mathcal{P} \neq \mathcal{NP}$ would mean that every polynomial-time algorithm fails to solve the subset-sum problem on at least one input, whereas for $f_{\mathsf{ss}}$ to be one-way it is required that every polynomial-time algorithm fails to solve the subset-sum problem (at least for certain parameters) almost always. Thus, our belief that the function above is one-way is based on the lack of known algorithms to solve this problem even with “small” probability on random inputs, and not merely the fact that the problem is $\mathcal{NP}$-complete.
 
-We conclude by showing a family of permutations that is believed to be one-way. Let $\mathsf{Gen}$ be a probabilistic polynomial-time algorithm that, on input ${1}^n$, outputs an $n$-bit prime $p$ along with a special element $g \in \{2, \ldots, p-1\}$. (The element $g$ should be a generator of $\mathbb{Z}_p^*$; see Section 9.3.3.) Let $\mathsf{Samp}$ be an algorithm that, given $p$ and $g$, outputs a uniform integer $x \in \{1, \ldots, p-1\}$. Finally, define
+We conclude by showing a family of permutations that is believed to be one-way. Let $\mathsf{Gen}$ be a probabilistic polynomial-time algorithm that, on input $1^n$, outputs an $n$-bit prime $p$ along with a special element $g \in \{2, \ldots, p-1\}$. (The element $g$ should be a generator of $\mathbb{Z}_p^*$; see Section 9.3.3.) Let $\mathsf{Samp}$ be an algorithm that, given $p$ and $g$, outputs a uniform integer $x \in \{1, \ldots, p-1\}$. Finally, define
 
 $$
 f_{p,g}(x)=[g^{x}\bmod p].
@@ -117,17 +117,17 @@ Finally, we remark that very efficient one-way functions can be obtained from pr
 
 By definition, a one-way function is hard to invert. Stated differently: given $y = f(x)$, the value $x$ cannot be computed in its entirety by any polynomial-time algorithm (except with negligible probability; we ignore this here). One might get the impression that nothing about $x$ can be determined from $f(x)$ in polynomial time. This is not necessarily the case. Indeed, it is possible for $f(x)$ to “leak” a lot of information about $x$ even if $f$ is one-way. For a trivial example, let $g$ be a one-way function and define $f(x_1, x_2) \overset{\mathrm{def}}{=} (x_1, g(x_2))$, where $|x_1| = |x_2|$. It is easy to show that $f$ is also a one-way function (this is left as an exercise), even though it reveals half its input.
 
-For our applications, we will need to identify a specific piece of information about $x$ that is “hidden” by $f(x)$. This motivates the notion of a hard-core predicate. A hard-core predicate $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ of a function $f$ has the property that $\mathsf{hc}(x)$ is hard to compute with probability significantly better than 1/2 given $f(x)$. (Since hc is a boolean function, it is always possible to compute $\mathsf{hc}(x)$ with probability 1/2 by random guessing.) Formally:
+For our applications, we will need to identify a specific piece of information about $x$ that is “hidden” by $f(x)$. This motivates the notion of a hard-core predicate. A hard-core predicate $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ of a function $f$ has the property that $\mathsf{hc}(x)$ is hard to compute with probability significantly better than $1/2$ given $f(x)$. (Since $\mathsf{hc}$ is a boolean function, it is always possible to compute $\mathsf{hc}(x)$ with probability $1/2$ by random guessing.) Formally:
 
 DEFINITION 8.4 A function $\mathsf{hc} : \{0,1\}^* \to \{0,1\}$ is a hard-core predicate of a function $f$ if $\mathsf{hc}$ can be computed in polynomial time, and for every probabilistic polynomial-time algorithm $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that
 
 $$
-\Pr_{x\gets\{0,1\}^{n}}[\mathcal{A}(1^{n},f(x))=\mathsf{hc}(x)]\leq\frac{1}{2}+\mathsf{negl}(n),
+\Pr_{x\leftarrow\{0,1\}^{n}}[\mathcal{A}(1^{n},f(x))=\mathsf{hc}(x)]\leq\frac{1}{2}+\mathsf{negl}(n),
 $$
 
-where the probability is taken over the uniform choice of x in $\{0,1\}^{n}$ and the randomness of A.
+where the probability is taken over the uniform choice of $x$ in $\{0,1\}^{n}$ and the randomness of $\mathcal{A}$.
 
-We stress that $\mathsf{hc}(x)$ is efficiently computable given $x$ (since the function $\mathsf{hc}$ can be computed in polynomial time); the definition requires that $\mathsf{hc}(x)$ is hard to compute given $f(x)$. The above definition does not require f to be one-way; if f is a permutation, however, then it cannot have a hard-core predicate unless it is one-way. (See Exercise 8.13.)
+We stress that $\mathsf{hc}(x)$ is efficiently computable given $x$ (since the function $\mathsf{hc}$ can be computed in polynomial time); the definition requires that $\mathsf{hc}(x)$ is hard to compute given $f(x)$. The above definition does not require $f$ to be one-way; if $f$ is a permutation, however, then it cannot have a hard-core predicate unless it is one-way. (See Exercise 8.13.)
 
 Simple ideas don’t work. Consider the predicate $\mathsf{hc}(x) \overset{\mathrm{def}}{=} \bigoplus_{i=1}^{n} x_i$ where $x_1, \ldots, x_n$ denote the bits of $x$. One might hope that this is a hard-core predicate of any one-way function $f$: if $f$ cannot be inverted, then $f(x)$ must hide at least one of the bits $x_i$ of its preimage $x$, which would seem to imply that the XOR of all of the bits of $x$ is hard to compute. Despite its appeal, this argument is incorrect. To see this, let $g$ be a one-way function and define $f(x) \overset{\mathrm{def}}{=} (g(x), \bigoplus_{i=1}^{n} x_i)$. It is not hard to show that $f$ is one-way. However, it is clear that $f(x)$ does not hide the value of $\mathsf{hc}(x) = \bigoplus_{i=1}^{n} x_i$ because this is part of its output; therefore, $\mathsf{hc}(x)$ is not a hard-core predicate of $f$. Extending this, one can show that for any fixed predicate $\mathsf{hc}$, there is a one-way function $f$ for which $\mathsf{hc}$ is not a hard-core predicate of $f$.
 
@@ -137,9 +137,9 @@ Trivial hard-core predicates. Some functions have “trivial” hard-core predic
 
 In this chapter we show how to construct pseudorandom generators, functions, and permutations from any one-way function/permutation. In this section, we give an overview of these constructions. Details are given in the sections that follow.
 
-A hard-core predicate from any one-way function. The first step is to show that a hard-core predicate exists for any one-way function. Actually, it remains open whether this is true; we show something weaker that suffices for our purposes: Namely, we show that given a one-way function f we can construct another one-way function g along with a hard-core predicate of g.
+A hard-core predicate from any one-way function. The first step is to show that a hard-core predicate exists for any one-way function. Actually, it remains open whether this is true; we show something weaker that suffices for our purposes: Namely, we show that given a one-way function $f$ we can construct another one-way function $g$ along with a hard-core predicate of $g$.
 
-THEOREM 8.5 (Goldreich–Levin theorem) Assume one-way functions (resp., permutations) exist. Then there exists a one-way function (resp., permutation) $g$ and a hard-core predicate $\mathsf{hc}$ ofg.
+THEOREM 8.5 (Goldreich–Levin theorem) Assume one-way functions (resp., permutations) exist. Then there exists a one-way function (resp., permutation) $g$ and a hard-core predicate $\mathsf{hc}$ of $g$.
 
 Let $f$ be a one-way function. Functions $g$ and $\mathsf{gl}$ are constructed as follows:
 
@@ -157,9 +157,9 @@ THEOREM 8.6 Let $f$ be a one-way permutation and let $\mathsf{hc}$ be a hard-cor
 
 As intuition for why $G$ is a pseudorandom generator, note first that the initial $n$ bits of $G(s)$ (i.e., the bits of $f(s)$) are uniformly distributed when $s$ is uniformly distributed, since $f$ is a permutation. Next, the fact that $\mathsf{hc}$ is a hard-core predicate of $f$ means that $\mathsf{hc}(s)$ “looks random”—i.e., is *pseudo*-random—even given $f(s)$ (assuming again that $s$ is uniform). Putting these observations together, we see that the entire output of $G$ is *pseudo*-random.
 
-Pseudorandom generators with arbitrary expansion. The existence of a pseudorandom generator that stretches its seed by even a single bit (as we have just seen) is already highly non-trivial. But for applications (e.g., for efficient encryption of large messages as in Section 3.3), we need a pseudorandom generator that is as large as the original one, a generator with much larger expansion. Fortunately, we can obtain any polynomial expansion factor we like:
+Pseudorandom generators with arbitrary expansion. The existence of a pseudorandom generator that stretches its seed by even a single bit (as we have just seen) is already highly non-trivial. But for applications (e.g., for efficient encryption of large messages as in Section 3.3), we need a pseudorandom generator with much larger expansion. Fortunately, we can obtain any polynomial expansion factor we like:
 
-THEOREM 8.7 If there exists a pseudorandom generator with expansion factor $\ell(n) = n+1$, then for any polynomial poly there exists a pseudorandom generator with expansion factor $\mathsf{poly}(n)$.
+THEOREM 8.7 If there exists a pseudorandom generator with expansion factor $\ell(n) = n + 1$, then for any polynomial $\mathsf{poly}$ there exists a pseudorandom generator with expansion factor $\mathsf{poly}(n)$.
 
 We conclude that pseudorandom generators with arbitrary (polynomial) expansion can be constructed from any one-way permutation.
 
@@ -205,27 +205,27 @@ $$
 
 Thus, $x_i = \hat{x}_i$ for all $i$ and so $\mathcal{A}^{\prime}$ outputs the correct inverse $x = \hat{x}$.
 
-If $f$ is one-way, it is impossible for any probabilistic polynomial-time algorithm to invert $f$ with non-negligible probability. Thus, we conclude that there is no polynomial-time algorithm that always correctly computes $\mathsf{gl}(x, r)$ from $(f(x), r)$. This is a rather weak result that is very far from our ultimate goal of showing that $\mathsf{gl}(x, r)$ cannot be computed with probability significantly better than ${1}/{2}$ given $(f(x), r)$.
+If $f$ is one-way, it is impossible for any probabilistic polynomial-time algorithm to invert $f$ with non-negligible probability. Thus, we conclude that there is no polynomial-time algorithm that always correctly computes $\mathsf{gl}(x, r)$ from $(f(x), r)$. This is a rather weak result that is very far from our ultimate goal of showing that $\mathsf{gl}(x, r)$ cannot be computed with probability significantly better than $1/2$ given $(f(x), r)$.
 
 ### 8.3.2 A More Involved Case
 
-We now show that it is hard for any probabilistic polynomial-time algorithm $\mathcal{A}$ to compute $\mathsf{gl}(x, r)$ from $(f(x), r)$ with probability significantly better than 3/4. We will again show that any such $\mathcal{A}$ would imply the existence of a polynomial-time algorithm $\mathcal{A}^{\prime}$ that inverts $f$ with non-negligible probability. Notice that the strategy in the proof of Proposition 8.12 fails here because it may be that $\mathcal{A}$ never succeeds when $r = e^i$ (although it may succeed, say, on all other values of $r$). Furthermore, in the present case $\mathcal{A}^{\prime}$ does not know if the result $\mathcal{A}(f(x), r)$ is equal to $\mathsf{gl}(x, r)$ or not; the only thing $\mathcal{A}^{\prime}$ knows is that with high probability, algorithm $\mathcal{A}$ is correct. This further complicates the proof.
+We now show that it is hard for any probabilistic polynomial-time algorithm $\mathcal{A}$ to compute $\mathsf{gl}(x, r)$ from $(f(x), r)$ with probability significantly better than $3/4$. We will again show that any such $\mathcal{A}$ would imply the existence of a polynomial-time algorithm $\mathcal{A}^{\prime}$ that inverts $f$ with non-negligible probability. Notice that the strategy in the proof of Proposition 8.12 fails here because it may be that $\mathcal{A}$ never succeeds when $r = e^i$ (although it may succeed, say, on all other values of $r$). Furthermore, in the present case $\mathcal{A}^{\prime}$ does not know if the result $\mathcal{A}(f(x), r)$ is equal to $\mathsf{gl}(x, r)$ or not; the only thing $\mathcal{A}^{\prime}$ knows is that with high probability, algorithm $\mathcal{A}$ is correct. This further complicates the proof.
 
 PROPOSITION 8.13 Let $f$ and $g$ be as in Theorem 8.11. If there exists a probabilistic polynomial-time algorithm $\mathcal{A}$ and a polynomial $p(\cdot)$ such that
 
 $$
-\Pr_{x,r\gets\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\frac{1}{p(n)} \tag{8.1}
+\Pr_{x,r\leftarrow\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\frac{1}{p(n)} \tag{8.1}
 $$
 
-for infinitely many values of n, then there exists a probabilistic polynomial-time algorithm $A^{\prime}$ such that
+for infinitely many values of $n$, then there exists a probabilistic polynomial-time algorithm $\mathcal{A}^{\prime}$ such that
 
 $$
 \Pr_{x\leftarrow\{0,1\}^n}\left[\mathcal{A}^{\prime}(1^n,f(x))\in f^{-1}(f(x))\right]\geq\frac{1}{4\cdot p(n)}
 $$
 
-for infinitely many values of n.
+for infinitely many values of $n$.
 
-PROOF The main observation underlying the proof of this proposition is that for every $r \in \{0,1\}^n$, the values $\mathsf{gl}(x, r \oplus e^i)$ and $\mathsf{gl}(x, r)$ together can be used to compute the $i$th bit of $x$. (Recall that $e^i$ denotes the $n$-bit string with ${0}s$ everywhere except the $i$th position.) This is true because
+PROOF The main observation underlying the proof of this proposition is that for every $r \in \{0,1\}^n$, the values $\mathsf{gl}(x, r \oplus e^i)$ and $\mathsf{gl}(x, r)$ together can be used to compute the $i$th bit of $x$. (Recall that $e^i$ denotes the $n$-bit string with $0$s everywhere except the $i$th position.) This is true because
 
 $$
 \begin{aligned}
@@ -240,10 +240,10 @@ The above demonstrates that if $\mathcal{A}$ answers correctly on both $(f(x), r
 
 As a preliminary step, we show that for many $x$'s the probability that $\mathcal{A}$ answers correctly for both $(f(x), r)$ and $(f(x), r \oplus e^i)$, when $r$ is uniform, is sufficiently high. This allows us to fix $x$ and then focus solely on uniform choice of $r$, which makes the analysis easier.
 
-CLAIM 8.14 Let n be such that
+CLAIM 8.14 Let $n$ be such that
 
 $$
-\Pr_{x,r\gets\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\frac{1}{p(n)}.
+\Pr_{x,r\leftarrow\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\frac{1}{p(n)}.
 $$
 
 Then there exists a set $S_n \subseteq \{0,1\}^n$ of size at least $\frac{1}{2p(n)} \cdot 2^n$ such that for every $x \in S_n$ it holds that
@@ -252,7 +252,7 @@ $$
 \Pr_{r\leftarrow\{0,1\}^{n}}[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)]\geq\frac{3}{4}+\frac{1}{2p(n)}.
 $$
 
-PROOF Let $\varepsilon(n) = 1/p(n)$, and define $S_n \subseteq \{0,1\}^n$ to be the set of all $x^{\prime}$s for which
+PROOF Let $\varepsilon(n) = 1/p(n)$, and define $S_n \subseteq \{0,1\}^n$ to be the set of all $x$'s for which
 
 $$
 \Pr_{r\leftarrow\{0,1\}^{n}}[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)]\geq\frac{3}{4}+\frac{\varepsilon(n)}{2}.
@@ -274,10 +274,10 @@ Since $\frac{3}{4} + \varepsilon(n) \leq \Pr_{x,r \leftarrow \{0,1\}^n}\left[\ma
 
 The following is an easy consequence.
 
-**CLAIM 8.15** Let n be such that
+CLAIM 8.15 Let $n$ be such that
 
 $$
-\Pr_{x,r\gets\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\frac{1}{p(n)}.
+\Pr_{x,r\leftarrow\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\frac{1}{p(n)}.
 $$
 
 Then there exists a set $S_n \subseteq \{0,1\}^n$ of size at least $\frac{1}{2p(n)} \cdot 2^n$ such that for every $x \in S_n$ and every $i$ it holds that
@@ -304,15 +304,15 @@ $$
 \left(\frac{1}{4}-\frac{\varepsilon(n)}{2}\right)+\left(\frac{1}{4}-\frac{\varepsilon(n)}{2}\right)=\frac{1}{2}-\varepsilon(n),
 $$
 
-and so $\mathcal{A}$ is correct on both $\mathsf{gl}(x,r)$ and $\mathsf{gl}(x,r\oplus e^{i})$ with probability at least ${1}/2+\varepsilon(n)$. This proves the claim.
+and so $\mathcal{A}$ is correct on both $\mathsf{gl}(x,r)$ and $\mathsf{gl}(x,r\oplus e^{i})$ with probability at least $1/2+\varepsilon(n)$. This proves the claim.
 
-For the rest of the proof we set $\varepsilon(n) = 1/p(n)$ and consider only those values of n for which
+For the rest of the proof we set $\varepsilon(n) = 1/p(n)$ and consider only those values of $n$ for which
 
 $$
-\Pr_{x,r\gets\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\varepsilon(n).
+\Pr_{x,r\leftarrow\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{3}{4}+\varepsilon(n).
 $$
 
-The previous claim states that for an $\varepsilon(n)/2$ fraction of inputs $x$, and any $i$, algorithm $\mathcal{A}$ answers correctly on both $(f(x), r)$ and $(f(x), r \oplus e^i)$ with probability at least ${1}/2 + \varepsilon(n)$ over uniform choice of $r$, and from now on we focus only on such values of $x$. We construct a probabilistic polynomial-time algorithm $\mathcal{A}^{\prime}$ that inverts $f(x)$ with probability at least ${1}/{2}$ when $x \in S_n$. This suffices to prove Proposition 8.13 since then, for infinitely many values of $n$,
+The previous claim states that for an $\varepsilon(n)/2$ fraction of inputs $x$, and any $i$, algorithm $\mathcal{A}$ answers correctly on both $(f(x), r)$ and $(f(x), r \oplus e^i)$ with probability at least $1/2 + \varepsilon(n)$ over uniform choice of $r$, and from now on we focus only on such values of $x$. We construct a probabilistic polynomial-time algorithm $\mathcal{A}^{\prime}$ that inverts $f(x)$ with probability at least $1/2$ when $x \in S_n$. This suffices to prove Proposition 8.13 since then, for infinitely many values of $n$,
 
 $$
 \begin{aligned}
@@ -322,19 +322,19 @@ $$
 \end{aligned}
 $$
 
-Algorithm $\mathcal{A}^{\prime}$, given as input ${1}^{n}$ and y, works as follows:
+Algorithm $\mathcal{A}^{\prime}$, given as input $1^n$ and $y$, works as follows:
 
-1. For i = 1, ..., n do:
+1. For $i = 1, \ldots, n$ do:
 
-- Repeatedly choose a uniform $r \in \{0,1\}^n$ and compute $\mathcal{A}(y,r) \oplus \mathcal{A}(y,r \oplus e^i)$ as an “estimate” for the $i$th bit of the preimage of $y$. After doing this sufficiently many times (see below), let $x_i$ be the “estimate” that occurs a majority of the time.
+   - Repeatedly choose a uniform $r \in \{0,1\}^n$ and compute $\mathcal{A}(y,r) \oplus \mathcal{A}(y,r \oplus e^i)$ as an “estimate” for the $i$th bit of the preimage of $y$. After doing this sufficiently many times (see below), let $x_i$ be the “estimate” that occurs a majority of the time.
 
 2. Output $x = x_1 \cdots x_n$.
 
-We sketch an analysis of the probability that $\mathcal{A}^{\prime}$ correctly inverts its given input $y$. (We allow ourselves to be a bit laconic, since a full proof for a more difficult case is given in the following section.) Say $y = f(\hat{x})$ and recall that we assume here that $n$ is such that Equation (8.1) holds and $\hat{x} \in S_n$. Fix some $i$. The previous claim implies that the estimate $\mathcal{A}(y, r) \oplus \mathcal{A}(y, r \oplus e^i)$ is equal to $\mathsf{gl}(\hat{x}, e^i)$ with probability at least $\frac{1}{2} + \varepsilon(n)$ over choice of $r$. By obtaining sufficiently many estimates and letting $x_i$ be the majority value, $\mathcal{A}^{\prime}$ can ensure that $x_i$ is equal to $\mathsf{gl}(\hat{x}, e^i)$ with probability at least ${1} - \frac{1}{2n}$. Since $\varepsilon(n) = 1/p(n)$ for some polynomial $p$, and an independent value of $r$ is used for obtaining each estimate, the Chernoff bound (cf. Proposition A.14) shows that polynomially many estimates suffice.
+We sketch an analysis of the probability that $\mathcal{A}^{\prime}$ correctly inverts its given input $y$. (We allow ourselves to be a bit laconic, since a full proof for a more difficult case is given in the following section.) Say $y = f(\hat{x})$ and recall that we assume here that $n$ is such that Equation (8.1) holds and $\hat{x} \in S_n$. Fix some $i$. The previous claim implies that the estimate $\mathcal{A}(y, r) \oplus \mathcal{A}(y, r \oplus e^i)$ is equal to $\mathsf{gl}(\hat{x}, e^i)$ with probability at least $\frac{1}{2} + \varepsilon(n)$ over choice of $r$. By obtaining sufficiently many estimates and letting $x_i$ be the majority value, $\mathcal{A}^{\prime}$ can ensure that $x_i$ is equal to $\mathsf{gl}(\hat{x}, e^i)$ with probability at least $1 - \frac{1}{2n}$. Since $\varepsilon(n) = 1/p(n)$ for some polynomial $p$, and an independent value of $r$ is used for obtaining each estimate, the Chernoff bound (cf. Proposition A.14) shows that polynomially many estimates suffice.
 
-Summarizing, we have that for each $i$ the value $x_i$ computed by $\mathcal{A}^{\prime}$ is incorrect with probability at most $\frac{1}{2n}$. A union bound thus shows that $\mathcal{A}^{\prime}$ is incorrect for some $i$ with probability at most $n \cdot \frac{1}{2n} = \frac{1}{2}$. That is, $\mathcal{A}^{\prime}$ is correct for all $i$—and thus correctly inverts $y$—with probability at least ${1} - \frac{1}{2} = \frac{1}{2}$. This completes the proof of Proposition 8.13.
+Summarizing, we have that for each $i$ the value $x_i$ computed by $\mathcal{A}^{\prime}$ is incorrect with probability at most $\frac{1}{2n}$. A union bound thus shows that $\mathcal{A}^{\prime}$ is incorrect for some $i$ with probability at most $n \cdot \frac{1}{2n} = \frac{1}{2}$. That is, $\mathcal{A}^{\prime}$ is correct for all $i$—and thus correctly inverts $y$—with probability at least $1 - \frac{1}{2} = \frac{1}{2}$. This completes the proof of Proposition 8.13.
 
-A corollary of Proposition 8.13 is that if $f$ is a one-way function, then for any polynomial-time algorithm $\mathcal{A}$ the probability that $\mathcal{A}$ correctly guesses $\mathsf{gl}(x,r)$ when given $(f(x),r)$ is at most negligibly more than ${3}/{4}$.
+A corollary of Proposition 8.13 is that if $f$ is a one-way function, then for any polynomial-time algorithm $\mathcal{A}$ the probability that $\mathcal{A}$ correctly guesses $\mathsf{gl}(x,r)$ when given $(f(x),r)$ is at most negligibly more than $3/4$.
 
 ### 8.3.3 The Full Proof
 
@@ -346,17 +346,17 @@ $$
 \Pr_{x,r\leftarrow\{0,1\}^n}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{1}{2}+\frac{1}{p(n)}
 $$
 
-for infinitely many values of n, then there exists a probabilistic polynomial-time algorithm $\mathcal{A}^{\prime}$ and a polynomial $p^{\prime}(\cdot)$ such that
+for infinitely many values of $n$, then there exists a probabilistic polynomial-time algorithm $\mathcal{A}^{\prime}$ and a polynomial $p^{\prime}(\cdot)$ such that
 
 $$
 \Pr_{x\leftarrow\{0,1\}^n}\left[\mathcal{A}^{\prime}(1^n,f(x))\in f^{-1}(f(x))\right]\geq\frac{1}{p^{\prime}(n)}
 $$
 
-for infinitely many values of n.
+for infinitely many values of $n$.
 
 PROOF Once again we set $\varepsilon(n) = 1/p(n)$ and consider only those values of $n$ for which $\Pr_{x,r \leftarrow \{0,1\}^n}\left[\mathcal{A}(f(x), r) = \mathsf{gl}(x, r)\right] \geq \frac{1}{2} + \frac{1}{p(n)}$. The following is analogous to Claim 8.14 and is proved in the same way.
 
-**CLAIM 8.17** Let n be such that
+CLAIM 8.17 Let $n$ be such that
 
 $$
 \Pr_{x,r\leftarrow\{0,1\}^{n}}\left[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)\right]\geq\frac{1}{2}+\varepsilon(n).
@@ -365,7 +365,7 @@ $$
 Then there exists a set $S_n \subseteq \{0,1\}^n$ of size at least $\frac{\varepsilon(n)}{2} \cdot 2^n$ such that for every $x \in S_n$ it holds that
 
 $$
-\Pr_{r\leftarrow\{0,1\}^{n}}[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)]\geq\frac{1}{2}+\frac{\varepsilon(n)}{2}.
+\Pr_{r\leftarrow\{0,1\}^{n}}[\mathcal{A}(f(x),r)=\mathsf{gl}(x,r)]\geq\frac{1}{2}+\frac{\varepsilon(n)}{2}. \tag{8.2}
 $$
 
 If we start by trying to prove an analogue of Claim 8.15, the best we can claim here is that when $x \in S_n$ we have
@@ -376,9 +376,9 @@ $$
 
 for any $i$. Thus, if we try to use $\mathcal{A}(f(x), r) \oplus \mathcal{A}(f(x), r \oplus e^i)$ as an estimate for $x_i$, all we can claim is that this estimate will be correct with probability at least $\varepsilon(n)$, which may not be any better than taking a random guess! We cannot claim that flipping the result gives a good estimate, either.
 
-Instead, we design $\mathcal{A}^{\prime}$ so that it computes $\mathsf{gl}(x,r)$ and $\mathsf{gl}(x,r\oplus e^i)$ by invoking $\mathcal{A}$ only once. We do this by having $\mathcal{A}^{\prime}$ run $\mathcal{A}(f(x),r\oplus e^i)$, and then simply “guessing” the value $\mathsf{gl}(x,r)$ itself. The naive way to do this would be to choose the $r$'s independently, as before, and to have $\mathcal{A}^{\prime}$ make an independent guess of $\mathsf{gl}(x,r)$ for each value of $r$. But then the probability that all such guesses are correct—which, as we will see, is necessary if $\mathcal{A}^{\prime}$ is to output the correct inverse—would be negligible because polynomials many $r$'s are used.
+Instead, we design $\mathcal{A}^{\prime}$ so that it computes $\mathsf{gl}(x,r)$ and $\mathsf{gl}(x,r\oplus e^i)$ by invoking $\mathcal{A}$ only once. We do this by having $\mathcal{A}^{\prime}$ run $\mathcal{A}(f(x),r\oplus e^i)$, and then simply “guessing” the value $\mathsf{gl}(x,r)$ itself. The naive way to do this would be to choose the $r$'s independently, as before, and to have $\mathcal{A}^{\prime}$ make an independent guess of $\mathsf{gl}(x,r)$ for each value of $r$. But then the probability that all such guesses are correct—which, as we will see, is necessary if $\mathcal{A}^{\prime}$ is to output the correct inverse—would be negligible because polynomially many $r$'s are used.
 
-The crucial observation of the present proof is that $\mathcal{A}^{\prime}$ can generate the $r^{\prime}$s in a pairwise-independent manner and make its guesses in a particular way so that with non-negligible probability all its guesses are correct. Specifically, in order to generate $m$ values of $r$, we have $\mathcal{A}^{\prime}$ select $\ell = \lceil \log(m+1) \rceil$ independent and uniformly distributed strings $s^1, \ldots, s^\ell \in \{0,1\}^n$. Then, for every nonempty subset $I \subseteq \{1, \ldots, \ell\}$, we set $r^I := \oplus_{i \in I} s^i$. Since there are ${2}^\ell - 1$ nonempty subsets, this defines a collection of ${2}^{\lceil \log(m+1) \rceil} - 1 \geq m$ strings. Each such string is uniformly distributed. The strings are not independent, but they are pairwise independent. To see this, notice that for every two subsets $I \neq J$ there is an index $j \in I \cup J$ such that $j \notin I \cap J$. Without loss of generality, assume $j \notin I$. Then the value of $s^j$ is uniform and independent of the value of $r^I$. Since $s^j$ is included in the XOR that defines $r^J$, this implies that $r^J$ is uniform and independent of $r^I$ as well.
+The crucial observation of the present proof is that $\mathcal{A}^{\prime}$ can generate the $r$'s in a pairwise-independent manner and make its guesses in a particular way so that with non-negligible probability all its guesses are correct. Specifically, in order to generate $m$ values of $r$, we have $\mathcal{A}^{\prime}$ select $\ell = \lceil \log(m+1) \rceil$ independent and uniformly distributed strings $s^1, \ldots, s^\ell \in \{0,1\}^n$. Then, for every nonempty subset $I \subseteq \{1, \ldots, \ell\}$, we set $r^I := \oplus_{i \in I} s^i$. Since there are $2^\ell - 1$ nonempty subsets, this defines a collection of $2^{\lceil \log(m+1) \rceil} - 1 \geq m$ strings. Each such string is uniformly distributed. The strings are not independent, but they are pairwise independent. To see this, notice that for every two subsets $I \neq J$ there is an index $j \in I \cup J$ such that $j \notin I \cap J$. Without loss of generality, assume $j \notin I$. Then the value of $s^j$ is uniform and independent of the value of $r^I$. Since $s^j$ is included in the XOR that defines $r^J$, this implies that $r^J$ is uniform and independent of $r^I$ as well.
 
 We now have the following two important observations:
 
@@ -388,11 +388,11 @@ $$
 \mathsf{gl}(x,r^{I})=\mathsf{gl}(x,\oplus_{i\in I}s^{i})=\oplus_{i\in I}\mathsf{gl}(x,s^{i}).
 $$
 
-2. If $\mathcal{A}^{\prime}$ simply guesses the values of $\mathsf{gl}(x, s^{1}), \ldots, \mathsf{gl}(x, s^{\ell})$ by choosing a uniform bit for each, then all these guesses will be correct with probability ${1}/2^{\ell}$. If $m$ is polynomial in the security parameter $n$, then ${1}/2^{\ell}$ is not negligible, and so with non-negligible probability $\mathcal{A}^{\prime}$ correctly guesses all the values $\mathsf{gl}(x, s^{1}), \ldots, \mathsf{gl}(x, s^{\ell})$.
+2. If $\mathcal{A}^{\prime}$ simply guesses the values of $\mathsf{gl}(x, s^{1}), \ldots, \mathsf{gl}(x, s^{\ell})$ by choosing a uniform bit for each, then all these guesses will be correct with probability $1/2^{\ell}$. If $m$ is polynomial in the security parameter $n$, then $1/2^{\ell}$ is not negligible, and so with non-negligible probability $\mathcal{A}^{\prime}$ correctly guesses all the values $\mathsf{gl}(x, s^{1}), \ldots, \mathsf{gl}(x, s^{\ell})$.
 
 Combining the above yields a way of obtaining $m = \mathsf{poly}(n)$ uniform and pairwise-independent strings $\{r^I\}$ along with correct values for $\{\mathsf{gl}(x, r^I)\}$ with non-negligible probability. These values can then be used to compute $x_i$ in the same way as in the proof of Proposition 8.13. Details follow.
 
-The inversion algorithm $A^{\prime}$. We now provide a full description of an algorithm $A^{\prime}$ that receives inputs ${1}^n$, $y$ and tries to compute an inverse of $y$. The algorithm proceeds as follows:
+The inversion algorithm $\mathcal{A}^{\prime}$. We now provide a full description of an algorithm $\mathcal{A}^{\prime}$ that receives inputs $1^n$, $y$ and tries to compute an inverse of $y$. The algorithm proceeds as follows:
 
 1. Compute $\ell:=\lceil\log(2n/\varepsilon(n)^{2}+1)\rceil$.
 
@@ -400,22 +400,21 @@ The inversion algorithm $A^{\prime}$. We now provide a full description of an al
 
 3. For every nonempty subset $I \subseteq \{1, \ldots, \ell\}$, compute $r^I := \oplus_{i \in I} s^i$ and $\sigma^I := \oplus_{i \in I} \sigma^i$.
 
-4. For i = 1, ..., n do:
+4. For $i = 1, \ldots, n$ do:
 
-(a) For every nonempty subset $I \subseteq \{1, \ldots, \ell\}$, set
+   (a) For every nonempty subset $I \subseteq \{1, \ldots, \ell\}$, set
 
-$$
-x_{i}^{I}:=\sigma^{I}\oplus\mathcal{A}(y,r^{I}\oplus e^{i}).
-$$
+   $$
+   x_{i}^{I}:=\sigma^{I}\oplus\mathcal{A}(y,r^{I}\oplus e^{i}).
+   $$
 
-(b) Set $x_i := \text{majority}_I\{x_i^I\}$ (i.e., take the bit that appeared a majority of the time in the previous step).
+   (b) Set $x_i := \text{majority}_I\{x_i^I\}$ (i.e., take the bit that appeared a majority of the time in the previous step).
 
 5. Output $x = x_1 \cdots x_n$.
 
-It remains to compute the probability that $\mathcal{A}^{\prime}$ outputs $x \in f^{-1}(y)$. As in the proof of Proposition 8.13, we focus only on $n$ as in Claim 8.17 and assume $y = f(\hat{x})$ for some $\hat{x} \in S_n$. Each $\sigma^i$ represents a “guess” for the value of $\mathsf{gl}(\hat{x}, s^i)$. As noted earlier, with non-negligible probability all these guesses are correct; we show that conditioned on this event, $\mathcal{A}^{\prime}$ outputs $x = \hat{x}$ with probability at least ${1}/{2}$.
+It remains to compute the probability that $\mathcal{A}^{\prime}$ outputs $x \in f^{-1}(y)$. As in the proof of Proposition 8.13, we focus only on $n$ as in Claim 8.17 and assume $y = f(\hat{x})$ for some $\hat{x} \in S_n$. Each $\sigma^i$ represents a “guess” for the value of $\mathsf{gl}(\hat{x}, s^i)$. As noted earlier, with non-negligible probability all these guesses are correct; we show that conditioned on this event, $\mathcal{A}^{\prime}$ outputs $x = \hat{x}$ with probability at least $1/2$.
 
-Assume $\sigma^i = \mathsf{gl}(\hat{x}, s^i)$ for all $i$. Then $\sigma^I = \mathsf{gl}(\hat{x}, r^I)$ for all $I$. Fix an index $i \in \{1, \ldots, n\}$ and consider the probability that $\mathcal{A}^{\prime}$ obtains the correct value $x_i = \hat{x}_i$. For any nonempty $I$ we have $\mathcal{A}(y, r^I \oplus e^i) = \mathsf{gl}(\hat{x}, r^I \oplus e^i)$ with probability at least $\frac{1}{2} + \varepsilon(n)/2$ over choice of $r$; this follows because $\hat{x} \in S_n$
-and $r^I \oplus e^i$ is uniformly distributed. Thus, for any nonempty subset $I$ we have $\Pr[x_i^I = \hat{x}_i] \geq \frac{1}{2} + \varepsilon(n)/2$. Moreover, the $\{x_i^I\}_{I \subseteq \{1, \ldots, \ell\}}$ are pairwise independent because the $\{r^I\}_{I \subseteq \{1, \ldots, \ell\}}$ (and hence the $\{r^I \oplus e^i\}_{I \subseteq \{1, \ldots, \ell\}}$) are pairwise independent. Since $x_i$ is defined to be the value that occurs a majority of the time among the $\{x_i^I\}_{I \subseteq \{1, \ldots, \ell\}}$, we can apply Proposition A.13 to obtain
+Assume $\sigma^i = \mathsf{gl}(\hat{x}, s^i)$ for all $i$. Then $\sigma^I = \mathsf{gl}(\hat{x}, r^I)$ for all $I$. Fix an index $i \in \{1, \ldots, n\}$ and consider the probability that $\mathcal{A}^{\prime}$ obtains the correct value $x_i = \hat{x}_i$. For any nonempty $I$ we have $\mathcal{A}(y, r^I \oplus e^i) = \mathsf{gl}(\hat{x}, r^I \oplus e^i)$ with probability at least $\frac{1}{2} + \varepsilon(n)/2$ over choice of $r$; this follows because $\hat{x} \in S_n$ and $r^I \oplus e^i$ is uniformly distributed. Thus, for any nonempty subset $I$ we have $\Pr[x_i^I = \hat{x}_i] \geq \frac{1}{2} + \varepsilon(n)/2$. Moreover, the $\{x_i^I\}_{I \subseteq \{1, \ldots, \ell\}}$ are pairwise independent because the $\{r^I\}_{I \subseteq \{1, \ldots, \ell\}}$ (and hence the $\{r^I \oplus e^i\}_{I \subseteq \{1, \ldots, \ell\}}$) are pairwise independent. Since $x_i$ is defined to be the value that occurs a majority of the time among the $\{x_i^I\}_{I \subseteq \{1, \ldots, \ell\}}$, we can apply Proposition A.13 to obtain
 
 $$
 \begin{aligned}
@@ -425,7 +424,7 @@ $$
 \end{aligned}
 $$
 
-The above holds for all $i$, so by applying a union bound we see that the probability that $x_i \neq \hat{x}_i$ for some $i$ is at most ${1}/{2}$. That is, $x_i = \hat{x}_i$ for all $i$ (and hence $x = \hat{x}$) with probability at least ${1}/{2}$.
+The above holds for all $i$, so by applying a union bound we see that the probability that $x_i \neq \hat{x}_i$ for some $i$ is at most $1/2$. That is, $x_i = \hat{x}_i$ for all $i$ (and hence $x = \hat{x}$) with probability at least $1/2$.
 
 Putting everything together: Let $n$ be as in Claim 8.17 and $y = f(\hat{x})$. With probability at least $\varepsilon(n)/2$ we have $\hat{x} \in S_n$. All the guesses $\sigma^i$ are correct with probability at least
 
@@ -433,7 +432,7 @@ $$
 \frac{1}{2^{\ell}}\geq\frac{1}{2\cdot(2n/\varepsilon(n)^{2}+1)}>\frac{\varepsilon(n)^{2}}{5n}
 $$
 
-for $n$ sufficiently large. Conditioned on both the above, $\mathcal{A}^{\prime}$ outputs $x = \hat{x}$ with probability at least ${1}/{2}$. The overall probability with which $\mathcal{A}^{\prime}$ inverts its input is thus at least $\varepsilon(n)^{3}/20n = 1/(20np(n)^{3})$ for infinitely many $n$. Since ${20}np(n)^{3}$ is polynomial in $n$, this proves Proposition 8.16.
+for $n$ sufficiently large. Conditioned on both the above, $\mathcal{A}^{\prime}$ outputs $x = \hat{x}$ with probability at least $1/2$. The overall probability with which $\mathcal{A}^{\prime}$ inverts its input is thus at least $\varepsilon(n)^{3}/20n = 1/(20np(n)^{3})$ for infinitely many $n$. Since $20np(n)^{3}$ is polynomial in $n$, this proves Proposition 8.16.
 
 ## 8.4 Constructing Pseudorandom Generators
 
@@ -448,13 +447,13 @@ THEOREM 8.18 Let $f$ be a one-way permutation with hard-core predicate $\mathsf{
 PROOF Let $D$ be a probabilistic polynomial-time algorithm. We prove that there is a negligible function $\mathsf{negl}$ such that
 
 $$
-\Pr_{r\leftarrow\{0,1\}^{n+1}}[D(r)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D(G(s))=1]\leq\mathsf{negl}(n). \tag{8.2}
+\Pr_{r\leftarrow\{0,1\}^{n+1}}[D(r)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D(G(s))=1]\leq\mathsf{negl}(n). \tag{8.3}
 $$
 
 A similar argument shows that there is a negligible function $\mathsf{negl}^{\prime}$ for which
 
 $$
-\Pr_{s\leftarrow\{0,1\}^{n}}[D(G(s))=1]-\Pr_{r\leftarrow\{0,1\}^{n+1}}[D(r)=1]\leq\mathsf{negl}^{\prime}(n), \tag{8.3}
+\Pr_{s\leftarrow\{0,1\}^{n}}[D(G(s))=1]-\Pr_{r\leftarrow\{0,1\}^{n+1}}[D(r)=1]\leq\mathsf{negl}^{\prime}(n),
 $$
 
 which completes the proof.
@@ -470,7 +469,7 @@ $$
 \end{aligned}
 $$
 
-using the fact that $f$ is a permutation for the second equality, and that a uniform bit $r^{\prime}$ is equal to $\mathsf{hc}(s)$ with probability exactly ${1}/{2}$ for the third equality. Since
+using the fact that $f$ is a permutation for the second equality, and that a uniform bit $r^{\prime}$ is equal to $\mathsf{hc}(s)$ with probability exactly $1/2$ for the third equality. Since
 
 $$
 \Pr_{s\leftarrow\{0,1\}^{n}}[D(G(s))=1]=\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\mathsf{hc}(s)\right)=1]
@@ -479,16 +478,16 @@ $$
 (by definition of $G$), this means that Equation (8.3) is equivalent to
 
 $$
-\frac{1}{2}\cdot\left(\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\overline{{\mathsf{hc}}}(s)\right)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\mathsf{hc}(s)\right)=1]\right)\leq\mathsf{negl}(n).
+\frac{1}{2}\cdot\left(\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\overline{\mathsf{hc}}(s)\right)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\mathsf{hc}(s)\right)=1]\right)\leq\mathsf{negl}(n).
 $$
 
 Consider the following algorithm $\mathcal{A}$ that is given as input a value $y = f(s)$ and tries to predict the value of $\mathsf{hc}(s)$:
 
 1. Choose uniform $r^{\prime} \in \{0,1\}$.
 
-2. Run $D(y\|r^{\prime})$. If D outputs 0, output $r^{\prime}$; otherwise output $\bar{r}^{\prime}$.
+2. Run $D(y\|r^{\prime})$. If $D$ outputs 0, output $r^{\prime}$; otherwise output $\bar{r}^{\prime}$.
 
-Clearly A runs in polynomial time. By definition of A, we have
+Clearly $\mathcal{A}$ runs in polynomial time. By definition of $\mathcal{A}$, we have
 
 $$
 \begin{aligned}
@@ -504,7 +503,7 @@ $$
 Since $\mathsf{hc}$ is a hard-core predicate of $f$, it follows that there exists a negligible function $\mathsf{negl}$ for which
 
 $$
-\frac{1}{2}\cdot\left(\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\overline{{\mathsf{hc}}}(s)\right)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\mathsf{hc}(s)\right)=1]\right)\leq\mathsf{negl}(n),
+\frac{1}{2}\cdot\left(\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\overline{\mathsf{hc}}(s)\right)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D\left(f(s)\|\mathsf{hc}(s)\right)=1]\right)\leq\mathsf{negl}(n),
 $$
 
 as desired.
@@ -513,7 +512,7 @@ as desired.
 
 We now show that the expansion factor of a pseudorandom generator can be increased by any desired (polynomial) amount. This means that the previous construction, with expansion factor $\ell(n) = n + 1$, suffices for constructing a pseudorandom generator with arbitrary (polynomial) expansion factor.
 
-THEOREM 8.19 If there exists a pseudorandom generator G with expansion factor $n+1$, then for any polynomial poly there exists a pseudorandom generator $\hat{G}$ with expansion factor $\mathsf{poly}(n)$.
+THEOREM 8.19 If there exists a pseudorandom generator $G$ with expansion factor $n+1$, then for any polynomial $\mathsf{poly}$ there exists a pseudorandom generator $\hat{G}$ with expansion factor $\mathsf{poly}(n)$.
 
 PROOF We first consider constructing a pseudorandom generator $\hat{G}$ that outputs $n + 2$ bits. $\hat{G}$ works as follows: Given an initial seed $s \in \{0,1\}^n$, it computes $t_1 := G(s)$ to obtain $n + 1$ pseudorandom bits. The initial $n$ bits of $t_1$ are then used again as a seed for $G$; the resulting $n+1$ bits, concatenated with the final bit of $t_1$, yield the $(n+2)$-bit output. (See Figure 8.1.) The second application of $G$ uses a pseudorandom seed rather than a random one. The proof of security we give next shows that this does not impact the pseudorandomness of the output.
 
@@ -530,7 +529,7 @@ To see this, consider the polynomial-time distinguisher $D^{\prime}$ that, on in
 1. If $t_{1}$ is uniform, the distribution on $t_{2}$ generated by $D^{\prime}$ is exactly that of distribution $H_{n}^{1}$. Thus,
 
 $$
-\Pr_{t_{1}\gets\{0,1\}^{n+1}}[D^{\prime}(t_{1})=1]=\Pr_{t_{2}\gets H_{n}^{1}}[D(t_{2})=1].
+\Pr_{t_{1}\leftarrow\{0,1\}^{n+1}}[D^{\prime}(t_{1})=1]=\Pr_{t_{2}\leftarrow H_{n}^{1}}[D(t_{2})=1].
 $$
 
 2. If $t_1 = G(s)$ for uniform $s \in \{0,1\}^n$, the distribution on $t_2$ generated by $D^{\prime}$ is exactly that of distribution $H_n^0$. That is,
@@ -547,7 +546,7 @@ $$
 
 Equation (8.4) follows.
 
-We next claim that there is a negligible function $\mathsf{negl}^{\prime}$ such that
+We next claim that there is a negligible function $\mathsf{negl}^{\prime\prime}$ such that
 
 $$
 \left|\Pr_{t_{2}\leftarrow H_{n}^{1}}[D(t_{2})=1]-\Pr_{t_{2}\leftarrow H_{n}^{2}}[D(t_{2})=1]\right|\leq\mathsf{negl}^{\prime\prime}(n). \tag{8.5}
@@ -565,7 +564,7 @@ $$
 \Pr_{s\leftarrow\{0,1\}^{n}}[D^{\prime\prime}(G(s))=1]=\Pr_{t_{2}\leftarrow H_{n}^{1}}[D(t_{2})=1].
 $$
 
-As before, pseudorandomness of G implies Equation (8.5).
+As before, pseudorandomness of $G$ implies Equation (8.5).
 
 Putting everything together, we have
 
@@ -575,7 +574,7 @@ $$
 &=\left|\Pr_{t_{2}\leftarrow H_{n}^{0}}[D(t_{2})=1]-\Pr_{t_{2}\leftarrow H_{n}^{2}}[D(t_{2})=1]\right|\\
 &\leq\left|\Pr_{t_{2}\leftarrow H_{n}^{0}}[D(t_{2})=1]-\Pr_{t_{2}\leftarrow H_{n}^{1}}[D(t_{2})=1]\right|\\
 &\quad+\left|\Pr_{t_{2}\leftarrow H_{n}^{1}}[D(t_{2})=1]-\Pr_{t_{2}\leftarrow H_{n}^{2}}[D(t_{2})=1]\right|\\
-&\leq\mathsf{negl}^{\prime}(n)+\mathsf{negl}^{\prime \prime}(n),
+&\leq\mathsf{negl}^{\prime}(n)+\mathsf{negl}^{\prime\prime}(n), \tag{8.6}
 \end{aligned}
 $$
 
@@ -589,15 +588,15 @@ The general case. The same idea as above can be iteratively applied to generate 
 
 1. Set $t_0 := s$. For $i = 1, \ldots, p(n)$ do:
 
-(a) Let $s_{i-1}$ be the first $n$ bits of $t_{i-1}$, and let $\sigma_{i-1}$ denote the remaining $i-1$ bits. (When $i=1$, $s_0=t_0$ and $\sigma_0$ is the empty string.)
+   (a) Let $s_{i-1}$ be the first $n$ bits of $t_{i-1}$, and let $\sigma_{i-1}$ denote the remaining $i-1$ bits. (When $i=1$, $s_0=t_0$ and $\sigma_0$ is the empty string.)
 
-(b) Set $t_i := G(s_{i-1}) \|\sigma_{i-1}$.
+   (b) Set $t_i := G(s_{i-1}) \|\sigma_{i-1}$.
 
-2. Output $t_{p(n)}$
+2. Output $t_{p(n)}$.
 
 We show that $\hat{G}$ is a pseudorandom generator. The proof uses a common technique known as a hybrid argument. (Actually, even the case of $p(n) = 2$, above, used a simple hybrid argument.) The main difference with respect to the previous proof is a technical one. Previously, we could define and explicitly work with three sequences of distributions $\{H_n^0\}, \{H_n^1\}$, and $\{H_n^2\}$. Here that is not possible since the number of distributions to consider grows with $n$.
 
-For any $n$ and ${0} \leq j \leq p(n)$, let $H_n^j$ be the distribution on strings of length $n+p(n)$ defined as follows: choose uniform $t_j \in \{0,1\}^{n+j}$, then run $\hat{G}$ starting from iteration $j+1$ and output $t_{p(n)}$. (When $j=p(n)$ this means we simply choose uniform $t_{p(n)} \in \{0,1\}^{n+p(n)}$ and output it.) The crucial observation is that $H_n^0$ corresponds to outputting $\hat{G}(s)$ for uniform $s \in \{0,1\}^n$, while $H_n^{p(n)}$ corresponds to outputting a uniform $(n+p(n))$-bit string. Fixing any polynomial-time distinguisher $D$, this means that
+For any $n$ and $0 \leq j \leq p(n)$, let $H_n^j$ be the distribution on strings of length $n+p(n)$ defined as follows: choose uniform $t_j \in \{0,1\}^{n+j}$, then run $\hat{G}$ starting from iteration $j+1$ and output $t_{p(n)}$. (When $j=p(n)$ this means we simply choose uniform $t_{p(n)} \in \{0,1\}^{n+p(n)}$ and output it.) The crucial observation is that $H_n^0$ corresponds to outputting $\hat{G}(s)$ for uniform $s \in \{0,1\}^n$, while $H_n^{p(n)}$ corresponds to outputting a uniform $(n+p(n))$-bit string. Fixing any polynomial-time distinguisher $D$, this means that
 
 $$
 \begin{aligned}
@@ -619,10 +618,10 @@ Fix $D$ as above, and consider the distinguisher $D^{\prime}$ that does the foll
 Clearly $D^{\prime}$ runs in polynomial time. Analyzing the behavior of $D^{\prime}$ is more complicated than before, although the underlying ideas are the same. Fix $n$ and say $D^{\prime}$ chooses $j = j^{*}$. If $w$ is uniform, then $t_{j^{*}}$ is uniform and so the distribution on $t \overset{\mathrm{def}}{=} t_{p(n)}$ is exactly that of distribution $H_{n}^{j^{*}}$. That is,
 
 $$
-\Pr_{w\gets\{0,1\}^{n+1}}[D^{\prime}(w)=1\mid j=j^{*}]=\Pr_{t\gets H_{n}^{j^{*}}}[D(t)=1].
+\Pr_{w\leftarrow\{0,1\}^{n+1}}[D^{\prime}(w)=1\mid j=j^{*}]=\Pr_{t\leftarrow H_{n}^{j^{*}}}[D(t)=1].
 $$
 
-Since each value for j is chosen with equal probability,
+Since each value for $j$ is chosen with equal probability,
 
 $$
 \begin{aligned}
@@ -647,7 +646,7 @@ $$
 \end{aligned}
 $$
 
-We can now analyze how well $D^{\prime}$ distinguishes outputs of G from random:
+We can now analyze how well $D^{\prime}$ distinguishes outputs of $G$ from random:
 
 $$
 \begin{aligned}
@@ -662,12 +661,12 @@ relying on Equations (8.8) and (8.9) for the first equality. (The second equalit
 Putting it all together. Let $f$ be a one-way permutation. Taking the pseudorandom generator with expansion factor $n+1$ from Theorem 8.18, and increasing the expansion factor to $n+\ell$ using the approach from the proof of Theorem 8.19, we obtain the following pseudorandom generator $\hat{G}$:
 
 $$
-\hat{G}(s)=f^{(\ell)}(s)\parallel\mathsf{hc}(f^{(\ell-1)}(s))\parallel\cdots\parallel\mathsf{hc}(s),
+\hat{G}(s)=f^{(\ell)}(s)\|\mathsf{hc}(f^{(\ell-1)}(s))\|\cdots\|\mathsf{hc}(s),
 $$
 
-where $f^{(i)}$ refers to i-fold iteration of f. Note that $\hat{G}$ uses $\ell$ evaluations of f, and generates one pseudorandom bit per evaluation using the hard-core predicate hc.
+where $f^{(i)}$ refers to $i$-fold iteration of $f$. Note that $\hat{G}$ uses $\ell$ evaluations of $f$, and generates one pseudorandom bit per evaluation using the hard-core predicate $\mathsf{hc}$.
 
-Connection to stream ciphers. Recall from Section 3.6.1 that a stream cipher (without an IV) is defined by algorithms (Init, Next), where Init takes a seed $s \in \{0,1\}^n$ and returns initial state st, and Next takes as input the current state st and outputs a bit $\sigma$ and updated state st'. The construction $\hat{G}$ from the preceding proof fits nicely into this paradigm: take Init to be the trivial algorithm that outputs st = s, and define Next(st) to compute $G(st)$, parse the result as $st^{\prime}\|\sigma$ with $|st^{\prime}| = n$, and output the bit $\sigma$ and updated state st'. (If we use this stream cipher to generate $p(n)$ output bits starting from seed s, then we get exactly the final $p(n)$ bits of $\hat{G}(s)$ in reverse order.) The preceding proof shows that this yields a pseudorandom generator.
+Connection to stream ciphers. Recall from Section 3.6.1 that a stream cipher (without an IV) is defined by algorithms $(\mathsf{Init}, \mathsf{Next})$, where $\mathsf{Init}$ takes a seed $s \in \{0,1\}^n$ and returns initial state $\mathsf{st}$, and $\mathsf{Next}$ takes as input the current state $\mathsf{st}$ and outputs a bit $\sigma$ and updated state $\mathsf{st}'$. The construction $\hat{G}$ from the preceding proof fits nicely into this paradigm: take $\mathsf{Init}$ to be the trivial algorithm that outputs $\mathsf{st} = s$, and define $\mathsf{Next}(\mathsf{st})$ to compute $G(\mathsf{st})$, parse the result as $st^{\prime}\|\sigma$ with $|st^{\prime}| = n$, and output the bit $\sigma$ and updated state $\mathsf{st}'$. (If we use this stream cipher to generate $p(n)$ output bits starting from seed $s$, then we get exactly the final $p(n)$ bits of $\hat{G}(s)$ in reverse order.) The preceding proof shows that this yields a pseudorandom generator.
 
 Hybrid arguments. A hybrid argument is a basic tool for proving indistinguishability when a primitive is (or several different primitives are) applied multiple times. Somewhat informally, the technique works by defining a series of intermediate “hybrid distributions” that bridge between two “extreme distributions” that we wish to prove indistinguishable. (In the proof above, these extreme distributions correspond to the output of $\hat{G}$ and a random string.) To apply the proof technique, three conditions should hold: First, the extreme distributions should match the original cases of interest. (In the proof above, $H_n^0$ was equal to the distribution induced by $\hat{G}$, while $H_n^{p(n)}$ was the uniform distribution.) Second, it must be possible to translate the capability of distinguishing consecutive hybrid distributions into breaking some underlying assumption. (Intuitively, we showed that distinguishing $H_n^i$ from $H_n^{i+1}$ was equivalent to distinguishing the output of $G$ from random.) Finally, the number of hybrid distributions should be polynomial. See also Theorem 8.31.
 
@@ -675,11 +674,11 @@ Hybrid arguments. A hybrid argument is a basic tool for proving indistinguishabi
 
 We now show how to construct a pseudorandom function from any (length-doubling) pseudorandom generator. Recall that a pseudorandom function is an efficiently computable, keyed function $F$ that is indistinguishable from a truly random function in the sense described in Section 3.5.1. For simplicity, we restrict our attention here to the case where $F$ is length preserving, meaning that for $k \in \{0,1\}^n$ the function $F_k$ maps $n$-bit inputs to $n$-bit outputs.
 
-A length-preserving pseudorandom function can be viewed, informally, as a pseudorandom generator with expansion factor $n \cdot 2^n$; given such a pseudorandom generator $G$ we could define $F_k(i)$ (for ${0} \leq i < 2^n$) to be the $i$th $n$-bit block of $G(k)$. One reason this does not work is that $F$ must be efficiently computable; there are exponentially many blocks, and we need a way to compute the $i$th block without having to compute all other blocks. We show how to do this by computing “blocks” of the output by walking down a binary tree. We exemplify the idea by first showing a pseudorandom function taking 2-bit inputs.
+A length-preserving pseudorandom function can be viewed, informally, as a pseudorandom generator with expansion factor $n \cdot 2^n$; given such a pseudorandom generator $G$ we could define $F_k(i)$ (for $0 \leq i < 2^n$) to be the $i$th $n$-bit block of $G(k)$. One reason this does not work is that $F$ must be efficiently computable; there are exponentially many blocks, and we need a way to compute the $i$th block without having to compute all other blocks. We show how to do this by computing “blocks” of the output by walking down a binary tree. We exemplify the idea by first showing a pseudorandom function taking 2-bit inputs.
 
-Let $G$ be a pseudorandom generator with expansion factor ${2}n$. If we use $G$ as in the proof of Theorem 8.19 we can obtain a pseudorandom generator $\hat{G}$ with expansion factor ${4}n$ that uses three invocations of $G$. (We produce $n$ additional pseudorandom bits each time $G$ is applied.) If we define $F_{k}^{\prime}(i)$ (where ${0} \leq i < 4$ and $i$ is encoded as a 2-bit binary string) to be the $i$th block of $\hat{G}(k)$, then computation of $F_{k}^{\prime}(0)$ would require computing $\hat{G}$ in its entirety and hence three invocations of $G$. We show how to construct a pseudorandom function $F$ using only two invocations of $G$ on any input.
+Let $G$ be a pseudorandom generator with expansion factor $2n$. If we use $G$ as in the proof of Theorem 8.19 we can obtain a pseudorandom generator $\hat{G}$ with expansion factor $4n$ that uses three invocations of $G$. (We produce $n$ additional pseudorandom bits each time $G$ is applied.) If we define $F_{k}^{\prime}(i)$ (where $0 \leq i < 4$ and $i$ is encoded as a 2-bit binary string) to be the $i$th block of $\hat{G}(k)$, then computation of $F_{k}^{\prime}(0)$ would require computing $\hat{G}$ in its entirety and hence three invocations of $G$. We show how to construct a pseudorandom function $F$ using only two invocations of $G$ on any input.
 
-Let $G_0$ and $G_1$ be functions denoting the first and second halves of the output of $G$; i.e., $G(k) = G_0(k) \parallel G_1(k)$ where $|G_0(k)| = |G_1(k)| = |k|$. Define $F$ as follows:
+Let $G_0$ and $G_1$ be functions denoting the first and second halves of the output of $G$; i.e., $G(k) = G_0(k) \| G_1(k)$ where $|G_0(k)| = |G_1(k)| = |k|$. Define $F$ as follows:
 
 $$
 F_{k}(00)=G_{0}(G_{0}(k))\qquad F_{k}(10)=G_{0}(G_{1}(k))
@@ -689,21 +688,21 @@ $$
 F_{k}(01)=G_{1}(G_{0}(k))\qquad F_{k}(11)=G_{1}(G_{1}(k)).
 $$
 
-We claim that the four strings above are indistinguishable from four uniform, independent n-bit strings. (This suffices to prove that $F$ is pseudorandom.) Intuitively, this is because $G_0(k)\|G_1(k) = G(k)$ is pseudorandom and hence indistinguishable from a uniform ${2}n$-bit string $k_0\|k_1$. But then
+We claim that the four strings above are indistinguishable from four uniform, independent $n$-bit strings. (This suffices to prove that $F$ is pseudorandom.) Intuitively, this is because $G_0(k)\|G_1(k) = G(k)$ is pseudorandom and hence indistinguishable from a uniform $2n$-bit string $k_0\|k_1$. But then
 
 $$
-G_{0}(G_{0}(k))\parallel G_{1}(G_{0}(k))\parallel G_{0}(G_{1}(k))\parallel G_{1}(G_{1}(k))
+G_{0}(G_{0}(k))\| G_{1}(G_{0}(k))\| G_{0}(G_{1}(k))\| G_{1}(G_{1}(k))
 $$
 
 is indistinguishable from
 
 $$
-G_{0}(k_{0})\parallel G_{1}(k_{0})\parallel G_{0}(k_{1})\parallel G_{1}(k_{1})=G(k_{0})\parallel G(k_{1}).
+G_{0}(k_{0})\| G_{1}(k_{0})\| G_{0}(k_{1})\| G_{1}(k_{1})=G(k_{0})\| G(k_{1}).
 $$
 
-Since $G$ is a pseudorandom generator, the above is indistinguishable from a uniform 4n-bit string. (A formal proof uses a hybrid argument.)
+Since $G$ is a pseudorandom generator, the above is indistinguishable from a uniform $4n$-bit string. (A formal proof uses a hybrid argument.)
 
-Generalizing this idea, we can obtain a pseudorandom function on n-bit inputs by defining
+Generalizing this idea, we can obtain a pseudorandom function on $n$-bit inputs by defining
 
 $$
 F_{k}(x)=G_{x_{n}}(\cdots G_{x_{1}}(k)\cdots),
@@ -727,21 +726,21 @@ It is useful to view this construction as defining, for each key $k \in \{0,1\}^
 
 **FIGURE 8.2: Constructing a pseudorandom function.**
 
-THEOREM 8.21 If G is a pseudorandom generator with expansion factor $\ell(n) = 2n$, then Construction 8.20 is a pseudorandom function.
+THEOREM 8.21 If $G$ is a pseudorandom generator with expansion factor $\ell(n) = 2n$, then Construction 8.20 is a pseudorandom function.
 
-PROOF We first show that for any polynomial $t$ it is infeasible to distinguish $t(n)$ uniform ${2}n$-bit strings from $t(n)$ pseudorandom strings; i.e., for any polynomial $t$ and any PPT algorithm $A$, the following is negligible:
+PROOF We first show that for any polynomial $t$ it is infeasible to distinguish $t(n)$ uniform $2n$-bit strings from $t(n)$ pseudorandom strings; i.e., for any polynomial $t$ and any PPT algorithm $A$, the following is negligible:
 
 $$
-\left|\Pr\left[A\left(r_{1}\|\cdots\|r_{t(n)}\right)=1\right]-\Pr\left[A\left(G(s_{1})\|\cdots\|G(s_{t(n)})\right)=1\right]\right|, \tag{8.11}
+\left|\Pr\left[A\left(r_{1}\|\cdots\|r_{t(n)}\right)=1\right]-\Pr\left[A\left(G(s_{1})\|\cdots\|G(s_{t(n)})\right)=1\right]\right|,
 $$
 
 where the first probability is over uniform choice of $r_1, \ldots, r_{t(n)} \in \{0,1\}^{2n}$, and the second probability is over uniform choice of $s_1, \ldots, s_{t(n)} \in \{0,1\}^n$.
 
-The proof is by a hybrid argument. Fix a polynomial $t$ and a PPT algorithm $\mathcal{A}$, and consider the following algorithm $\mathcal{A}^{\prime}$:
+The proof is by a hybrid argument. Fix a polynomial $t$ and a PPT algorithm $A$, and consider the following algorithm $A^{\prime}$:
 
-Distinguisher A':
+**Distinguisher $A^{\prime}$:**
 
- $A^{\prime}$ is given as input a string $w \in \{0,1\}^{2n}$.
+$A^{\prime}$ is given as input a string $w \in \{0,1\}^{2n}$.
 
 1. Choose uniform $j \in \{1, \ldots, t(n)\}$.
 
@@ -749,16 +748,16 @@ Distinguisher A':
 
 3. Output $A\left(r_{1}\|\cdots\|r_{j-1}\|w\|G(s_{j+1})\|\cdots\|G(s_{t(n)})\right)$.
 
-For any $n$ and ${0} \leq i \leq t(n)$, let $G_n^i$ denote the distribution on strings of length ${2}n \cdot t(n)$ in which the first $i$ “blocks” of length ${2}n$ are uniform and the remaining $t(n) - i$ blocks are pseudorandom. Note that $G_n^{t(n)}$ corresponds to the distribution in which all $t(n)$ blocks are uniform, while $G_n^0$ corresponds to the distribution in which all $t(n)$ blocks are pseudorandom. That is,
+For any $n$ and $0 \leq i \leq t(n)$, let $G_n^i$ denote the distribution on strings of length $2n \cdot t(n)$ in which the first $i$ “blocks” of length $2n$ are uniform and the remaining $t(n) - i$ blocks are pseudorandom. Note that $G_n^{t(n)}$ corresponds to the distribution in which all $t(n)$ blocks are uniform, while $G_n^0$ corresponds to the distribution in which all $t(n)$ blocks are pseudorandom. That is,
 
 $$
 \begin{aligned}
 &\left|\Pr_{y\leftarrow G_{n}^{t(n)}}[A(y)=1]-\Pr_{y\leftarrow G_{n}^{0}}[A(y)=1]\right|\\
-&=\left|\Pr[A(r_{1},\ldots,r_{t(n)})=1]-\Pr[A(G(s_{1}),\ldots,G(s_{t(n)}))=1]\right|. \tag{8.12}
+&=\left|\Pr[A(r_{1}\|\cdots\|r_{t(n)})=1]-\Pr[A(G(s_{1})\|\cdots\|G(s_{t(n)}))=1]\right|. \tag{8.11}
 \end{aligned}
 $$
 
-Say $A^{\prime}$ chooses $j = j^{*}$. If its input $w$ is a uniform ${2}n$-bit string, then $A$ is run on an input distributed according to $G_{n}^{j^{*}}$. If, on the other hand, $w = G(s)$ for uniform $s$, then $A$ is run on an input distributed according to $G_{n}^{j^{*}-1}$. This means that
+Say $A^{\prime}$ chooses $j = j^{*}$. If its input $w$ is a uniform $2n$-bit string, then $A$ is run on an input distributed according to $G_{n}^{j^{*}}$. If, on the other hand, $w = G(s)$ for uniform $s$, then $A$ is run on an input distributed according to $G_{n}^{j^{*}-1}$. This means that
 
 $$
 \Pr_{r\leftarrow\{0,1\}^{2n}}[A^{\prime}(r)=1]=\frac{1}{t(n)}\cdot\sum_{j=1}^{t(n)}\Pr_{y\leftarrow G_{n}^{j}}[A(y)=1]
@@ -775,13 +774,13 @@ Therefore,
 $$
 \begin{aligned}
 &\left|\Pr_{r\leftarrow\{0,1\}^{2n}}[A^{\prime}(r)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[A^{\prime}(G(s))=1]\right|\\
-&=\frac{1}{t(n)}\cdot\left|\Pr_{y\leftarrow G_{n}^{t(n)}}[A(y)=1]-\Pr_{y\leftarrow G_{n}^{0}}[A(y)=1]\right|.
+&=\frac{1}{t(n)}\cdot\left|\Pr_{y\leftarrow G_{n}^{t(n)}}[A(y)=1]-\Pr_{y\leftarrow G_{n}^{0}}[A(y)=1]\right|. \tag{8.12}
 \end{aligned}
 $$
 
 Since $G$ is a pseudorandom generator and $A^{\prime}$ runs in polynomial time, we know that the left-hand side of Equation (8.12) must be negligible; because $t(n)$ is polynomial, this implies that the left-hand side of Equation (8.11) is negligible as well.
 
-Turning to the crux of the proof, we now show that $F$ as in Construction 8.20 is a pseudorandom function. Let $D$ be an arbitrary PPT distinguisher that is given ${1}^n$ as input. We show that $D$ cannot distinguish between the case when it is given oracle access to a function that is equal to $F_k$ for a uniform $k$, or a function chosen uniformly from $\mathsf{Func}_n$. (See Section 3.5.1.) To do so, we use another hybrid argument. Here, we define distributions over $n$-bit values at the leaves of a complete binary tree of depth $n$. By associating each leaf of these binary trees with an $n$-bit input as in Construction 8.20, we can equivalently view these as distributions over functions mapping $n$-bit inputs to $n$-bit outputs. For any $n$ and ${0} \leq i \leq n$, let $H_n^i$ be the following distribution over the values at the leaves of a binary tree of depth $n$: first choose values for the nodes at level $i$ independently and uniformly from $\{0,1\}^n$. Then for every node at level $i$ or below with value $k$, its left child is given value $G_0(k)$ and its right child is given value $G_1(k)$. Note that $H_n^n$ corresponds to the distribution in which all values at the leaves are chosen uniformly and independently, and thus corresponds to choosing a uniform function from $\mathsf{Func}_n$, whereas $H_n^0$ corresponds to choosing a uniform key $k$ in Construction 8.20 since in that case only the value at the root (at level 0) is chosen uniformly. That is,
+Turning to the crux of the proof, we now show that $F$ as in Construction 8.20 is a pseudorandom function. Let $D$ be an arbitrary PPT distinguisher that is given $1^n$ as input. We show that $D$ cannot distinguish between the case when it is given oracle access to a function that is equal to $F_k$ for a uniform $k$, or a function chosen uniformly from $\mathsf{Func}_n$. (See Section 3.5.1.) To do so, we use another hybrid argument. Here, we define distributions over $n$-bit values at the leaves of a complete binary tree of depth $n$. By associating each leaf of these binary trees with an $n$-bit input as in Construction 8.20, we can equivalently view these as distributions over functions mapping $n$-bit inputs to $n$-bit outputs. For any $n$ and $0 \leq i \leq n$, let $H_n^i$ be the following distribution over the values at the leaves of a binary tree of depth $n$: first choose values for the nodes at level $i$ independently and uniformly from $\{0,1\}^n$. Then for every node at level $i$ or below with value $k$, its left child is given value $G_0(k)$ and its right child is given value $G_1(k)$. Note that $H_n^n$ corresponds to the distribution in which all values at the leaves are chosen uniformly and independently, and thus corresponds to choosing a uniform function from $\mathsf{Func}_n$, whereas $H_n^0$ corresponds to choosing a uniform key $k$ in Construction 8.20 since in that case only the value at the root (at level 0) is chosen uniformly. That is,
 
 $$
 \begin{aligned}
@@ -792,29 +791,29 @@ $$
 
 We show that Equation (8.13) is negligible, completing the proof.
 
-Let $t = t(n)$ be a polynomial upper bound on the number of queries D makes to its oracle on input ${1}^n$. Define a distinguisher A that tries to distinguish $t(n)$ uniform 2n-bit strings from $t(n)$ pseudorandom strings, as follows:
+Let $t = t(n)$ be a polynomial upper bound on the number of queries $D$ makes to its oracle on input $1^n$. Define a distinguisher $A$ that tries to distinguish $t(n)$ uniform $2n$-bit strings from $t(n)$ pseudorandom strings, as follows:
 
-**Distinguisher A:**
+**Distinguisher $A$:**
 
-A is given as input a ${2}n \cdot t(n)$-bit string $w_1 \parallel \cdots \parallel w_{t(n)}$.
+$A$ is given as input a $2n \cdot t(n)$-bit string $w_1 \|\cdots\| w_{t(n)}$.
 
 1. Choose uniform $j \in \{0, \ldots, n-1\}$. In what follows, $A$ (implicitly) maintains a binary tree of depth $n$ with $n$-bit values at (a subset of) the internal nodes at depth $j+1$ and below.
 
 2. Run $D(1^n)$. When $D$ makes oracle query $x = x_1 \cdots x_n$, look at the prefix $x_1 \cdots x_j$. There are two cases:
 
-If $D$ has never made a query with this prefix before, then use $x_1 \cdots x_j$ to reach a node $v$ on the $j$th level of the tree. Take the next unused ${2}n$-bit string $w$ and set the value of the left child of node $v$ to the first half of $w$, and the value of the right child of $v$ to the second half of $w$.
+   If $D$ has never made a query with this prefix before, then use $x_1 \cdots x_j$ to reach a node $v$ on the $j$th level of the tree. Take the next unused $2n$-bit string $w$ and set the value of the left child of node $v$ to the first half of $w$, and the value of the right child of $v$ to the second half of $w$.
 
-If $D$ has made a query with prefix $x_{1}\cdots x_{j}$ before, then node $x_{1}\cdots x_{j+1}$ has already been assigned a value.
+   If $D$ has made a query with prefix $x_{1}\cdots x_{j}$ before, then node $x_{1}\cdots x_{j+1}$ has already been assigned a value.
 
-Using the value at node $x_1 \cdots x_{j+1}$, compute the value at the leaf corresponding to $x_1 \cdots x_n$ as in Construction 8.20, and return this value to $D$.
+   Using the value at node $x_1 \cdots x_{j+1}$, compute the value at the leaf corresponding to $x_1 \cdots x_n$ as in Construction 8.20, and return this value to $D$.
 
-3. When execution of D is done, output the bit returned by D.
+3. When execution of $D$ is done, output the bit returned by $D$.
 
-A runs in polynomial time. It is important here that A does not need to store the entire binary tree of exponential size. Instead, it “fills in” the values of at most ${2}t(n)$ nodes in the tree.
+$A$ runs in polynomial time. It is important here that $A$ does not need to store the entire binary tree of exponential size. Instead, it “fills in” the values of at most $2t(n)$ nodes in the tree.
 
-Say A chooses $j = j^{*}$. Observe that:
+Say $A$ chooses $j = j^{*}$. Observe that:
 
-1. If $A$'s input is a uniform ${2}n \cdot t(n)$-bit string, then the answers it gives to $D$ are distributed exactly as if $D$ were interacting with a function chosen from distribution $H_n^{j^{*}+1}$. This holds because the values of the nodes at level $j^{*}+1$ of the tree are uniform and independent.
+1. If $A$'s input is a uniform $2n \cdot t(n)$-bit string, then the answers it gives to $D$ are distributed exactly as if $D$ were interacting with a function chosen from distribution $H_n^{j^{*}+1}$. This holds because the values of the nodes at level $j^{*}+1$ of the tree are uniform and independent.
 
 2. If $A$'s input consists of $t(n)$ pseudorandom strings—i.e., $w_i = G(s_i)$ for uniform seed $s_i$—then the answers it gives to $D$ are distributed exactly as if $D$ were interacting with a function chosen from distribution $H_n^{j^*}$. This holds because the values of the nodes at level $j^*$ of the tree (namely, the $\{s_i\}$) are uniform and independent. (The $\{s_i\}$ are unknown to $A$, but that makes no difference.)
 
@@ -823,7 +822,7 @@ Proceeding as before, one can show that
 $$
 \begin{aligned}
 &\left|\Pr\left[A\left(r_{1}\|\cdots\|r_{t(n)}\right)=1\right]-\Pr\left[A\left(G(s_{1})\|\cdots\|G(s_{t(n)})\right)=1\right]\right|\\
-&=\frac{1}{n}\cdot\left|\Pr_{f\leftarrow H^{0}_{n}}\lbrack D^{f(\cdot)}(1^{n})=1\rbrack-\Pr_{f\leftarrow H^{n}_{n}}\lbrack D^{f(\cdot)}(1^{n})=1\rbrack\right|. \tag{8.14}
+&=\frac{1}{n}\cdot\left|\Pr_{f\leftarrow H^{0}_{n}}[ D^{f(\cdot)}(1^{n})=1]-\Pr_{f\leftarrow H^{n}_{n}}[ D^{f(\cdot)}(1^{n})=1]\right|. \tag{8.14}
 \end{aligned}
 $$
 
@@ -833,13 +832,13 @@ We have shown earlier that Equation (8.14) must be negligible. The above thus im
 
 We next show how pseudorandom permutations and strong pseudorandom permutations can be constructed from any pseudorandom function. Recall from Section 3.5.1 that a pseudorandom permutation is a pseudorandom function that is also efficiently invertible, while a strong pseudorandom permutation is additionally hard to distinguish from a random permutation even by an adversary given oracle access to both the permutation and its inverse.
 
-Feistel networks revisited. A Feistel network, introduced in Section 7.2.2, provides a way of constructing an efficiently invertible permutation from an arbitrary set of functions. A Feistel network operates in a series of rounds. The input to the $i$th round is a string of length ${2}n$, divided into two $n$-bit halves $L_{i-1}$ and $R_{i-1}$ (the “left half” and the “right half,” respectively). The output of the $i$th round is the ${2}n$-bit string $(L_i, R_i)$, where
+Feistel networks revisited. A Feistel network, introduced in Section 7.2.2, provides a way of constructing an efficiently invertible permutation from an arbitrary set of functions. A Feistel network operates in a series of rounds. The input to the $i$th round is a string of length $2n$, divided into two $n$-bit halves $L_{i-1}$ and $R_{i-1}$ (the “left half” and the “right half,” respectively). The output of the $i$th round is the $2n$-bit string $(L_i, R_i)$, where
 
 $$
 L_{i}:=R_{i-1}\quad\text{and}\quad R_{i}:=L_{i-1}\oplus f_{i}(R_{i-1})
 $$
 
-for some efficiently computable (but not necessarily invertible) function $f_i$ mapping $n$-bit inputs to $n$-bit outputs. We denote by $\mathsf{Feistel}_{f_1,\ldots,f_r}$ the $r$-round Feistel network using functions $f_1,\ldots,f_r$. (That is, $\mathsf{Feistel}_{f_1,\ldots,f_r}(L_0,R_0)$ outputs the ${2}n$-bit string $(L_r,R_r)$.) We saw in Section 7.2.2 that $\mathsf{Feistel}_{f_1,\ldots,f_r}$ is an efficiently invertible permutation regardless of the $\{f_i\}$.
+for some efficiently computable (but not necessarily invertible) function $f_i$ mapping $n$-bit inputs to $n$-bit outputs. We denote by $\mathsf{Feistel}_{f_1,\ldots,f_r}$ the $r$-round Feistel network using functions $f_1,\ldots,f_r$. (That is, $\mathsf{Feistel}_{f_1,\ldots,f_r}(L_0,R_0)$ outputs the $2n$-bit string $(L_r,R_r)$.) We saw in Section 7.2.2 that $\mathsf{Feistel}_{f_1,\ldots,f_r}$ is an efficiently invertible permutation regardless of the $\{f_i\}$.
 
 We can define a keyed permutation by using a Feistel network in which the $\{f_i\}$ depend on a key. For example, let $F : \{0,1\}^n \times \{0,1\}^n \to \{0,1\}^n$ be a pseudorandom function, and define the keyed permutation $F^{(1)}$ as
 
@@ -847,7 +846,7 @@ $$
 F_{k}^{(1)}(x)\stackrel{\mathrm{def}}{=}\mathsf{Feistel}_{F_{k}}(x).
 $$
 
-(Note that $F_k^{(1)}$ has an n-bit key and maps 2n-bit inputs to 2n-bit outputs.) Is $F^{(1)}$ pseudorandom? A little thought shows that it is decidedly not. For any key $k \in \{0,1\}^n$, the first n bits of the output of $F_k^{(1)}$ (that is, $L_1$) are equal to the last n bits of the input (i.e., $R_0$), something that occurs with only negligible probability for a random permutation.
+(Note that $F_k^{(1)}$ has an $n$-bit key and maps $2n$-bit inputs to $2n$-bit outputs.) Is $F^{(1)}$ pseudorandom? A little thought shows that it is decidedly not. For any key $k \in \{0,1\}^n$, the first $n$ bits of the output of $F_k^{(1)}$ (that is, $L_1$) are equal to the last $n$ bits of the input (i.e., $R_0$), something that occurs with only negligible probability for a random permutation.
 
 Trying again, define $F^{(2)} : \{0,1\}^{2n} \times \{0,1\}^{2n} \to \{0,1\}^{2n}$ as follows:
 
@@ -857,7 +856,7 @@ $$
 
 (Note that $k_{1}$ and $k_{2}$ are independent keys.) Unfortunately, $F^{(2)}$ is not pseudorandom either, as you are asked to show in Exercise 8.16.
 
-Given this, it may be somewhat surprising that a three-round Feistel network is pseudorandom. Define the keyed permutation $F^{(3)}$, taking a key of length 3n and mapping 2n-bit inputs to 2n-bit outputs, as follows:
+Given this, it may be somewhat surprising that a three-round Feistel network is pseudorandom. Define the keyed permutation $F^{(3)}$, taking a key of length $3n$ and mapping $2n$-bit inputs to $2n$-bit outputs, as follows:
 
 $$
 F_{k_{1},k_{2},k_{3}}^{(3)}(x)\stackrel{\mathrm{def}}{=}\mathsf{Feistel}_{F_{k_{1}},F_{k_{2}},F_{k_{3}}}(x) \tag{8.16}
@@ -865,17 +864,15 @@ $$
 
 where, once again, $k_{1}, k_{2}$, and $k_{3}$ are independent. We have:
 
-THEOREM 8.22 If F is a pseudorandom function, then $F^{(3)}$ is a pseudorandom permutation.
+THEOREM 8.22 If $F$ is a pseudorandom function, then $F^{(3)}$ is a pseudorandom permutation.
 
-PROOF In the standard way, we can replace the pseudorandom functions used in the construction of $F^{(3)}$ with functions chosen uniformly at random
+PROOF In the standard way, we can replace the pseudorandom functions used in the construction of $F^{(3)}$ with functions chosen uniformly at random instead. Pseudorandomness of $F$ implies that this has only a negligible effect on the output of any probabilistic polynomial-time distinguisher interacting with $F^{(3)}$ as an oracle. We leave the details as an exercise.
 
 ![Image](./assets/Ch08/image_259_135_625_484.jpg)
 
 **FIGURE 8.3: A three-round Feistel network, as used to construct a pseudorandom permutation from a pseudorandom function.**
 
-instead. Pseudorandomness of $F$ implies that this has only a negligible effect on the output of any probabilistic polynomial-time distinguisher interacting with $F^{(3)}$ as an oracle. We leave the details as an exercise.
-
-Let D be a probabilistic polynomial-time distinguisher. In the remainder of the proof, we show the following is negligible:
+Let $D$ be a probabilistic polynomial-time distinguisher. In the remainder of the proof, we show the following is negligible:
 
 $$
 \left|\Pr[D^{\mathsf{Feistel}_{f_{1},f_{2},f_{3}}(\cdot)}(1^{n})=1]-\Pr[D^{\pi(\cdot)}(1^{n})=1]\right|,
@@ -903,7 +900,7 @@ $$
 \Pr\left[L_{1}^{i}\oplus f_{2}(R_{1}^{i})=L_{1}^{j}\oplus f_{2}(R_{1}^{j})\mid\text{no collision at }R_{1}\right]=2^{-n}.
 $$
 
-(Note that $f_{2}$ is independent of $f_{1}$, making the above calculation easy.) Taking a union bound over all distinct i, j gives
+(Note that $f_{2}$ is independent of $f_{1}$, making the above calculation easy.) Taking a union bound over all distinct $i, j$ gives
 
 $$
 \Pr[\text{collision at }R_{2}\mid\text{no collision at }R_{1}]\leq q^{2}/2^{n}.
@@ -911,15 +908,15 @@ $$
 
 Note that $L_3^i = R_2^i = L_1^i \oplus f_2(R_1^i)$; so, conditioned on there being no collision at $R_1$, the values $L_3^1, \ldots, L_3^q$ are all independent and uniformly distributed in $\{0,1\}^n$. If we additionally condition on the event that there is no collision at $R_2$, then the values $L_3^1, \ldots, L_3^q$ are uniformly distributed among all sequences of $q$ distinct values in $\{0,1\}^n$. Similarly, $R_3^i = L_2^i \oplus f_3(R_2^i)$; thus, conditioned on there being no collision at $R_2$, the values $R_3^1, \ldots, R_3^q$ are all uniformly distributed in $\{0,1\}^n$, independent of each other as well as $L_3^1, \ldots, L_3^q$.
 
-To summarize: when querying $F^{(3)}$ (with uniform round functions) on a series of $q$ distinct inputs, except with negligible probability the output values $(L_3^1, R_3^1), \ldots, (L_3^q, R_3^q)$ are distributed such that the $\{L_3^i\}$ are uniform and independent, but distinct, $n$-bit values, and the $\{R_3^i\}$ are uniform and independent $n$-bit values. In contrast, when querying a random permutation on a series of $q$ distinct inputs, the output values $(L_3^1, R_3^1), \ldots, (L_3^q, R_3^q)$ are uniform and independent, but distinct, ${2}n$-bit values. It can be shown that the best distinguishing attack for $D$, then, is to guess that it is interacting with a random permutation if $L_3^i = L_3^j$ for some distinct $i, j$. But that event occurs with negligible probability even in that case.
+To summarize: when querying $F^{(3)}$ (with uniform round functions) on a series of $q$ distinct inputs, except with negligible probability the output values $(L_3^1, R_3^1), \ldots, (L_3^q, R_3^q)$ are distributed such that the $\{L_3^i\}$ are uniform and independent, but distinct, $n$-bit values, and the $\{R_3^i\}$ are uniform and independent $n$-bit values. In contrast, when querying a random permutation on a series of $q$ distinct inputs, the output values $(L_3^1, R_3^1), \ldots, (L_3^q, R_3^q)$ are uniform and independent, but distinct, $2n$-bit values. It can be shown that the best distinguishing attack for $D$, then, is to guess that it is interacting with a random permutation if $L_3^i = L_3^j$ for some distinct $i, j$. But that event occurs with negligible probability even in that case.
 
- $F^{(3)}$ is not a strong pseudorandom permutation, as you are asked to demonstrate in Exercise 8.17. Fortunately, adding a fourth round does yield a strong pseudorandom permutation. The details are given as Construction 8.23.
+$F^{(3)}$ is not a strong pseudorandom permutation, as you are asked to demonstrate in Exercise 8.17. Fortunately, adding a fourth round does yield a strong pseudorandom permutation. The details are given as Construction 8.23.
 
-THEOREM 8.24 If F is a pseudorandom function, then Construction 8.23 is a strong pseudorandom permutation that maps 2n-bit inputs to 2n-bit outputs (and uses a 4n-bit key).
+THEOREM 8.24 If $F$ is a pseudorandom function, then Construction 8.23 is a strong pseudorandom permutation that maps $2n$-bit inputs to $2n$-bit outputs (and uses a $4n$-bit key).
 
 **CONSTRUCTION 8.23**
 
-Let F be a keyed, length-preserving function. Define the keyed permutation $F^{(4)}$ as follows:
+Let $F$ be a keyed, length-preserving function. Define the keyed permutation $F^{(4)}$ as follows:
 
 • Inputs: A key $k = (k_1, k_2, k_3, k_4)$ with $|k_i| = n$, and an input $x \in \{0,1\}^{2n}$ parsed as $(L_0, R_0)$ with $|L_0| = |R_0| = n$.
 
@@ -933,7 +930,7 @@ Let F be a keyed, length-preserving function. Define the keyed permutation $F^{(
 
 4. Compute $L_4 := R_3$ and $R_4 := L_3 \oplus F_{k_4}(R_3)$.
 
-5. Output $(L_{4}, R_{4})$
+5. Output $(L_{4}, R_{4})$.
 
 A strong pseudorandom permutation from any pseudorandom function.
 
@@ -957,7 +954,7 @@ PROOF Let $G$ be a pseudorandom generator with expansion factor $\ell(n) = 2n$. 
 
 Let $\mathcal{A}$ be an arbitrary probabilistic polynomial-time algorithm. We show that $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n)=1]$ is negligible (cf. Definition 8.1). To see this, consider the following PPT distinguisher $D$: on input a string $w\in\{0,1\}^{2n}$, run $\mathcal{A}(w)$ to obtain output $s$. If $G(s)=w$ then output 1; otherwise, output 0.
 
-We now analyze the behavior of $D$. First consider the probability that $D$ outputs 1 when its input string $w$ is uniform. Since there are at most ${2}^n$ values in the range of $G$ (namely, the values $\{G(s)\}_{s\in\{0,1\}^n}$), the probability that $w$ is in the range of $G$ is at most ${2}^n/{2}^{2n} = {2}^{-n}$. When $w$ is not in the range of $G$, it is impossible for $\mathcal{A}$ to compute an inverse of $w$ and thus impossible for $D$ to output 1. We conclude that $\Pr_{w\leftarrow\{0,1\}^{2n}}[D(w) = 1] \leq 2^{-n}$.
+We now analyze the behavior of $D$. First consider the probability that $D$ outputs 1 when its input string $w$ is uniform. Since there are at most $2^n$ values in the range of $G$ (namely, the values $\{G(s)\}_{s\in\{0,1\}^n}$), the probability that $w$ is in the range of $G$ is at most $2^n/2^{2n} = 2^{-n}$. When $w$ is not in the range of $G$, it is impossible for $\mathcal{A}$ to compute an inverse of $w$ and thus impossible for $D$ to output 1. We conclude that $\Pr_{w\leftarrow\{0,1\}^{2n}}[D(w) = 1] \leq 2^{-n}$.
 
 On the other hand, if $w = G(s)$ for a seed $s \in \{0,1\}^n$ chosen uniformly at random then, by definition, $\mathcal{A}$ computes a correct inverse (and so $D$ outputs 1) with probability exactly equal to $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n) = 1]$. Thus,
 
@@ -965,18 +962,18 @@ $$
 \left|\Pr_{w\leftarrow\{0,1\}^{2n}}[D(w)=1]-\Pr_{s\leftarrow\{0,1\}^{n}}[D(G(s))=1]\right|\geq\Pr[\mathsf{Invert}_{\mathcal{A},G}(n)=1]-2^{-n}.
 $$
 
-Since $G$ is a pseudorandom generator, the above must be negligible. Since ${2}^{-n}$ is negligible, this implies that $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n) = 1]$ is negligible as well and so $G$ is one-way.
+Since $G$ is a pseudorandom generator, the above must be negligible. Since $2^{-n}$ is negligible, this implies that $\Pr[\mathsf{Invert}_{\mathcal{A},G}(n) = 1]$ is negligible as well and so $G$ is one-way.
 
 Non-trivial private-key encryption implies one-way functions. Proposition 8.27 does not imply that one-way functions are needed for constructing secure private-key encryption schemes, since it may be possible to construct the latter without relying on a pseudorandom generator. Furthermore, it is possible to construct perfectly secret encryption schemes (see Chapter 2), as long as the plaintext is no longer than the key. Thus, a proof that secure private-key encryption implies one-way functions requires more care.
 
 PROPOSITION 8.28 If there exists an EAV-secure private-key encryption scheme that encrypts messages twice as long as its key, then a one-way function exists.
 
-PROOF Let $\Pi = (\mathsf{Enc}, \mathsf{Dec})$ be a private-key encryption scheme that has indistinguishable encryptions in the presence of an eavesdropper and encrypts messages of length ${2}n$ when the key has length $n$. (We assume for simplicity that the key is chosen uniformly.) Let $\ell(n)$ be a bound on the number of random bits used by $\mathsf{Enc}$. Denote the encryption of a message $m$ using key $k$ and randomness $r$ by $\mathsf{Enc}_k(m; r)$.
+PROOF Let $\Pi = (\mathsf{Enc}, \mathsf{Dec})$ be a private-key encryption scheme that has indistinguishable encryptions in the presence of an eavesdropper and encrypts messages of length $2n$ when the key has length $n$. (We assume for simplicity that the key is chosen uniformly.) Let $\ell(n)$ be a bound on the number of random bits used by $\mathsf{Enc}$. Denote the encryption of a message $m$ using key $k$ and randomness $r$ by $\mathsf{Enc}_k(m; r)$.
 
 Define the following function $f$:
 
 $$
-f(k,m,r)\stackrel{\mathrm{def}}{=}\mathsf{Enc}_{k}(m;r)\parallel m,
+f(k,m,r)\stackrel{\mathrm{def}}{=}\mathsf{Enc}_{k}(m;r)\| m,
 $$
 
 where $|k|=n$, $|m|=2n$, and $|r|=\ell(n)$. We claim that $f$ is a one-way function. Clearly it can be efficiently computed; we show that it is hard to invert. Letting $\mathcal{A}$ be an arbitrary PPT algorithm, we show that $\Pr[\mathsf{Invert}_{\mathcal{A},f}(n)=1]$ is negligible (cf. Definition 8.1).
@@ -987,11 +984,11 @@ Adversary $\mathcal{A}^{\prime}(1^{n})$
 
 1. Choose uniform $m_0, m_1 \leftarrow \{0,1\}^{2n}$ and output them. Receive in return a challenge ciphertext $c$.
 
-2. Run $\mathcal{A}(c \parallel m_0)$ to obtain $(k^{\prime}, m^{\prime}, r^{\prime})$. If $f(k^{\prime}, m^{\prime}, r^{\prime}) = c \parallel m_0$, output 0; else, output 1.
+2. Run $\mathcal{A}(c \| m_0)$ to obtain $(k^{\prime}, m^{\prime}, r^{\prime})$. If $f(k^{\prime}, m^{\prime}, r^{\prime}) = c \| m_0$, output 0; else, output 1.
 
 We now analyze the behavior of $\mathcal{A}^{\prime}$. When $c$ is an encryption of $m_0$, then $c\|m_0$ is distributed exactly as $f(k, m_0, r)$ for uniform $k, m_0$, and $r$. Therefore, $\mathcal{A}$ outputs a valid inverse of $c\|m_0$ (and hence $\mathcal{A}^{\prime}$ outputs 0) with probability exactly equal to $\Pr[\mathsf{Invert}_{\mathcal{A},f}(n) = 1]$.
 
-On the other hand, when $c$ is an encryption of $m_1$ then $c$ is independent of $m_0$. For any fixed value of the challenge ciphertext $c$, there are at most ${2}^n$ possible messages (one for each possible key) to which $c$ can correspond. Since $m_0$ is a uniform ${2}n$-bit string, the probability that there exists some key $k$ for which $\mathsf{Dec}_k(c) = m_0$ is at most ${2}^n/{2}^{2n} = {2}^{-n}$. This gives an upper bound on the probability with which $\mathcal{A}$ can possibly output a valid inverse of $c \parallel m_0$ under $f$, and hence an upper bound on the probability with which $\mathcal{A}^{\prime}$ outputs 0 in that case.
+On the other hand, when $c$ is an encryption of $m_1$ then $c$ is independent of $m_0$. For any fixed value of the challenge ciphertext $c$, there are at most $2^n$ possible messages (one for each possible key) to which $c$ can correspond. Since $m_0$ is a uniform $2n$-bit string, the probability that there exists some key $k$ for which $\mathsf{Dec}_k(c) = m_0$ is at most $2^n/2^{2n} = 2^{-n}$. This gives an upper bound on the probability with which $\mathcal{A}$ can possibly output a valid inverse of $c \| m_0$ under $f$, and hence an upper bound on the probability with which $\mathcal{A}^{\prime}$ outputs 0 in that case.
 
 Putting the above together, we have:
 
@@ -1012,7 +1009,7 @@ Discussion. We conclude that the existence of one-way functions is necessary and
 
 ## 8.8 Computational Indistinguishability
 
-The notion of computational indistinguishability is central to the theory of cryptography, and underlies much of what we have seen in Chapter 3 and this chapter. Informally, two probability distributions are computationally indistinguishable if no efficient algorithm can tell them apart (or distinguish them). In more detail, consider two distributions X and Y over strings of some length $\ell$; that is, X and Y each assigns some probability to every string in $\{0,1\}^{\ell}$. When we say that some algorithm D cannot distinguish these two distributions, we mean that D cannot tell whether it is given a string sampled according to distribution X or whether it is given a string sampled according to distribution Y. Put differently, if we imagine D outputting “0” when it believes its input was sampled according to X and outputting “1” if it thinks its input was sampled according to Y, then the probability that D outputs “1” should be roughly the same regardless of whether D is provided with a sample from X or from Y. In other words, we want
+The notion of computational indistinguishability is central to the theory of cryptography, and underlies much of what we have seen in Chapter 3 and this chapter. Informally, two probability distributions are computationally indistinguishable if no efficient algorithm can tell them apart (or distinguish them). In more detail, consider two distributions $X$ and $Y$ over strings of some length $\ell$; that is, $X$ and $Y$ each assigns some probability to every string in $\{0,1\}^{\ell}$. When we say that some algorithm $D$ cannot distinguish these two distributions, we mean that $D$ cannot tell whether it is given a string sampled according to distribution $X$ or whether it is given a string sampled according to distribution $Y$. Put differently, if we imagine $D$ outputting “0” when it believes its input was sampled according to $X$ and outputting “1” if it thinks its input was sampled according to $Y$, then the probability that $D$ outputs “1” should be roughly the same regardless of whether $D$ is provided with a sample from $X$ or from $Y$. In other words, we want
 
 $$
 \left|\Pr_{s\leftarrow X}[D(s)=1]-\Pr_{s\leftarrow Y}[D(s)=1]\right|
@@ -1022,37 +1019,35 @@ to be small.
 
 This should be reminiscent of the way we defined pseudorandom generators and, indeed, we will soon formally redefine the notion of a pseudorandom generator using this terminology.
 
-The formal definition of computational indistinguishability refers to probability ensembles, which are infinite sequences of probability distributions.
-
-(This formalism is necessary for a meaningful asymptotic approach.) Although the notion can be generalized, for our purposes we consider probability ensembles in which the underlying distributions are indexed by natural numbers. If for every natural number $n$ we have a distribution $X_n$, then $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ is a probability ensemble. It is often the case that $X_n = Y_{t(n)}$ for some function $t$, in which case we write $\{Y_{t(n)}\}_{n \in \mathbb{N}}$ in place of $\{X_n\}_{n \in \mathbb{N}}$.
+The formal definition of computational indistinguishability refers to probability ensembles, which are infinite sequences of probability distributions. (This formalism is necessary for a meaningful asymptotic approach.) Although the notion can be generalized, for our purposes we consider probability ensembles in which the underlying distributions are indexed by natural numbers. If for every natural number $n$ we have a distribution $X_n$, then $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ is a probability ensemble. It is often the case that $X_n = Y_{t(n)}$ for some function $t$, in which case we write $\{Y_{t(n)}\}_{n \in \mathbb{N}}$ in place of $\{X_n\}_{n \in \mathbb{N}}$.
 
 We will only be interested in *efficiently* sampleable probability ensembles. An ensemble $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ is efficiently sampleable if there is a probabilistic polynomial-time algorithm $S$ such that the random variables $S(1^n)$ and $X_n$ are identically distributed. That is, algorithm $S$ is an efficient way of sampling $\mathcal{X}$.
 
 We can now formally define what it means for two ensembles to be computationally indistinguishable.
 
-DEFINITION 8.29 Two probability ensembles $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ and $\mathcal{Y} = \{Y_n\}_{n \in \mathbb{N}}$ are computationally indistinguishable, denoted $\mathcal{X} \overset{\mathrm{c}}{=} \mathcal{Y}$, if for every probabilistic polynomial-time distinguisher $D$ there exists a negligible function $\mathsf{negl}$ such that:
+DEFINITION 8.29 Two probability ensembles $\mathcal{X} = \{X_n\}_{n \in \mathbb{N}}$ and $\mathcal{Y} = \{Y_n\}_{n \in \mathbb{N}}$ are computationally indistinguishable, denoted $\mathcal{X} \overset{\mathrm{c}}{\equiv} \mathcal{Y}$, if for every probabilistic polynomial-time distinguisher $D$ there exists a negligible function $\mathsf{negl}$ such that:
 
 $$
 \left|\Pr_{x\leftarrow X_{n}}[D(1^{n},x)=1]-\Pr_{y\leftarrow Y_{n}}[D(1^{n},y)=1]\right|\leq\mathsf{negl}(n).
 $$
 
-In the definition, $D$ is given the unary input ${1}^n$ so it can run in time polynomial in $n$. This is important when the outputs of $X_n$ and $Y_n$ may have length less than $n$. As shorthand in probability expressions, we will sometimes write $X$ as a placeholder for a random sample from distribution $X$. That is, we would write $\Pr[D(1^n, X_n) = 1]$ in place of $\Pr_{x \leftarrow X_n}[D(1^n, x) = 1]$.
+In the definition, $D$ is given the unary input $1^n$ so it can run in time polynomial in $n$. This is important when the outputs of $X_n$ and $Y_n$ may have length less than $n$. As shorthand in probability expressions, we will sometimes write $X$ as a placeholder for a random sample from distribution $X$. That is, we would write $\Pr[D(1^n, X_n) = 1]$ in place of $\Pr_{x \leftarrow X_n}[D(1^n, x) = 1]$.
 
 Pseudorandomness and pseudorandom generators. Pseudorandomness is just a special case of computational indistinguishability. For any integer $\ell$, let $U_\ell$ denote the uniform distribution over $\{0,1\}^\ell$. We can define a pseudorandom generator as follows:
 
 DEFINITION 8.30 Let $\ell(\cdot)$ be a polynomial and let $G$ be a (deterministic) polynomial-time algorithm where for all $s$ it holds that $|G(s)| = \ell(|s|)$. We say that $G$ is a pseudorandom generator if the following two conditions hold:
 
-1. (Expansion.) For every n it holds that $\ell(n) > n$.
+1. (Expansion.) For every $n$ it holds that $\ell(n) > n$.
 
 2. (Pseudorandomness.) The ensemble $\{G(U_n)\}_{n \in \mathbb{N}}$ is computationally indistinguishable from the ensemble $\{U_{\ell(n)}\}_{n \in \mathbb{N}}$.
 
 Many of the other definitions and assumptions in this book can also be cast as special cases or variants of computational indistinguishability.
 
-Multiple samples. An important theorem regarding computational indistinguishability is that polynomial$^{1}$ many samples of (efficiently sampleable) computationally indistinguishable ensembles are also computationally indistinguishable.
+Multiple samples. An important theorem regarding computational indistinguishability is that polynomially many samples of (efficiently sampleable) computationally indistinguishable ensembles are also computationally indistinguishable.
 
 THEOREM 8.31 Let $\mathcal{X}$ and $\mathcal{Y}$ be efficiently sampleable probability ensembles that are computationally indistinguishable. Then, for every polynomial $t$, the ensemble $\overline{\mathcal{X}} = \{(X_n^{(1)}, \ldots, X_n^{(t(n))})\}_{n \in \mathbb{N}}$ is computationally indistinguishable from the ensemble $\overline{\mathcal{Y}} = \{(Y_n^{(1)}, \ldots, Y_n^{(t(n))})\}_{n \in \mathbb{N}}$.
 
-For example, let $G$ be a pseudorandom generator with expansion factor ${2}n$, in which case the ensembles $\{G(U_n)\}_{n\in\mathbb{N}}$ and $\{U_{2n}\}_{n\in\mathbb{N}}$ are computationally indistinguishable. In the proof of Theorem 8.21 we showed that for any polynomial $t$ the ensembles
+For example, let $G$ be a pseudorandom generator with expansion factor $2n$, in which case the ensembles $\{G(U_n)\}_{n\in\mathbb{N}}$ and $\{U_{2n}\}_{n\in\mathbb{N}}$ are computationally indistinguishable. In the proof of Theorem 8.21 we showed that for any polynomial $t$ the ensembles
 
 $$
 \{(\underbrace{G(U_{n}),\ldots,G(U_{n})}_{t(n)})\}_{n\in\mathbb{N}}\quad\text{and}\quad\{(\underbrace{U_{2n},\ldots,U_{2n}}_{t(n)})\}_{n\in\mathbb{N}}
@@ -1078,11 +1073,11 @@ Our presentation is heavily influenced by Goldreich's book [82], which is highly
 
 Hint: Let $f$ be a one-way function and let $p(\cdot)$ be a polynomial such that $|f(x)| \leq p(|x|)$. (Justify the existence of such a $p$.) Define $f^{\prime}(x) \stackrel{\mathrm{def}}{=} f(x)\|1\|0^{p(|x|)-|f(x)|}$. Further modify $f^{\prime}$ to get a length-preserving function that remains one-way.
 
-8.4 Let $(\mathsf{Gen}, H)$ be a collision-resistant hash function, where $H$ maps strings of length 2n to strings of length n. Prove that the function family $(\mathsf{Gen}, \mathsf{Samp}, H)$ is one-way (cf. Definition 8.3), where $\mathsf{Samp}$ is the trivial algorithm that samples a uniform string of length 2n.
+8.4 Let $(\mathsf{Gen}, H)$ be a collision-resistant hash function, where $H$ maps strings of length $2n$ to strings of length $n$. Prove that the function family $(\mathsf{Gen}, \mathsf{Samp}, H)$ is one-way (cf. Definition 8.3), where $\mathsf{Samp}$ is the trivial algorithm that samples a uniform string of length $2n$.
 
 Hint: Choosing uniform $x \in \{0,1\}^{2n}$ and finding an inverse of $y = H^s(x)$ does not guarantee a collision. But it does yield a collision most of the time...
 
-8.5 Let F be a (length-preserving) pseudorandom permutation.
+8.5 Let $F$ be a (length-preserving) pseudorandom permutation.
 
 (a) Show that the function $f(x, y) = F_x(y)$ is not one-way.
 
@@ -1122,9 +1117,9 @@ $$
 
 8.13 Show that if an efficiently computable one-to-one function $f$ has a hard-core predicate, then $f$ is one-way.
 
-8.14 Show that if Construction 8.20 is modified in the natural way so that $F_k(x)$ is defined for every nonempty string x of length at most n, then the construction is no longer a pseudorandom function.
+8.14 Show that if Construction 8.20 is modified in the natural way so that $F_k(x)$ is defined for every nonempty string $x$ of length at most $n$, then the construction is no longer a pseudorandom function.
 
-8.15 Prove that if there exists a pseudorandom function that, using a key of length n, maps n-bit inputs to single-bit outputs, then there exists a pseudorandom function that maps n-bit inputs to n-bit outputs.
+8.15 Prove that if there exists a pseudorandom function that, using a key of length $n$, maps $n$-bit inputs to single-bit outputs, then there exists a pseudorandom function that maps $n$-bit inputs to $n$-bit outputs.
 
 Hint: Use a key of length $n^{2}$, and prove your construction secure using a hybrid argument.
 
@@ -1142,7 +1137,7 @@ $$
 
 (Note that the same key is used in each round.) Show that $F^{*}$ is not a pseudorandom permutation.
 
-8.19 Let $\mathcal{X}, \mathcal{Y}, \mathcal{Z}$ be probability ensembles. Prove that if $\mathcal{X} \overset{\mathrm{c}}{=} \mathcal{Y}$ and $\mathcal{Y} \overset{\mathrm{c}}{=} \mathcal{Z}$, then $\mathcal{X} \overset{\mathrm{c}}{=} \mathcal{Z}$.
+8.19 Let $\mathcal{X}, \mathcal{Y}, \mathcal{Z}$ be probability ensembles. Prove that if $\mathcal{X} \overset{\mathrm{c}}{\equiv} \mathcal{Y}$ and $\mathcal{Y} \overset{\mathrm{c}}{\equiv} \mathcal{Z}$, then $\mathcal{X} \overset{\mathrm{c}}{\equiv} \mathcal{Z}$.
 
 8.20 Prove Theorem 8.31.
 

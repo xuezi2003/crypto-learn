@@ -8,6 +8,8 @@ In contrast, as mentioned in Chapter 3 (and investigated in detail in Chapter 8)
 
 One goal of this chapter is to introduce various problems believed to be “hard,” and to present conjectured one-way functions based on those problems. $^{1}$ As such, this chapter can be viewed as a culmination of a “top down” approach to private-key cryptography. (See Figure 9.1.) That is, in Chapters 3–5 we have shown that private-key cryptography can be based on pseudorandom functions and permutations. We have then seen that the latter can be instantiated in practice using block ciphers, as explored in Chapter 7, or can be provably constructed from any one-way function, as shown in Chapter 8. Here, we take this one step further and show how one-way functions can be based on certain hard mathematical problems.
 
+> $^{1}$ Recall we currently do not know how to prove that one-way functions exist, so the best we can do is base one-way functions on assumptions regarding the hardness of certain problems.
+
 ![Image](./assets/Ch09/image_201_120_683_552.jpg)
 
 **FIGURE 9.1: Private-key cryptography: a top-down approach.**
@@ -30,9 +32,9 @@ A fundamental theorem of arithmetic is that every integer greater than 1 can be 
 
 We are familiar with the process of division with remainder from elementary school. The following proposition formalizes this notion.
 
-PROPOSITION 9.1 Let $a$ be an integer and let $b$ be a positive integer. Then there exist unique integers $q, r$ for which $a = qb + r$ and ${0} \leq r < b$.
+PROPOSITION 9.1 Let $a$ be an integer and let $b$ be a positive integer. Then there exist unique integers $q, r$ for which $a = qb + r$ and $0 \leq r < b$.
 
-Furthermore, given integers $a$ and $b$ as in the proposition it is possible to compute $q$ and $r$ in polynomial time; see Appendix B.1. (An algorithm's running time is measured as a function of the length(s) of its input(s). An important point in the context of algorithmic number theory is that integer inputs are always assumed to be represented in binary. The running time of an algorithm taking as input an integer $N$ is therefore measured in terms of $\|N\|$, the length of the binary representation of $N$. Note that $\|N\| = \lfloor\log N\rfloor + 1$.
+Furthermore, given integers $a$ and $b$ as in the proposition it is possible to compute $q$ and $r$ in polynomial time; see Appendix B.1. (An algorithm's running time is measured as a function of the length(s) of its input(s). An important point in the context of algorithmic number theory is that integer inputs are always assumed to be represented in binary. The running time of an algorithm taking as input an integer $N$ is therefore measured in terms of $\|N\|$, the length of the binary representation of $N$. Note that $\|N\| = \lfloor\log N\rfloor + 1$.)
 
 The greatest common divisor of two integers $a, b$, written $\gcd(a, b)$, is the largest integer $c$ such that $c \mid a$ and $c \mid b$. (We leave $\gcd(0, 0)$ undefined.) The notion of greatest common divisor makes sense when either or both of $a, b$ are negative but we will typically have $a, b \geq 1$; anyway, $\gcd(a, b) = \gcd(|a|, |b|)$. Note that $\gcd(b, 0) = \gcd(0, b) = b$; also, if $p$ is prime then $\gcd(a, p)$ is either equal to 1 or $p$. If $\gcd(a, b) = 1$ we say that $a$ and $b$ are relatively prime.
 
@@ -40,47 +42,47 @@ The following is a useful result:
 
 PROPOSITION 9.2 Let $a, b$ be positive integers. Then there exist integers $X, Y$ such that $Xa + Yb = \gcd(a, b)$. Furthermore, $\gcd(a, b)$ is the smallest positive integer that can be expressed in this way.
 
-PROOF Consider the set $I \overset{\mathrm{def}}{=} \{\hat{X}a + \hat{Y}b \mid \hat{X}, \hat{Y} \in \mathbb{Z}\}$. Note that $a, b \in I$, and so $I$ certainly contains some positive integers. Let $d$ be the smallest positive integer in $I$. We show that $d = \gcd(a, b)$; since $d$ can be written as $d = Xa + Yb$ for some $X, Y \in \mathbb{Z}$ (because $d \in I$), this proves the theorem.
+PROOF Consider the set $I \stackrel{\mathrm{def}}{=} \{\hat{X}a + \hat{Y}b \mid \hat{X}, \hat{Y} \in \mathbb{Z}\}$. Note that $a, b \in I$, and so $I$ certainly contains some positive integers. Let $d$ be the smallest positive integer in $I$. We show that $d = \gcd(a, b)$; since $d$ can be written as $d = Xa + Yb$ for some $X, Y \in \mathbb{Z}$ (because $d \in I$), this proves the theorem.
 
-To show that $d = \gcd(a, b)$, we must prove that $d \mid a$ and $d \mid b$, and that $d$ is the largest integer with this property. In fact, we can show that $d$ divides every element in $I$. To see this, take an arbitrary $c \in I$ and write $c = X^{\prime}a + Y^{\prime}b$ with $X^{\prime}, Y^{\prime} \in \mathbb{Z}$. Using division with remainder (Proposition 9.1) we have that $c = qd + r$ with $q, r$ integers and ${0} \leq r < d$. Then
+To show that $d = \gcd(a, b)$, we must prove that $d \mid a$ and $d \mid b$, and that $d$ is the largest integer with this property. In fact, we can show that $d$ divides every element in $I$. To see this, take an arbitrary $c \in I$ and write $c = X^{\prime}a + Y^{\prime}b$ with $X^{\prime}, Y^{\prime} \in \mathbb{Z}$. Using division with remainder (Proposition 9.1) we have that $c = qd + r$ with $q, r$ integers and $0 \leq r < d$. Then
 
 $$
 r=c-qd=X^{\prime}a+Y^{\prime}b-q(Xa+Yb)=(X^{\prime}-qX)a+(Y^{\prime}-qY)b\in I.
 $$
 
-If $r \neq 0$, this contradicts our choice of $d$ as the smallest positive integer in I (because $r < d$). So, $r = 0$ and hence $d \mid c$. This shows that $d$ divides every element of I.
+If $r \neq 0$, this contradicts our choice of $d$ as the smallest positive integer in $I$ (because $r < d$). So, $r = 0$ and hence $d \mid c$. This shows that $d$ divides every element of $I$.
 
-Since $a \in I$ and $b \in I$, the above shows that $d|a$ and $d|b$ and so $d$ is a common divisor of $a$ and $b$. It remains to show that it is the greatest common divisor. Assume there is an integer $d^{\prime} > d$ such that $d^{\prime}|a$ and $d^{\prime}|b$. Then by the observation made earlier, $d^{\prime}|Xa + Yb$. Since the latter is equal to $d$, this means $d^{\prime}|d$. But this is impossible if $d^{\prime}$ is larger than $d$. We conclude that $d$ is the largest integer dividing both $a$ and $b$, and hence $d = \gcd(a,b)$.
+Since $a \in I$ and $b \in I$, the above shows that $d \mid a$ and $d \mid b$ and so $d$ is a common divisor of $a$ and $b$. It remains to show that it is the greatest common divisor. Assume there is an integer $d^{\prime} > d$ such that $d^{\prime} \mid a$ and $d^{\prime} \mid b$. Then by the observation made earlier, $d^{\prime} \mid Xa + Yb$. Since the latter is equal to $d$, this means $d^{\prime} \mid d$. But this is impossible if $d^{\prime}$ is larger than $d$. We conclude that $d$ is the largest integer dividing both $a$ and $b$, and hence $d = \gcd(a,b)$.
 
 Given $a$ and $b$, the Euclidean algorithm can be used to compute $\gcd(a,b)$ in polynomial time. The extended Euclidean algorithm can be used to compute $X,Y$ (as in the above proposition) in polynomial time as well. See Appendix B.1.2 for details.
 
 The preceding proposition is very useful in proving additional results about divisibility. We show two examples now.
 
-PROPOSITION 9.3 If $c$ | $ab$ and $\gcd(a,c)=1$, then $c$ | $b$. Thus, if $p$ is prime and $p$ | $ab$ then either $p$ | $a$ or $p$ | $b$.
+PROPOSITION 9.3 If $c \mid ab$ and $\gcd(a,c)=1$, then $c \mid b$. Thus, if $p$ is prime and $p \mid ab$ then either $p \mid a$ or $p \mid b$.
 
-PROOF Since $c$ | $ab$ we have $\gamma c = ab$ for some integer $\gamma$. If $\gcd(a,c) = 1$ then, by the previous proposition, we know there exist integers $X,Y$ such that ${1} = Xa + Yc$. Multiplying both sides by $b$, we obtain
+PROOF Since $c \mid ab$ we have $\gamma c = ab$ for some integer $\gamma$. If $\gcd(a,c) = 1$ then, by the previous proposition, we know there exist integers $X,Y$ such that $1 = Xa + Yc$. Multiplying both sides by $b$, we obtain
 
 $$
 b=Xab+Ycb=X\gamma c+Ycb=c\cdot(X\gamma+Yb).
 $$
 
-Since $(X\gamma+Yb)$ is an integer, it follows that $c|b$.
+Since $(X\gamma+Yb)$ is an integer, it follows that $c \mid b$.
 
 The second part of the proposition follows from the fact that if $p \nmid a$ and $p$ is prime then $\gcd(a, p) = 1$.
 
-PROPOSITION 9.4 If $a|N$, $b|N$, and $\gcd(a,b)=1$, then $ab|N$.
+PROPOSITION 9.4 If $a \mid N$, $b \mid N$, and $\gcd(a,b)=1$, then $ab \mid N$.
 
-PROOF Write $ac = N$, $bd = N$, and (using Proposition 9.2) ${1} = Xa + Yb$, where $c, d, X, Y$ are all integers. Multiplying both sides of the last equation by $N$ we obtain
+PROOF Write $ac = N$, $bd = N$, and (using Proposition 9.2) $1 = Xa + Yb$, where $c, d, X, Y$ are all integers. Multiplying both sides of the last equation by $N$ we obtain
 
 $$
 N=X a N+Y b N=X a b d+Y b a c=a b(X d+Y c),
 $$
 
-showing that ab|N.
+showing that $ab \mid N$.
 
 ### 9.1.2 Modular Arithmetic
 
-Let $a, b, N \in \mathbb{Z}$ with $N > 1$. We use the notation $[a \bmod N]$ to denote the remainder of $a$ upon division by $N$. In more detail: by Proposition 9.1 there exist unique $q, r$ with $a = qN + r$ and ${0} \leq r < N$, and we define $[a \bmod N]$ to be equal to this $r$. Note therefore that ${0} \leq [a \bmod N] < N$. We refer to the process of mapping $a$ to $[a \bmod N]$ as reduction modulo $N$.
+Let $a, b, N \in \mathbb{Z}$ with $N > 1$. We use the notation $[a \bmod N]$ to denote the remainder of $a$ upon division by $N$. In more detail: by Proposition 9.1 there exist unique $q, r$ with $a = qN + r$ and $0 \leq r < N$, and we define $[a \bmod N]$ to be equal to this $r$. Note therefore that $0 \leq [a \bmod N] < N$. We refer to the process of mapping $a$ to $[a \bmod N]$ as reduction modulo $N$.
 
 We say that $a$ and $b$ are congruent modulo $N$, written $a = b \bmod N$, if $[a \bmod N] = [b \bmod N]$, i.e., if the remainder when $a$ is divided by $N$ is the same as the remainder when $b$ is divided by $N$. Note that $a = b \bmod N$ if and only if $N \mid (a - b)$. By way of notation, in an expression such as
 
@@ -90,13 +92,13 @@ $$
 
 the understanding is that every equal sign in this sequence (and not just the last) refers to congruence modulo $N$.
 
-Note that $a = [b \mod N]$ implies $a = b \mod N$, but not vice versa. For example, $36 = 21 \bmod 15$ but ${36} \neq [21 \mod 15] = 6$. On the other hand, $[a \mod N] = [b \mod N]$ if and only if $a = b \mod N$.
+Note that $a = [b \mod N]$ implies $a = b \mod N$, but not vice versa. For example, $36 = 21 \bmod 15$ but $36 \neq [21 \mod 15] = 6$. On the other hand, $[a \mod N] = [b \mod N]$ if and only if $a = b \mod N$.
 
 Congruence modulo $N$ is an equivalence relation, i.e., it is reflexive ($a = a \bmod N$ for all $a$), symmetric ($a = b \bmod N$ implies $b = a \bmod N$), and transitive (if $a = b \bmod N$ and $b = c \bmod N$, then $a = c \bmod N$). Congruence modulo $N$ also obeys the standard rules of arithmetic with respect to addition, subtraction, and multiplication; so, for example, if $a = a^{\prime}$ $\bmod N$ and $b = b^{\prime}$ $\bmod N$ then $(a + b) = (a^{\prime} + b^{\prime}) \bmod N$ and $ab = a^{\prime}b^{\prime}$ $\bmod N$. A consequence is that we can “reduce and then add/multiply” instead of having to “add/multiply and then reduce,” which can often simplify calculations.
 
 **Example 9.5**
 
-Let us compute $[1093028 \cdot 190301 \mod 100]$. Since 1093028 = 28 mod 100 and 190301 = 1 mod 100, we have
+Let us compute $[1093028 \cdot 190301 \mod 100]$. Since $1093028 = 28 \bmod 100$ and $190301 = 1 \bmod 100$, we have
 
 $$
 \begin{aligned}
@@ -105,15 +107,15 @@ $$
 \end{aligned}
 $$
 
-The alternate way of calculating the answer (i.e., computing the product ${1093028} \cdot 190301$ and then reducing the result modulo 100) is less efficient.
+The alternate way of calculating the answer (i.e., computing the product $1093028 \cdot 190301$ and then reducing the result modulo 100) is less efficient.
 
 Congruence modulo $N$ does not (in general) respect division. That is, if $a = a^{\prime} \mod N$ and $b = b^{\prime} \mod N$ then it is not necessarily true that $a/b = a^{\prime}/b^{\prime} \mod N$; in fact, the expression “$a/b \mod N$” is not necessarily well-defined. As a specific example that often causes confusion, $ab = cb \mod N$ does not necessarily imply that $a = c \mod N$.
 
 **Example 9.6**
 
-Take $N = 24$. Then ${3} \cdot 2 = 6 = 15 \cdot 2 \mod 24$, but ${3} \neq 15 \mod 24$.
+Take $N = 24$. Then $3 \cdot 2 = 6 = 15 \cdot 2 \mod 24$, but $3 \neq 15 \mod 24$.
 
-In certain cases, however, we can define a meaningful notion of division. If for a given integer $b$ there exists an integer $c$ such that $bc = 1 \mod N$, we say that $b$ is invertible modulo $N$ and call $c$ a (multiplicative) inverse of $b$ modulo $N$. Clearly, ${0}$ is never invertible. It is also not difficult to show that if $c$ is a multiplicative inverse of $b$ modulo $N$ then so is $[c \mod N]$. Furthermore, if $c^{\prime}$ is another multiplicative inverse of $b$ then $[c \mod N] = [c^{\prime} \mod N]$. When $b$ is invertible we can therefore simply let $b^{-1}$ denote the unique multiplicative inverse of $b$ that lies in the range $\{1, \ldots, N-1\}$.
+In certain cases, however, we can define a meaningful notion of division. If for a given integer $b$ there exists an integer $c$ such that $bc = 1 \mod N$, we say that $b$ is invertible modulo $N$ and call $c$ a (multiplicative) inverse of $b$ modulo $N$. Clearly, $0$ is never invertible. It is also not difficult to show that if $c$ is a multiplicative inverse of $b$ modulo $N$ then so is $[c \mod N]$. Furthermore, if $c^{\prime}$ is another multiplicative inverse of $b$ then $[c \mod N] = [c^{\prime} \mod N]$. When $b$ is invertible we can therefore simply let $b^{-1}$ denote the unique multiplicative inverse of $b$ that lies in the range $\{1, \ldots, N-1\}$.
 
 When $b$ is invertible modulo $N$, we define division by $b$ modulo $N$ as multiplication by $b^{-1}$ (i.e., we define $[a/b \bmod N] \stackrel{\mathrm{def}}{=} [ab^{-1} \bmod N]$.) We stress that division by $b$ is only defined when $b$ is invertible. If $ab = cb \bmod N$ and $b$ is invertible, then we may divide each side of the equation by $b$ (or, really, multiply each side by $b^{-1}$) to obtain
 
@@ -121,7 +123,7 @@ $$
 (ab)\cdot b^{-1}=(cb)\cdot b^{-1}\bmod N\quad\Rightarrow\quad a=c\bmod N.
 $$
 
-We see that in this case, division works as expected. Thus, invertible integers modulo N are “nicer” to work with, in some sense.
+We see that in this case, division works as expected. Thus, invertible integers modulo $N$ are “nicer” to work with, in some sense.
 
 The natural question is: which integers are invertible modulo a given modulus $N$? We can fully answer this question using Proposition 9.2:
 
@@ -133,7 +135,7 @@ Conversely, if $\gcd(b, N) = 1$ then by Proposition 9.2 there exist integers $X,
 
 **Example 9.8**
 
-Let $b=11$ and $N=17$. Then $(-3)\cdot11+2\cdot17=1$, and so ${14}=[-3\bmod{17}]$ is the inverse of 11. One can verify that ${14}\cdot11=1\bmod{17}$.
+Let $b=11$ and $N=17$. Then $(-3)\cdot11+2\cdot17=1$, and so $14=[-3\bmod 17]$ is the inverse of 11. One can verify that $14\cdot11=1\bmod 17$.
 
 Addition, subtraction, multiplication, and computation of inverses (when they exist) modulo $N$ can all be carried out in polynomial time; see Appendix B.2. Exponentiation (i.e., computing $[a^b \bmod N]$ for $b > 0$ an integer) can also be computed in polynomial time; see Appendix B.2.3.
 
@@ -143,7 +145,7 @@ Let $\mathbb{G}$ be a set. A binary operation $\circ$ on $\mathbb{G}$ is simply 
 
 We now introduce the important notion of a group.
 
-DEFINITION 9.9 A group is a set G along with a binary operation $\circ$ for which the following conditions hold:
+DEFINITION 9.9 A group is a set $\mathbb{G}$ along with a binary operation $\circ$ for which the following conditions hold:
 
 - (Closure:) For all $g, h \in \mathbb{G}$, $g \circ h \in \mathbb{G}$.
 
@@ -155,11 +157,11 @@ DEFINITION 9.9 A group is a set G along with a binary operation $\circ$ for whic
 
 When $\mathbb{G}$ has a finite number of elements, we say $\mathbb{G}$ is finite and let $|\mathbb{G}|$ denote the order of the group (that is, the number of elements in $\mathbb{G}$).
 
-A group G with operation $\circ$ is abelian if the following holds:
+A group $\mathbb{G}$ with operation $\circ$ is abelian if the following holds:
 
 - (Commutativity:) For all $g, h \in \mathbb{G}$, $g \circ h = h \circ g$.
 
-When the binary operation is understood, we simply call the set G a group.
+When the binary operation is understood, we simply call the set $\mathbb{G}$ a group.
 
 We will always deal with finite, abelian groups. We will be careful to specify, however, when a result requires these assumptions.
 
@@ -185,33 +187,33 @@ The following example introduces the group $\mathbb{Z}_N$ that we will use frequ
 
 **Example 9.12**
 
-Let $N > 1$ be an integer. The set $\{0, \ldots, N-1\}$ with respect to addition modulo $N$ (i.e., where $a + b \overset{\mathrm{def}}{=} [a + b \mod N]$) is an abelian group of order $N$. Closure is obvious; associativity and commutativity follow from the fact that the integers satisfy these properties; the identity is 0; and, since $a + (N - a) = 0 \bmod N$, it follows that the inverse of any element $a$ is $\left[(N - a) \mod N\right]$. We denote this group by $\mathbb{Z}_N$. (We will also sometimes use $\mathbb{Z}_N$ to denote the set $\{0, \ldots, N-1\}$ without regard to any particular group operation.) $\diamondsuit$
+Let $N > 1$ be an integer. The set $\{0, \ldots, N-1\}$ with respect to addition modulo $N$ (i.e., where $a + b \stackrel{\mathrm{def}}{=} [a + b \mod N]$) is an abelian group of order $N$. Closure is obvious; associativity and commutativity follow from the fact that the integers satisfy these properties; the identity is 0; and, since $a + (N - a) = 0 \bmod N$, it follows that the inverse of any element $a$ is $\left[(N - a) \mod N\right]$. We denote this group by $\mathbb{Z}_N$. (We will also sometimes use $\mathbb{Z}_N$ to denote the set $\{0, \ldots, N-1\}$ without regard to any particular group operation.) $\diamondsuit$
 
 We end this section with an easy lemma that formalizes a “cancelation law” for groups.
 
 LEMMA 9.13 Let $\mathbb{G}$ be a group and $a,b,c \in \mathbb{G}$. If $ac = bc$, then $a = b$. In particular, if $ac = c$ then $a$ is the identity in $\mathbb{G}$.
 
-PROOF We know ac = bc. Multiplying both sides by the unique inverse $c^{-1}$ of c, we obtain a = b. In detail:
+PROOF We know $ac = bc$. Multiplying both sides by the unique inverse $c^{-1}$ of $c$, we obtain $a = b$. In detail:
 
 $$
 ac=bc\ \Rightarrow\ (ac)c^{-1}=(bc)\cdot c^{-1}\ \Rightarrow\ a(cc^{-1})=b(cc^{-1})\ \Rightarrow\ a\cdot1=b\cdot1,
 $$
 
-i.e., a = b.
+i.e., $a = b$.
 
-Compare the above proof to the discussion (preceding Proposition 9.7) regarding a cancelation law for division modulo N. As indicated by the similarity, the invertible elements modulo N form a group under multiplication modulo N. We will return to this example in more detail shortly.
+Compare the above proof to the discussion (preceding Proposition 9.7) regarding a cancelation law for division modulo $N$. As indicated by the similarity, the invertible elements modulo $N$ form a group under multiplication modulo $N$. We will return to this example in more detail shortly.
 
 #### Group Exponentiation
 
-It is often useful to be able to describe the group operation applied $m$ times to a fixed element $g$, where $m$ is a positive integer. When using additive notation, we express this as $m \cdot g$ or mg; that is,
+It is often useful to be able to describe the group operation applied $m$ times to a fixed element $g$, where $m$ is a positive integer. When using additive notation, we express this as $m \cdot g$ or $mg$; that is,
 
 $$
 mg=m\cdot g\stackrel{\mathrm{def}}{=}\underbrace{g+\cdots+g}_{m\text{ times}}.
 $$
 
-Note that $m$ is an integer, while $g$ is a group element. So $mg$ does not represent the group operation applied to $m$ and $g$ (indeed, we are working in a group where the group operation is written additively). Thankfully, however, the notation “behaves as it should”; so, for example, if $g \in \mathbb{G}$ and $m, m^{\prime}$ are integers then $(mg) + (m^{\prime} g) = (m + m^{\prime}) g$, $m(m^{\prime} g) = (mm^{\prime}) g$, and ${1} \cdot g = g$. In an abelian group $\mathbb{G}$ with $g, h \in \mathbb{G}$, $(mg) + (mh) = m(g + h)$.
+Note that $m$ is an integer, while $g$ is a group element. So $mg$ does not represent the group operation applied to $m$ and $g$ (indeed, we are working in a group where the group operation is written additively). Thankfully, however, the notation “behaves as it should”; so, for example, if $g \in \mathbb{G}$ and $m, m^{\prime}$ are integers then $(mg) + (m^{\prime} g) = (m + m^{\prime}) g$, $m(m^{\prime} g) = (mm^{\prime}) g$, and $1 \cdot g = g$. In an abelian group $\mathbb{G}$ with $g, h \in \mathbb{G}$, $(mg) + (mh) = m(g + h)$.
 
-When using multiplicative notation, we express application of the group operation m times to an element g by $g^m$. That is,
+When using multiplicative notation, we express application of the group operation $m$ times to an element $g$ by $g^m$. That is,
 
 $$
 g^{m}\stackrel{\mathrm{def}}{=}\underbrace{g\cdots g}_{m\text{ times}}.
@@ -219,7 +221,7 @@ $$
 
 The familiar rules of exponentiation hold: $g^m \cdot g^{m^{\prime}} = g^{m+m^{\prime}}$, $(g^m)^{m^{\prime}} = g^{mm^{\prime}}$, and $g^1 = g$. Also, if $\mathbb{G}$ is an abelian group and $g$, $h \in \mathbb{G}$ then $g^m \cdot h^m = (gh)^m$. All these are simply “translations” of the results from the previous paragraph to the setting of groups written multiplicatively rather than additively.
 
-The above notation is extended in the natural way to the case when $m$ is zero or a negative integer. When using additive notation we define ${0} \cdot g \overset{\mathrm{def}}{=} 0$ (note that the 0 on the left-hand side is the integer 0 while the 0 on the right-hand side is the identity element of the group) and define $(-m) \cdot g \overset{\mathrm{def}}{=} m \cdot (-g)$ for $m$ a positive integer. Observe that $-g$ is the inverse of $g$ and, as one would expect, $(-m) \cdot g = -(mg)$. When using multiplicative notation, $g^0 \overset{\mathrm{def}}{=} 1$ and $g^{-m} \overset{\mathrm{def}}{=} (g^{-1})^m$. Again, $g^{-1}$ is the inverse of $g$, and we have $g^{-m} = (g^m)^{-1}$.
+The above notation is extended in the natural way to the case when $m$ is zero or a negative integer. When using additive notation we define $0 \cdot g \stackrel{\mathrm{def}}{=} 0$ (note that the 0 on the left-hand side is the integer 0 while the 0 on the right-hand side is the identity element of the group) and define $(-m) \cdot g \stackrel{\mathrm{def}}{=} m \cdot (-g)$ for $m$ a positive integer. Observe that $-g$ is the inverse of $g$ and, as one would expect, $(-m) \cdot g = -(mg)$. When using multiplicative notation, $g^0 \stackrel{\mathrm{def}}{=} 1$ and $g^{-m} \stackrel{\mathrm{def}}{=} (g^{-1})^m$. Again, $g^{-1}$ is the inverse of $g$, and we have $g^{-m} = (g^m)^{-1}$.
 
 Let $g \in \mathbb{G}$ and $b \geq 0$ be an integer. Then the exponentiation $g^b$ can be computed using polynomially many group operations in $\mathbb{G}$. Thus, if the group operation can be computed in polynomial time then so can exponentiation. This is discussed in Appendix B.2.3.
 
@@ -235,7 +237,7 @@ $$
 
 To see this, note that $gg_i = gg_j$ implies $g_i = g_j$ by Lemma 9.13. So each of the $m$ elements in parentheses on the right-hand side is distinct. Because there are exactly $m$ elements in $\mathbb{G}$, the $m$ elements being multiplied together on the right-hand side are simply all elements of $\mathbb{G}$ in some permuted order. Since $\mathbb{G}$ is abelian, the order in which elements are multiplied does not matter, and so the right-hand side is equal to the left-hand side.
 
-Again using the fact that G is abelian, we can “pull out” all occurrences of $g$ and obtain
+Again using the fact that $\mathbb{G}$ is abelian, we can “pull out” all occurrences of $g$ and obtain
 
 $$
 g_{1}\cdot g_{2}\cdots g_{m}=(g g_{1})\cdot(g g_{2})\cdots(g g_{m})=g^{m}\cdot(g_{1}\cdot g_{2}\cdots g_{m}).
@@ -257,10 +259,10 @@ $$
 
 **Example 9.16**
 
-Written additively, the above corollary says that if $g$ is an element in a group of order $m$, then $x \cdot g = [x \bmod m] \cdot g$. As an example, consider the group $\mathbb{Z}_{15}$ of order m = 15, and take g = 11. The corollary says that
+Written additively, the above corollary says that if $g$ is an element in a group of order $m$, then $x \cdot g = [x \bmod m] \cdot g$. As an example, consider the group $\mathbb{Z}_{15}$ of order $m = 15$, and take $g = 11$. The corollary says that
 
 $$
-{152}\cdot11=\left[152\bmod15\right]\cdot11=2\cdot11=11+11=22=7\bmod15.
+152\cdot11=\left[152\bmod15\right]\cdot11=2\cdot11=11+11=22=7\bmod15.
 $$
 
 The above agrees with the fact (cf. Example 9.5) that we can “reduce and then multiply” rather than having to “multiply and then reduce.”
@@ -287,13 +289,13 @@ $$
 \mathbb{Z}_{N}^{*}\stackrel{\mathrm{def}}{=}\left\{b\in\{1,\ldots,N-1\}~\middle|~\gcd(b,N)=1\right\};
 $$
 
-i.e., $\mathbb{Z}_N^*$ consists of integers in the set $\{1, \ldots, N-1\}$ that are relatively prime to $N$. The group operation is multiplication modulo $N$; i.e., $ab \overset{\mathrm{def}}{=} [ab \bmod N]$.
+i.e., $\mathbb{Z}_N^*$ consists of integers in the set $\{1, \ldots, N-1\}$ that are relatively prime to $N$. The group operation is multiplication modulo $N$; i.e., $ab \stackrel{\mathrm{def}}{=} [ab \bmod N]$.
 
 We claim that $\mathbb{Z}_N^*$ is an abelian group with respect to this operation. Since 1 is always in $\mathbb{Z}_N^*$, the set clearly contains an identity element. The discussion above shows that each element in $\mathbb{Z}_N^*$ has a multiplicative inverse in the same set. Commutativity and associativity follow from the fact that these properties hold over the integers. To show that closure holds, let $a, b \in \mathbb{Z}_N^*$; then $[ab \bmod N]$ has inverse $[b^{-1}a^{-1} \bmod N]$, which means that $\gcd([ab \bmod N], N) = 1$ and so $ab \in \mathbb{Z}_N^*$. Summarizing:
 
 PROPOSITION 9.18 Let $N > 1$ be an integer. Then $\mathbb{Z}_N^*$ is an abelian group under multiplication modulo $N$.
 
-Define $\phi(N) \overset{\mathrm{def}}{=} |\mathbb{Z}_N^*|$, the order of the group $\mathbb{Z}_N^*$. ($\phi$ is called the Euler $\phi$ function.) What is the value of $\phi(N)$? First consider the case when $N = p$ is prime. Then all elements in $\{1, \ldots, p-1\}$ are relatively prime to $p$, and so $\phi(p) = |\mathbb{Z}_p^*| = p-1$. Next consider the case that $N = pq$, where $p, q$ are distinct primes. If an integer $a \in \{1, \ldots, N-1\}$ is not relatively prime to $N$, then either $p \mid a$ or $q \mid a$ ($a$ cannot be divisible by both $p$ and $q$ since this would imply $pq \mid a$ but $a < N = pq$). The elements in $\{1, \ldots, N-1\}$ divisible by $p$ are exactly the $(q-1)$ elements $p, 2p, 3p, \ldots, (q-1)p$, and the elements divisible by $q$ are exactly the $(p-1)$ elements $q, 2q, \ldots, (p-1)q$. The number of elements remaining (i.e., those that are neither divisible by $p$ nor $q$) is therefore given by
+Define $\phi(N) \stackrel{\mathrm{def}}{=} |\mathbb{Z}_N^*|$, the order of the group $\mathbb{Z}_N^*$. ($\phi$ is called the Euler $\phi$ function.) What is the value of $\phi(N)$? First consider the case when $N = p$ is prime. Then all elements in $\{1, \ldots, p-1\}$ are relatively prime to $p$, and so $\phi(p) = |\mathbb{Z}_p^*| = p-1$. Next consider the case that $N = pq$, where $p, q$ are distinct primes. If an integer $a \in \{1, \ldots, N-1\}$ is not relatively prime to $N$, then either $p \mid a$ or $q \mid a$ ($a$ cannot be divisible by both $p$ and $q$ since this would imply $pq \mid a$ but $a < N = pq$). The elements in $\{1, \ldots, N-1\}$ divisible by $p$ are exactly the $(q-1)$ elements $p, 2p, 3p, \ldots, (q-1)p$, and the elements divisible by $q$ are exactly the $(p-1)$ elements $q, 2q, \ldots, (p-1)q$. The number of elements remaining (i.e., those that are neither divisible by $p$ nor $q$) is therefore given by
 
 $$
 (N-1)-(q-1)-(p-1)=pq-p-q+1=(p-1)(q-1).
@@ -307,7 +309,7 @@ THEOREM 9.19 Let $N = \prod_i p_i^{e_i}$, where the $\{p_i\}$ are distinct prime
 
 **Example 9.20**
 
-Take $N = 15 = 5 \cdot 3$. Then $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$ and $|\mathbb{Z}_{15}^*| = 8 = 4 \cdot 2 = \phi(15)$. The inverse of ${8}$ in $\mathbb{Z}_{15}^*$ is ${2}$, since ${8} \cdot 2 = 16 = 1 \mod 15$.
+Take $N = 15 = 5 \cdot 3$. Then $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$ and $|\mathbb{Z}_{15}^*| = 8 = 4 \cdot 2 = \phi(15)$. The inverse of $8$ in $\mathbb{Z}_{15}^*$ is $2$, since $8 \cdot 2 = 16 = 1 \mod 15$.
 
 We have shown that $\mathbb{Z}_N^*$ is a group of order $\phi(N)$. The following are now easy corollaries of Theorem 9.14 and Corollary 9.17:
 
@@ -327,11 +329,11 @@ COROLLARY 9.22 Fix $N > 1$. For integer $e > 0$ define $f_e: \mathbb{Z}_N^* \to 
 
 ### 9.1.5 \*Isomorphisms and the Chinese Remainder Theorem
 
-Two groups are isomorphic if they have the same underlying structure. From a mathematical point of view, an isomorphism of a group G provides an alternate, but equivalent, way of thinking about G. From a computational perspective, an isomorphism provides a different way to represent elements in G, which can often have a significant impact on algorithmic efficiency.
+Two groups are isomorphic if they have the same underlying structure. From a mathematical point of view, an isomorphism of a group $\mathbb{G}$ provides an alternate, but equivalent, way of thinking about $\mathbb{G}$. From a computational perspective, an isomorphism provides a different way to represent elements in $\mathbb{G}$, which can often have a significant impact on algorithmic efficiency.
 
 DEFINITION 9.23 Let $\mathbb{G},\mathbb{H}$ be groups with respect to the operations $\circ_{\mathbb{G}},\circ_{\mathbb{H}}$, respectively. A function $f:\mathbb{G}\to\mathbb{H}$ is an isomorphism from $\mathbb{G}$ to $\mathbb{H}$ if:
 
-1. f is a bijection, and
+1. $f$ is a bijection, and
 
 2. For all $g_1, g_2 \in \mathbb{G}$ we have $f(g_1 \circ_{\mathbb{G}} g_2) = f(g_1) \circ_{\mathbb{H}} f(g_2)$.
 
@@ -349,7 +351,7 @@ We leave it to Exercise 9.8 to verify that $\mathbb{G} \times \mathbb{H}$ is ind
 
 We may now state and prove the Chinese remainder theorem.
 
-THEOREM 9.24 (Chinese remainder theorem) Let N = pq where p, q > 1 are relatively prime. Then
+THEOREM 9.24 (Chinese remainder theorem) Let $N = pq$ where $p, q > 1$ are relatively prime. Then
 
 $$
 \mathbb{Z}_{N}\simeq\mathbb{Z}_{p}\times\mathbb{Z}_{q}\quad\text{and}\quad\mathbb{Z}_{N}^{*}\simeq\mathbb{Z}_{p}^{*}\times\mathbb{Z}_{q}^{*}.
@@ -381,7 +383,7 @@ $$
 
 (For the second equality, above, we use the fact that $[[X \bmod N] \bmod p] = [[X \bmod p] \bmod p]$ when $p \mid N$; see Exercise 9.9.)
 
-An extension of the Chinese remainder theorem says that if $p_1, p_2, \ldots, p_\ell$ are pairwise relatively prime (i.e., $\gcd(p_i, p_j) = 1$ for all $i \neq j$) and $N \overset{\mathrm{def}}{=} \prod_{i=1}^\ell p_i$, then
+An extension of the Chinese remainder theorem says that if $p_1, p_2, \ldots, p_\ell$ are pairwise relatively prime (i.e., $\gcd(p_i, p_j) = 1$ for all $i \neq j$) and $N \stackrel{\mathrm{def}}{=} \prod_{i=1}^\ell p_i$, then
 
 $$
 \mathbb{Z}_{N}\simeq\mathbb{Z}_{p_{1}}\times\cdots\times\mathbb{Z}_{p_{\ell}}\quad\text{and}\quad\mathbb{Z}_{N}^{*}\simeq\mathbb{Z}_{p_{1}}^{*}\times\cdots\times\mathbb{Z}_{p_{\ell}}^{*}.
@@ -389,11 +391,11 @@ $$
 
 An isomorphism in each case is obtained by a natural extension of the one used in the theorem above.
 
-By way of notation, with $N$ understood and $x \in \{0,1,\ldots,N-1\}$ we write $x \leftrightarrow (x_p, x_q)$ for $x_p = [x \bmod p]$ and $x_q = [x \bmod q]$. That is, $x \leftrightarrow (x_p, x_q)$ if and only if $f(x) = (x_p, x_q)$, where $f$ is as in the theorem above. One way to think about this notation is that it means “$x$ (in $\mathbb{Z}_N$) corresponds to $(x_p, x_q)$ (in $\mathbb{Z}_p \times \mathbb{Z}_q)$.” The same notation is used when dealing with $x \in \mathbb{Z}_N$.
+By way of notation, with $N$ understood and $x \in \{0,1,\ldots,N-1\}$ we write $x \leftrightarrow (x_p, x_q)$ for $x_p = [x \bmod p]$ and $x_q = [x \bmod q]$. That is, $x \leftrightarrow (x_p, x_q)$ if and only if $f(x) = (x_p, x_q)$, where $f$ is as in the theorem above. One way to think about this notation is that it means “$x$ (in $\mathbb{Z}_N$) corresponds to $(x_p, x_q)$ (in $\mathbb{Z}_p \times \mathbb{Z}_q)$.” The same notation is used when dealing with $x \in \mathbb{Z}_N^*$.
 
 **Example 9.25**
 
-Take ${15} = 5 \cdot 3$, and consider $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$. The Chinese remainder theorem says this group is isomorphic to $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$. We can compute
+Take $15 = 5 \cdot 3$, and consider $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$. The Chinese remainder theorem says this group is isomorphic to $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$. We can compute
 
 $$
 \begin{array}{c}
@@ -422,27 +424,27 @@ We now turn to the specific case of computations modulo $N$, when $N = pq$ is a 
 
 **Example 9.26**
 
-Say we want to compute the product ${14} \cdot 13$ modulo 15 (i.e., in $\mathbb{Z}_{15}^*$). Example 9.25 gives ${14} \leftrightarrow (4,2)$ and ${13} \leftrightarrow (3,1)$. In $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$, we have
+Say we want to compute the product $14 \cdot 13$ modulo 15 (i.e., in $\mathbb{Z}_{15}^*$). Example 9.25 gives $14 \leftrightarrow (4,2)$ and $13 \leftrightarrow (3,1)$. In $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$, we have
 
 $$
 (4,2)\cdot(3,1)=([4\cdot3\bmod5],[2\cdot1\bmod3])=(2,2).
 $$
 
-Note $(2,2) \leftrightarrow 2$, which is the correct answer since ${14} \cdot 13 = 2 \mod 15$.
+Note $(2,2) \leftrightarrow 2$, which is the correct answer since $14 \cdot 13 = 2 \mod 15$.
 
 **Example 9.27**
 
-Say we want to compute ${11}^{53} \mod 15$. Example 9.25 gives ${11} \leftrightarrow (1, 2)$. Notice that ${2} = -1 \mod 3$ and so
+Say we want to compute $11^{53} \mod 15$. Example 9.25 gives $11 \leftrightarrow (1, 2)$. Notice that $2 = -1 \mod 3$ and so
 
 $$
 (1,2)^{53}=([1^{53}\bmod5],[(-1)^{53}\bmod3])=(1,[-1\bmod3])=(1,2).
 $$
 
-Thus, ${11}^{53}$ mod 15 = 11.
+Thus, $11^{53} \bmod 15 = 11$.
 
 **Example 9.28**
 
-Say we want to compute $[29^{100} \mod 35]$. We first compute the correspondence ${29} \leftrightarrow ([29 \mod 5], [29 \mod 7]) = ([-1 \mod 5], 1)$. Using the Chinese remainder theorem, we have
+Say we want to compute $[29^{100} \mod 35]$. We first compute the correspondence $29 \leftrightarrow ([29 \mod 5], [29 \mod 7]) = ([-1 \mod 5], 1)$. Using the Chinese remainder theorem, we have
 
 $$
 ([-1\bmod5],1)^{100}=([(-1)^{100}\bmod5],[1^{100}\bmod7])=(1,1),
@@ -452,27 +454,27 @@ and it is immediate that $(1,1)\leftrightarrow 1$. We conclude that $[29^{100}\b
 
 **Example 9.29**
 
-Say we want to compute $[18^{25} \bmod 35]$. We have ${18} \leftrightarrow (3,4)$ and so
+Say we want to compute $[18^{25} \bmod 35]$. We have $18 \leftrightarrow (3,4)$ and so
 
 $$
-{18}^{25}\bmod{35}\leftrightarrow(3,4)^{25}=([3^{25}\bmod{5}],[4^{25}\bmod{7}]).
+18^{25}\bmod 35\leftrightarrow(3,4)^{25}=([3^{25}\bmod 5],[4^{25}\bmod 7]).
 $$
 
 Since $\mathbb{Z}_5^*$ is a group of order 4, we can “work modulo 4 in the exponent” (cf. Corollary 9.15) and see that
 
 $$
-{3}^{25}=3^{[25\bmod4]}=3^{1}=3\bmod5.
+3^{25}=3^{[25\bmod 4]}=3^{1}=3\bmod5.
 $$
 
 Similarly,
 
 $$
-{4}^{25}=4^{[25\bmod6]}=4^{1}=4\bmod7.
+4^{25}=4^{[25\bmod 6]}=4^{1}=4\bmod7.
 $$
 
 Thus, $([3^{25} \bmod 5], [4^{25} \bmod 7]) = (3, 4) \leftrightarrow 18$ and so $[18^{25} \bmod 35] = 18$.
 
-One thing we have not yet discussed is how to convert back and forth between the representation of an element modulo $N$ and its representation modulo $p$ and $q$. The conversion can be carried out efficiently provided the factorization of $N$ is known. Assuming $p$ and $q$ are known, it is easy to map an element $x$ modulo $N$ to its corresponding representation modulo $p$ and $q$: the element x corresponds to ([x mod p], [x mod q]), and both the modular reductions can be carried out efficiently (cf. Appendix B.2).
+One thing we have not yet discussed is how to convert back and forth between the representation of an element modulo $N$ and its representation modulo $p$ and $q$. The conversion can be carried out efficiently provided the factorization of $N$ is known. Assuming $p$ and $q$ are known, it is easy to map an element $x$ modulo $N$ to its corresponding representation modulo $p$ and $q$: the element $x$ corresponds to $([x \bmod p], [x \bmod q])$, and both the modular reductions can be carried out efficiently (cf. Appendix B.2).
 
 For the other direction, we make use of the following observation: an element with representation $(x_{p}, x_{q})$ can be written as
 
@@ -480,7 +482,7 @@ $$
 (x_{p},x_{q})=x_{p}\cdot(1,0)+x_{q}\cdot(0,1).
 $$
 
-So, if we can find elements ${1}_p, 1_q \in \{0, \ldots, N-1\}$ such that ${1}_p \leftrightarrow (1,0)$ and ${1}_q \leftrightarrow (0,1)$, then (appealing to the Chinese remainder theorem) we know that
+So, if we can find elements $1_p, 1_q \in \{0, \ldots, N-1\}$ such that $1_p \leftrightarrow (1,0)$ and $1_q \leftrightarrow (0,1)$, then (appealing to the Chinese remainder theorem) we know that
 
 $$
 (x_{p},x_{q})\leftrightarrow[(x_{p}\cdot 1_{p}+x_{q}\cdot 1_{q})\bmod N].
@@ -498,21 +500,21 @@ In summary, we can convert an element represented as $(x_p, x_q)$ to its represe
 
 1. Compute $X, Y$ such that $Xp + Yq = 1$.
 
-2. Set ${1}_{p} := [Y q \bmod N]$ and ${1}_{q} := [X p \bmod N]$.
+2. Set $1_{p} := [Y q \bmod N]$ and $1_{q} := [X p \bmod N]$.
 
 3. Compute $x := [(x_p \cdot 1_p + x_q \cdot 1_q) \mod N]$.
 
-If many such conversions will be performed, then ${1}_{p}, 1_{q}$ can be computed once-and-for-all in a preprocessing phase.
+If many such conversions will be performed, then $1_{p}, 1_{q}$ can be computed once-and-for-all in a preprocessing phase.
 
 **Example 9.30**
 
 Take $p = 5$, $q = 7$, and $N = 5 \cdot 7 = 35$. Say we are given the representation $(4,3)$ and want to convert this to the corresponding element of $\mathbb{Z}_{35}$. Using the extended Euclidean algorithm, we compute
 
 $$
-{3}\cdot5-2\cdot7=1.
+3\cdot5-2\cdot7=1.
 $$
 
-Thus, ${1}_p = [-2 \cdot 7 \mod 35] = 21$ and ${1}_q = [3 \cdot 5 \mod 35] = 15$. (We can check that these are correct: e.g., for ${1}_p = 21$ we can verify that $[21 \mod 5] = 1$ and $[21 \mod 7] = 0$.) Using these values, we can then compute
+Thus, $1_p = [-2 \cdot 7 \mod 35] = 21$ and $1_q = [3 \cdot 5 \mod 35] = 15$. (We can check that these are correct: e.g., for $1_p = 21$ we can verify that $[21 \mod 5] = 1$ and $[21 \mod 7] = 0$.) Using these values, we can then compute
 
 $$
 \begin{aligned}
@@ -522,7 +524,7 @@ $$
 \end{aligned}
 $$
 
-Since 24 = 4 mod 5 and 24 = 3 mod 7, this is indeed the correct result.
+Since $24 = 4 \bmod 5$ and $24 = 3 \bmod 7$, this is indeed the correct result.
 
 ## 9.2 Primes, Factoring, and RSA
 
@@ -534,7 +536,7 @@ Consider the following experiment for a given algorithm $\mathcal{A}$ and parame
 
 The weak factoring experiment $\mathsf{w\text{-}Factor}_{\mathcal{A}}(n)$:
 
-1. Choose two uniform n-bit integers $x_{1}, x_{2}$
+1. Choose two uniform $n$-bit integers $x_{1}, x_{2}$
 
 2. Compute $N := x_1 \cdot x_2$.
 
@@ -548,13 +550,13 @@ $$
 \Pr[\mathsf{w\text{-}Factor}_{\mathcal{A}}(n)=1]\leq\mathsf{negl}(n)
 $$
 
-is negligible for every PPT algorithm $\mathcal{A}$? Not at all. For starters, the number $N$ in the above experiment is even with probability ${3}/{4}$ (this occurs when either $x_1$ or $x_2$ is even); it is, of course, easy for $\mathcal{A}$ to factor $N$ in this case. While we can make $\mathcal{A}$'s job more difficult by requiring $\mathcal{A}$ to output integers $x^{\prime}_1, x^{\prime}_2$ of length $n$, it remains the case that $x_1$ or $x_2$ (and hence $N$) might have small prime factors that can still be easily found. For cryptographic applications, we will need to prevent this.
+is negligible for every PPT algorithm $\mathcal{A}$? Not at all. For starters, the number $N$ in the above experiment is even with probability $3/4$ (this occurs when either $x_1$ or $x_2$ is even); it is, of course, easy for $\mathcal{A}$ to factor $N$ in this case. While we can make $\mathcal{A}$'s job more difficult by requiring $\mathcal{A}$ to output integers $x^{\prime}_1, x^{\prime}_2$ of length $n$, it remains the case that $x_1$ or $x_2$ (and hence $N$) might have small prime factors that can still be easily found. For cryptographic applications, we will need to prevent this.
 
-As this discussion indicates, the “hardest” numbers to factor are those having only large prime factors. This suggests redefining the above experiment so that $x_{1}, x_{2}$ are random n-bit primes rather than random n-bit integers, and in fact such an experiment will be used when we formally define the factoring assumption in Section 9.2.3. For this experiment to be useful in a cryptographic setting, however, it is necessary to be able to generate random n-bit primes efficiently. This is the topic of the next two sections.
+As this discussion indicates, the “hardest” numbers to factor are those having only large prime factors. This suggests redefining the above experiment so that $x_{1}, x_{2}$ are random $n$-bit primes rather than random $n$-bit integers, and in fact such an experiment will be used when we formally define the factoring assumption in Section 9.2.3. For this experiment to be useful in a cryptographic setting, however, it is necessary to be able to generate random $n$-bit primes efficiently. This is the topic of the next two sections.
 
 ### 9.2.1 Generating Random Primes
 
-A natural approach to generating a random n-bit prime is to repeatedly choose random n-bit integers until we find one that is prime; we repeat this at most t times or until we are successful. See Algorithm 9.31 for a high-level description of the process.
+A natural approach to generating a random $n$-bit prime is to repeatedly choose random $n$-bit integers until we find one that is prime; we repeat this at most t times or until we are successful. See Algorithm 9.31 for a high-level description of the process.
 
 ALGORITHM 9.31
 Generating a random prime – high-level outline
@@ -569,13 +571,13 @@ for $i = 1$ to $t$:
   if $p$ is prime return $p$
 return fail
 
-Note that the algorithm forces the output to be an integer of length exactly $n$ (rather than length at most $n$) by fixing the high-order bit of $p$ to “1.” Our convention throughout this book is that an “integer of length n” means an integer whose binary representation with most significant bit equal to 1 is exactly n bits long.
+Note that the algorithm forces the output to be an integer of length exactly $n$ (rather than length at most $n$) by fixing the high-order bit of $p$ to “1.” Our convention throughout this book is that an “integer of length $n$” means an integer whose binary representation with most significant bit equal to 1 is exactly $n$ bits long.
 
 Given a way to determine whether or not a given integer $p$ is prime, the above algorithm outputs a uniform $n$-bit prime conditioned on the event that it does not output fail. The probability that the algorithm outputs fail depends on $t$, and for our purposes we will want to set $t$ so as to obtain a failure probability that is negligible in $n$. To show that Algorithm 9.31 leads to an efficient (i.e., polynomial-time in $n$) algorithm for generating primes, we need a better understanding of two issues: (1) the probability that a uniform $n$-bit integer is prime and (2) how to efficiently test whether a given integer $p$ is prime. We discuss these issues briefly now, and defer a more in-depth exploration of the second topic to the following section.
 
 The distribution of primes. The prime number theorem, an important result in mathematics, gives fairly precise bounds on the fraction of integers of a given length that are prime. We state a corollary (without proof) that suffices for our purposes:
 
-THEOREM 9.32 For any n > 1, the fraction of n-bit integers that are prime is at least ${1}/{3n}$.
+THEOREM 9.32 For any $n > 1$, the fraction of $n$-bit integers that are prime is at least $1/3n$.
 
 Returning to the approach for generating primes described above, this implies that if we set $t = 3n^2$ then the probability that a prime is not chosen in all $t$ iterations of the algorithm is at most
 
@@ -593,9 +595,9 @@ A deterministic polynomial-time algorithm for testing primality was demonstrated
 
 In Section 9.2.2 we describe and analyze one of the most commonly used probabilistic primality tests: the Miller–Rabin algorithm. This algorithm takes two inputs: an integer $p$ and a parameter $t$ (in unary) that determines the error probability. The Miller–Rabin algorithm runs in time polynomial in $\|p\|$ and $t$, and satisfies:
 
-THEOREM 9.33 If p is prime, then the Miller–Rabin test always outputs “prime.” If $p$ is composite, the algorithm outputs “composite” except with probability at most ${2}^{-t}$.
+THEOREM 9.33 If $p$ is prime, then the Miller–Rabin test always outputs “prime.” If $p$ is composite, the algorithm outputs “composite” except with probability at most $2^{-t}$.
 
-Putting it all together. Given the preceding discussion, we can now describe a polynomial-time prime-generation algorithm that, on input n, outputs an n-bit prime except with probability negligible in n; moreover, conditioned on the output $p$ being prime, $p$ is a uniformly distributedn-bit prime. The full procedure is described in Algorithm 9.34.
+Putting it all together. Given the preceding discussion, we can now describe a polynomial-time prime-generation algorithm that, on input $n$, outputs an $n$-bit prime except with probability negligible in $n$; moreover, conditioned on the output $p$ being prime, $p$ is a uniformly distributed $n$-bit prime. The full procedure is described in Algorithm 9.34.
 
 ALGORITHM 9.34
 Generating a random prime
@@ -603,10 +605,10 @@ Generating a random prime
 Input: Length $n$
 Output: A uniform $n$-bit prime
 
-for $i = 1$ to ${3}n^2$:
+for $i = 1$ to $3n^2$:
   $p^{\prime} \leftarrow \{0,1\}^{n-1}$
   $p := 1\|p^{\prime}$
-  run the Miller-Rabin test on input $p$ and parameter ${1}^n$
+  run the Miller–Rabin test on input $p$ and parameter $1^n$
   if the output is “prime,” return $p$
 return fail
 
@@ -621,12 +623,12 @@ The key to the Miller–Rabin algorithm is to find a property that distinguishes
 ALGORITHM 9.35
 Primality testing – first attempt
 
-Input: Integer $N$ and parameter ${1}^{t}$
+Input: Integer $N$ and parameter $1^{t}$
 Output: A decision as to whether $N$ is prime or composite
 
 for $i = 1$ to $t$:
   $a \leftarrow \{1, \ldots, N-1\}$
-    if $a^{N-1} \neq 1 \bmod N$ return “composite”
+  if $a^{N-1} \neq 1 \bmod N$ return “composite”
 
 return “prime”
 
@@ -638,7 +640,7 @@ PROOF We need to verify that $\mathbb{H}$ satisfies all the conditions of Defini
 
 LEMMA 9.37 Let $\mathbb{H}$ be a strict subgroup of a finite group $\mathbb{G}$ (i.e., $\mathbb{H} \neq \mathbb{G}$). Then $|\mathbb{H}| \leq |\mathbb{G}|/2$.
 
-PROOF Let $\bar{h}$ be an element of $\mathbb{G}$ that is not in $\mathbb{H}$; since $\mathbb{H} \neq \mathbb{G}$, we know such an $\bar{h}$ exists. Consider the set $\bar{\mathbb{H}} \overset{\mathrm{def}}{=}\{\bar{h}h \mid h \in \mathbb{H}\}$. We show that (1) $|\bar{\mathbb{H}}| = |\mathbb{H}|$, and (2) every element of $\bar{\mathbb{H}}$ lies outside of $\mathbb{H}$; i.e., the intersection of $\mathbb{H}$ and $\bar{\mathbb{H}}$ is empty. Since both $\mathbb{H}$ and $\bar{\mathbb{H}}$ are subsets of $\mathbb{G}$, these imply $|\mathbb{G}| \geq |\mathbb{H}| + |\bar{\mathbb{H}}| = 2|\mathbb{H}|$, proving the lemma.
+PROOF Let $\bar{h}$ be an element of $\mathbb{G}$ that is not in $\mathbb{H}$; since $\mathbb{H} \neq \mathbb{G}$, we know such an $\bar{h}$ exists. Consider the set $\bar{\mathbb{H}} \stackrel{\mathrm{def}}{=}\{\bar{h}h \mid h \in \mathbb{H}\}$. We show that (1) $|\bar{\mathbb{H}}| = |\mathbb{H}|$, and (2) every element of $\bar{\mathbb{H}}$ lies outside of $\mathbb{H}$; i.e., the intersection of $\mathbb{H}$ and $\bar{\mathbb{H}}$ is empty. Since both $\mathbb{H}$ and $\bar{\mathbb{H}}$ are subsets of $\mathbb{G}$, these imply $|\mathbb{G}| \geq |\mathbb{H}| + |\bar{\mathbb{H}}| = 2|\mathbb{H}|$, proving the lemma.
 
 For any $h_1, h_2 \in \mathbb{H}$, if $\bar{h}h_1 = \bar{h}h_2$ then, multiplying by $\bar{h}^{-1}$ on each side, we have $h_1 = h_2$. This shows that every distinct element $h \in \mathbb{H}$ corresponds to a distinct element $\bar{h}h \in \bar{\mathbb{H}}$, proving (1).
 
@@ -648,13 +650,13 @@ The following theorem will enable us to analyze the algorithm given earlier.
 
 THEOREM 9.38 Fix $N$. Say there exists a witness that $N$ is composite. Then at least half the elements of $\mathbb{Z}_N^*$ are witnesses that $N$ is composite.
 
-PROOF Let $\mathsf{Bad}$ be the set of elements in $\mathbb{Z}_N^*$ that are not witnesses; that is, $a \in \mathsf{Bad}$ means $a^{N-1} = 1 \mod N$. Clearly, ${1} \in \mathsf{Bad}$. If $a, b \in \mathsf{Bad}$, then $(ab)^{N-1} = a^{N-1} \cdot b^{N-1} = 1 \cdot 1 = 1 \mod N$ and hence $ab \in \mathsf{Bad}$. By Lemma 9.36, we conclude that $\mathsf{Bad}$ is a subgroup of $\mathbb{Z}_N^*$. Since (by assumption) there is at least one witness, $\mathsf{Bad}$ is a strict subgroup of $\mathbb{Z}_N^*$. Lemma 9.37 then shows that $|\mathsf{Bad}| \leq |\mathbb{Z}_N^*|/2$, showing that at least half the elements of $\mathbb{Z}_N^*$ are not in $\mathsf{Bad}$ (and hence are witnesses).
+PROOF Let $\mathsf{Bad}$ be the set of elements in $\mathbb{Z}_N^*$ that are not witnesses; that is, $a \in \mathsf{Bad}$ means $a^{N-1} = 1 \mod N$. Clearly, $1 \in \mathsf{Bad}$. If $a, b \in \mathsf{Bad}$, then $(ab)^{N-1} = a^{N-1} \cdot b^{N-1} = 1 \cdot 1 = 1 \mod N$ and hence $ab \in \mathsf{Bad}$. By Lemma 9.36, we conclude that $\mathsf{Bad}$ is a subgroup of $\mathbb{Z}_N^*$. Since (by assumption) there is at least one witness, $\mathsf{Bad}$ is a strict subgroup of $\mathbb{Z}_N^*$. Lemma 9.37 then shows that $|\mathsf{Bad}| \leq |\mathbb{Z}_N^*|/2$, showing that at least half the elements of $\mathbb{Z}_N^*$ are not in $\mathsf{Bad}$ (and hence are witnesses).
 
-Let $N$ be composite. If there exists a witness that $N$ is composite, then there are at least $|\mathbb{Z}_N^*|/2$ witnesses. The probability that we find either a witness or an element not in $\mathbb{Z}_N^*$ in any given iteration of the algorithm is thus at least ${1}/{2}$, and so the probability that the algorithm does not find a witness in any of the $t$ iterations (and hence the probability that the algorithm mistakenly outputs “prime”) is at most ${2}^{-t}$.
+Let $N$ be composite. If there exists a witness that $N$ is composite, then there are at least $|\mathbb{Z}_N^*|/2$ witnesses. The probability that we find either a witness or an element not in $\mathbb{Z}_N^*$ in any given iteration of the algorithm is thus at least $1/2$, and so the probability that the algorithm does not find a witness in any of the $t$ iterations (and hence the probability that the algorithm mistakenly outputs “prime”) is at most $2^{-t}$.
 
 The above, unfortunately, does not give a complete solution since there are infinitely many composite numbers $N$ that do not have any witnesses that they are composite! Such values $N$ are known as Carmichael numbers; a detailed discussion is beyond the scope of this book.
 
-Happily, a refinement of the above test can be shown to work for all $N$. Let $N-1=2^r u$, where $u$ is odd and $r\geq1$. (It is easy to compute $r$ and $u$ given $N$. Also, restricting to $r\geq1$ means that $N$ is odd, but testing primality is easy when $N$ is even!) The algorithm shown previously tests only whether $a^{N-1}=a^{2^r u}=1$ mod $N$. A more refined algorithm looks at the sequence of $r+1$ values $a^u$, $a^{2u}$, $\ldots$, $a^{2^r u}$ (all modulo $N$). Each term in this sequence is the square of the preceding term; thus, if some value is equal to $\pm1$ then all subsequent values will be equal to ${1}$.
+Happily, a refinement of the above test can be shown to work for all $N$. Let $N-1=2^r u$, where $u$ is odd and $r\geq1$. (It is easy to compute $r$ and $u$ given $N$. Also, restricting to $r\geq1$ means that $N$ is odd, but testing primality is easy when $N$ is even!) The algorithm shown previously tests only whether $a^{N-1}=a^{2^r u}=1$ mod $N$. A more refined algorithm looks at the sequence of $r+1$ values $a^u$, $a^{2u}$, $\ldots$, $a^{2^r u}$ (all modulo $N$). Each term in this sequence is the square of the preceding term; thus, if some value is equal to $\pm1$ then all subsequent values will be equal to $1$.
 
 Say that $a \in \mathbb{Z}_N^*$ is a strong witness that $N$ is composite (or simply a strong witness) if (1) $a^u \neq \pm 1 \bmod N$ and (2) $a^{2^iu} \neq -1 \bmod N$ for all $i \in \{1, \ldots, r-1\}$. Note that when an element $a$ is not a strong witness then the sequence $(a^u, a^{2u}, \ldots, a^{2^r u})$ (all taken modulo $N$) takes one of the following forms:
 
@@ -662,7 +664,7 @@ $$
 \left(\pm1,1,\ldots,1\right)\text{ or }\left(\star,\ldots,\star,-1,1,\ldots,1\right),
 $$
 
-where $\star$ is an arbitrary term. If a is not a strong witness then we have $a^{2^{r-1}u} = \pm 1 \bmod N$ and
+where $\star$ is an arbitrary term. If $a$ is not a strong witness then we have $a^{2^{r-1}u} = \pm 1 \bmod N$ and
 
 $$
 a^{N-1}=a^{2^{r}u}=\left(a^{2^{r-1}u}\right)^{2}=1\bmod N,
@@ -674,7 +676,7 @@ We first show that if $N$ is prime then there does not exist a strong witness th
 
 LEMMA 9.39 Say $x \in \mathbb{Z}_N^*$ is a square root of 1 modulo $N$ if $x^2 = 1 \bmod N$. If $N$ is an odd prime then the only square roots of 1 modulo $N$ are $[\pm 1 \bmod N]$.
 
-PROOF Say $x^2 = 1 \bmod N$ with $x \in \{1, \ldots, N-1\}$. Then ${0} = x^2 - 1 = (x+1)(x-1) \bmod N$, implying that $N \mid (x+1)$ or $N \mid (x-1)$ by Proposition 9.3. This can only possibly occur if $x = [\pm 1 \bmod N]$.
+PROOF Say $x^2 = 1 \bmod N$ with $x \in \{1, \ldots, N-1\}$. Then $0 = x^2 - 1 = (x+1)(x-1) \bmod N$, implying that $N \mid (x+1)$ or $N \mid (x-1)$ by Proposition 9.3. This can only possibly occur if $x = [\pm 1 \bmod N]$.
 
 Let $N$ be an odd prime and fix arbitrary $a \in \mathbb{Z}_N^*$. Let $i \geq 0$ be the minimum value for which $a^{2^{i}u} = 1 \bmod N$; since $a^{2^{r}u} = a^{N-1} = 1 \bmod N$ we know that some such $i \leq r$ exists. If $i = 0$ then $a^u = 1 \bmod N$ and $a$ is not a strong witness. Otherwise,
 
@@ -698,7 +700,7 @@ $$
 
 Since $-1 \in \mathsf{Bad}$ and $(-1)^{2^0 u} = -1 \bmod N$, some such $i$ exists.
 
-Fix i as above, and define
+Fix $i$ as above, and define
 
 $$
 \mathsf{Bad}^{\prime}\stackrel{\mathrm{def}}{=}\{a\mid a^{2^{i}u}=\pm1\bmod N\}.
@@ -706,13 +708,13 @@ $$
 
 We now prove what we claimed above.
 
-CLAIM 9.41 Bad $\subseteq$ Bad'.
+CLAIM 9.41 $\mathsf{Bad} \subseteq \mathsf{Bad}^{\prime}$.
 
 Let $a \in \mathsf{Bad}$. Then either $a^u = 1 \bmod N$ or $a^{2^j u} = -1 \bmod N$ for some $j \in \{0, \ldots, r-1\}$. In the first case, $a^{2^i u} = (a^u)^{2^i} = 1 \bmod N$ and so $a \in \mathsf{Bad}^{\prime}$. In the second case, we have $j \leq i$ by choice of $i$. If $j = i$ then clearly $a \in \mathsf{Bad}^{\prime}$. If $j < i$ then $a^{2^i u} = (a^{2^j u})^{2^{i-j}} = 1 \bmod N$ and $a \in \mathsf{Bad}^{\prime}$. Since $a$ was arbitrary, this shows $\mathsf{Bad} \subseteq \mathsf{Bad}^{\prime}$.
 
-CLAIM 9.42 Bad' is a subgroup of $\mathbb{Z}_{N}^{*}$.
+CLAIM 9.42 $\mathsf{Bad}^{\prime}$ is a subgroup of $\mathbb{Z}_{N}^{*}$.
 
-Clearly ${1} \in \mathsf{Bad}^{\prime}$. Furthermore, if $a, b \in \mathsf{Bad}^{\prime}$ then
+Clearly $1 \in \mathsf{Bad}^{\prime}$. Furthermore, if $a, b \in \mathsf{Bad}^{\prime}$ then
 
 $$
 (ab)^{2^{i}u}=a^{2^{i}u}b^{2^{i}u}=(\pm1)(\pm1)=\pm1\bmod N
@@ -720,9 +722,9 @@ $$
 
 and so $ab \in \mathsf{Bad}^{\prime}$. By Lemma 9.36, $\mathsf{Bad}^{\prime}$ is a subgroup.
 
-CLAIM 9.43 Bad' is a strict subgroup of $\mathbb{Z}_{N}^{*}$.
+CLAIM 9.43 $\mathsf{Bad}^{\prime}$ is a strict subgroup of $\mathbb{Z}_{N}^{*}$.
 
-If $N$ is an odd, composite integer that is not a prime power, then $N$ can be written as $N = N_1 N_2$ with $N_1, N_2 > 1$ odd and $\gcd(N_1, N_2) = 1$. Appealing to the Chinese remainder theorem, let $a \leftrightarrow (a_1, a_2)$ denote the representation of $a \in \mathbb{Z}_N^*$ as an element of $\mathbb{Z}_{N_1}^* \times \mathbb{Z}_{N_2}^*$; that is, $a_1 = [a \bmod N_1]$ and $a_2 = [a \bmod N_2]$. Take $a \in \mathsf{Bad}^{\prime}$ such that $a^{2^i u} = -1 \bmod N$ (such as an $a$ must exist by the way we defined $i$), and say $a \leftrightarrow (a_1, a_2)$. Since $-1 \leftrightarrow (-1, -1)$ we have
+If $N$ is an odd, composite integer that is not a prime power, then $N$ can be written as $N = N_1 N_2$ with $N_1, N_2 > 1$ odd and $\gcd(N_1, N_2) = 1$. Appealing to the Chinese remainder theorem, let $a \leftrightarrow (a_1, a_2)$ denote the representation of $a \in \mathbb{Z}_N^*$ as an element of $\mathbb{Z}_{N_1}^* \times \mathbb{Z}_{N_2}^*$; that is, $a_1 = [a \bmod N_1]$ and $a_2 = [a \bmod N_2]$. Take $a \in \mathsf{Bad}^{\prime}$ such that $a^{2^i u} = -1 \bmod N$ (such an $a$ must exist by the way we defined $i$), and say $a \leftrightarrow (a_1, a_2)$. Since $-1 \leftrightarrow (-1, -1)$ we have
 
 $$
 (a_{1},a_{2})^{2^{i}u}=(a_{1}^{2^{i}u},a_{2}^{2^{i}u})=(-1,-1),
@@ -747,7 +749,7 @@ An integer $N$ is a perfect power if $N = \tilde{N}^e$ for integers $\tilde{N}$ 
 ALGORITHM 9.44
 The Miller–Rabin primality test
 
-Input: Integer $N > 2$ and parameter ${1}^{t}$
+Input: Integer $N > 2$ and parameter $1^{t}$
 Output: A decision as to whether $N$ is prime or composite
 
 if $N$ is even, return “composite”
@@ -759,17 +761,17 @@ for $j = 1$ to $t$:
     return “composite”
 return “prime”
 
-PROOF If $N$ is an odd prime, there are no strong witnesses and so the Miller–Rabin algorithm always outputs “prime.” If $N$ is even or a prime power, the algorithm always outputs “composite.” The interesting case is when $N$ is an odd, composite integer that is not a prime power. Consider any iteration of the inner loop. Note first that if $a \notin \mathbb{Z}_N^*$ then $a^u \neq \pm 1 \bmod N$ and $a^{2^i u} \neq -1 \bmod N$ for $i \in \{1, \ldots, r-1\}$. The probability of finding either a strong witness or an element not in $\mathbb{Z}_N^*$ is at least ${1}/{2}$ (invoking Theorem 9.40). Thus, the probability that the algorithm never outputs “composite” in any of the $t$ iterations is at most ${2}^{-t}$.
+PROOF If $N$ is an odd prime, there are no strong witnesses and so the Miller–Rabin algorithm always outputs “prime.” If $N$ is even or a prime power, the algorithm always outputs “composite.” The interesting case is when $N$ is an odd, composite integer that is not a prime power. Consider any iteration of the inner loop. Note first that if $a \notin \mathbb{Z}_N^*$ then $a^u \neq \pm 1 \bmod N$ and $a^{2^i u} \neq -1 \bmod N$ for $i \in \{1, \ldots, r-1\}$. The probability of finding either a strong witness or an element not in $\mathbb{Z}_N^*$ is at least $1/2$ (invoking Theorem 9.40). Thus, the probability that the algorithm never outputs “composite” in any of the $t$ iterations is at most $2^{-t}$.
 
 ### 9.2.3 The Factoring Assumption
 
-Let GenModulus be a polynomial-time algorithm that, on input ${1}^n$, outputs $(N, p, q)$ where $N = pq$, and $p$ and $q$ are $n$-bit primes except with probability negligible in $n$. (The natural way to do this is to generate two uniform $n$-bit primes, as discussed previously, and then multiply them to obtain $N$.) Then consider the following experiment for a given algorithm $\mathcal{A}$ and parameter $n$:
+Let $\mathsf{GenModulus}$ be a polynomial-time algorithm that, on input $1^n$, outputs $(N, p, q)$ where $N = pq$, and $p$ and $q$ are $n$-bit primes except with probability negligible in $n$. (The natural way to do this is to generate two uniform $n$-bit primes, as discussed previously, and then multiply them to obtain $N$.) Then consider the following experiment for a given algorithm $\mathcal{A}$ and parameter $n$:
 
 The factoring experiment $\mathsf{Factor}_{\mathcal{A},\mathsf{GenModulus}}(n)$:
 
-1. Run $\mathsf{GenModulus}(1^{n})$ to obtain (N, p, q).
+1. Run $\mathsf{GenModulus}(1^{n})$ to obtain $(N, p, q)$.
 
-2. A is given N, and outputs $p^{\prime}, q^{\prime} > 1$.
+2. $\mathcal{A}$ is given $N$, and outputs $p^{\prime}, q^{\prime} > 1$.
 
 3. The output of the experiment is defined to be 1 if $p^{\prime} \cdot q^{\prime} = N$, and 0 otherwise.
 
@@ -777,13 +779,13 @@ Note that if the output of the experiment is 1 then $\{p^{\prime}, q^{\prime}\} 
 
 We now formally define the factoring assumption:
 
-DEFINITION 9.45 Factoring is hard relative to GenModulus if for all probabilistic polynomial-time algorithms A there exists a negligible function $\mathsf{negl}$ such that
+DEFINITION 9.45 Factoring is hard relative to $\mathsf{GenModulus}$ if for all probabilistic polynomial-time algorithms $\mathcal{A}$ there exists a negligible function $\mathsf{negl}$ such that
 
 $$
 \Pr[\mathsf{Factor}_{\mathcal{A},\mathsf{GenModulus}}(n)=1]\leq\mathsf{negl}(n).
 $$
 
-The factoring assumption is the assumption that there exists a GenModulus relative to which factoring is hard.
+The factoring assumption is the assumption that there exists a $\mathsf{GenModulus}$ relative to which factoring is hard.
 
 ### 9.2.4 The RSA Assumption
 
@@ -791,11 +793,11 @@ The factoring problem has been studied for hundreds of years without an efficien
 
 Given a modulus $N$ and an integer $e > 2$ relatively prime to $\phi(N)$, Corollary 9.22 shows that exponentiation to the $e$th power modulo $N$ is a permutation. We can therefore define $[y^{1/e} \mod N]$ (for any $y \in \mathbb{Z}_N^*$) as the unique element of $\mathbb{Z}_N^*$ that yields $y$ when raised to the $e$th power modulo $N$; that is, $x = y^{1/e} \mod N$ if and only if $x^e = y \mod N$. The RSA problem, informally, is to compute $[y^{1/e} \mod N]$ for a modulus $N$ of unknown factorization.
 
-Formally, let $\mathsf{GenRSA}$ be a probabilistic polynomial-time algorithm that, on input ${1}^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, as well as integers $e, d > 0$ with $\gcd(e, \phi(N)) = 1$ and $ed = 1 \bmod \phi(N)$. (Such a $d$ exists since $e$ is invertible modulo $\phi(N)$. The purpose of $d$ will become clear later.) The algorithm may fail with probability negligible in $n$. Consider the following experiment for a given algorithm $\mathcal{A}$ and security parameter $n$:
+Formally, let $\mathsf{GenRSA}$ be a probabilistic polynomial-time algorithm that, on input $1^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, as well as integers $e, d > 0$ with $\gcd(e, \phi(N)) = 1$ and $ed = 1 \bmod \phi(N)$. (Such a $d$ exists since $e$ is invertible modulo $\phi(N)$. The purpose of $d$ will become clear later.) The algorithm may fail with probability negligible in $n$. Consider the following experiment for a given algorithm $\mathcal{A}$ and security parameter $n$:
 
 The RSA experiment $\mathsf{RSA\text{-}inv}_{\mathcal{A},\mathsf{GenRSA}}(n)$:
 
-1. Run $\mathsf{GenRSA}({1}^{n})$ to obtain $(N,e,d)$.
+1. Run $\mathsf{GenRSA}(1^{n})$ to obtain $(N,e,d)$.
 
 2. Choose a uniform $y \in \mathbb{Z}_N^*$.
 
@@ -803,19 +805,19 @@ The RSA experiment $\mathsf{RSA\text{-}inv}_{\mathcal{A},\mathsf{GenRSA}}(n)$:
 
 4. The output of the experiment is defined to be 1 if $x^{e} = y \mod N$, and 0 otherwise.
 
-DEFINITION 9.46 The RSA problem is hard relative to GenRSA if for all probabilistic polynomial-time algorithms $\mathcal{A}$ there exists a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{RSA\text{-}inv}_{\mathcal{A},\mathsf{GenRSA}}(n) = 1] \leq \mathsf{negl}(n)$.
+DEFINITION 9.46 The RSA problem is hard relative to $\mathsf{GenRSA}$ if for all probabilistic polynomial-time algorithms $\mathcal{A}$ there exists a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{RSA\text{-}inv}_{\mathcal{A},\mathsf{GenRSA}}(n) = 1] \leq \mathsf{negl}(n)$.
 
-The RSA assumption is that there exists a GenRSA algorithm relative to which the RSA problem is hard. A suitable GenRSA algorithm can be constructed from any algorithm GenModulus that generates a composite modulus along with its factorization. A high-level outline is provided as Algorithm 9.47, where the only thing left unspecified is how exactly e is chosen. In fact, the RSA problem is believed to be hard for any e that is relatively prime to $\phi(N)$. We discuss some typical choices of e below.
+The RSA assumption is that there exists a $\mathsf{GenRSA}$ algorithm relative to which the RSA problem is hard. A suitable $\mathsf{GenRSA}$ algorithm can be constructed from any algorithm $\mathsf{GenModulus}$ that generates a composite modulus along with its factorization. A high-level outline is provided as Algorithm 9.47, where the only thing left unspecified is how exactly e is chosen. In fact, the RSA problem is believed to be hard for any e that is relatively prime to $\phi(N)$. We discuss some typical choices of e below.
 
 ALGORITHM 9.47
 
 GenRSA – high-level outline
 
-Input: Security parameter ${1}^{n}$
+Input: Security parameter $1^{n}$
 
 Output: N, e, d as described in the text
 
-$(N,p,q)\gets\mathsf{GenModulus}(1^{n})$
+$(N,p,q)\leftarrow\mathsf{GenModulus}(1^{n})$
 
 $\phi(N):=(p-1)(q-1)$
 
@@ -827,23 +829,23 @@ return N, e, d
 
 **Example 9.48**
 
-Say $\mathsf{GenModulus}$ outputs $(N, p, q) = (143, 11, 13)$. Then $\phi(N) = 120$. Next, we need to choose an $e$ that is relatively prime to $\phi(N)$; say we take $e = 7$. The next step is to compute $d$ such that $d = [e^{-1} \mod \phi(N)]$. This can be done as shown in Appendix B.2.2 to obtain $d = 103$. (One can check that ${7} \cdot 103 = 721 = 1 \mod 120$.) Our $\mathsf{GenRSA}$ algorithm in this case thus outputs $(N, e, d) = (143, 7, 103)$.
+Say $\mathsf{GenModulus}$ outputs $(N, p, q) = (143, 11, 13)$. Then $\phi(N) = 120$. Next, we need to choose an $e$ that is relatively prime to $\phi(N)$; say we take $e = 7$. The next step is to compute $d$ such that $d = [e^{-1} \mod \phi(N)]$. This can be done as shown in Appendix B.2.2 to obtain $d = 103$. (One can check that $7 \cdot 103 = 721 = 1 \mod 120$.) Our $\mathsf{GenRSA}$ algorithm in this case thus outputs $(N, e, d) = (143, 7, 103)$.
 
-As an example of the RSA problem relative to these parameters, take y = 64 and so the problem is to compute the 7th root of 64 modulo 143 without knowledge of d or the factorization of N.
+As an example of the RSA problem relative to these parameters, take $y = 64$ and so the problem is to compute the 7th root of 64 modulo 143 without knowledge of $d$ or the factorization of $N$.
 
 Computing $e$th roots modulo $N$ becomes easy if $d$, $\phi(N)$, or the factorization of $N$ is known. (As we show in the next section, any of these can be used to efficiently compute the others.) This follows from Corollary 9.22, which shows that $[y^d \bmod N]$ is the $e$th root of $y$ modulo $N$. This asymmetry—namely, that the RSA problem appears to be hard when $d$ or the factorization of $N$ is unknown, but becomes easy when $d$ is known—serves as the basis for applications of the RSA problem to public-key cryptography.
 
 **Example 9.49**
 
-Continuing the previous example, we can compute the 7th root of 64 modulo 143 using the value $d = 103$; the answer is ${25} = 64^d = 64^{103} \mod 143$. We can verify that this is the correct solution since ${25}^e = 25^7 = 64 \mod 143$.
+Continuing the previous example, we can compute the 7th root of 64 modulo 143 using the value $d = 103$; the answer is $25 = 64^d = 64^{103} \mod 143$. We can verify that this is the correct solution since $25^e = 25^7 = 64 \mod 143$.
 
 On the choice of $e$. There does not appear to be any difference in the hardness of the RSA problem for different exponents $e$ and, as such, different methods have been suggested for selecting it. One popular choice is to set $e = 3$, since then computing $e$th powers modulo $N$ requires only two multiplications (see Appendix B.2.3). If $e$ is to be set equal to 3, then $p$ and $q$ must be chosen with $p, q \neq 1 \mod 3$ so that $\gcd(e, \phi(N)) = 1$. For similar reasons, another popular choice is $e = 2^{16} + 1 = 65537$, a prime number with low Hamming weight (in Appendix B.2.3, we explain why such exponents are preferable). As compared to choosing $e = 3$, this makes exponentiation slightly more expensive but reduces the constraints on $p$ and $q$, and avoids some “low-exponent attacks” (described at the end of Section 12.5.1) that can result from poorly implemented cryptosystems based on the RSA problem.
 
-Note that choosing $d$ small (that is, changing GenRSA to choose small $d$ and then compute $e := [d^{-1} \bmod \phi(N)]$) is a bad idea. If $d$ lies in a very small range then a brute-force search for $d$ can be carried out (and, as noted, once $d$ is known the RSA problem can be solved easily). Even if $d$ is chosen so that $d \approx N^{1/4}$, and so brute-force attacks are ruled out, there are known algorithms that can be used to recover $d$ from $N$ and $e$ in this case. For similar reasons, choosing $d$ with low Hamming weight is also not recommended.
+Note that choosing $d$ small (that is, changing $\mathsf{GenRSA}$ to choose small $d$ and then compute $e := [d^{-1} \bmod \phi(N)]$) is a bad idea. If $d$ lies in a very small range then a brute-force search for $d$ can be carried out (and, as noted, once $d$ is known the RSA problem can be solved easily). Even if $d$ is chosen so that $d \approx N^{1/4}$, and so brute-force attacks are ruled out, there are known algorithms that can be used to recover $d$ from $N$ and $e$ in this case. For similar reasons, choosing $d$ with low Hamming weight is also not recommended.
 
 ### 9.2.5 \*Relating the Factoring and RSA Assumptions
 
-Say GenRSA is constructed as in Algorithm 9.47. If $N$ can be factored, then we can compute $\phi(N)$ and use this to compute $d := [e^{-1} \bmod \phi(N)]$ for any given $e$ (using Algorithm B.11). So for the RSA problem to be hard relative to GenRSA, the factoring problem must be hard relative to GenModulus. Put differently, the RSA problem cannot be more difficult than factoring; hardness of factoring (relative to GenModulus) can only potentially be a weaker assumption than hardness of the RSA problem (relative to GenRSA).
+Say $\mathsf{GenRSA}$ is constructed as in Algorithm 9.47. If $N$ can be factored, then we can compute $\phi(N)$ and use this to compute $d := [e^{-1} \bmod \phi(N)]$ for any given $e$ (using Algorithm B.11). So for the RSA problem to be hard relative to $\mathsf{GenRSA}$, the factoring problem must be hard relative to $\mathsf{GenModulus}$. Put differently, the RSA problem cannot be more difficult than factoring; hardness of factoring (relative to $\mathsf{GenModulus}$) can only potentially be a weaker assumption than hardness of the RSA problem (relative to $\mathsf{GenRSA}$).
 
 What about the other direction? That is, is hardness of the RSA problem implied by hardness of factoring? That remains an open question. The best we can show is that computing an RSA private key from an RSA public key (i.e., computing $d$ from $N$ and $e$) is as hard as factoring. We start by proving a slightly more powerful result.
 
@@ -853,13 +855,13 @@ PROOF For simplicity (and because it is most relevant to cryptography) we focus 
 
 For $N$ of the above form, 1 has exactly four square roots modulo $N$. Two of these are the “trivial” square roots $\left[\pm1 \bmod N\right]$, and two of these are “nontrivial” square roots. In the Chinese remainder representation, the nontrivial square roots are $(1, -1)$ and $(-1, 1)$.
 
-- Any nontrivial square root of 1 can be used to (efficiently) compute a factor of N. This is by virtue of the fact that $y^{2}=1 \bmod N$ implies
+- Any nontrivial square root of 1 can be used to (efficiently) compute a factor of $N$. This is by virtue of the fact that $y^{2}=1 \bmod N$ implies
 
 $$
-{0}=y^{2}-1=(y-1)(y+1)\bmod N,
+0=y^{2}-1=(y-1)(y+1)\bmod N,
 $$
 
-and so $N|(y-1)(y+1)$. However, $N\nmid(y-1)$ and $N\nmid(y+1)$ because $y\neq\pm1$ mod $N$. So it must be the case that $\gcd(y-1,N)$ is equal to one of the prime factors of $N$.
+and so $N \mid (y-1)(y+1)$. However, $N\nmid(y-1)$ and $N\nmid(y+1)$ because $y \neq \pm1 \bmod N$. So it must be the case that $\gcd(y-1,N)$ is equal to one of the prime factors of $N$.
 
 We use the following strategy to factor $N$: repeatedly choose a uniform $x \in \mathbb{Z}_N^*$, compute $k > 0$ with $x^k = 1 \bmod N$ (using the assumed subroutine for doing so), write $k = 2^s \cdot v$ for $v$ an odd integer, and compute the sequence
 
@@ -877,21 +879,21 @@ $$
 \mathsf{Bad}\stackrel{\mathrm{def}}{=}\{x\mid x^{2^{i}u}=\pm1\bmod N\}.
 $$
 
-By the argument above, we know that if our algorithm chooses $x \notin \mathsf{Bad}$ then it finds a nontrivial square root of 1. We show that $\mathsf{Bad}$ is a strict subgroup of $\mathbb{Z}_N^*$; by Lemma 9.37, this implies $|\mathsf{Bad}| \leq |\mathbb{Z}_N^*|/2$. This means that $x \notin \mathsf{Bad}$ (and the algorithm factors $N$) with probability at least ${1}/{2}$ in each iteration. Using sufficiently many iterations gives the result of the theorem.
+By the argument above, we know that if our algorithm chooses $x \notin \mathsf{Bad}$ then it finds a nontrivial square root of 1. We show that $\mathsf{Bad}$ is a strict subgroup of $\mathbb{Z}_N^*$; by Lemma 9.37, this implies $|\mathsf{Bad}| \leq |\mathbb{Z}_N^*|/2$. This means that $x \notin \mathsf{Bad}$ (and the algorithm factors $N$) with probability at least $1/2$ in each iteration. Using sufficiently many iterations gives the result of the theorem.
 
-We now prove that Bad is a strict subgroup of $\mathbb{Z}_N^*$. If $x, x^{\prime} \in \mathsf{Bad}$ then
+We now prove that $\mathsf{Bad}$ is a strict subgroup of $\mathbb{Z}_N^*$. If $x, x^{\prime} \in \mathsf{Bad}$ then
 
 $$
 (x x^{\prime})^{2^{i}u}=x^{2^{i}u}(x^{\prime})^{2^{i}u}=(\pm1)\cdot(\pm1)=\pm1\bmod N,
 $$
 
-and so $xx^{\prime} \in \mathsf{Bad}$ and $\mathsf{Bad}$ is a subgroup. To see that $\mathsf{Bad}$ is a strict subgroup, let $x \in \mathbb{Z}_N^*$ be such that $x^{2^iu} \neq 1 \mod N$ (such as an $x$ must exist by our definition of $i$). If $x^{2^iu} \neq -1 \mod N$, then $x \notin \mathsf{Bad}$ and we are done. Otherwise, let $x \leftrightarrow (x_p, x_q)$ be the Chinese remainder representation of $x$. Since $x^{2^iu} = -1 \mod N$, we know that
+and so $xx^{\prime} \in \mathsf{Bad}$ and $\mathsf{Bad}$ is a subgroup. To see that $\mathsf{Bad}$ is a strict subgroup, let $x \in \mathbb{Z}_N^*$ be such that $x^{2^iu} \neq 1 \mod N$ (such an $x$ must exist by our definition of $i$). If $x^{2^iu} \neq -1 \mod N$, then $x \notin \mathsf{Bad}$ and we are done. Otherwise, let $x \leftrightarrow (x_p, x_q)$ be the Chinese remainder representation of $x$. Since $x^{2^iu} = -1 \mod N$, we know that
 
 $$
 (x_{p},x_{q})^{2^{i}u}=(x_{p}^{2^{i}u},x_{q}^{2^{i}u})=(-1,-1)\leftrightarrow-1.
 $$
 
-But then the element corresponding to $(x_{p},1)$ is not in Bad since
+But then the element corresponding to $(x_{p},1)$ is not in $\mathsf{Bad}$ since
 
 $$
 (x_{p},1)^{2^{i}u}=(x_{p}^{2^{i}u},1)=(-1,1)\not\leftrightarrow\pm1.
@@ -903,7 +905,7 @@ COROLLARY 9.51 There is a probabilistic polynomial-time algorithm that, given as
 
 PROOF Let $k = ed - 1 > 0$ and note that $\phi(N) | k$. Since $x^k = 1 \bmod N$ for all $x \in \mathbb{Z}_N^*$ (cf. Corollary 9.21), we can trivially implement the subroutine needed by the previous theorem by always outputting $k$.
 
-Assuming factoring is hard, the above result rules out the possibility of efficiently solving the RSA problem by first computing $d$ from $N$ and $e$. However, it does not rule out the possibility that there might be some completely different way of attacking the RSA problem that does not involve (or imply) factoring $N$. Thus, based on our current knowledge, the RSA assumption is stronger than the factoring assumption—that is, it may be that the RSA problem can be solved in polynomial time even though factoring cannot. Nevertheless, when GenRSA is constructed based on GenModulus as in Algorithm 9.47, the prevailing conjecture is that the RSA problem is hard relative to GenRSA whenever factoring is hard relative to GenModulus.
+Assuming factoring is hard, the above result rules out the possibility of efficiently solving the RSA problem by first computing $d$ from $N$ and $e$. However, it does not rule out the possibility that there might be some completely different way of attacking the RSA problem that does not involve (or imply) factoring $N$. Thus, based on our current knowledge, the RSA assumption is stronger than the factoring assumption—that is, it may be that the RSA problem can be solved in polynomial time even though factoring cannot. Nevertheless, when $\mathsf{GenRSA}$ is constructed based on $\mathsf{GenModulus}$ as in Algorithm 9.47, the prevailing conjecture is that the RSA problem is hard relative to $\mathsf{GenRSA}$ whenever factoring is hard relative to $\mathsf{GenModulus}$.
 
 ## 9.3 Cryptographic Assumptions in Cyclic Groups
 
@@ -923,9 +925,9 @@ $$
 \langle g\rangle=\left\{g^{0},\ldots,g^{i-1}\right\}.
 $$
 
-We see that $\langle g \rangle$ contains at most $i$ elements. In fact, it contains exactly $i$ elements since if $g^j = g^k$ with ${0} \leq j < k < i$ then $g^{k-j} = 1$ and ${0} < k - j < i$, contradicting our choice of $i$ as the smallest positive integer for which $g^i = 1$.
+We see that $\langle g \rangle$ contains at most $i$ elements. In fact, it contains exactly $i$ elements since if $g^j = g^k$ with $0 \leq j < k < i$ then $g^{k-j} = 1$ and $0 < k - j < i$, contradicting our choice of $i$ as the smallest positive integer for which $g^i = 1$.
 
-It is not hard to verify that $\langle g\rangle$ is a subgroup of G for any g (see Exercise 9.3); we call $\langle g\rangle$ the subgroup generated by g. If the order of the subgroup $\langle g\rangle$ is i, then i is called the order of g; that is:
+It is not hard to verify that $\langle g\rangle$ is a subgroup of $\mathbb{G}$ for any $g$ (see Exercise 9.3); we call $\langle g\rangle$ the subgroup generated by $g$. If the order of the subgroup $\langle g\rangle$ is $i$, then $i$ is called the order of $g$; that is:
 
 DEFINITION 9.52 Let $\mathbb{G}$ be a finite group and $g \in \mathbb{G}$. The order of $g$ is the smallest positive integer $i$ with $g^i = 1$.
 
@@ -943,11 +945,11 @@ $$
 g^{x}=g^{[x\bmod i]}=g^{[y\bmod i]}=g^{y}.
 $$
 
-For the more interesting direction, say $g^x = g^y$. Then ${1} = g^{x-y} = g^{[x-y \mod i]}$ (using the previous proposition). Since $[x - y \mod i] < i$, but $i$ is the smallest positive integer with $g^i = 1$, we must have $[x - y \mod i] = 0$.
+For the more interesting direction, say $g^x = g^y$. Then $1 = g^{x-y} = g^{[x-y \mod i]}$ (using the previous proposition). Since $[x - y \mod i] < i$, but $i$ is the smallest positive integer with $g^i = 1$, we must have $[x - y \mod i] = 0$.
 
 The identity element of any group $\mathbb{G}$ is the only element of order 1, and generates the group $\langle 1 \rangle = \{1\}$. At the other extreme, if there is an element $g \in \mathbb{G}$ that has order $m$ (where $m$ is the order of $\mathbb{G}$), then $\langle g \rangle = \mathbb{G}$. In this case, we call $\mathbb{G}$ a cyclic group and say that $g$ is a generator of $\mathbb{G}$. (A cyclic group may have multiple generators, and so we cannot speak of the generator.) If $g$ is a generator of $\mathbb{G}$ then, by definition, every element $h \in \mathbb{G}$ is equal to $g^x$ for some $x \in \{0, \ldots, m-1\}$, a point we will return to in the next section.
 
-Different elements of the same group G may have different orders. We can, however, place some restrictions on what these possible orders might be.
+Different elements of the same group $\mathbb{G}$ may have different orders. We can, however, place some restrictions on what these possible orders might be.
 
 PROPOSITION 9.55 Let $\mathbb{G}$ be a finite group of order $m$, and say $g \in \mathbb{G}$ has order $i$. Then $i \mid m$.
 
@@ -961,17 +963,17 @@ PROOF By Proposition 9.55, the only possible orders of elements in $\mathbb{G}$ 
 
 Groups of prime order form one class of cyclic groups. The additive group $\mathbb{Z}_N$, for $N > 1$, gives another example of a cyclic group (the element 1 is always a generator). The next theorem—a special case of Theorem A.21—gives an important additional class of cyclic groups; a proof is outside the scope of this book, but can be found in any standard abstract algebra text.
 
-THEOREM 9.57 If p is prime then $\mathbb{Z}_{p}^{*}$ is a cyclic group of order p - 1.
+THEOREM 9.57 If $p$ is prime then $\mathbb{Z}_{p}^{*}$ is a cyclic group of order $p - 1$.
 
 For $p > 3$ prime, $\mathbb{Z}_p^*$ does not have prime order and so the above does not follow from the preceding corollary.
 
 **Example 9.58**
 
-Consider the (additive) group $\mathbb{Z}_{15}$. As we have noted, $\mathbb{Z}_{15}$ is cyclic and the element 1 is a generator since ${15}\cdot1=0\bmod{15}$ and $i\cdot1=i\neq0\bmod{15}$ for any ${0}<i<15$ (recall that in this group the identity is 0).
+Consider the (additive) group $\mathbb{Z}_{15}$. As we have noted, $\mathbb{Z}_{15}$ is cyclic and the element 1 is a generator since $15\cdot1=0\bmod 15$ and $i\cdot1=i\neq0\bmod 15$ for any $0<i<15$ (recall that in this group the identity is 0).
 
- $\mathbb{Z}_{15}$ has other generators. For example, $\langle 2 \rangle = \{0, 2, 4, \ldots, 14, 1, 3, \ldots, 13\}$ and so 2 is also a generator.
+$\mathbb{Z}_{15}$ has other generators. For example, $\langle 2 \rangle = \{0, 2, 4, \ldots, 14, 1, 3, \ldots, 13\}$ and so 2 is also a generator.
 
-Not every element generates $\mathbb{Z}_{15}$. For example, the element 3 has order 5 since ${5} \cdot 3 = 0 \mod 15$, and so 3 does not generate $\mathbb{Z}_{15}$. The subgroup $\langle 3 \rangle$ consists of the 5 elements $\{0, 3, 6, 9, 12\}$, and this is indeed a subgroup under addition modulo 15. The element 10 has order 3 since ${3} \cdot 10 = 0 \mod 15$, and the subgroup $\langle 10 \rangle$ consists of the 3 elements $\{0, 5, 10\}$. The orders of the subgroups (i.e., 5 and 3) divide $|\mathbb{Z}_{15}| = 15$ as required by Proposition 9.55.
+Not every element generates $\mathbb{Z}_{15}$. For example, the element 3 has order 5 since $5 \cdot 3 = 0 \mod 15$, and so 3 does not generate $\mathbb{Z}_{15}$. The subgroup $\langle 3 \rangle$ consists of the 5 elements $\{0, 3, 6, 9, 12\}$, and this is indeed a subgroup under addition modulo 15. The element 10 has order 3 since $3 \cdot 10 = 0 \mod 15$, and the subgroup $\langle 10 \rangle$ consists of the 3 elements $\{0, 5, 10\}$. The orders of the subgroups (i.e., 5 and 3) divide $|\mathbb{Z}_{15}| = 15$ as required by Proposition 9.55.
 
 **Example 9.59**
 
@@ -979,8 +981,7 @@ Consider the (multiplicative) group $\mathbb{Z}_{15}^*$ of order $(5-1)(3-1)=8$.
 
 **Example 9.60**
 
-Consider the (additive) group $\mathbb{Z}_p$ of prime order $p$. We know this group is cyclic, but Corollary 9.56 tells us more: namely, every element except 0 is a generator. Indeed, for any $h \in \{1, \ldots, p-1\}$ and integer $i > 0$ we have $ih = 0 \bmod p$ if and only if $p|ih$. But then Proposition 9.3 says that either $p|h$ or $p|i$. The former cannot occur (since $h < p$), and the smallest positive
-integer for which the latter can occur is $i = p$. We have thus shown that every nonzero element $h$ has order $p$ (and so generates $\mathbb{Z}_p$), in accordance with Corollary 9.56.
+Consider the (additive) group $\mathbb{Z}_p$ of prime order $p$. We know this group is cyclic, but Corollary 9.56 tells us more: namely, every element except 0 is a generator. Indeed, for any $h \in \{1, \ldots, p-1\}$ and integer $i > 0$ we have $ih = 0 \bmod p$ if and only if $p \mid ih$. But then Proposition 9.3 says that either $p \mid h$ or $p \mid i$. The former cannot occur (since $h < p$), and the smallest positive integer for which the latter can occur is $i = p$. We have thus shown that every nonzero element $h$ has order $p$ (and so generates $\mathbb{Z}_p$), in accordance with Corollary 9.56.
 
 **Example 9.61**
 
@@ -1010,7 +1011,7 @@ The previous example shows that all cyclic groups of the same order are isomorph
 
 We now introduce several computational problems that can be defined for any class of cyclic groups. We will keep the discussion in this section abstract, and consider specific examples of groups in which these problems are believed to be hard in Sections 9.3.3 and 9.3.4.
 
-We let $\mathcal{G}$ denote a generic, polynomial-time, group-generation algorithm. This is an algorithm that, on input ${1}^n$, outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g \in \mathbb{G}$. The description of a cyclic group specifies how elements of the group are represented as bit-strings; we assume that each group element is represented by a unique bit-string. We require that there are efficient algorithms (namely, algorithms running in time polynomial in $n$) for testing whether a given bit-string represents an element of $\mathbb{G}$, as well as for computing the group operation. This implies efficient algorithms for exponentiation in $\mathbb{G}$ (see Appendix B.2.3), computing inverses (the inverse of $g$ is $g^{q-1}$) and for sampling a uniform element $h \in \mathbb{G}$ (simply choose uniform $x \in \mathbb{Z}_q$ and set $h := g^x$). As discussed at the end of the previous section, although all cyclic groups of a given order are isomorphic, the representation of the group determines the computational complexity of mathematical operations in that group.
+We let $\mathcal{G}$ denote a generic, polynomial-time, group-generation algorithm. This is an algorithm that, on input $1^n$, outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g \in \mathbb{G}$. The description of a cyclic group specifies how elements of the group are represented as bit-strings; we assume that each group element is represented by a unique bit-string. We require that there are efficient algorithms (namely, algorithms running in time polynomial in $n$) for testing whether a given bit-string represents an element of $\mathbb{G}$, as well as for computing the group operation. This implies efficient algorithms for exponentiation in $\mathbb{G}$ (see Appendix B.2.3), computing inverses (the inverse of $g$ is $g^{q-1}$) and for sampling a uniform element $h \in \mathbb{G}$ (simply choose uniform $x \in \mathbb{Z}_q$ and set $h := g^x$). As discussed at the end of the previous section, although all cyclic groups of a given order are isomorphic, the representation of the group determines the computational complexity of mathematical operations in that group.
 
 If $\mathbb{G}$ is a cyclic group of order $q$ with generator $g$, then $\{g^0, g^1, \ldots, g^{q-1}\}$ is all of $\mathbb{G}$. Equivalently, for every $h \in \mathbb{G}$ there is a unique $x \in \mathbb{Z}_q$ such that $g^x = h$. When the underlying group $\mathbb{G}$ is understood from the context, we call this $x$ the discrete logarithm of $h$ with respect to $g$ and write $x = \log_g h$. (Logarithms in this case are called “discrete” since they take on integer values, as opposed to “standard” logarithms from calculus whose values range over the real numbers.) Note that if $g^{x^{\prime}} = h$ for some arbitrary integer $x^{\prime}$, then $[x^{\prime} \bmod q] = \log_g h$.
 
@@ -1032,7 +1033,7 @@ The discrete-logarithm assumption is simply the assumption that there exists a $
 
 The Diffie–Hellman problems. The so-called Diffie–Hellman problems are related, but not known to be equivalent, to the problem of computing discrete logarithms. There are two important variants: the computational Diffie–Hellman (CDH) problem and the decisional Diffie–Hellman (DDH) problem.
 
-Fix a cyclic group $\mathbb{G}$ and a generator $g \in \mathbb{G}$. Given elements $h_1, h_2 \in \mathbb{G}$, define $\mathsf{DH}_g(h_1, h_2) \overset{\operatorname{def}}{=} g^{\log_g h_1 \cdot \log_g h_2}$. That is, if $h_1 = g^{x_1}$ and $h_2 = g^{x_2}$ then
+Fix a cyclic group $\mathbb{G}$ and a generator $g \in \mathbb{G}$. Given elements $h_1, h_2 \in \mathbb{G}$, define $\mathsf{DH}_g(h_1, h_2) \stackrel{\mathrm{def}}{=} g^{\log_g h_1 \cdot \log_g h_2}$. That is, if $h_1 = g^{x_1}$ and $h_2 = g^{x_2}$ then
 
 $$
 \mathsf{DH}_{g}(h_{1},h_{2})=g^{x_{1}\cdot x_{2}}=h_{1}^{x_{2}}=h_{2}^{x_{1}}.
@@ -1042,12 +1043,12 @@ The CDH problem is to compute $\mathsf{DH}_{g}(h_{1}, h_{2})$ for uniform $h_{1}
 
 If the discrete-logarithm problem relative to some $\mathcal{G}$ is easy, then the CDH problem is, too: given $h_1$ and $h_2$, first compute $x_1 := \log_g h_1$ and then output the answer $h_2^{x_1}$. In contrast, it is not clear (in general) whether hardness of the discrete-logarithm problem implies that the CDH problem is hard as well.
 
-The  DDH problem, roughly speaking, is to distinguish $\mathsf{DH}_g(h_1, h_2)$ from a uniform group element when $h_1, h_2$ are uniform. That is, given uniform $h_1, h_2$ and a third group element $h^{\prime}$, the problem is to decide whether $h^{\prime} = \mathsf{DH}_g(h_1, h_2)$ or whether $h^{\prime}$ was chosen uniformly from $\mathbb{G}$. Formally:
+The DDH problem, roughly speaking, is to distinguish $\mathsf{DH}_g(h_1, h_2)$ from a uniform group element when $h_1, h_2$ are uniform. That is, given uniform $h_1, h_2$ and a third group element $h^{\prime}$, the problem is to decide whether $h^{\prime} = \mathsf{DH}_g(h_1, h_2)$ or whether $h^{\prime}$ was chosen uniformly from $\mathbb{G}$. Formally:
 
-DEFINITION 9.64 We say the DDH problem is hard relative to G if for all probabilistic polynomial-time algorithms A there is a negligible function $\mathsf{negl}$ such that
+DEFINITION 9.64 We say the DDH problem is hard relative to $\mathcal{G}$ if for all probabilistic polynomial-time algorithms $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that
 
 $$
-\left|\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]-\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{x y})=1]\right|\leq\mathsf{negl}(n),
+\left|\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{z})=1]-\Pr[\mathcal{A}(\mathbb{G},q,g,g^{x},g^{y},g^{xy})=1]\right|\leq\mathsf{negl}(n),
 $$
 
 where in each case the probabilities are taken over the experiment in which $\mathcal{G}(1^n)$ outputs $(\mathbb{G}, q, g)$, and then uniform $x, y, z \in \mathbb{Z}_q$ are chosen. (Note that when $z$ is uniform in $\mathbb{Z}_q$, then $g^z$ is uniformly distributed in $\mathbb{G}$.)
@@ -1058,7 +1059,7 @@ We have already seen that if the discrete-logarithm problem is easy relative to 
 
 There are various (classes of) cyclic groups in which the discrete-logarithm and Diffie–Hellman problems are believed to be hard. There is a preference, however, for cyclic groups of prime order, for reasons we now explain.
 
-One reason for preferring groups of prime order is because, in a certain sense, the discrete-logarithm problem is hardest in such groups. This is a consequence of the $Pohlig-Hellman$ algorithm, described in Chapter 10, which shows that the discrete-logarithm problem in a group of order $q$ becomes easier if $q$ has (small) prime factors. This does not necessarily mean that the discrete-logarithm problem is easy in groups of nonprime order; it merely means that the problem becomes easier.
+One reason for preferring groups of prime order is because, in a certain sense, the discrete-logarithm problem is hardest in such groups. This is a consequence of the *Pohlig–Hellman* algorithm, described in Chapter 10, which shows that the discrete-logarithm problem in a group of order $q$ becomes easier if $q$ has (small) prime factors. This does not necessarily mean that the discrete-logarithm problem is easy in groups of nonprime order; it merely means that the problem becomes easier.
 
 Related to the above is the fact that the DDH problem is easy if the group order $q$ has small prime factors. We refer to Exercise 15.16 for one example of this phenomenon.
 
@@ -1068,13 +1069,13 @@ Proofs of security for some cryptographic constructions require computing multip
 
 LEMMA 9.65 Fix a group $\mathbb{G}$ of prime order $q$, and elements $g, h \in \mathbb{G}$ with $g \neq 1$. Given distinct pairs $(x, y), (x^{\prime}, y^{\prime}) \in \mathbb{Z}_q \times \mathbb{Z}_q$ with $g^x h^y = g^{x^{\prime}} h^{y^{\prime}}$, it is possible to efficiently compute $\log_g h$.
 
-PROOF Note that g is a generator of G. Simple algebra gives
+PROOF Note that $g$ is a generator of $\mathbb{G}$. Simple algebra gives
 
 $$
 g^{x-x^{\prime}}=h^{y^{\prime}-y}. \tag{9.1}
 $$
 
-Note that $y^{\prime} - y \neq 0 \bmod q$; otherwise, we would have $x - x^{\prime} = 0 \bmod q$ and then the pairs $(x, y)$ and $(x^{\prime}, y^{\prime})$ would not be distinct. Since $q$ is prime, the inverse$\Delta \stackrel{\mathrm{def}}{=} [(y^{\prime} - y)^{-1} \bmod q]$ exists. Raising each side of Equation (9.1) to this power gives:
+Note that $y^{\prime} - y \neq 0 \bmod q$; otherwise, we would have $x - x^{\prime} = 0 \bmod q$ and then the pairs $(x, y)$ and $(x^{\prime}, y^{\prime})$ would not be distinct. Since $q$ is prime, the inverse $\Delta \stackrel{\mathrm{def}}{=} [(y^{\prime} - y)^{-1} \bmod q]$ exists. Raising each side of Equation (9.1) to this power gives:
 
 $$
 g^{(x-x^{\prime})\cdot\Delta}=\left(h^{y^{\prime}-y}\right)^{\Delta}=h^{1}=h.
@@ -1086,7 +1087,7 @@ A final reason for working with prime-order groups is relevant in situations whe
 
 ### 9.3.3 Working in (Subgroups of) $\mathbb{Z}_{p}^{*}$
 
-Groups of the form $\mathbb{Z}_p^*$, for $p$ prime, give one class of cyclic groups in which the discrete-logarithm problem is believed to be hard. Concretely, let $\mathcal{G}$ be an algorithm that, on input ${1}^n$, chooses a uniform $n$-bit prime $p$, and outputs $p$ and the group order $q = p - 1$ along with a generator $g$ of $\mathbb{Z}_p^*$. (Section 9.2.1 discusses efficient algorithms for choosing a random prime, and Appendix B.3 shows how to efficiently find a generator of $\mathbb{Z}_p^*$ given the factorization of $p - 1$.) The representation of $\mathbb{Z}_p^*$ here is the trivial one where elements are represented as integers between 1 and $p - 1$. It is conjectured that the discrete-logarithm problem is hard relative to $\mathcal{G}$ of this sort.
+Groups of the form $\mathbb{Z}_p^*$, for $p$ prime, give one class of cyclic groups in which the discrete-logarithm problem is believed to be hard. Concretely, let $\mathcal{G}$ be an algorithm that, on input $1^n$, chooses a uniform $n$-bit prime $p$, and outputs $p$ and the group order $q = p - 1$ along with a generator $g$ of $\mathbb{Z}_p^*$. (Section 9.2.1 discusses efficient algorithms for choosing a random prime, and Appendix B.3 shows how to efficiently find a generator of $\mathbb{Z}_p^*$ given the factorization of $p - 1$.) The representation of $\mathbb{Z}_p^*$ here is the trivial one where elements are represented as integers between 1 and $p - 1$. It is conjectured that the discrete-logarithm problem is hard relative to $\mathcal{G}$ of this sort.
 
 The cyclic group $\mathbb{Z}_p^*$ (for $p > 3$ prime), however, does not have prime order. (The preference for groups of prime order was discussed in the previous section.) More problematic, the decisional Diffie–Hellman problem is, in general, not hard in such groups (see Exercise 15.16), and they are therefore unacceptable for the cryptographic applications based on the DDH assumption that we will explore in later chapters.
 
@@ -1095,7 +1096,7 @@ These issues can be addressed by using a prime-order subgroup of $\mathbb{Z}_p^*
 THEOREM 9.66 Let $p = rq + 1$ with $p, q$ prime. Then
 
 $$
-\mathbb{G}\triangleq\left\{\left[h^{r}\bmod p\right]\mid h\in\mathbb{Z}_{p}^{*}\right\}
+\mathbb{G}\stackrel{\mathrm{def}}{=}\left\{\left[h^{r}\bmod p\right]\mid h\in\mathbb{Z}_{p}^{*}\right\}
 $$
 
 is a subgroup of $\mathbb{Z}_{p}^{*}$ of order $q$.
@@ -1119,16 +1120,16 @@ Algorithm 9.67 encapsulates the above discussion. In the algorithm, we let $n$ d
 ALGORITHM 9.67
 A group-generation algorithm $\mathcal{G}$
 
-Input: Security parameter ${1}^n$, parameter $\ell = \ell(n)$
+Input: Security parameter $1^n$, parameter $\ell = \ell(n)$
 Output: Cyclic group $\mathbb{G}$, its (prime) order $q$, and a generator $g$
 choose $\ell$-bit prime $p$ and $n$-bit prime $q$ such that $q \mid (p-1)$
 // we omit the details of how this is done
 until $g \neq 1$ do:
-    choose uniform $h \in \mathbb{Z}_p^*$
-    set $g := [h^{(p-1)/q} \mod p]$
+  choose uniform $h \in \mathbb{Z}_p^*$
+  set $g := [h^{(p-1)/q} \mod p]$
 return $p, q, g$    // $\mathbb{G}$ is the order-$q$ subgroup of $\mathbb{Z}_p^*$ generated by $g$
 
-Choosing $\ell$. Let $n = \|q\|$ and $\ell = \|p\|$. Two types of algorithms are known for computing discrete logarithms in order-$q$ subgroups of $\mathbb{Z}_p^*$ (see Section 10.2): those that run in time $\mathcal{O}(\sqrt{q}) = \mathcal{O}(2^{n/2})$ and those that run in time ${2}^{\mathcal{O}((\log p)^{1/3}\cdot(\log \log p)^{2/3})} = 2^{\mathcal{O}(\ell^{1/3}\cdot(\log \ell)^{2/3})}$. Fixing some desired security parameter $n$, the value of $\ell$ should be chosen so as to balance these times. (If $\ell$ is any smaller, security is reduced; if $\ell$ is any larger, operations in $\mathbb{G}$ will be less efficient without any gain in security.) See also Section 10.4.
+Choosing $\ell$. Let $n = \|q\|$ and $\ell = \|p\|$. Two types of algorithms are known for computing discrete logarithms in order-$q$ subgroups of $\mathbb{Z}_p^*$ (see Section 10.2): those that run in time $\mathcal{O}(\sqrt{q}) = \mathcal{O}(2^{n/2})$ and those that run in time $2^{\mathcal{O}((\log p)^{1/3}\cdot(\log \log p)^{2/3})} = 2^{\mathcal{O}(\ell^{1/3}\cdot(\log \ell)^{2/3})}$. Fixing some desired security parameter $n$, the value of $\ell$ should be chosen so as to balance these times. (If $\ell$ is any smaller, security is reduced; if $\ell$ is any larger, operations in $\mathbb{G}$ will be less efficient without any gain in security.) See also Section 10.4.
 
 In practice, standardized values (e.g., recommended by NIST) for $p$, $q$, and a generator $g$ are used, and there is no need to generate parameters of one's own.
 
@@ -1136,25 +1137,25 @@ In practice, standardized values (e.g., recommended by NIST) for $p$, $q$, and a
 
 Consider the group $\mathbb{Z}_{11}^{*}$ of order 10. Let us try to find a generator of this group. Consider trying 2:
 
-| Powers of 2: Values: | ${2}^{0}$ | ${2}^{1}$ | ${2}^{2}$ | ${2}^{3}$ | ${2}^{4}$ | ${2}^{5}$ | ${2}^{6}$ | ${2}^{7}$ | ${2}^{8}$ | ${2}^{9}$ |
+| Powers of 2 | $2^{0}$ | $2^{1}$ | $2^{2}$ | $2^{3}$ | $2^{4}$ | $2^{5}$ | $2^{6}$ | $2^{7}$ | $2^{8}$ | $2^{9}$ |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| | 1 | 2 | 4 | 8 | 5 | 10 | 9 | 7 | 3 | 6 |
+| Values: | 1 | 2 | 4 | 8 | 5 | 10 | 9 | 7 | 3 | 6 |
 
 (All values above are computed modulo 11.) We got lucky the first time—2 is a generator! Let's try 3:
 
-| Powers of 3: Values: | ${3}^{0}$ | ${3}^{1}$ | ${3}^{2}$ | ${3}^{3}$ | ${3}^{4}$ | ${3}^{5}$ | ${3}^{6}$ | ${3}^{7}$ | ${3}^{8}$ | ${3}^{9}$ |
+| Powers of 3 | $3^{0}$ | $3^{1}$ | $3^{2}$ | $3^{3}$ | $3^{4}$ | $3^{5}$ | $3^{6}$ | $3^{7}$ | $3^{8}$ | $3^{9}$ |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Values: | 1 | 3 | 9 | 5 | 4 | 1 | 3 | 9 | 5 | 4 |
 
-**We see that 3 is not a generator of the entire group. Rather, it generates a subgroup $\mathbb{G} = \{1, 3, 4, 5, 9\}$ of order 5. Now, let's see what happens with 10:**
+We see that 3 is not a generator of the entire group. Rather, it generates a subgroup $\mathbb{G} = \{1, 3, 4, 5, 9\}$ of order 5. Now, let's see what happens with 10:
 
-| Powers of 10: | ${10}^{0}$ | ${10}^{1}$ | ${10}^{2}$ | ${10}^{3}$ | ${10}^{4}$ | ${10}^{5}$ | ${10}^{6}$ | ${10}^{7}$ | ${10}^{8}$ | ${10}^{9}$ |
+| Powers of 10: | $10^{0}$ | $10^{1}$ | $10^{2}$ | $10^{3}$ | $10^{4}$ | $10^{5}$ | $10^{6}$ | $10^{7}$ | $10^{8}$ | $10^{9}$ |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Values: | 1 | 10 | 1 | 10 | 1 | 10 | 1 | 10 | 1 | 10 |
 
 In this case we generate a subgroup of order 2.
 
-**For cryptographic purposes we want to work in a prime-order group. Since ${11} = 2 \cdot 5 + 1$ we can apply Theorem 9.66 with $q = 5$ and $r = 2$, or with $q = 2$ and $r = 5$. In the first case, the theorem tells us that the squares of all the elements of $\mathbb{Z}_{11}^{*}$ should give a subgroup of order 5. This can be easily verified:**
+For cryptographic purposes we want to work in a prime-order group. Since $11 = 2 \cdot 5 + 1$ we can apply Theorem 9.66 with $q = 5$ and $r = 2$, or with $q = 2$ and $r = 5$. In the first case, the theorem tells us that the squares of all the elements of $\mathbb{Z}_{11}^{*}$ should give a subgroup of order 5. This can be easily verified:
 
 | Element: | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1166,22 +1167,23 @@ Subgroups of finite fields. The discrete-logarithm problem is also believed to b
 
 ### 9.3.4 Elliptic Curves
 
-The groups we have concentrated on thus far have all been based directly on modular arithmetic. Another class of groups important for cryptography is given by groups consisting of points on elliptic curves. Such groups are especially interesting from a cryptographic perspective since, in contrast to $\mathbb{Z}_p^*$ or the multiplicative group of a finite field, there are currently no known sub-exponential time algorithms for solving the discrete-logarithm problem in appropriately chosen elliptic-curve groups. (See Section 10.4 for further discussion.) For cryptosystems based on the discrete-logarithm or Diffie–Hellman
-assumptions, this means that implementations based on elliptic-curve groups can be much more efficient—in terms of both computation and, especially, communication—than implementations based on prime-order subgroups of $\mathbb{Z}_p^*$ at any given level of security. In this section we provide a brief introduction to elliptic-curve cryptography. A deeper understanding of the issues discussed here requires more sophisticated mathematics than we are willing to assume on the part of the reader. Those interested in further exploring this topic are advised to consult the references at the end of this chapter.
+The groups we have concentrated on thus far have all been based directly on modular arithmetic. Another class of groups important for cryptography is given by groups consisting of points on elliptic curves. Such groups are especially interesting from a cryptographic perspective since, in contrast to $\mathbb{Z}_p^*$ or the multiplicative group of a finite field, there are currently no known sub-exponential time algorithms for solving the discrete-logarithm problem in appropriately chosen elliptic-curve groups. (See Section 10.4 for further discussion.) For cryptosystems based on the discrete-logarithm or Diffie–Hellman assumptions, this means that implementations based on elliptic-curve groups can be much more efficient—in terms of both computation and, especially, communication—than implementations based on prime-order subgroups of $\mathbb{Z}_p^*$ at any given level of security. In this section we provide a brief introduction to elliptic-curve cryptography. A deeper understanding of the issues discussed here requires more sophisticated mathematics than we are willing to assume on the part of the reader. Those interested in further exploring this topic are advised to consult the references at the end of this chapter.
 
-Throughout this section, let $p \geq 5$ be a prime. ${}^{2}$ For our purposes, an elliptic curve is defined by a cubic equation (modulo $p$) in two variables $x$ and $y$; the points on the curve are the solutions to the equation. For example, consider an equation $E$ in the variables $x$ and $y$ of the form
+Throughout this section, let $p \geq 5$ be a prime.$^{2}$ For our purposes, an elliptic curve is defined by a cubic equation (modulo $p$) in two variables $x$ and $y$; the points on the curve are the solutions to the equation. For example, consider an equation $E$ in the variables $x$ and $y$ of the form
 
 $$
 y^{2}=x^{3}+A x+B\bmod p, \tag{9.2}
 $$
 
-where $A, B \in \mathbb{Z}_p$ satisfy ${4}A^3 + 27B^2 \neq 0 \mod p$. (This condition ensures that the equation $x^3 + Ax + B = 0 \mod p$ has no repeated roots.) Equation (9.2) is called the Weierstrass representation of an elliptic curve, and any elliptic curve can be written in this form by applying an invertible affine transformation to the variables $x$ and $y$. Let $E(\mathbb{Z}_p)$ denote the set of pairs $(x, y) \in \mathbb{Z}_p \times \mathbb{Z}_p$ satisfying the above equation along with a special value $\mathcal{O}$ whose purpose we will discuss shortly; that is,
+where $A, B \in \mathbb{Z}_p$ satisfy $4A^3 + 27B^2 \neq 0 \mod p$. (This condition ensures that the equation $x^3 + Ax + B = 0 \mod p$ has no repeated roots.) Equation (9.2) is called the Weierstrass representation of an elliptic curve, and any elliptic curve can be written in this form by applying an invertible affine transformation to the variables $x$ and $y$. Let $E(\mathbb{Z}_p)$ denote the set of pairs $(x, y) \in \mathbb{Z}_p \times \mathbb{Z}_p$ satisfying the above equation along with a special value $\mathcal{O}$ whose purpose we will discuss shortly; that is,
 
 $$
-E(\mathbb{Z}_{p})\overset{\mathrm{def}}{=}\big\{(x,y)\mid x,y\in\mathbb{Z}_{p},\ y^{2}=x^{3}+A x+B \bmod p\big\}\cup\{\mathcal{O}\}.
+E(\mathbb{Z}_{p})\stackrel{\mathrm{def}}{=}\big\{(x,y)\mid x,y\in\mathbb{Z}_{p},\ y^{2}=x^{3}+A x+B \bmod p\big\}\cup\{\mathcal{O}\}.
 $$
 
 The elements $E(\mathbb{Z}_p)$ are called the points on the elliptic curve $E$ defined by Equation (9.2), and $\mathcal{O}$ is called the point at infinity.
+
+> $^{2}$ The theory can be adapted to deal with $p \in \{2, 3\}$ but this introduces additional complications. Elliptic curves can, in fact, be defined over arbitrary fields (cf. Section A.5), and our discussion largely carries over to fields of characteristic not equal to 2 or 3.
 
 **Example 9.69**
 
@@ -1189,25 +1191,25 @@ An element $y \in \mathbb{Z}_p^*$ is a quadratic residue modulo $p$ if there is 
 
 Let $f(x) \stackrel{\mathrm{def}}{=} x^3 + 3x + 3$ and consider the curve $E: y^2 = f(x) \bmod 7$. Each value of $x$ for which $f(x)$ is a quadratic residue modulo 7 yields two points on the curve; values $x$ where $f(x)$ is not a quadratic residue have no corresponding point on the curve; values of $x$ for which $f(x) = 0 \bmod 7$ give one point on the curve. This allows us to determine the points on the curve:
 
- $f(0) = 3 \mod 7$, a quadratic non-residue modulo 7.
+- $f(0) = 3 \mod 7$, a quadratic non-residue modulo 7.
 
- $f(1) = 0 \bmod 7$, so we obtain the point $(1,0) \in E(\mathbb{Z}_7)$.
+- $f(1) = 0 \bmod 7$, so we obtain the point $(1,0) \in E(\mathbb{Z}_7)$.
 
- $f(2) = 3 \mod 7$, a quadratic non-residue modulo 7.
+- $f(2) = 3 \mod 7$, a quadratic non-residue modulo 7.
 
- $f(3) = 4 \mod 7$, a quadratic residue modulo 7 with square roots 2 and 5. This yields the points $(3,2)$, $(3,5) \in E(\mathbb{Z}_7)$.
+- $f(3) = 4 \mod 7$, a quadratic residue modulo 7 with square roots 2 and 5. This yields the points $(3,2)$, $(3,5) \in E(\mathbb{Z}_7)$.
 
- $f(4) = 2 \mod 7$, a quadratic residue modulo 7 with square roots 3 and 4. This yields the points $(4,3)$, $(4,4) \in E(\mathbb{Z}_7)$.
+- $f(4) = 2 \mod 7$, a quadratic residue modulo 7 with square roots 3 and 4. This yields the points $(4,3)$, $(4,4) \in E(\mathbb{Z}_7)$.
 
- $f(5) = 3 \mod 7$, a quadratic non-residue modulo 7.
+- $f(5) = 3 \mod 7$, a quadratic non-residue modulo 7.
 
-• $f(6) = 6 \mod 7$, a quadratic non-residue modulo 7.
+- $f(6) = 6 \mod 7$, a quadratic non-residue modulo 7.
 
 Including the point at infinity $\mathcal{O}$, there are 6 points in $E(\mathbb{Z}_7)$.
 
-A useful way to think about $E(\mathbb{Z}_p)$ is to look at the graph of Equation (9.2) over the reals (i.e., the equation $y^2 = x^3 + Ax + B$ without reduction modulo $p$) as in Figure 9.2. This figure does not correspond exactly to $E(\mathbb{Z}_p)$ because, for example, $E(\mathbb{Z}_p)$ has a finite number of points ( $\mathbb{Z}_p$ is, after all, a finite set) while there are an infinite number of solutions to the same equation if we allow $x$ and $y$ to range over all real numbers. Nevertheless, the picture provides useful intuition. In such a figure, one can think of the “point at infinity” $\mathcal{O}$ as sitting at the top of the $y$-axis and lying on every vertical line.
+A useful way to think about $E(\mathbb{Z}_p)$ is to look at the graph of Equation (9.2) over the reals (i.e., the equation $y^2 = x^3 + Ax + B$ without reduction modulo $p$) as in Figure 9.2. This figure does not correspond exactly to $E(\mathbb{Z}_p)$ because, for example, $E(\mathbb{Z}_p)$ has a finite number of points ($\mathbb{Z}_p$ is, after all, a finite set) while there are an infinite number of solutions to the same equation if we allow $x$ and $y$ to range over all real numbers. Nevertheless, the picture provides useful intuition. In such a figure, one can think of the “point at infinity” $\mathcal{O}$ as sitting at the top of the $y$-axis and lying on every vertical line.
 
-It can be shown that every line intersecting $E(\mathbb{Z}_p)$ at two points must also intersect it at a third point, where (1) a point $P$ is counted twice if the line is tangent to the curve at $P$, and (2) the point at infinity is also counted when the line is vertical. This fact is used to define a binary operation, called “addition” and denoted by +, on points of $E(\mathbb{Z}_p)$ in the following way:
+It can be shown that every line intersecting $E(\mathbb{Z}_p)$ at two points must also intersect it at a third point, where (1) a point $P$ is counted twice if the line is tangent to the curve at $P$, and (2) the point at infinity is also counted when the line is vertical. This fact is used to define a binary operation, called “addition” and denoted by $+$, on points of $E(\mathbb{Z}_p)$ in the following way:
 
 - The point $\mathcal{O}$ is defined to be an (additive) identity; that is, for all $P \in E(\mathbb{Z}_p)$ we define $P + \mathcal{O} = \mathcal{O} + P = P$.
 
@@ -1237,7 +1239,7 @@ $$
 \left(s\cdot\left(x-x_{1}\right)+y_{1}\right)^{2}=x^{3}+Ax+B\bmod p.
 $$
 
-The values of x that satisfy this equation are $x_{1}, x_{2}$, and
+The values of $x$ that satisfy this equation are $x_{1}, x_{2}$, and
 
 $$
 x_{3}\stackrel{\mathrm{def}}{=}[s^{2}-x_{1}-x_{2}\bmod p].
@@ -1251,7 +1253,7 @@ $$
 
 We summarize and extend this in the following proposition.
 
-PROPOSITION 9.70 Let $p \geq 5$ be prime and let $E$ be the elliptic curve given by $y^2 = x^3 + Ax + B \bmod p$ where ${4}A^3 + 27B^2 \neq 0 \bmod p$. Let $P_1, P_2 \neq \mathcal{O}$ be points on $E$, with $P_1 = (x_1, y_1)$ and $P_2 = (x_2, y_2)$.
+PROPOSITION 9.70 Let $p \geq 5$ be prime and let $E$ be the elliptic curve given by $y^2 = x^3 + Ax + B \bmod p$ where $4A^3 + 27B^2 \neq 0 \bmod p$. Let $P_1, P_2 \neq \mathcal{O}$ be points on $E$, with $P_1 = (x_1, y_1)$ and $P_2 = (x_2, y_2)$.
 
 1. If $x_{1} \neq x_{2}$, then $P_{1} + P_{2} = (x_{3}, y_{3})$ with
 
@@ -1280,7 +1282,7 @@ Somewhat amazingly, the set of points $E(\mathbb{Z}_p)$ under the addition rule 
 Consider the curve from Example 9.69. We show associativity for three specific points. Let $P_1 = (1,0)$, $P_2 = P_3 = (4,3)$. When computing $P_1 + P_2$ we get $s = [(3-0)\cdot(4-1)^{-1}\bmod7] = 1$ and $[1^2-1-4\bmod7] = 3$. Thus,
 
 $$
-Q{\stackrel{\mathrm{def}}{=}}P_{1}+P_{2}=(3,\ [1\cdot(1-3)-0\bmod7])=(3,5);
+Q\stackrel{\mathrm{def}}{=}P_{1}+P_{2}=(3,\ [1\cdot(1-3)-0\bmod7])=(3,5);
 $$
 
 note that this is indeed a point on $E(\mathbb{Z}_7)$. If we then compute $Q + P_3$ we get $s = [(3 - 5) \cdot (4 - 3)^{-1} \mod 7] = 5$ and $[5^2 - 3 - 4 \mod 7] = 4$. Thus,
@@ -1301,7 +1303,7 @@ $$
 P_{1}+(P_{2}+P_{3})=P_{1}+Q^{\prime}=(4,\ [1\cdot(1-4)-0\bmod7])=(4,4),
 $$
 
-and $P_{1}+(P_{2}+P_{3})=(P_{1}+P_{2})+P_{3}.$
+and $P_{1}+(P_{2}+P_{3})=(P_{1}+P_{2})+P_{3}$.
 
 Recall that when a group is written additively, “exponentiation” corresponds to repeated addition. Thus, if we fix some point $P$ in an elliptic-curve group, the discrete-logarithm problem becomes (informally) the problem of computing the integer $x$ from $xP$, while the decisional Diffie–Hellman problem becomes (informally) the problem of distinguishing tuples of the form $(aP, bP, abP)$ from those of the form $(aP, bP, cP)$. These problems are believed to be hard in elliptic-curve groups (or subgroups thereof) of large prime order, subject to a few technical conditions we will mention below.
 
@@ -1321,7 +1323,7 @@ $$
 
 with $a, d \neq 0 \bmod p$ and $a \neq d \bmod p$; the special case where $a = 1$ is called the Edwards representation. The twisted Edwards representation can express the same set of elliptic curves as the Montgomery representation.
 
- $E(\mathbb{Z}_p)$ again denotes the elliptic-curve group containing the points satisfying equation E; interestingly, here there is no need for a “special” point at infinity since one can show that the point $(0,1)$ on the curve is the identity. A nice feature of the twisted Edwards representation is that when a is a quadratic residue modulo $p$, but $d$ is a quadratic non-residue, the addition law is simple: the sum of $P_{1}=(x_{1},y_{1})$ and $P_{2}=(x_{2},y_{2})$ is
+$E(\mathbb{Z}_p)$ again denotes the elliptic-curve group containing the points satisfying equation E; interestingly, here there is no need for a “special” point at infinity since one can show that the point $(0,1)$ on the curve is the identity. A nice feature of the twisted Edwards representation is that when $a$ is a quadratic residue modulo $p$, but $d$ is a quadratic non-residue, the addition law is simple: the sum of $P_{1}=(x_{1},y_{1})$ and $P_{2}=(x_{2},y_{2})$ is
 
 $$
 (x_{3},y_{3})=\left(\frac{x_{1}y_{2}+x_{2}y_{1}}{1+d x_{1}x_{2}y_{1}y_{2}},\frac{y_{1}y_{2}-a x_{1}x_{2}}{1-d x_{1}x_{2}y_{1}y_{2}}\right).
@@ -1329,7 +1331,7 @@ $$
 
 Here addition is computed using a single equation, rather than having to consider various subcases as in Proposition 9.70. This can greatly simplify the process of writing code for elliptic-curve operations.
 
-Choosing an elliptic-curve group. For cryptographic purposes, we need an elliptic-curve group of large order. Thus, the first question we must address is: how large are elliptic-curve groups? Consider the Weierstrass representation. (Recall that any elliptic curve can be expressed in that way.) As noted in Example 9.69, the equation $y^2 = f(x) \mod p$ has two solutions whenever $f(x)$ is a quadratic residue, and one solution when $f(x) = 0$. Since half the elements in $\mathbb{Z}_p^*$ are quadratic residues, we thus heuristically expect to find ${2} \cdot (p - 1)/2 + 1 + 1 = p + 1$ points (including the point at infinity) on the curve. The Hasse bound says that this heuristic estimate is accurate, in the sense that every elliptic-curve group has “almost” this many points.
+Choosing an elliptic-curve group. For cryptographic purposes, we need an elliptic-curve group of large order. Thus, the first question we must address is: how large are elliptic-curve groups? Consider the Weierstrass representation. (Recall that any elliptic curve can be expressed in that way.) As noted in Example 9.69, the equation $y^2 = f(x) \mod p$ has two solutions whenever $f(x)$ is a quadratic residue, and one solution when $f(x) = 0$. Since half the elements in $\mathbb{Z}_p^*$ are quadratic residues, we thus heuristically expect to find $2 \cdot (p - 1)/2 + 1 + 1 = p + 1$ points (including the point at infinity) on the curve. The Hasse bound says that this heuristic estimate is accurate, in the sense that every elliptic-curve group has “almost” this many points.
 
 THEOREM 9.72 (Hasse bound) Let $p$ be prime, and let $E$ be an elliptic curve over $\mathbb{Z}_p$. Then $p+1-2\sqrt{p} \leq |E(\mathbb{Z}_p)| \leq p+1+2\sqrt{p}$.
 
@@ -1355,7 +1357,7 @@ We conclude this section with a brief discussion of some efficiency optimization
 
 Point compression. A useful observation is that the number of bits needed to represent a point on an elliptic curve can be reduced almost by half. We illustrate the idea for curves using the Weierstrass representation. For any $x \in \mathbb{Z}_p$ there are at most two points on the curve with $x$ as their $x$-coordinate: namely, $(x, \pm y)$ for some $y$. (It is possible that $y = 0$ in which case these are the same point.) Thus, we can specify any point $P = (x, y)$ on the curve by its $x$-coordinate and a bit $b$ that distinguishes between the (at most) two possibilities for the value of its $y$-coordinate. One convenient way to do this is to set $b = 0$ if $y$ is even and $b = 1$ if $y$ is odd. Given $x$ and $b$ we can recover $P$ by computing the two square roots $y_1, y_2$ of the equation $y^2 = f(x) \mod p$; since $y_1 = -y_2 \mod p$ and $p$ is odd, either $y_1 = y_2 = 0$ or exactly one of $y_1, y_2$ will be even and the other will be odd.
 
-Projective coordinates. Representing elliptic-curve points as we have been doing until now—in which a point P on an elliptic curve is described by a pair of elements $(x, y)$—is called using affine coordinates. There are alternate ways to represent points using projective coordinates that can offer efficiency improvements. While these alternate representations can be motivated mathematically, we treat them simply as useful computational aids. We continue to assume the Weierstrass representation for the elliptic curve.
+Projective coordinates. Representing elliptic-curve points as we have been doing until now—in which a point $P$ on an elliptic curve is described by a pair of elements $(x, y)$—is called using affine coordinates. There are alternate ways to represent points using projective coordinates that can offer efficiency improvements. While these alternate representations can be motivated mathematically, we treat them simply as useful computational aids. We continue to assume the Weierstrass representation for the elliptic curve.
 
 Points in projective coordinates are represented using three elements of $\mathbb{Z}_p$. Specifically, a point $P = (x, y) \neq \mathcal{O}$ in affine coordinates is represented using (standard) projective coordinates by any tuple $(X, Y, Z) \in \mathbb{Z}_p^3$ for which $X/Z = x \mod p$ and $Y/Z = y \mod p$. (An interesting feature of using projective coordinates is that each point now has multiple representations.) The point at infinity $\mathcal{O}$ is represented by any tuple $(0, Y, 0)$ with $Y \neq 0$, and these are the only points $(X, Y, Z)$ with $Z = 0$. We can easily translate between coordinate systems: $(x,y) \neq \mathcal{O}$ in affine coordinates becomes $(x,y,1)$ in projective coordinates, and $(X,Y,Z)$ (with $Z \neq 0$) in projective coordinates is mapped to $[X/Z \bmod p]$, $[Y/Z \bmod p]$ in affine coordinates.
 
@@ -1389,7 +1391,7 @@ $$
 \end{aligned} \tag{9.5}
 $$
 
-The key observation is that the computations in Equations $(9.4)$ and $(9.5)$ can be carried out without having to perform any modular inversions.
+The key observation is that the computations in Equations (9.4) and (9.5) can be carried out without having to perform any modular inversions.
 
 Several other coordinate systems have also been developed, with the goal of minimizing the cost of elliptic-curve operations. Further details are beyond the scope of the book.
 
@@ -1397,13 +1399,13 @@ When points have multiple representations, some subtleties can arise. (Note that
 
 Popular elliptic curves. As noted earlier, in practice people typically do not generate their own elliptic curves, but instead use standardized curves that have been carefully selected to ensure both good security and efficient implementation. Some popular choices include:
 
-The $P$-256 curve (also known as secp256r1) is an elliptic curve over $\mathbb{Z}_p$ for the 256-bit prime $p = 2^{256} - 2^{224} + 2^{192} + 2^{96} - 1$. The prime was chosen to have this form because it allows for efficient implementation of arithmetic modulo $p$. The curve has the equation $y^2 = x^3 - 3x + B \mod p$ where $B$ is a specified constant; $A = -3$ was chosen to enable optimization of elliptic-curve operations. This curve has prime order (so cannot be represented using Montgomery or twisted Edwards form) that, by the Hasse bound, is of the same magnitude as $p$.
+- The P-256 curve (also known as secp256r1) is an elliptic curve over $\mathbb{Z}_p$ for the 256-bit prime $p = 2^{256} - 2^{224} + 2^{192} + 2^{96} - 1$. The prime was chosen to have this form because it allows for efficient implementation of arithmetic modulo $p$. The curve has the equation $y^2 = x^3 - 3x + B \mod p$ where $B$ is a specified constant; $A = -3$ was chosen to enable optimization of elliptic-curve operations. This curve has prime order (so cannot be represented using Montgomery or twisted Edwards form) that, by the Hasse bound, is of the same magnitude as $p$.
 
 P-384 (secp384r1) and P-521 (secp521r1) are analogous curves defined modulo 384- and 521-bit primes, respectively.
 
 - Curve25519 is an elliptic curve that can be represented in Montgomery form; it can also be represented in twisted Edwards form, where it is known as Ed25519. This curve is defined over $\mathbb{Z}_p$ for the 255-bit prime $p = 2^{255} - 19$, where again the prime was chosen to have this form because it allows for efficient implementation of arithmetic modulo $p$. This elliptic-curve group does not have prime order, but cryptographic operations can be carried out in a subgroup of large prime order.
 
-- The $secp256k1$ curve is a prime-order curve defined over $\mathbb{Z}_p$ where $p = 2^{256} - 2^{32} - 2^9 - 2^8 - 2^7 - 2^6 - 2^4 - 1$. This is a $Koblitz$ curve with equation $y^2 = x^3 + 7 \mod p$; a $Koblitz$ curve has certain algebraic properties that allow for efficient implementation. This curve is most notable for being used by Bitcoin.
+- The secp256k1 curve is a prime-order curve defined over $\mathbb{Z}_p$ where $p = 2^{256} - 2^{32} - 2^9 - 2^8 - 2^7 - 2^6 - 2^4 - 1$. This is a Koblitz curve with equation $y^2 = x^3 + 7 \mod p$; a Koblitz curve has certain algebraic properties that allow for efficient implementation. This curve is most notable for being used by Bitcoin.
 
 ## 9.4 \*Cryptographic Applications
 
@@ -1415,11 +1417,11 @@ One-way functions are the minimal cryptographic primitive, and they are both nec
 
 Informally, a function f is one-way if it is easy to compute but hard to invert. The following experiment and definition, a restatement of Definition 8.1, formalizes this.
 
-The inverting experiment Invert_{A,f}(n):
+The inverting experiment $\mathsf{Invert}_{\mathcal{A},f}(n)$:
 
 1. Choose uniform $x \in \{0,1\}^{n}$ and compute $y := f(x)$.
 
-2. $\mathcal{A}$ is given ${1}^{n}$ and $y$ as input, and outputs $x^{\prime}$.
+2. $\mathcal{A}$ is given $1^{n}$ and $y$ as input, and outputs $x^{\prime}$.
 
 3. The output of the experiment is 1 if and only if $f(x^{\prime}) = y$.
 
@@ -1429,25 +1431,26 @@ DEFINITION 9.73 A function $f: \{0,1\}^* \to \{0,1\}^*$ is one-way if the follow
 
 2. (Hard to invert:) For all PPT algorithms $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{Invert}_{\mathcal{A},f}(n) = 1] \leq \mathsf{negl}(n)$.
 
-We now show formally that the factoring assumption implies the existence of a one-way function. Let $\mathsf{Gen}$ be a polynomial-time algorithm that, on input ${1}^n$, outputs $(N, p, q)$ where $N = pq$ and $p$ and $q$ are $n$-bit primes except with probability negligible in $n$. (We use $\mathsf{Gen}$ rather than $\mathsf{GenModulus}$ here purely for notational convenience.) Since $\mathsf{Gen}$ runs in polynomial time, there is a polynomial upper bound on the number of random bits the algorithm uses. For simplicity, and in order to get the main ideas across, we assume $\mathsf{Gen}$ always uses at most $n$ random bits on input ${1}^n$. In Algorithm 9.74 we define a function $f_{\mathsf{Gen}}$ that uses its input as the random bits for running $\mathsf{Gen}$. Thus, $f_{\mathsf{Gen}}$ is a deterministic function (as required).
+We now show formally that the factoring assumption implies the existence of a one-way function. Let $\mathsf{Gen}$ be a polynomial-time algorithm that, on input $1^n$, outputs $(N, p, q)$ where $N = pq$ and $p$ and $q$ are $n$-bit primes except with probability negligible in $n$. (We use $\mathsf{Gen}$ rather than $\mathsf{GenModulus}$ here purely for notational convenience.) Since $\mathsf{Gen}$ runs in polynomial time, there is a polynomial upper bound on the number of random bits the algorithm uses. For simplicity, and in order to get the main ideas across, we assume $\mathsf{Gen}$ always uses at most $n$ random bits on input $1^n$. In Algorithm 9.74 we define a function $f_{\mathsf{Gen}}$ that uses its input as the random bits for running $\mathsf{Gen}$. Thus, $f_{\mathsf{Gen}}$ is a deterministic function (as required).
 
-If the factoring problem is hard relative to Gen then $f_{Gen}$ is a one-way function. Certainly $f_{Gen}$ is easy to compute. As for the hardness of inverting this function, note that the following distributions are identical:
+If the factoring problem is hard relative to $\mathsf{Gen}$ then $f_{\mathsf{Gen}}$ is a one-way function. Certainly $f_{\mathsf{Gen}}$ is easy to compute. As for the hardness of inverting this function, note that the following distributions are identical:
 
 1. The modulus $N$ output by $f_{\mathsf{Gen}}(x)$, when $x \in \{0,1\}^n$ is chosen uniformly.
 
-2. The modulus $N$ output by (the randomized algorithm) $\mathsf{Gen}(1^{n})$
+2. The modulus $N$ output by (the randomized algorithm) $\mathsf{Gen}(1^{n})$.
 
 If moduli $N$ generated according to the second distribution are hard to factor, then the same holds for moduli $N$ generated according to the first distribution.
 
 | ALGORITHM 9.74 |
 | --- |
-| Algorithm computing $f_{Gen}$ |
+| Algorithm computing $f_{\mathsf{Gen}}$ |
 | Input: String $x$ of length $n$ |
-| Output: Integer N |
+| Output: Integer $N$ |
 | compute $(N,p,q) := \mathsf{Gen}(1^{n}; x)$ |
-| // i.e., run $\mathsf{Gen}(1^{n})$ using x as the random tape return N |
+| // i.e., run $\mathsf{Gen}(1^{n})$ using $x$ as the random tape |
+| return $N$ |
 
-Moreover, given any preimage $x^{\prime}$ of N with respect to $f_{\mathsf{Gen}}$ (i.e., an $x^{\prime}$ for which $f_{\mathsf{Gen}}(x^{\prime}) = N$; note that we do not require $x^{\prime} = x$), it is easy to recover a factor of N by running $\mathsf{Gen}(1^n; x^{\prime})$ to obtain $(N, p, q)$ and outputting the factors $p$ and $q$. Thus, finding a preimage of N with respect to $f_{\mathsf{Gen}}$ is as hard as factoring N. One can easily turn this into a formal proof.
+Moreover, given any preimage $x^{\prime}$ of $N$ with respect to $f_{\mathsf{Gen}}$ (i.e., an $x^{\prime}$ for which $f_{\mathsf{Gen}}(x^{\prime}) = N$; note that we do not require $x^{\prime} = x$), it is easy to recover a factor of $N$ by running $\mathsf{Gen}(1^n; x^{\prime})$ to obtain $(N, p, q)$ and outputting the factors $p$ and $q$. Thus, finding a preimage of $N$ with respect to $f_{\mathsf{Gen}}$ is as hard as factoring $N$. One can easily turn this into a formal proof.
 
 #### One-Way Permutations
 
@@ -1455,13 +1458,13 @@ We can also use number-theoretic assumptions to construct a family of one-way pe
 
 DEFINITION 9.75 A triple $\Pi = (\mathsf{Gen}, \mathsf{Samp}, f)$ of probabilistic polynomial-time algorithms is a family of permutations if the following hold:
 
-1. The parameter-generation algorithm Gen, on input ${1}^n$, outputs parameters $I$ with $|I| \geq n$. Each value of $I$ defines a set $\mathcal{D}_I$ that constitutes the domain and range of a permutation (i.e., bijection) $f_I: \mathcal{D}_I \to \mathcal{D}_I$.
+1. The parameter-generation algorithm $\mathsf{Gen}$, on input $1^n$, outputs parameters $I$ with $|I| \geq n$. Each value of $I$ defines a set $\mathcal{D}_I$ that constitutes the domain and range of a permutation (i.e., bijection) $f_I: \mathcal{D}_I \to \mathcal{D}_I$.
 
-2. The sampling algorithm Samp, on input I, outputs a uniformly distributed element of $D_{I}$.
+2. The sampling algorithm $\mathsf{Samp}$, on input $I$, outputs a uniformly distributed element of $\mathcal{D}_{I}$.
 
 3. The deterministic evaluation algorithm $f$, on input $I$ and $x \in \mathcal{D}_I$, outputs an element $y \in \mathcal{D}_I$. We write this as $y := f_I(x)$.
 
-Given a family of functions $\Pi$, consider the following experiment for any algorithm A and parameter n:
+Given a family of functions $\Pi$, consider the following experiment for any algorithm $\mathcal{A}$ and parameter $n$:
 
 The inverting experiment $\mathsf{Invert}_{\mathcal{A},\Pi}(n)$:
 
@@ -1479,43 +1482,43 @@ $$
 
 **CONSTRUCTION 9.77**
 
-Let GenRSA be as before. Define a family of permutations as follows:
+Let $\mathsf{GenRSA}$ be as before. Define a family of permutations as follows:
 
-Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$ and output $I = \langle N, e \rangle$. Set $\mathcal{D}_I = \mathbb{Z}_N^*$.
+- $\mathsf{Gen}$: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$ and output $I = \langle N, e \rangle$. Set $\mathcal{D}_I = \mathbb{Z}_N^*$.
 
-• Samp: on input $I = \langle N, e \rangle$, choose a uniform element of $Z_N^*$.
+- $\mathsf{Samp}$: on input $I = \langle N, e \rangle$, choose a uniform element of $\mathbb{Z}_N^*$.
 
-• $f$: on input $I = \langle N, e \rangle$ and $x \in \mathbb{Z}_N^*$, output $[x^e \bmod N]$.
+- $f$: on input $I = \langle N, e \rangle$ and $x \in \mathbb{Z}_N^*$, output $[x^e \bmod N]$.
 
 A family of permutations based on the RSA problem.
 
-Given GenRSA as in Section 9.2.4, Construction 9.77 defines a family of permutations. It is immediate that if the RSA problem is hard relative to GenRSA then this family is one-way. It can similarly be shown that hardness of the discrete-logarithm problem in $\mathbb{Z}_p^*$, with $p$ prime, implies the existence of a one-way family of permutations; see Section 8.1.2.
+Given $\mathsf{GenRSA}$ as in Section 9.2.4, Construction 9.77 defines a family of permutations. It is immediate that if the RSA problem is hard relative to GenRSA then this family is one-way. It can similarly be shown that hardness of the discrete-logarithm problem in $\mathbb{Z}_p^*$, with $p$ prime, implies the existence of a one-way family of permutations; see Section 8.1.2.
 
 ### 9.4.2 Collision-Resistant Hash Functions
 
 Collision-resistant hash functions were introduced in Section 6.1. Although we have discussed constructions of collision-resistant hash functions used in practice in Section 7.3, we have not yet seen constructions that can be rigorously based on simpler assumptions. We show here a construction based on the discrete-logarithm assumption in prime-order groups. (A construction based on the RSA problem is described in Exercise 9.27.) Although these constructions are less efficient than the hash functions used in practice, they are important since they illustrate the feasibility of achieving collision resistance based on standard and well-studied number-theoretic assumptions.
 
-Let $\mathcal{G}$ be a polynomial-time algorithm that, on input ${1}^n$, outputs a (description of a) cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g$. Here we also require that $q$ is prime except possibly with negligible probability. We define a fixed-length hash function ( $\mathsf{Gen}, H$) by choosing a uniform $h \in \mathbb{G}$ as part of the key $s$, and defining $H^s(x_1, x_2) = g^{x_1}h^{x_2}$; see Construction 9.78.
+Let $\mathcal{G}$ be a polynomial-time algorithm that, on input $1^n$, outputs a (description of a) cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g$. Here we also require that $q$ is prime except possibly with negligible probability. We define a fixed-length hash function $(\mathsf{Gen}, H)$ by choosing a uniform $h \in \mathbb{G}$ as part of the key $s$, and defining $H^s(x_1, x_2) = g^{x_1}h^{x_2}$; see Construction 9.78.
 
 Note that Gen and H can be computed in polynomial time. Before continuing with an analysis of the construction, we make some technical remarks:
 
-- For a given $s = \langle \mathbb{G}, q, g, h \rangle$ with $n = \|q\|$, the function $H^s$ is described as taking elements of $\mathbb{Z}_q \times \mathbb{Z}_q$ as input. However, $H^s$ can be viewed as taking bit-strings of length ${2} \cdot (n-1)$ as input if we parse an input $x \in \{0,1\}^{2(n-1)}$ as two strings $x_1, x_2$, each of length $n-1$, and then view $x_1, x_2$ as elements of $\mathbb{Z}_q$ in the natural way.
+- For a given $s = \langle \mathbb{G}, q, g, h \rangle$ with $n = \|q\|$, the function $H^s$ is described as taking elements of $\mathbb{Z}_q \times \mathbb{Z}_q$ as input. However, $H^s$ can be viewed as taking bit-strings of length $2 \cdot (n-1)$ as input if we parse an input $x \in \{0,1\}^{2(n-1)}$ as two strings $x_1, x_2$, each of length $n-1$, and then view $x_1, x_2$ as elements of $\mathbb{Z}_q$ in the natural way.
 
-- The output of $H^{s}$ is similarly specified as being an element of G, but we can view this as a bit-string if we fix some representation of G. To satisfy the requirements of Definition 6.2 (which requires the output length to be fixed as a function of n) we can pad the output as needed.
+- The output of $H^{s}$ is similarly specified as being an element of $\mathbb{G}$, but we can view this as a bit-string if we fix some representation of $\mathbb{G}$. To satisfy the requirements of Definition 6.2 (which requires the output length to be fixed as a function of $n$) we can pad the output as needed.
 
 **CONSTRUCTION 9.78**
 
-Let G be as described in the text. Define a fixed-length hash function (Gen, H) as follows:
+Let $\mathcal{G}$ be as described in the text. Define a fixed-length hash function $(\mathsf{Gen}, H)$ as follows:
 
-Gen: on input ${1}^n$, run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$ and then select a uniform $h \in \mathbb{G}$. Output $s := \langle \mathbb{G}, q, g, h \rangle$ as the key.
+- $\mathsf{Gen}$: on input $1^n$, run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$ and then select a uniform $h \in \mathbb{G}$. Output $s := \langle \mathbb{G}, q, g, h \rangle$ as the key.
 
 - $H$: given a key $s = \langle \mathbb{G}, q, g, h \rangle$ and input $(x_1, x_2) \in \mathbb{Z}_q \times \mathbb{Z}_q$, output $H^s(x_1, x_2) := g^{x_1} h^{x_2} \in \mathbb{G}$.
 
 A fixed-length hash function.
 
-Given the above, the construction only compresses its input when elements of G can be represented using fewer than ${2}n - 2$ bits. A generalization of Construction 9.78 can be used to obtain compression from any G for which the discrete-logarithm problem is hard, regardless of the number of bits required to represent group elements; see Exercise 9.28.
+Given the above, the construction only compresses its input when elements of $\mathbb{G}$ can be represented using fewer than $2n - 2$ bits. A generalization of Construction 9.78 can be used to obtain compression from any $\mathbb{G}$ for which the discrete-logarithm problem is hard, regardless of the number of bits required to represent group elements; see Exercise 9.28.
 
-THEOREM 9.79 Say G outputs prime-order groups, and the discrete-logarithm problem is hard relative to G. Then Construction 9.78 is a fixed-length collision-resistant hash function (subject to the discussion regarding compression, above).
+THEOREM 9.79 Say $\mathcal{G}$ outputs prime-order groups, and the discrete-logarithm problem is hard relative to $\mathcal{G}$. Then Construction 9.78 is a fixed-length collision-resistant hash function (subject to the discussion regarding compression, above).
 
 PROOF Let $\Pi = (\mathsf{Gen}, H)$ be as in Construction 9.78, and let $\mathcal{A}$ be a probabilistic polynomial-time algorithm with
 
@@ -1533,8 +1536,7 @@ The algorithm is given $\mathbb{G}, q, g, h$ as input.
 
 2. If $x \neq x^{\prime}$ and $H^s(x) = H^s(x^{\prime})$ then parse $x$ as $(x_1, x_2)$ and parse $x^{\prime}$ as $(x_1^{\prime}, x_2^{\prime})$, where $x_1, x_2, x_1^{\prime}, x_2^{\prime} \in \mathbb{Z}_q$. Use Lemma 9.65 to compute $\log_g h$.
 
-Clearly, $\mathcal{A}^{\prime}$ runs in polynomial time. Furthermore, the input $s$ given to $\mathcal{A}$ when run as a subroutine by $\mathcal{A}^{\prime}$ is distributed exactly as in experiment $\mathsf{Hash-coll}_{\mathcal{A},\Pi}$ for the same value of the security parameter $n$. (The input to $\mathcal{A}^{\prime}$ is generated by running $\mathcal{G}(1^n)$ to obtain $\mathbb{G}, q, g$ and then choosing uniform $h \in \mathbb{G}$. This is exactly how $s$ is generated by $\mathsf{Gen}(1^n)$.) So, with probability exactly $\varepsilon(n)$
-there is a collision; i.e., $x \neq x^{\prime}$ and $H^s(x) = H^s(x^{\prime})$. Lemma 9.65 implies that whenever there is a collision, $\mathcal{A}^{\prime}$ returns the correct answer $\log_g h$.
+Clearly, $\mathcal{A}^{\prime}$ runs in polynomial time. Furthermore, the input $s$ given to $\mathcal{A}$ when run as a subroutine by $\mathcal{A}^{\prime}$ is distributed exactly as in experiment $\mathsf{Hash-coll}_{\mathcal{A},\Pi}$ for the same value of the security parameter $n$. (The input to $\mathcal{A}^{\prime}$ is generated by running $\mathcal{G}(1^n)$ to obtain $\mathbb{G}, q, g$ and then choosing uniform $h \in \mathbb{G}$. This is exactly how $s$ is generated by $\mathsf{Gen}(1^n)$.) So, with probability exactly $\varepsilon(n)$ there is a collision; i.e., $x \neq x^{\prime}$ and $H^s(x) = H^s(x^{\prime})$. Lemma 9.65 implies that whenever there is a collision, $\mathcal{A}^{\prime}$ returns the correct answer $\log_g h$.
 
 In summary, $\mathcal{A}^{\prime}$ correctly solves the discrete-logarithm problem with probability exactly $\varepsilon(n)$. Since, by assumption, the discrete-logarithm problem is hard relative to $\mathcal{G}$, we conclude that $\varepsilon(n)$ is negligible.
 
@@ -1568,7 +1570,7 @@ Hint: Consider the set $\{1\} \cup \{2, 4, 6, 8, \ldots\} \subset \mathbb{R}$ un
 
 (c) Prove Theorem 9.19.
 
-9.5 Compute the final two (decimal) digits of ${3}^{1000}$ (by hand).
+9.5 Compute the final two (decimal) digits of $3^{1000}$ (by hand).
 
 Hint: The answer is $[3^{1000} \mod 100]$.
 
@@ -1578,7 +1580,7 @@ Hint: The answer is $[3^{1000} \mod 100]$.
 
 9.8 Prove that if $\mathbb{G}, \mathbb{H}$ are groups, then $\mathbb{G} \times \mathbb{H}$ is a group.
 
-9.9 Let p, N be integers with p | N. Prove that for any integer X,
+9.9 Let $p, N$ be integers with $p \mid N$. Prove that for any integer $X$,
 
 $$
 [\left[X\bmod N\right]\bmod p]=[X\bmod p].
@@ -1616,7 +1618,7 @@ Show that, in contrast, $[[X \bmod p] \bmod N]$ need not equal $[X \bmod N]$.
 
 (a) Compute $\phi(55)$.
 
-(b) Is exponentiating to the 3rd power a permutation of $Z_{55}^{*}$?
+(b) Is exponentiating to the 3rd power a permutation of $\mathbb{Z}_{55}^{*}$?
 
 (c) Compute $[2^{1/3} \bmod 55]$ (i.e., the 3rd root of 2 modulo 55).
 
@@ -1632,7 +1634,7 @@ Hint: Use the Chinese remainder theorem.
 
 (a) Show that if $N = \hat{N}^e$ for some integers $\hat{N}, e > 1$ then $e \leq \|N\|$.
 
-(b) Given $N$ and $e$ with ${2} \leq e \leq \|N\| + 1$, show how to determine in $\mathsf{poly}(\|N\|)$ time whether there exists an integer $\hat{N}$ with $\hat{N}^e = N$.
+(b) Given $N$ and $e$ with $2 \leq e \leq \|N\| + 1$, show how to determine in $\mathsf{poly}(\|N\|)$ time whether there exists an integer $\hat{N}$ with $\hat{N}^e = N$.
 
 Hint: Use binary search.
 
@@ -1654,7 +1656,7 @@ $$
 
 for all $x$. The running time $t^{\prime}$ of $\mathcal{A}^{\prime}$ should be polynomial in $t$ and $\|N\|$.
 
-Hint: Use the fact that $y^{1/e} \cdot r = (y \cdot r^e)^{1/e}$ mod $N$.
+Hint: Use the fact that $y^{1/e} \cdot r = (y \cdot r^e)^{1/e} \bmod N$.
 
 9.19 Formally define the CDH assumption. Prove that hardness of the CDH problem relative to $\mathcal{G}$ implies hardness of the discrete-logarithm problem relative to $\mathcal{G}$, and that hardness of the DDH problem relative to $\mathcal{G}$ implies hardness of the CDH problem relative to $\mathcal{G}$.
 
@@ -1678,17 +1680,17 @@ Hint: Use the fact that $y^{1/e} \cdot r = (y \cdot r^e)^{1/e}$ mod $N$.
 
 9.26 Fix $N$, an element $y \in \mathbb{Z}_N^*$, and $e$ with $\gcd(e, \phi(N)) = 1$. Show that given $w \in \mathbb{Z}_N^*$ and an integer $k$ with $\gcd(k, e) = 1$ and $w^e = y^k \bmod N$, it is possible to efficiently compute $x$ such that $x^e = y \bmod N$.
 
-Hint: Apply Proposition 9.2 to k, e, and express $y^{1}$ as a power of e.
+Hint: Apply Proposition 9.2 to $k$, $e$, and express $y^{1}$ as a power of $e$.
 
-9.27 Let GenRSA be as in Section 9.2.4. Prove that if the RSA problem is hard relative to GenRSA then Construction 9.80 is a fixed-length collision-resistant hash function.
+9.27 Let $\mathsf{GenRSA}$ be as in Section 9.2.4. Prove that if the RSA problem is hard relative to $\mathsf{GenRSA}$ then Construction 9.80 is a fixed-length collision-resistant hash function.
 
 **CONSTRUCTION 9.80**
 
-Define $(Gen, H)$ as follows:
+Define $(\mathsf{Gen}, H)$ as follows:
 
-Gen: on input ${1}^n$, run GenRSA( ${1}^n$) to obtain $N, e, d$, and select $y \leftarrow \mathbb{Z}_N^*$. The key is $s := \langle N, e, y \rangle$.
+- $\mathsf{Gen}$: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $N, e, d$, and select $y \leftarrow \mathbb{Z}_N^*$. The key is $s := \langle N, e, y \rangle$.
 
-- $H$: if $s = \langle N, e, y \rangle$, then $H^s$ maps inputs in $\{0,1\}^{3n}$ to outputs in $\mathbb{Z}_N^*$. Let $f_0^s(x) \overset{\mathrm{def}}{=} [x^e \bmod N]$ and $f_1^s(x) \overset{\mathrm{def}}{=} [y \cdot x^e \bmod N]$. For a 3n-bit long string $x = x_1 \cdots x_{3n}$, define
+- $H$: if $s = \langle N, e, y \rangle$, then $H^s$ maps inputs in $\{0,1\}^{3n}$ to outputs in $\mathbb{Z}_N^*$. Let $f_0^s(x) \stackrel{\mathrm{def}}{=} [x^e \bmod N]$ and $f_1^s(x) \stackrel{\mathrm{def}}{=} [y \cdot x^e \bmod N]$. For a $3n$-bit long string $x = x_1 \cdots x_{3n}$, define
 
 $$
 H^{s}(x)\stackrel{\mathrm{def}}{=}f_{x_{1}}^{s}\left(f_{x_{2}}^{s}\left(\cdots\left(1\right)\cdots\right)\right).
@@ -1700,10 +1702,10 @@ $$
 
 Define a fixed-length hash function $(Gen, H)$ as follows:
 
-(a) Gen: on input ${1}^n$, run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, h_1)$ and then select $h_2, \ldots, h_t \leftarrow \mathbb{G}$. Output $s := \langle \mathbb{G}, q, (h_1, \ldots, h_t) \rangle$ as the key.
+(a) $\mathsf{Gen}$: on input $1^n$, run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, h_1)$ and then select $h_2, \ldots, h_t \leftarrow \mathbb{G}$. Output $s := \langle \mathbb{G}, q, (h_1, \ldots, h_t) \rangle$ as the key.
 
 (b) $H$: given a key $s = \langle \mathbb{G}, q, (h_1, \ldots, h_t) \rangle$ and input $(x_1, \ldots, x_t)$ with $x_i \in \mathbb{Z}_q$, output $H^s(x_1, \ldots, x_t) := \prod_i h_i^{x_i}$.
 
-(a) Prove that if the discrete-logarithm problem is hard relative to $\mathcal{G}$ and q is prime, then for any $t = \mathsf{poly}(n)$ this construction is a fixed-length collision-resistant hash function.
+(a) Prove that if the discrete-logarithm problem is hard relative to $\mathcal{G}$ and $q$ is prime, then for any $t = \mathsf{poly}(n)$ this construction is a fixed-length collision-resistant hash function.
 
-(b) Discuss how this construction can be used to obtain compression regardless of the number of bits needed to represent elements of G (as long as it is polynomial in n).
+(b) Discuss how this construction can be used to obtain compression regardless of the number of bits needed to represent elements of $\mathbb{G}$ (as long as it is polynomial in $n$).

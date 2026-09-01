@@ -24,9 +24,9 @@ DEFINITION 12.9 A key-encapsulation mechanism (KEM) is a tuple of probabilistic 
 
 定义 12.9　密钥封装机制（KEM）是由概率多项式时间算法构成的三元组 $(\mathsf{Gen}, \mathsf{Encaps}, \mathsf{Decaps})$，满足：
 
-1. The key-generation algorithm Gen takes as input the security parameter ${1}^{n}$ and outputs a public-/private-key pair $(pk, sk)$. We assume $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$.
+1. The key-generation algorithm Gen takes as input the security parameter $1^{n}$ and outputs a public-/private-key pair $(pk, sk)$. We assume $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$.
 
-   密钥生成算法 $\mathsf{Gen}$ 以安全参数 ${1}^{n}$ 为输入，输出一个公钥/私钥对 $(pk, sk)$。我们假定 $pk$ 和 $sk$ 的长度都至少为 $n$，并且 $n$ 可以从 $pk$ 中确定。
+   密钥生成算法 $\mathsf{Gen}$ 以安全参数 $1^{n}$ 为输入，输出一个公钥/私钥对 $(pk, sk)$。我们假定 $pk$ 和 $sk$ 的长度都至少为 $n$，并且 $n$ 可以从 $pk$ 中确定。
 
 2. The encapsulation algorithm Encaps takes as input a public key $pk$ (which implicitly defines $n$). It outputs a ciphertext $c$ and a key $k \in \{0,1\}^{\ell(n)}$ where $\ell$ is the key length. We write this as $(c,k) \leftarrow \mathsf{Encaps}_{pk}(1^n)$.
 
@@ -40,9 +40,9 @@ It is required that all but negligible probability over the randomness of Gen an
 
 要求：除去由 $\mathsf{Gen}$ 与 $\mathsf{Encaps}$ 的随机性引起的可忽略概率外，若 $\mathsf{Encaps}_{pk}(1^{n})$ 输出 $(c,k)$，则 $\mathsf{Decaps}_{sk}(c)$ 输出 $k$。
 
-In the definition we assume for simplicity that Encaps always outputs (a ciphertext $c$ and) a key of some fixed length $\ell(n)$. One could also consider a more general definition in which Encaps takes ${1}^{\ell}$ as an additional input.
+In the definition we assume for simplicity that Encaps always outputs (a ciphertext $c$ and) a key of some fixed length $\ell(n)$. One could also consider a more general definition in which Encaps takes $1^{\ell}$ as an additional input.
 
-在该定义中，为简单起见，我们假定 $\mathsf{Encaps}$ 总是输出（一个密文 $c$ 和）某个固定长度 $\ell(n)$ 的密钥。也可以考虑一种更一般的定义，其中 $\mathsf{Encaps}$ 额外以 ${1}^{\ell}$ 为输入。
+在该定义中，为简单起见，我们假定 $\mathsf{Encaps}$ 总是输出（一个密文 $c$ 和）某个固定长度 $\ell(n)$ 的密钥。也可以考虑一种更一般的定义，其中 $\mathsf{Encaps}$ 额外以 $1^{\ell}$ 为输入。
 
 Any public-key encryption scheme trivially gives a KEM by choosing a random key $k$ and encrypting it. As we will see, however, dedicated constructions of KEMs can be more efficient.
 
@@ -68,9 +68,9 @@ Let $\Pi = (\mathsf{Gen}, \mathsf{Encaps}, \mathsf{Decaps})$ be a KEM with key l
 
 设 $\Pi = (\mathsf{Gen}, \mathsf{Encaps}, \mathsf{Decaps})$ 是密钥长度为 $n$ 的 KEM，$\Pi' = (\mathsf{Gen}', \mathsf{Enc}', \mathsf{Dec}')$ 是私钥加密方案。按如下方式构造公钥加密方案 $\Pi^{\mathsf{hy}} = (\mathsf{Gen}^{\mathsf{hy}}, \mathsf{Enc}^{\mathsf{hy}}, \mathsf{Dec}^{\mathsf{hy}})$：
 
-- $\mathsf{Gen}^{\mathsf{hy}}$: on input ${1}^{n}$ run $\mathsf{Gen}({1}^{n})$ and use the public and private keys $(pk, sk)$ that are output.
+- $\mathsf{Gen}^{\mathsf{hy}}$: on input $1^{n}$ run $\mathsf{Gen}(1^{n})$ and use the public and private keys $(pk, sk)$ that are output.
 
-  $\mathsf{Gen}^{\mathsf{hy}}$：输入 ${1}^{n}$ 时，运行 $\mathsf{Gen}({1}^{n})$，并使用输出的公钥与私钥 $(pk, sk)$。
+  $\mathsf{Gen}^{\mathsf{hy}}$：输入 $1^{n}$ 时，运行 $\mathsf{Gen}(1^{n})$，并使用输出的公钥与私钥 $(pk, sk)$。
 
 - $\mathsf{Enc}^{\mathsf{hy}}$: on input a public key pk and a message $m \in \{0,1\}^{*}$ do:
 
@@ -166,9 +166,9 @@ Let $\Pi = (\mathsf{Gen}, \mathsf{Encaps}, \mathsf{Decaps})$ be a KEM and A an a
 
 **选择明文不可区分实验 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$：**
 
-1. $\mathsf{Gen}({1}^n)$ is run to obtain keys $(pk, sk)$. Then $\mathsf{Encaps}_{pk}(1^n)$ is run to generate $(c, k)$ with $k \in \{0,1\}^n$.
+1. $\mathsf{Gen}(1^n)$ is run to obtain keys $(pk, sk)$. Then $\mathsf{Encaps}_{pk}(1^n)$ is run to generate $(c, k)$ with $k \in \{0,1\}^n$.
 
-   运行 $\mathsf{Gen}({1}^n)$ 得到密钥 $(pk, sk)$。然后运行 $\mathsf{Encaps}_{pk}(1^n)$ 生成 $(c, k)$，其中 $k \in \{0,1\}^n$。
+   运行 $\mathsf{Gen}(1^n)$ 得到密钥 $(pk, sk)$。然后运行 $\mathsf{Encaps}_{pk}(1^n)$ 生成 $(c, k)$，其中 $k \in \{0,1\}^n$。
 
 2. A uniform bit $b \in \{0,1\}$ is chosen. If $b = 0$ set $\hat{k} := k$. If $b = 1$ then choose a uniform $\hat{k} \in \{0,1\}^n$.
 

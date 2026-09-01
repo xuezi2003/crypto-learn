@@ -28,7 +28,7 @@ Summarizing and elaborating the preceding discussion, we see that public-key enc
 
 The fact that public-key encryption schemes allow anyone to act as a sender can be a drawback when a receiver only wants to receive messages from one specific individual. In that case, an authenticated (private-key) encryption scheme would be a better choice than public-key encryption.
 
-The main disadvantage of public-key encryption is that it is roughly ${2}-3$ orders of magnitude slower than private-key encryption. (It is difficult to give an exact comparison since the relative efficiency depends on the exact schemes under consideration as well as various implementation details.) It can be a challenge to implement public-key encryption in severely resource-constrained devices like smartcards or radio-frequency identification (RFID) tags. Even when a desktop computer is performing cryptographic operations, carrying out thousands of such operations per second (as in the case of a website processing credit-card transactions) may be prohibitive. Thus, when private-key encryption is an option (i.e., if two parties can securely share a key in advance), it should be used.
+The main disadvantage of public-key encryption is that it is roughly $2-3$ orders of magnitude slower than private-key encryption. (It is difficult to give an exact comparison since the relative efficiency depends on the exact schemes under consideration as well as various implementation details.) It can be a challenge to implement public-key encryption in severely resource-constrained devices like smartcards or radio-frequency identification (RFID) tags. Even when a desktop computer is performing cryptographic operations, carrying out thousands of such operations per second (as in the case of a website processing credit-card transactions) may be prohibitive. Thus, when private-key encryption is an option (i.e., if two parties can securely share a key in advance), it should be used.
 
 As we will see in Section 12.3, private-key encryption is used in the public-key setting to improve the efficiency of (public-key) encryption for long messages. A thorough understanding of private-key encryption is therefore crucial for appreciating how public-key encryption is implemented in practice.
 
@@ -44,7 +44,7 @@ We begin by defining the syntax of public-key encryption. The definition is very
 
 DEFINITION 12.1 A public-key encryption scheme is a triple of probabilistic polynomial-time algorithms (Gen, Enc, Dec) such that:
 
-1. The key-generation algorithm Gen takes as input the security parameter ${1}^{n}$ and outputs a pair of keys $(pk, sk)$. We refer to the first of these as the public key and the second as the private key. We assume for convenience that $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$, $sk$.
+1. The key-generation algorithm Gen takes as input the security parameter $1^{n}$ and outputs a pair of keys $(pk, sk)$. We refer to the first of these as the public key and the second as the private key. We assume for convenience that $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$, $sk$.
 
 The public key $pk$ defines a message space $\mathcal{M}_{pk}$.
 
@@ -68,7 +68,7 @@ Given a public-key encryption scheme $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf
 
 The eavesdropping indistinguishability experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$:
 
-1. $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
+1. $\mathsf{Gen}(1^{n})$ is run to obtain keys $(pk, sk)$.
 
 2. Adversary $\mathcal{A}$ is given $pk$, and outputs a pair of equal-length messages $m_0, m_1 \in \mathcal{M}_{pk}$.
 
@@ -114,7 +114,7 @@ Formally, consider the following experiment defined for an adversary $\mathcal{A
 
 The LR-oracle experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$:
 
-1. $\mathsf{Gen}({1}^{n})$ is run to obtain keys (pk, sk).
+1. $\mathsf{Gen}(1^{n})$ is run to obtain keys (pk, sk).
 
 2. A uniform bit $b \in \{0,1\}$ is chosen.
 
@@ -231,7 +231,7 @@ Equation (12.2) follows by combining Equations (12.3) and (12.6).
 
 The main complication that arises in the general case is that the number of queries to the LR oracle is no longer fixed but may instead be an arbitrary polynomial of n. In the formal proof this is handled using a hybrid argument. (Hybrid arguments were used also in Chapter 8.)
 
-PROOF (of Theorem 12.6) Let $\Pi$ be a CPA-secure public-key encryption scheme and $\mathcal{A}$ an arbitrary PPT adversary in experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$. Let $t = t(n)$ be a polynomial upper bound on the number of queries made by $\mathcal{A}$ to the $\mathsf{LR}$ oracle, and assume without loss of generality that $\mathcal{A}$ always queries the oracle exactly this many times. For a given public key $pk$ and ${0} \leq i \leq t$, let $\mathsf{LR}_{pk}^{i}$ denote the oracle that on input $(m_0, m_1)$ returns $\mathsf{Enc}_{pk}(m_0)$ for the first $i$ queries it receives, and returns $\mathsf{Enc}_{pk}(m_1)$ for the next $t - i$ queries it receives. (That is, for the first $i$ queries the first message in the input pair is encrypted, and for the remaining queries the second message in the input pair is encrypted.) We stress that each encryption is computed using uniform, independent randomness. Using this notation, we have
+PROOF (of Theorem 12.6) Let $\Pi$ be a CPA-secure public-key encryption scheme and $\mathcal{A}$ an arbitrary PPT adversary in experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$. Let $t = t(n)$ be a polynomial upper bound on the number of queries made by $\mathcal{A}$ to the $\mathsf{LR}$ oracle, and assume without loss of generality that $\mathcal{A}$ always queries the oracle exactly this many times. For a given public key $pk$ and $0 \leq i \leq t$, let $\mathsf{LR}_{pk}^{i}$ denote the oracle that on input $(m_0, m_1)$ returns $\mathsf{Enc}_{pk}(m_0)$ for the first $i$ queries it receives, and returns $\mathsf{Enc}_{pk}(m_1)$ for the next $t - i$ queries it receives. (That is, for the first $i$ queries the first message in the input pair is encrypted, and for the remaining queries the second message in the input pair is encrypted.) We stress that each encryption is computed using uniform, independent randomness. Using this notation, we have
 
 $$
 \Pr\left[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)=1\right]=\frac{1}{2}\cdot\Pr[\mathcal{A}^{\mathsf{LR}_{pk}^{t}}(pk)=0]+\frac{1}{2}\cdot\Pr[\mathcal{A}^{\mathsf{LR}_{pk}^{0}}(pk)=1]
@@ -333,7 +333,7 @@ Security against chosen-ciphertext attacks is defined by suitable modification o
 
 **The CCA indistinguishability experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$:**
 
-1. $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
+1. $\mathsf{Gen}(1^{n})$ is run to obtain keys $(pk, sk)$.
 
 2. The adversary $\mathcal{A}$ is given $pk$ and access to a decryption oracle $\mathsf{Dec}_{sk}(\cdot)$. It outputs a pair of messages $m_0, m_1 \in \mathcal{M}_{pk}$ of the same length.
 
@@ -377,7 +377,7 @@ A KEM has three algorithms similar in spirit to those of a public-key encryption
 
 DEFINITION 12.9 A key-encapsulation mechanism (KEM) is a tuple of probabilistic polynomial-time algorithms (Gen, Encaps, Decaps) such that:
 
-1. The key-generation algorithm Gen takes as input the security parameter ${1}^{n}$ and outputs a public-/private-key pair $(pk, sk)$. We assume $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$.
+1. The key-generation algorithm Gen takes as input the security parameter $1^{n}$ and outputs a public-/private-key pair $(pk, sk)$. We assume $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$.
 
 2. The encapsulation algorithm Encaps takes as input a public key $pk$ (which implicitly defines $n$). It outputs a ciphertext $c$ and a key $k \in \{0,1\}^{\ell(n)}$ where $\ell$ is the key length. We write this as $(c,k) \leftarrow \mathsf{Encaps}_{pk}(1^n)$.
 
@@ -385,7 +385,7 @@ DEFINITION 12.9 A key-encapsulation mechanism (KEM) is a tuple of probabilistic 
 
 It is required that all but negligible probability over the randomness of Gen and Encaps, if $\mathsf{Encaps}_{pk}(1^{n})$ outputs $(c,k)$ then $\mathsf{Decaps}_{sk}(c)$ outputs $k$.
 
-In the definition we assume for simplicity that Encaps always outputs (a ciphertext $c$ and) a key of some fixed length $\ell(n)$. One could also consider a more general definition in which Encaps takes ${1}^{\ell}$ as an addition
+In the definition we assume for simplicity that Encaps always outputs (a ciphertext $c$ and) a key of some fixed length $\ell(n)$. One could also consider a more general definition in which Encaps takes $1^{\ell}$ as an addition
 
 Any public-key encryption scheme trivially gives a KEM by choosing a random key $k$ and encrypting it. As we will see, however, dedicated constructions of KEMs can be more efficient.
 
@@ -401,7 +401,7 @@ What is the efficiency of the resulting hybrid encryption scheme $\Pi^{hy}$? For
 
 Let $\Pi = (\mathsf{Gen}, \mathsf{Encaps}, \mathsf{Decaps})$ be a KEM with key length $n$, and let $\Pi' = (\mathsf{Gen}', \mathsf{Enc}', \mathsf{Dec}')$ be a private-key encryption scheme. Construct a public-key encryption scheme $\Pi^{\mathsf{hy}} = (\mathsf{Gen}^{\mathsf{hy}}, \mathsf{Enc}^{\mathsf{hy}}, \mathsf{Dec}^{\mathsf{hy}})$ as follows:
 
-- $\mathsf{Gen}^{\mathsf{hy}}$: on input ${1}^{n}$ run $\mathsf{Gen}({1}^{n})$ and use the public and private keys $(pk, sk)$ that are output.
+- $\mathsf{Gen}^{\mathsf{hy}}$: on input $1^{n}$ run $\mathsf{Gen}(1^{n})$ and use the public and private keys $(pk, sk)$ that are output.
 - $\mathsf{Enc}^{\mathsf{hy}}$: on input a public key pk and a message $m \in \{0,1\}^{*}$ do:
 
    1. Compute $(c, k) \leftarrow \mathsf{Encaps}_{pk}(1^n)$.
@@ -453,7 +453,7 @@ Let $\Pi = (\mathsf{Gen}, \mathsf{Encaps}, \mathsf{Decaps})$ be a KEM and A an a
 
 **The CPA indistinguishability experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$:**
 
-1. $\mathsf{Gen}({1}^n)$ is run to obtain keys $(pk, sk)$. Then $\mathsf{Encaps}_{pk}(1^n)$ is run to generate $(c, k)$ with $k \in \{0,1\}^n$.
+1. $\mathsf{Gen}(1^n)$ is run to obtain keys $(pk, sk)$. Then $\mathsf{Encaps}_{pk}(1^n)$ is run to generate $(c, k)$ with $k \in \{0,1\}^n$.
 
 2. A uniform bit $b \in \{0,1\}$ is chosen. If $b = 0$ set $\hat{k} := k$. If $b = 1$ then choose a uniform $\hat{k} \in \{0,1\}^n$.
 
@@ -717,19 +717,19 @@ $$
 \Pr[k\cdot m=\hat{c}]=\Pr[k=\hat{c}\cdot m^{-1}].
 $$
 
-Since $k$ is uniform, the probability that $k$ is equal to the fixed element $\hat{c} \cdot m^{-1}$ is exactly ${1}/{|\mathbb{G}|}$.
+Since $k$ is uniform, the probability that $k$ is equal to the fixed element $\hat{c} \cdot m^{-1}$ is exactly $1/{|\mathbb{G}|}$.
 
 The above lemma suggests a way to construct a perfectly secret private-key encryption scheme with message space $\mathbb{G}$. The sender and receiver share as their secret key a uniform element $k \in \mathbb{G}$. To encrypt the message $m \in \mathbb{G}$, the sender computes the ciphertext $c := k \cdot m$. The receiver can recover the message from the ciphertext $c$ by computing $m := c/k$. Perfect secrecy follows immediately from the lemma above. In fact, we have already seen this scheme in a different guise—the one-time pad encryption scheme is an instantiation of this approach, with the underlying group $\mathbb{G}$ being the set $\{0,1\}^{\ell}$ under the operation of bit-wise XOR.
 
 We can adapt the above ideas to the public-key setting by providing the parties with a way to generate a shared, “random-looking” value $k$ by interacting over a public channel. This should sound familiar since it is exactly what the Diffie–Hellman protocol achieves. We proceed with the details.
 
-As in Section 9.3.2, let $\mathcal{G}$ be a polynomial-time algorithm that takes as input ${1}^n$ and (except possibly with negligible probability) outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g$. The El Gamal encryption scheme is described in Construction 12.16.
+As in Section 9.3.2, let $\mathcal{G}$ be a polynomial-time algorithm that takes as input $1^n$ and (except possibly with negligible probability) outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g$. The El Gamal encryption scheme is described in Construction 12.16.
 
 **CONSTRUCTION 12.16**
 
 Let G be as in the text. Define a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Then choose a uniform $x \in \mathbb{Z}_q$ and compute $h := g^x$. The public key is $\langle \mathbb{G}, q, g, h \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$. The message space is $\mathbb{G}$.
+- Gen: on input $1^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Then choose a uniform $x \in \mathbb{Z}_q$ and compute $h := g^x$. The public key is $\langle \mathbb{G}, q, g, h \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$. The message space is $\mathbb{G}$.
 
 - Enc: on input a public key $pk = \langle \mathbb{G}, q, g, h \rangle$ and a message $m \in \mathbb{G}$, choose a uniform $y \in \mathbb{Z}_q$ and output the ciphertext
 
@@ -755,7 +755,7 @@ $$
 
 **Example 12.17**
 
-Let $q = 83$ and $p = 2q + 1 = 167$, and let $\mathbb{G}$ denote the group of quadratic residues (i.e., squares) modulo $p$. (Since $p$ and $q$ are prime, $\mathbb{G}$ is a subgroup of $\mathbb{Z}_p^*$ with order $q$. See Section 9.3.3.) Since the order of $\mathbb{G}$ is prime, any element of $\mathbb{G}$ except 1 is a generator; take $g = [2^2 = 4 \bmod 167]$. Say the receiver chooses secret key ${37} \in \mathbb{Z}_{83}$ and so the public key is
+Let $q = 83$ and $p = 2q + 1 = 167$, and let $\mathbb{G}$ denote the group of quadratic residues (i.e., squares) modulo $p$. (Since $p$ and $q$ are prime, $\mathbb{G}$ is a subgroup of $\mathbb{Z}_p^*$ with order $q$. See Section 9.3.3.) Since the order of $\mathbb{G}$ is prime, any element of $\mathbb{G}$ except 1 is a generator; take $g = [2^2 = 4 \bmod 167]$. Say the receiver chooses secret key $37 \in \mathbb{Z}_{83}$ and so the public key is
 
 $$
 pk=\langle p,q,g,h\rangle=\langle167,83,4,[4^{37}\bmod167]\rangle=\langle167,83,4,76\rangle,
@@ -763,13 +763,13 @@ $$
 
 where we use $p$ to represent $\mathbb{G}$ (it is assumed that the receiver knows that the group is the set of quadratic residues modulo $p$).
 
-Say a sender encrypts the message $m = 65 \in \mathbb{G}$ (note ${65} = 30^2 \mod 167$ and so 65 is an element of $\mathbb{G}$). If $y = 71$, the ciphertext is
+Say a sender encrypts the message $m = 65 \in \mathbb{G}$ (note $65 = 30^2 \bmod 167$ and so 65 is an element of $\mathbb{G}$). If $y = 71$, the ciphertext is
 
 $$
 \langle[4^{71}\bmod{167}],[76^{71}\cdot65\bmod{167}]\rangle=\langle132,{44}\rangle.
 $$
 
-To decrypt, the receiver first computes ${124} = [132^{37} \mod 167]$; then, since ${66} = [124^{-1} \mod 167]$, the receiver recovers $m = 65 = [44 \cdot 66 \mod 167]$.
+To decrypt, the receiver first computes $124 = [132^{37} \bmod 167]$; then, since $66 = [124^{-1} \bmod 167]$, the receiver recovers $m = 65 = [44 \cdot 66 \bmod 167]$.
 
 We now prove security of the scheme. (The reader may want to compare the proof of the following to the proofs of Theorems 3.16 and 11.3.)
 
@@ -881,7 +881,7 @@ illustrates the KEM that follows this approach. Note the resulting ciphertext co
 
 Let G be as in the previous section. Define a KEM as follows:
 
-- Gen: on input ${1}^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose a uniform $x \in \mathbb{Z}_q$ and set $h := g^x$. Also specify a function $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$ for some function $\ell$ (see text). The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$.
+- Gen: on input $1^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose a uniform $x \in \mathbb{Z}_q$ and set $h := g^x$. Also specify a function $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$ for some function $\ell$ (see text). The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$.
 
 - Encaps: on input a public key $pk = \langle \mathbb{G}, q, g, h, H \rangle$, choose a uniform $y \in \mathbb{Z}_q$ and output the ciphertext $g^y$ and the key $H(h^y)$.
 
@@ -962,15 +962,15 @@ Algorithm A':
 
 The algorithm is given $\mathbb{G}, q, g, h, c$ as input.
 
-• Set $pk := \langle \mathbb{G}, q, g, h \rangle$ and choose a uniform $k \in \{0,1\}^{\ell}$.
+- Set $pk := \langle \mathbb{G}, q, g, h \rangle$ and choose a uniform $k \in \{0,1\}^{\ell}$.
 
 - Run $\mathcal{A}(pk, c, k)$. When $\mathcal{A}$ makes a query to $H$, answer it by choosing a fresh, uniform $\ell$-bit string.
 
 - At the end of $\mathcal{A}$'s execution, let $y_1, \ldots, y_t$ be the list of queries that $\mathcal{A}$ has made to $H$. Choose a uniform index $i \in \{1, \ldots, t\}$ and output $y_i$.
 
-We are interested in the probability with which $\mathcal{A}^{\prime}$ solves the CDH problem, i.e., $\Pr[\mathcal{A}^{\prime}(\mathbb{G}, q, g, h, c) = \mathsf{DH}_g(h, c)]$, where the probability is taken over $\mathbb{G}, q, g$ output by $\mathcal{G}(1^n)$, uniform $h, c \in \mathbb{G}$, and the randomness of $\mathcal{A}^{\prime}$. To analyze this probability, note first that event $\mathsf{Query}$ is still well-defined in the execution of $\mathcal{A}^{\prime}$, even though $\mathcal{A}^{\prime}$ cannot detect whether it occurs. Moreover, the probability of event $\mathsf{Query}$ when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ is identical to the probability of $\mathsf{Query}$ in experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$. This follows because the view of $\mathcal{A}$ is identical in both cases until event $\mathsf{Query}$ occurs: in each case, $\mathbb{G}, q, g$ are output by $\mathcal{G}(1^n)$; in each case, $h$ and $c$ are uniform elements of $\mathbb{G}$ and $k$ is a uniform $\ell$-bit string, and in each case queries to $H$ other than $H(\mathsf{DH}_g(h, c))$ are answered with a uniform $\ell$-bit string. (In $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$, the query $H(\mathsf{DH}_g(h, c))$ is answered with the actual encapsulated key, which is equal to $k$ with probability ${1}/{2}$, whereas when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ the query $H(\mathsf{DH}_g(h, c))$ is answered with a uniform $\ell$-bit string that is independent of $k$. But when this query is made, event $\mathsf{Query}$ occurs.)
+We are interested in the probability with which $\mathcal{A}^{\prime}$ solves the CDH problem, i.e., $\Pr[\mathcal{A}^{\prime}(\mathbb{G}, q, g, h, c) = \mathsf{DH}_g(h, c)]$, where the probability is taken over $\mathbb{G}, q, g$ output by $\mathcal{G}(1^n)$, uniform $h, c \in \mathbb{G}$, and the randomness of $\mathcal{A}^{\prime}$. To analyze this probability, note first that event $\mathsf{Query}$ is still well-defined in the execution of $\mathcal{A}^{\prime}$, even though $\mathcal{A}^{\prime}$ cannot detect whether it occurs. Moreover, the probability of event $\mathsf{Query}$ when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ is identical to the probability of $\mathsf{Query}$ in experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$. This follows because the view of $\mathcal{A}$ is identical in both cases until event $\mathsf{Query}$ occurs: in each case, $\mathbb{G}, q, g$ are output by $\mathcal{G}(1^n)$; in each case, $h$ and $c$ are uniform elements of $\mathbb{G}$ and $k$ is a uniform $\ell$-bit string, and in each case queries to $H$ other than $H(\mathsf{DH}_g(h, c))$ are answered with a uniform $\ell$-bit string. (In $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$, the query $H(\mathsf{DH}_g(h, c))$ is answered with the actual encapsulated key, which is equal to $k$ with probability $1/2$, whereas when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ the query $H(\mathsf{DH}_g(h, c))$ is answered with a uniform $\ell$-bit string that is independent of $k$. But when this query is made, event $\mathsf{Query}$ occurs.)
 
-Finally, observe that when $\mathsf{Query}$ occurs then $\mathsf{DH}_g(h,c) \in \{y_1,\ldots,y_t\}$ by definition, and so $\mathcal{A}^{\prime}$ outputs the correct result $\mathsf{DH}_g(h,c)$ with probability at least ${1}/t$. We therefore conclude that
+Finally, observe that when $\mathsf{Query}$ occurs then $\mathsf{DH}_g(h,c) \in \{y_1,\ldots,y_t\}$ by definition, and so $\mathcal{A}^{\prime}$ outputs the correct result $\mathsf{DH}_g(h,c)$ with probability at least $1/t$. We therefore conclude that
 
 $$
 \Pr[\mathcal{A}^{\prime}(\mathbb{G},q,g,h,c)=\mathsf{DH}_{g}(h,c)]\geq\Pr[\mathsf{Query}]/t,
@@ -1002,7 +1002,7 @@ It is interesting to observe that the same construction (namely, Construction 12
 
 Let $\mathcal{G}$ be as in the text. Let $\Pi_E = (\mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ be a private-key encryption scheme, and let $\Pi_M = (\mathsf{Mac}, \mathsf{Vrfy})$ be a message authentication code. Define a public-key encryption scheme as follows:
 
-- Gen: On input ${1}^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose uniform $x \in \mathbb{Z}_q$, set $h := g^x$, and specify a function $H : \mathbb{G} \to \{0,1\}^{2n}$. The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x, H \rangle$.
+- Gen: On input $1^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose uniform $x \in \mathbb{Z}_q$, set $h := g^x$, and specify a function $H : \mathbb{G} \to \{0,1\}^{2n}$. The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x, H \rangle$.
 
 - Enc: On input a public key $pk = \langle \mathbb{G}, q, g, h, H \rangle$, choose a uniform $y \in \mathbb{Z}_q$ and set $k_E \| k_M := H(h^y)$. Compute $c^{\prime} \leftarrow \mathsf{Enc}_{k_E}^{\prime}(m)$, and output the ciphertext $\langle g^y, c^{\prime}, \mathsf{Mac}_{k_M}(c^{\prime}) \rangle$.
 
@@ -1030,12 +1030,12 @@ In this section we turn our attention to encryption schemes based on the RSA ass
 
 We begin by describing a simple encryption scheme based on the RSA problem. Although the scheme is insecure, it provides a useful starting point for the secure schemes that follow.
 
-Let GenRSA be a PPT algorithm that, on input ${1}^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, along with integers $e,d$ satisfying $ed=1\bmod\phi(N)$. (As usual, the algorithm may fail with negligible probability but we ignore that here.) Recall from Section 9.2.4 that such an algorithm can be easily constructed from any algorithm GenModulus that outputs a composite modulus $N$ along with its factorization; see Algorithm 12.25.
+Let GenRSA be a PPT algorithm that, on input $1^n$, outputs a modulus $N$ that is the product of two $n$-bit primes, along with integers $e,d$ satisfying $ed=1 \bmod \phi(N)$. (As usual, the algorithm may fail with negligible probability but we ignore that here.) Recall from Section 9.2.4 that such an algorithm can be easily constructed from any algorithm GenModulus that outputs a composite modulus $N$ along with its factorization; see Algorithm 12.25.
 
 ALGORITHM 12.25
 RSA key generation GenRSA
 
-Input: Security parameter ${1}^{n}$
+Input: Security parameter $1^{n}$
 Output: N, e, d as described in the text
 $(N, p, q) \leftarrow \mathsf{GenModulus}(1^{n})$
 $\phi(N) := (p - 1) \cdot (q - 1)$
@@ -1055,7 +1055,7 @@ as discussed in Section 9.2.4. On the other hand, without knowledge of $d$—eve
 
 Let GenRSA be as in the text. Define a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^{n}$ run $\mathsf{GenRSA}({1}^{n})$ to obtain $N, e$, and $d$. The public key is $\langle N, e \rangle$ and the private key is $\langle N, d \rangle$.
+- Gen: on input $1^{n}$ run $\mathsf{GenRSA}(1^{n})$ to obtain $N, e$, and $d$. The public key is $\langle N, e \rangle$ and the private key is $\langle N, d \rangle$.
 
 - Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \mathbb{Z}_N^*$, compute the ciphertext
 
@@ -1077,9 +1077,9 @@ The following gives a worked example of the above (see also Example 9.49).
 
 **Example 12.27**
 
-Say GenRSA outputs $(N, e, d) = (391, 3, 235)$. (Note that ${391} = 17 \cdot 23$ and so $\phi(391) = 16 \cdot 22 = 352$. Moreover, ${3} \cdot 235 = 1 \mod 352$.) So the public key is $\langle 391, 3 \rangle$ and the private key is $\langle 391, 235 \rangle$.
+Say GenRSA outputs $(N, e, d) = (391, 3, 235)$. (Note that $391 = 17 \cdot 23$ and so $\phi(391) = 16 \cdot 22 = 352$. Moreover, $3 \cdot 235 = 1 \bmod 352$.) So the public key is $\langle 391, 3 \rangle$ and the private key is $\langle 391, 235 \rangle$.
 
-To encrypt the message $m = 158 \in \mathbb{Z}_{391}^*$ using the public key $(391,3)$, we simply compute $c := [158^3 \mod 391] = 295$; this is the ciphertext. To decrypt, the receiver computes $[295^{235} \mod 391] = 158$.
+To encrypt the message $m = 158 \in \mathbb{Z}_{391}^*$ using the public key $(391,3)$, we simply compute $c := [158^3 \bmod 391] = 295$; this is the ciphertext. To decrypt, the receiver computes $[295^{235} \bmod 391] = 158$.
 
 Is the plain RSA encryption scheme secure? The factoring assumption implies that it is computationally infeasible for an attacker who is given the public key to derive the corresponding private key; see Section 9.2.5. This is necessary—but not sufficient—for a public-key encryption scheme to be secure. The RSA assumption implies that if the message $m$ is chosen uniformly from $\mathbb{Z}_N^*$ then an eavesdropper given $N$, $e$, and $c$ (namely, the public key and the ciphertext) cannot recover $m$ in its entirety. But these are weak guarantees, and fall short of the level of security we want. In particular, they leave open the possibility that an attacker can recover the message when it is not chosen uniformly from $\mathbb{Z}_N^*$—and, indeed, when $m$ is chosen from a small range it is easy to see that an attacker can compute $m$ from the public key and ciphertext. In addition, it does not rule out the possibility that an attacker can learn partial information about the message, even when it is uniform. (In fact, this is known to be possible.) Moreover, plain RSA encryption is deterministic and so cannot be CPA-secure, as we have discussed in Section 12.2.1.
 
@@ -1090,33 +1090,33 @@ We have already noted that plain RSA encryption is not CPA-secure. Nevertheless,
 
 **A quadratic improvement in recovering $m$.**
 
-Since plain RSA encryption is deterministic, if an attacker knows that $m < B$ then the attacker can determine $m$ from the ciphertext $c = [m^e \mod N]$ in time $\mathcal{O}(B)$ using the brute-force attack discussed in Section 12.2.1. One might hope, however, that plain RSA encryption can be used if $B$ is large, i.e., if the message is chosen from a reasonably large set of values. One possible scenario where this might occur is in the context of hybrid encryption (cf. Section 12.3), where the “message” is a uniform $n$-bit key and so $B = 2^n$. Unfortunately, there is a clever attack that recovers $m$, with high probability, in time roughly $\mathcal{O}(\sqrt{B})$. This can make a significant difference in practice: a ${2}^{80}$-time attack (say) is infeasible, but an attack running in time ${2}^{40}$ is relatively easy to carry out.
+Since plain RSA encryption is deterministic, if an attacker knows that $m < B$ then the attacker can determine $m$ from the ciphertext $c = [m^e \bmod N]$ in time $\mathcal{O}(B)$ using the brute-force attack discussed in Section 12.2.1. One might hope, however, that plain RSA encryption can be used if $B$ is large, i.e., if the message is chosen from a reasonably large set of values. One possible scenario where this might occur is in the context of hybrid encryption (cf. Section 12.3), where the “message” is a uniform $n$-bit key and so $B = 2^n$. Unfortunately, there is a clever attack that recovers $m$, with high probability, in time roughly $\mathcal{O}(\sqrt{B})$. This can make a significant difference in practice: a $2^{80}$-time attack (say) is infeasible, but an attack running in time $2^{40}$ is relatively easy to carry out.
 
-A description of the attack is given as Algorithm 12.28. In our description, we assume $B = 2^n$ and let $\alpha \in (\frac{1}{2}, 1)$ denote some fixed constant (see below). Binary search is used in the second-to-last line to check whether there exists an $r$ with $x_r = [s^e \bmod N]$. The time for the attack is dominated by the time to perform ${2}T = \mathcal{O}(2^{\alpha n})$ exponentiations.
+A description of the attack is given as Algorithm 12.28. In our description, we assume $B = 2^n$ and let $\alpha \in (\frac{1}{2}, 1)$ denote some fixed constant (see below). Binary search is used in the second-to-last line to check whether there exists an $r$ with $x_r = [s^e \bmod N]$. The time for the attack is dominated by the time to perform $2T = \mathcal{O}(2^{\alpha n})$ exponentiations.
 
 ALGORITHM 12.28
 An attack on plain RSA encryption
 
-Input: Public key $\langle N, e \rangle$; ciphertext $c$; bound ${2}^n$
-Output: $m < 2^n$ such that $m^e = c \mod N$
+Input: Public key $\langle N, e \rangle$; ciphertext $c$; bound $2^n$
+Output: $m < 2^n$ such that $m^e = c \bmod N$
 
 set $T := 2^{\alpha n}$
 
 for $r = 1$ to $T$:
- $x_r := [c/r^e \mod N]$
+ $x_r := [c/r^e \bmod N]$
 
 sort the pairs $\{(r, x_r)\}_{r=1}^T$ by their second component
 for $s = 1$ to $T$:
-    if $[s^e \mod N] \stackrel{?}{=} x_r$ for some $r$
-        return $[r \cdot s \mod N]$
+    if $[s^e \bmod N] \stackrel{?}{=} x_r$ for some $r$
+        return $[r \cdot s \bmod N]$
 
-We now sketch why the attack recovers $m$ with high probability. Let $c = m^e \bmod N$. For appropriate choice of $\alpha \approx \frac{1}{2}$, it can be shown that if $m$ is a uniform $n$-bit integer then with high probability there exist $r, s$ with ${1} < r \leq s \leq 2^{\alpha n}$ for which $m = r \cdot s$. (For example, if $n = 64$ and so $m$ is a uniform 64-bit string, then with probability 0.35 there exist $r, s$ of length at most 34 bits such that $m = r \cdot s$. See the references at the end of the chapter for details.) Assuming this to be the case, the above algorithm finds $m$ since
+We now sketch why the attack recovers $m$ with high probability. Let $c = m^e \bmod N$. For appropriate choice of $\alpha \approx \frac{1}{2}$, it can be shown that if $m$ is a uniform $n$-bit integer then with high probability there exist $r, s$ with $1 < r \leq s \leq 2^{\alpha n}$ for which $m = r \cdot s$. (For example, if $n = 64$ and so $m$ is a uniform 64-bit string, then with probability 0.35 there exist $r, s$ of length at most 34 bits such that $m = r \cdot s$. See the references at the end of the chapter for details.) Assuming this to be the case, the above algorithm finds $m$ since
 
 $$
 c=m^{e}=(r\cdot s)^{e}=r^{e}\cdot s^{e}\bmod N,
 $$
 
-and so $x_r = c/r^e = s^e \mod N$ with $r, s \leq T$.
+and so $x_r = c/r^e = s^e \bmod N$ with $r, s \leq T$.
 
 **Encrypting short messages using small $e$.**
 
@@ -1134,7 +1134,7 @@ THEOREM 12.29 Let $p(x)$ be a polynomial of degree $e$. Then in time $\mathsf{po
 
 Due to the dependence of the running time on $e$, the attack is only practical for small $e$. In what follows we assume $e = 3$ for concreteness.
 
-Assume a sender encrypts a message $m = m_1 \parallel m_2$, where $m_1$ is known but $m_2$ is not. Say $m_2$ is k bits long, so $m = 2^k \cdot m_1 + m_2$. Given the resulting ciphertext $c = [(m_1 \parallel m_2)^3 \mod N]$, an eavesdropper can define $p(x) \stackrel{\mathrm{def}}{=} (2^k \cdot m_1 + x)^3 - c$, a cubic polynomial. This polynomial has $m_2$ as a root (modulo $N$), and $|m_2| < 2^k$. Theorem 12.29 thus implies that the attacker can compute $m_2$ efficiently as long as ${2}^k \leq N^{1/3}$. A similar attack works when $m_2$ is known but $m_1$ is not.
+Assume a sender encrypts a message $m = m_1 \parallel m_2$, where $m_1$ is known but $m_2$ is not. Say $m_2$ is k bits long, so $m = 2^k \cdot m_1 + m_2$. Given the resulting ciphertext $c = [(m_1 \parallel m_2)^3 \bmod N]$, an eavesdropper can define $p(x) \stackrel{\mathrm{def}}{=} (2^k \cdot m_1 + x)^3 - c$, a cubic polynomial. This polynomial has $m_2$ as a root (modulo $N$), and $|m_2| < 2^k$. Theorem 12.29 thus implies that the attacker can compute $m_2$ efficiently as long as $2^k \leq N^{1/3}$. A similar attack works when $m_2$ is known but $m_1$ is not.
 
 **Encrypting related messages.**³ This attack assumes a sender who encrypts two related messages to the same receiver (something that should not result in an attack when using a secure encryption scheme). Assume the sender encrypts both $m$ and $m+\delta$, where the offset $\delta$ is known but $m$ is not. Given the two ciphertexts $c_1 = [m^e \bmod N]$ and $c_2 = [(m+\delta)^e \bmod N]$, an eavesdropper can define the two polynomials $f_1(x) \overset{\mathrm{def}}{=} x^e - c_1$ and $f_2(x) \overset{\mathrm{def}}{=} (x+\delta)^e - c_2$, each of degree $e$. Note that $x = m$ is a root (modulo $N$) of both polynomials, and so the linear term $(x-m)$ is a factor of both. Thus, if the greatest common divisor of $f_1(x)$ and $f_2(x)$ (modulo $N$) is linear, it will reveal $m$. The greatest common divisor can be computed in time $\mathsf{poly}(\|N\|, e)$ using an algorithm similar to the one in Appendix B.1.2; thus, this attack is feasible for small $e$.
 
@@ -1166,7 +1166,7 @@ Moreover, using techniques similar to those shown in Section 9.1.5 it is possibl
 
 ### 12.5.2 Padded RSA and PKCS #1 v1.5
 
-Although plain RSA is insecure, it does suggest one general approach to public-key encryption based on the RSA problem: to encrypt a message $m$ using public key $\langle N, e \rangle$, first map $m$ to an element $\hat{m} \in \mathbb{Z}_N^*$; then compute the ciphertext $c := [\hat{m}^e \mod N]$. To decrypt a ciphertext $c$, the receiver computes $\hat{m} := [c^d \mod N]$ and then recovers the original message $m$. For the receiver to be able to recover the message, the mapping from messages to elements of $\mathbb{Z}_N^*$ must be (efficiently) reversible. For a scheme following this approach to have a hope of being CPA-secure, the mapping must be randomized so encryption is not deterministic. This is, of course, a necessary condition but not a sufficient one, and security of the encryption scheme depends critically on the specific mapping that is used.
+Although plain RSA is insecure, it does suggest one general approach to public-key encryption based on the RSA problem: to encrypt a message $m$ using public key $\langle N, e \rangle$, first map $m$ to an element $\hat{m} \in \mathbb{Z}_N^*$; then compute the ciphertext $c := [\hat{m}^e \bmod N]$. To decrypt a ciphertext $c$, the receiver computes $\hat{m} := [c^d \bmod N]$ and then recovers the original message $m$. For the receiver to be able to recover the message, the mapping from messages to elements of $\mathbb{Z}_N^*$ must be (efficiently) reversible. For a scheme following this approach to have a hope of being CPA-secure, the mapping must be randomized so encryption is not deterministic. This is, of course, a necessary condition but not a sufficient one, and security of the encryption scheme depends critically on the specific mapping that is used.
 
 One simple implementation of the above idea is to randomly pad the message before encrypting. That is, to map a message $m$ (viewed as a bit-string) to an element of $\mathbb{Z}_N^*$, the sender chooses a uniform bit-string $r \in \{0,1\}^\ell$ (for some appropriate $\ell$) and sets $\hat{m} := r\|m$; the resulting value can naturally be interpreted as an integer in $\mathbb{Z}_N^*$. (This mapping is clearly reversible.) See Construction 12.30, where the bounds on $\ell(n)$ and the length of $m$ ensure that the integer $\hat{m}$ is less than $N$.
 
@@ -1174,7 +1174,7 @@ One simple implementation of the above idea is to randomly pad the message befor
 
 Let GenRSA be as before, and let $\ell$ be a function with $\ell(n) < 2n$. Define a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
 
 - Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}^{|N|- \ell(n)-1}$, choose a uniform string $r \in \{0,1\}^{\ell(n)}$ and interpret $\hat{m} := r\|m$ as an element of $\mathbb{Z}_N^*$. Output the ciphertext
 
@@ -1192,9 +1192,9 @@ and output the $\|N\| - \ell(n) - 1$ least-significant bits of $\hat{m}$.
 
 The padded RSA encryption scheme.
 
-The construction is parameterized by a value $\ell$ that determines the length of the random padding used. Security of the scheme depends on $\ell$. There is an obvious brute-force attack on the scheme that runs in time ${2}^{\ell}$, so if $\ell$ is too short (in particular, if $\ell(n) = \mathcal{O}(\log n)$), the scheme is insecure. At the other extreme, the result we show in the following section shows that when the padding is as large as possible, and $m$ is just a single bit, then it is possible to prove security based on the RSA assumption. In intermediate cases, the situation is less clear: for certain $\ell$ we cannot prove security based on the RSA assumption but no polynomial-time attacks are known either. We defer further discussion until after our treatment of PKCS #1 v1.5 next.
+The construction is parameterized by a value $\ell$ that determines the length of the random padding used. Security of the scheme depends on $\ell$. There is an obvious brute-force attack on the scheme that runs in time $2^{\ell}$, so if $\ell$ is too short (in particular, if $\ell(n) = \mathcal{O}(\log n)$), the scheme is insecure. At the other extreme, the result we show in the following section shows that when the padding is as large as possible, and $m$ is just a single bit, then it is possible to prove security based on the RSA assumption. In intermediate cases, the situation is less clear: for certain $\ell$ we cannot prove security based on the RSA assumption but no polynomial-time attacks are known either. We defer further discussion until after our treatment of PKCS #1 v1.5 next.
 
-RSA PKCS #1 v1.5. The RSA Laboratories Public-Key Cryptography Standard (PKCS) #1 version 1.5, issued in 1993, utilizes a variant of padded RSA encryption. For a public key $pk = \langle N, e \rangle$ of the usual form, let $k$ denote the length of $N$ in bytes; i.e., $k$ is the integer satisfying ${2}^{8(k-1)} \leq N < 2^{8k}$. Messages $m$ to be encrypted are assumed to have length an integer number of bytes ranging from one to $k-11$. Encryption of a D-byte message $m$ is computed as
+RSA PKCS #1 v1.5. The RSA Laboratories Public-Key Cryptography Standard (PKCS) #1 version 1.5, issued in 1993, utilizes a variant of padded RSA encryption. For a public key $pk = \langle N, e \rangle$ of the usual form, let $k$ denote the length of $N$ in bytes; i.e., $k$ is the integer satisfying $2^{8(k-1)} \leq N < 2^{8k}$. Messages $m$ to be encrypted are assumed to have length an integer number of bytes ranging from one to $k-11$. Encryption of a D-byte message $m$ is computed as
 
 $$
 [\left(\mathtt{0x00}\middle|\mathtt{0x02}\middle|r\middle|\mathtt{0x00}\middle|m\right)^{e}\bmod{N}],
@@ -1208,13 +1208,13 @@ $$
 c=(\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|b\|0\cdots0)^{e}\bmod N.
 $$
 
-An attacker can compute $c^{\prime} := c/(2^L)^e \mod N$; note that
+An attacker can compute $c^{\prime} := c/(2^L)^e \bmod N$; note that
 
 $$
 c^{\prime}=\left(\frac{\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|b\|0\cdots0}{10\cdots0}\right)^{e}=(\mathtt{0x02}\|r\|\mathtt{0x00}\|b)^{e}\bmod N.
 $$
 
-The integer $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ is 75 bits long (note that $\mathtt{0x02} = 00000010$, and all the high-order 0-bits don't count), and so an attacker can now apply the “short-message attack,” or the attack based on encrypting a partially known message, from the previous section. To avoid these attacks we need to take $r$ of length at least $\|N\|/e$. Even if $e$ is large, however, the “quadratic-improvement attack” from the previous section shows that $r$ can be recovered, with high probability, in time roughly ${2}^{\|r\|/2}$.
+The integer $\mathtt{0x02}\|r\|\mathtt{0x00}\|b$ is 75 bits long (note that $\mathtt{0x02} = 00000010$, and all the high-order 0-bits don't count), and so an attacker can now apply the “short-message attack,” or the attack based on encrypting a partially known message, from the previous section. To avoid these attacks we need to take $r$ of length at least $\|N\|/e$. Even if $e$ is large, however, the “quadratic-improvement attack” from the previous section shows that $r$ can be recovered, with high probability, in time roughly $2^{\|r\|/2}$.
 
 If we force $r$ to be roughly half the length of $N$, and correspondingly reduce the maximum message length, then it is reasonable to conjecture that the encryption scheme in PKCS #1 v1.5 is CPA-secure. (We stress, however, that no proof of security based on the RSA assumption is known.) Nevertheless, because of a serious chosen-ciphertext attack on the scheme, described briefly in Section 12.5.5, newer versions of the PKCS #1 standard have been introduced and should be used instead.
 
@@ -1232,7 +1232,7 @@ Define the following experiment for a given algorithm $\mathsf{GenRSA}$ (with th
 
 The RSA hard-core predicate experiment $\mathsf{RSA\text{-}lsb}_{A,\mathsf{GenRSA}}(1^{n})$:
 
-1. Run $\mathsf{GenRSA}({1}^{n})$ to obtain $(N,e,d)$.
+1. Run $\mathsf{GenRSA}(1^{n})$ to obtain $(N,e,d)$.
 
 2. Choose a uniform $x \in \mathbb{Z}_N^*$ and compute $y := [x^e \bmod N]$.
 
@@ -1240,7 +1240,7 @@ The RSA hard-core predicate experiment $\mathsf{RSA\text{-}lsb}_{A,\mathsf{GenRS
 
 4. The output of the experiment is 1 if and only if $\mathsf{lsb}(x)=b$.
 
-Observe that $\mathsf{lsb}(x)$ is a uniform bit when $x \in \mathbb{Z}_N^*$ is uniform. $\mathcal{A}$ can guess $\mathsf{lsb}(x)$ with probability ${1}/{2}$ by simply outputting a uniform bit $b$. The following theorem states that if the RSA problem is hard, then no efficient algorithm $\mathcal{A}$ can do significantly better than this; i.e., the least-significant bit is a hard-core predicate of the RSA permutation.
+Observe that $\mathsf{lsb}(x)$ is a uniform bit when $x \in \mathbb{Z}_N^*$ is uniform. $\mathcal{A}$ can guess $\mathsf{lsb}(x)$ with probability $1/2$ by simply outputting a uniform bit $b$. The following theorem states that if the RSA problem is hard, then no efficient algorithm $\mathcal{A}$ can do significantly better than this; i.e., the least-significant bit is a hard-core predicate of the RSA permutation.
 
 THEOREM 12.31 If the RSA problem is hard relative to GenRSA then for all probabilistic polynomial-time algorithms $\mathcal{A}$ there is a negligible function $\mathsf{negl}$ such that $\Pr[\mathsf{RSA\text{-}lsb}_{\mathcal{A},\mathsf{GenRSA}}(n)=1] \leq \frac{1}{2} + \mathsf{negl}(n)$.
 
@@ -1248,23 +1248,23 @@ A full proof of this theorem is beyond the scope of this book. However, we provi
 
 Fix $N$ and $e$, and let $\mathcal{A}$ be an algorithm such that $\mathcal{A}([r^e \bmod N]) = \mathsf{lsb}(r)$. Given $N, e$, and $y = [x^e \bmod N]$, we will recover the bits of $x$ one-by-one, from least to most significant. To determine $\mathsf{lsb}(x)$ we simply run $\mathcal{A}(y)$. There are now two cases:
 
-Case 1: $\mathsf{lsb}(x) = 0$. Note that $y/2^e = (x/2)^e \bmod N$, and because $x$ is even (i.e., $\mathsf{lsb}(x) = 0$), 2 divides the integer x. So $x/2$ is just the right-wise bit-shift of $x$, and $\mathsf{lsb}(x/2)$ is equal to ${2}\mathsf{sb}(x)$, the 2nd-least-significant bit of $x$. So we can obtain ${2}\mathsf{sb}(x)$ by computing $y^{\prime} := [y/2^e \bmod N]$ and then running $\mathcal{A}(y^{\prime})$.
+Case 1: $\mathsf{lsb}(x) = 0$. Note that $y/2^e = (x/2)^e \bmod N$, and because $x$ is even (i.e., $\mathsf{lsb}(x) = 0$), 2 divides the integer x. So $x/2$ is just the right-wise bit-shift of $x$, and $\mathsf{lsb}(x/2)$ is equal to $2\mathsf{sb}(x)$, the 2nd-least-significant bit of $x$. So we can obtain $2\mathsf{sb}(x)$ by computing $y^{\prime} := [y/2^e \bmod N]$ and then running $\mathcal{A}(y^{\prime})$.
 
-Case 2: $\mathsf{lsb}(x) = 1$. Here $[x/2 \bmod N] = (x + N)/2$. So $\mathsf{lsb}([x/2 \bmod N])$ is equal to ${2}\mathsf{sb}(x + N)$; the latter is equal to ${1} \oplus {2}\mathsf{sb}(N) \oplus {2}\mathsf{sb}(x)$ (we have a carry bit in the second position because both $x$ and $N$ are odd). So if we compute $y^{\prime} := [y/2^e \mod N]$, then ${2}\mathsf{sb}(x) = \mathcal{A}(y^{\prime}) \oplus 1 \oplus {2}\mathsf{sb}(N)$.
+Case 2: $\mathsf{lsb}(x) = 1$. Here $[x/2 \bmod N] = (x + N)/2$. So $\mathsf{lsb}([x/2 \bmod N])$ is equal to $2\mathsf{sb}(x + N)$; the latter is equal to $1 \oplus {2}\mathsf{sb}(N) \oplus {2}\mathsf{sb}(x)$ (we have a carry bit in the second position because both $x$ and $N$ are odd). So if we compute $y^{\prime} := [y/2^e \bmod N]$, then $2\mathsf{sb}(x) = \mathcal{A}(y^{\prime}) \oplus 1 \oplus {2}\mathsf{sb}(N)$.
 
 Continuing in this way, we can recover all the bits of x.
 
 **Encrypting one bit.**
 
-We can use the hard-core predicate identified above to encrypt a single bit. The idea is straightforward: to encrypt the message $m \in \{0,1\}$, the sender chooses uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$; the ciphertext is $c := [r^e \mod N]$. See Construction 12.32.
+We can use the hard-core predicate identified above to encrypt a single bit. The idea is straightforward: to encrypt the message $m \in \{0,1\}$, the sender chooses uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$; the ciphertext is $c := [r^e \bmod N]$. See Construction 12.32.
 
 **CONSTRUCTION 12.32**
 
 Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. Output the public key $pk=\langle N,e\rangle$, and the private key $sk=\langle N,d\rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. Output the public key $pk=\langle N,e\rangle$, and the private key $sk=\langle N,d\rangle$.
 
-- Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}$, choose a uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$. Output the ciphertext $c := [r^e \mod N]$.
+- Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}$, choose a uniform $r \in \mathbb{Z}_N^*$ subject to the constraint that $\mathsf{lsb}(r) = m$. Output the ciphertext $c := [r^e \bmod N]$.
 
 - Dec: on input a private key $sk = \langle N, d \rangle$ and a ciphertext $c$, compute $r := [c^d \bmod N]$ and output $\mathsf{lsb}(r)$.
 
@@ -1319,7 +1319,7 @@ A better approach is for the sender to apply the RSA permutation (namely, raisin
 It is possible to implement decryption more efficiently using the fact that the receiver knows the order of the group $\mathbb{Z}_N^*$. At key-generation time, the receiver can pre-compute $d^{\prime} := [d^n \bmod \phi(N)]$ and store $d^{\prime}$ as part of its private key. To decrypt, the receiver can then directly compute $c_1 := [c^{d^{\prime}} \bmod N]$, after which it can compute $c_1^e, \ldots, c_1^{e^n}$. (Exponentiations to the power $e$ are more efficient than exponentiations to the power $d$ since $e \ll d$ in practice.) This works, of course, since
 
 $$
-c^{d^{n}}\bmod N=c^{[d^{n}\bmod\phi(N)]}=c^{d^{\prime}}\bmod N.
+c^{d^{n}}\bmod N=c^{[d^{n} \bmod \phi(N)]}=c^{d^{\prime}}\bmod N.
 $$
 
 The above is formally described as Construction 12.34.
@@ -1328,29 +1328,29 @@ The above is formally described as Construction 12.34.
 
 Let GenRSA be as usual, and define a KEM as follows:
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Then compute $d^{\prime} := [d^n \mod \phi(N)]$ (note that $\phi(N)$ can be computed from $(N, e, d)$ or obtained during the course of running GenRSA). Output $pk = \langle N, e \rangle$ and $sk = \langle N, d^{\prime}\rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$. Then compute $d^{\prime} := [d^n \bmod \phi(N)]$ (note that $\phi(N)$ can be computed from $(N, e, d)$ or obtained during the course of running GenRSA). Output $pk = \langle N, e \rangle$ and $sk = \langle N, d^{\prime}\rangle$.
 
 - Encaps: on input $pk = \langle N, e \rangle$, choose a uniform $c_1 \in \mathbb{Z}_N^*$. Then for $i = 1, \ldots, n$ do:
 
    1. Compute $k_i := \mathsf{lsb}(c_i)$.
-   2. Compute $c_{i+1} := [c_i^e \mod N]$.
+   2. Compute $c_{i+1} := [c_i^e \bmod N]$.
 
    Output the ciphertext $c_{n+1}$ and the key $k = k_1 \cdots k_n$.
 
-- Decaps: on input $sk = \langle N, d^{\prime} \rangle$ and a ciphertext $c$, compute $c_1 := [c^{d^{\prime}} \mod N]$. Then for $i = 1, \ldots, n$ do:
+- Decaps: on input $sk = \langle N, d^{\prime} \rangle$ and a ciphertext $c$, compute $c_1 := [c^{d^{\prime}} \bmod N]$. Then for $i = 1, \ldots, n$ do:
 
    1. Compute $k_i := \mathsf{lsb}(c_i)$.
-   2. Compute $c_{i+1} := [c_i^e \mod N]$.
+   2. Compute $c_{i+1} := [c_i^e \bmod N]$.
 
    Output the key $k = k_1 \cdots k_n$.
 
 A KEM using a hard-core predicate for RSA.
 
-The construction is reminiscent of the approach used to construct a pseudorandom generator from a one-way permutation toward the end of Section 8.4.2. If we let $f$ denote the RSA permutation relative to some public key $\langle N, e \rangle$ (i.e., $f(x) \overset{\mathrm{def}}{=} [x^e \mod N]$), then CPA-security of Construction 12.34 is equivalent to pseudorandomness of $\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ even conditioned on the value $c = f^n(c_1)$. This, in turn, can be proven using Theorem 12.31 and the techniques from Section 8.4.2. (The only difference is that in Section 8.4.2 the value $f^n(c_1)$ was itself a uniform $n$-bit string, whereas here it is a uniform element of $\mathbb{Z}_N^*$. Pseudorandomness of the successive hard-core predicates is independent of the domain of $f$.) Summarizing:
+The construction is reminiscent of the approach used to construct a pseudorandom generator from a one-way permutation toward the end of Section 8.4.2. If we let $f$ denote the RSA permutation relative to some public key $\langle N, e \rangle$ (i.e., $f(x) \overset{\mathrm{def}}{=} [x^e \bmod N]$), then CPA-security of Construction 12.34 is equivalent to pseudorandomness of $\mathsf{lsb}(f^{n-1}(c_1)), \ldots, \mathsf{lsb}(c_1)$ even conditioned on the value $c = f^n(c_1)$. This, in turn, can be proven using Theorem 12.31 and the techniques from Section 8.4.2. (The only difference is that in Section 8.4.2 the value $f^n(c_1)$ was itself a uniform $n$-bit string, whereas here it is a uniform element of $\mathbb{Z}_N^*$. Pseudorandomness of the successive hard-core predicates is independent of the domain of $f$.) Summarizing:
 
 THEOREM 12.35 If the RSA problem is hard relative to GenRSA then Construction 12.34 is a CPA-secure KEM.
 
-Efficiency. Construction 12.34 is reasonably efficient. To be concrete, assume that $n = 128$, the RSA modulus $N$ is 2048 bits long, and the public exponent $e$ is 3 so that exponentiation to the power $e$ modulo $N$ can be computed using two modular multiplications. (See Appendix B.2.3.) Encryption then requires ${2}n = 256$ modular multiplications. Decryption can be done with one full modular exponentiation (at the cost of approximately ${1.5} \cdot 2048 = 3072$ modular multiplications) plus an additional 256 modular multiplications. The cost of decryption is thus only about 8% less efficient than for the plain RSA encryption scheme. Encryption is significantly more expensive than in plain RSA, but in many applications decryption time is more important (since it may be implemented by a server that is performing thousands of decryptions simultaneously).
+Efficiency. Construction 12.34 is reasonably efficient. To be concrete, assume that $n = 128$, the RSA modulus $N$ is 2048 bits long, and the public exponent $e$ is 3 so that exponentiation to the power $e$ modulo $N$ can be computed using two modular multiplications. (See Appendix B.2.3.) Encryption then requires $2n = 256$ modular multiplications. Decryption can be done with one full modular exponentiation (at the cost of approximately $1.5 \cdot 2048 = 3072$ modular multiplications) plus an additional 256 modular multiplications. The cost of decryption is thus only about 8% less efficient than for the plain RSA encryption scheme. Encryption is significantly more expensive than in plain RSA, but in many applications decryption time is more important (since it may be implemented by a server that is performing thousands of decryptions simultaneously).
 
 ### 12.5.4 OAEP and PKCS #1 v2
 
@@ -1369,13 +1369,13 @@ In fact, we have used this observation several times already.
 
 RSA PKCS #1 v1.5. Padded RSA encryption, which is conjectured to be CPA-secure for the right setting of the parameters, is vulnerable to essentially the same attack as plain RSA encryption is. But there is also a more interesting chosen-ciphertext attack on PKCS #1 v1.5 encryption that, in contrast to an attack that exploits malleability, does not require full access to a decryption oracle; it only requires access to a "partial" decryption oracle that indicates whether or not decryption of some ciphertext returns an error. This makes the attack much more practical, as it can be carried out whenever an attacker can distinguish a decryption success from a decryption failure, as in the case of the padding-oracle attack discussed in Section 5.1.1.
 
-Recall that the public-key encryption scheme defined in the PKCS #1 v1.5 standard uses a variant of padded RSA encryption where the padding is done in a specific way. In particular, the two high-order bytes of the padded message are always $\mathtt{0x00}\|\mathtt{0x02}$. When decrypting, the receiver is supposed to check that the two high-order bytes of the intermediate result match these values, and return an error if this is not the case. In 1998, Bleichenbacher developed a chosen-ciphertext attack that exploits the fact that this check is done. Roughly, given a ciphertext $c$ that corresponds to an honest encryption of some unknown message $m$ with respect to a public key $\langle N, e \rangle$, Bleichenbacher's attack repeatedly chooses uniform $s \in \mathbb{Z}_N^*$ and submits the ciphertext $c^{\prime} := [s^e \cdot c \mod N]$ to the receiver. Say $c = [\hat{m}^e \mod N]$ where
+Recall that the public-key encryption scheme defined in the PKCS #1 v1.5 standard uses a variant of padded RSA encryption where the padding is done in a specific way. In particular, the two high-order bytes of the padded message are always $\mathtt{0x00}\|\mathtt{0x02}$. When decrypting, the receiver is supposed to check that the two high-order bytes of the intermediate result match these values, and return an error if this is not the case. In 1998, Bleichenbacher developed a chosen-ciphertext attack that exploits the fact that this check is done. Roughly, given a ciphertext $c$ that corresponds to an honest encryption of some unknown message $m$ with respect to a public key $\langle N, e \rangle$, Bleichenbacher's attack repeatedly chooses uniform $s \in \mathbb{Z}_N^*$ and submits the ciphertext $c^{\prime} := [s^e \cdot c \bmod N]$ to the receiver. Say $c = [\hat{m}^e \bmod N]$ where
 
 $$
 \hat{m}=\mathtt{0x00}\|\mathtt{0x02}\|r\|\mathtt{0x00}\|m,
 $$
 
-as specified by PKCS #1 v1.5. Then decryption of $c^{\prime}$ will give the intermediate result $\hat{m}^{\prime} = [s \cdot \hat{m} \mod N]$, and the receiver will return an error unless the top two bytes of $\hat{m}^{\prime}$ are exactly 0x00||0x02. (Other checks are done as well, but we ignore those for simplicity.) Thus, whenever decryption succeeds the attacker learns that the top two bytes of $s \cdot \hat{m} \mod N$ are 0x00||0x02, where $s$ is known. Sufficiently many equations of this type suffice for the attacker to learn $\hat{m}$ and recover all of the original message $m$.
+as specified by PKCS #1 v1.5. Then decryption of $c^{\prime}$ will give the intermediate result $\hat{m}^{\prime} = [s \cdot \hat{m} \bmod N]$, and the receiver will return an error unless the top two bytes of $\hat{m}^{\prime}$ are exactly 0x00||0x02. (Other checks are done as well, but we ignore those for simplicity.) Thus, whenever decryption succeeds the attacker learns that the top two bytes of $s \cdot \hat{m} \bmod N$ are 0x00||0x02, where $s$ is known. Sufficiently many equations of this type suffice for the attacker to learn $\hat{m}$ and recover all of the original message $m$.
 
 **The CPA-secure KEM.**
 
@@ -1383,7 +1383,7 @@ In Section 12.5.3 we showed a construction of a KEM that can be proven CPA-secur
 
 ### RSA-OAEP
 
-We explore a construction of CCA-secure encryption from RSA using what is called optimal asymmetric encryption padding (OAEP). The resulting RSA-OAEP scheme follows the idea (used also in Section 12.5.2) of taking a message $m$, mapping it to an element $\hat{m} \in \mathbb{Z}_N^*$, and then letting $c = [\hat{m}^e \mod N]$ be the ciphertext. The transformation here, however, is more complex than before. A version of RSA-OAEP has been standardized as part of RSA PKCS #1 since version 2.0.
+We explore a construction of CCA-secure encryption from RSA using what is called optimal asymmetric encryption padding (OAEP). The resulting RSA-OAEP scheme follows the idea (used also in Section 12.5.2) of taking a message $m$, mapping it to an element $\hat{m} \in \mathbb{Z}_N^*$, and then letting $c = [\hat{m}^e \bmod N]$ be the ciphertext. The transformation here, however, is more complex than before. A version of RSA-OAEP has been standardized as part of RSA PKCS #1 since version 2.0.
 
 Let $\ell(n)$, $k(n)$ be integer-valued functions with $k(n) = \Theta(n)$, and such that $\ell(n) + 2k(n)$ is less than the bit-length of moduli output by $\mathsf{GenRSA}(1^n)$. Fix $n$, and let $\ell = \ell(n)$ and $k = k(n)$. Let $G : \{0, 1\}^k \to \{0, 1\}^{\ell+k}$ and $H : \{0, 1\}^{\ell+k} \to \{0, 1\}^k$ be two hash functions that will be modeled as independent random oracles. (Although using more than one random oracle was not discussed in Section 6.5.1, we can do so in the natural way.) The transformation defined by OAEP is based on a two-round Feistel network with $G$ and $H$ as round functions; see Figure 12.4. Mapping a message $m \in \{0, 1\}^\ell$ to $\hat{m}$ is done as follows: first set $m^{\prime} := m\|0^k$ and choose a uniform $r \in \{0, 1\}^k$. Then compute
 
@@ -1397,9 +1397,9 @@ and set $\hat{m} := s\|t$.
 
 **FIGURE 12.4: The OAEP transformation.**
 
-(The PKCS #1 standard differs from what we have described, but the differences are unimportant for our purposes.) To encrypt a message $m$ with respect to the public key $\langle N, e \rangle$, the sender generates $\hat{m}$ as above and outputs the ciphertext $c := [\hat{m}^e \mod N]$. (Note that $\hat{m}$, interpreted as an integer, is less than $N$ because of the constraints on $\ell, k$.)
+(The PKCS #1 standard differs from what we have described, but the differences are unimportant for our purposes.) To encrypt a message $m$ with respect to the public key $\langle N, e \rangle$, the sender generates $\hat{m}$ as above and outputs the ciphertext $c := [\hat{m}^e \bmod N]$. (Note that $\hat{m}$, interpreted as an integer, is less than $N$ because of the constraints on $\ell, k$.)
 
-To decrypt, the receiver computes $\hat{m} := [c^d \mod N]$ and lets $s\|t := \hat{m}$ with $s$ and $t$ of the appropriate lengths. It then inverts the Feistel network by computing $r := H(t) \oplus s$ and $m^{\prime} := G(r) \oplus t$. Importantly, the receiver then verifies that the trailing $k$ bits of $m^{\prime}$ are all 0; if not, the ciphertext is rejected and an error message is returned. Otherwise, the $k$ least-significant 0s of $m^{\prime}$ are discarded, and the remaining $\ell$ bits of $m^{\prime}$ are output as the message. This process is described in Construction 12.36.
+To decrypt, the receiver computes $\hat{m} := [c^d \bmod N]$ and lets $s\|t := \hat{m}$ with $s$ and $t$ of the appropriate lengths. It then inverts the Feistel network by computing $r := H(t) \oplus s$ and $m^{\prime} := G(r) \oplus t$. Importantly, the receiver then verifies that the trailing $k$ bits of $m^{\prime}$ are all 0; if not, the ciphertext is rejected and an error message is returned. Otherwise, the $k$ least-significant 0s of $m^{\prime}$ are discarded, and the remaining $\ell$ bits of $m^{\prime}$ are output as the message. This process is described in Construction 12.36.
 
 RSA-OAEP can be proven to be CCA-secure based on the RSA assumption if $G$ and $H$ are modeled as random oracles. The proof is rather complicated, and we do not give it here; instead, we merely provide some intuition. First consider CPA-security. During encryption the sender computes
 
@@ -1415,7 +1415,7 @@ Can the attacker query $r$ to $G$? The value of $r$ is itself masked by $H(t)$. 
 
 Let GenRSA be as in the previous sections, and $\ell, k$ be as described in the text. Let $G : \{0,1\}^k \to \{0,1\}^{\ell+k}$ and $H : \{0,1\}^{\ell+k} \to \{0,1\}^k$ be functions. Construct a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. The public key is $\langle N,e\rangle$ and the private key is $\langle N,d\rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N,e,d)$. The public key is $\langle N,e\rangle$ and the private key is $\langle N,d\rangle$.
 
 - Enc: on input a public key $\langle N, e \rangle$ and a message $m \in \{0,1\}^{\ell}$, set $m^{\prime} := m\|0^k$ and choose a uniform $r \in \{0,1\}^k$. Then compute
 
@@ -1423,7 +1423,7 @@ $$
 t:=m^{\prime}\oplus G(r),\quad s:=r\oplus H(t)
 $$
 
-and set $\hat{m} := s\|t$. Output the ciphertext $c := [\hat{m}^{e} \mod N]$.
+and set $\hat{m} := s\|t$. Output the ciphertext $c := [\hat{m}^{e} \bmod N]$.
 
 - Dec: on input a private key $\langle N, d \rangle$ and a ciphertext $c \in \mathbb{Z}_N^*$, compute $\hat{m} := [c^d \bmod N]$. If $\|\hat{m}\| > \ell + 2k$, output $\perp$. Otherwise, parse $\hat{m}$ as $s\|t$ with $s \in \{0,1\}^k$ and $t \in \{0,1\}^{\ell+k}$. Compute $r := H(t) \oplus s$ and $m^{\prime} := G(r) \oplus t$. If the $k$ least-significant bits of $m^{\prime}$ are not all 0, output $\perp$. Otherwise, output the $\ell$ most-significant bits of $m^{\prime}$.
 
@@ -1451,11 +1451,11 @@ CPA-security of the scheme is immediate. Indeed, the ciphertext $c$ is equal to 
 
 Let GenRSA be as usual, and construct a KEM as follows:
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}(1^n)$ to compute $(N, e, d)$. The public key is $\langle N, e \rangle$, and the private key is $\langle N, d \rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to compute $(N, e, d)$. The public key is $\langle N, e \rangle$, and the private key is $\langle N, d \rangle$.
 
 As part of key generation, a function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is specified, but we leave this implicit.
 
-- Encaps: on input public key $\langle N, e \rangle$, choose a uniform $r \in \mathbb{Z}_N^*$. Output the ciphertext $c := [r^e \mod N]$ and the key $k := H(r)$.
+- Encaps: on input public key $\langle N, e \rangle$, choose a uniform $r \in \mathbb{Z}_N^*$. Output the ciphertext $c := [r^e \bmod N]$ and the key $k := H(r)$.
 
 - Decaps: on input private key $\langle N, d \rangle$ and a ciphertext $c \in \mathbb{Z}_N^*$, compute $r := [c^d \bmod N]$ and output the key $k := H(r)$.
 
@@ -1467,7 +1467,7 @@ THEOREM 12.38 If the RSA problem is hard relative to GenRSA and H is modeled as 
 
 PROOF Let $\Pi$ denote Construction 12.37, and let $\mathcal{A}$ be a probabilistic polynomial-time adversary. For convenience, and because this is the first proof where we use the full power of the random-oracle model, we explicitly describe the steps of experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$:
 
-1. $\mathsf{GenRSA}({1}^n)$ is run to obtain $(N, e, d)$. In addition, a random function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is chosen.
+1. $\mathsf{GenRSA}(1^n)$ is run to obtain $(N, e, d)$. In addition, a random function $H: \mathbb{Z}_N^* \to \{0,1\}^n$ is chosen.
 
 2. Uniform $r \in \mathbb{Z}_N^*$ is chosen, and the ciphertext $c := [r^e \bmod N]$ and key $k := H(r)$ are computed.
 
@@ -1514,7 +1514,7 @@ When $\mathcal{A}$ makes a query $H(\tilde{r})$, answer it as follows:
 
 - If there is an entry in $L_{H}$ of the form $(\tilde{r}, k)$ for some $k$, return $k$.
 
-- Otherwise, let $\tilde{c} := [\tilde{r}^{e} \mod N]$. If there is an entry in $L_{\mathsf{Decaps}}$ of the form $(\tilde{c}, k)$ for some $k$, return $k$ and store $(\tilde{r}, k)$ in $L_{H}$.
+- Otherwise, let $\tilde{c} := [\tilde{r}^{e} \bmod N]$. If there is an entry in $L_{\mathsf{Decaps}}$ of the form $(\tilde{c}, k)$ for some $k$, return $k$ and store $(\tilde{r}, k)$ in $L_{H}$.
 
 - Otherwise, choose a uniform $k \in \{0,1\}^n$, return $k$, and store $(\tilde{r}, k)$ in $L_H$.
 
@@ -1554,7 +1554,7 @@ and then combine these to obtain $x \leftrightarrow (x_p, x_q)$, as discussed in
 
 Note that $[d \bmod (p-1)]$ and $[d \bmod (q-1)]$ could be pre-computed since they are independent of y.
 
-Why is this better? Assume exponentiation modulo an $\ell$-bit integer takes $\gamma \cdot \ell^3$ operations for some constant $\gamma$. If $p, q$ are each $n$ bits long, then naively computing $[y^d \bmod N]$ takes $\gamma \cdot (2n)^3 = 8\gamma \cdot n^3$ steps (because $\|N\| = 2n$). Using Chinese remainder reduces this to roughly ${2} \cdot (\gamma \cdot n^3)$ steps (because $\|p\| = \|q\| = n$), or roughly ${1}/{4}$ of the time.
+Why is this better? Assume exponentiation modulo an $\ell$-bit integer takes $\gamma \cdot \ell^3$ operations for some constant $\gamma$. If $p, q$ are each $n$ bits long, then naively computing $[y^d \bmod N]$ takes $\gamma \cdot (2n)^3 = 8\gamma \cdot n^3$ steps (because $\|N\| = 2n$). Using Chinese remainder reduces this to roughly $2 \cdot (\gamma \cdot n^3)$ steps (because $\|p\| = \|q\| = n$), or roughly $1/4$ of the time.
 
 **Example 12.40**
 
@@ -1568,7 +1568,7 @@ $$
 \end{aligned}
 $$
 
-We can compute ${1}_p = 78 \leftrightarrow (1,0)$ and ${1}_q = 66 \leftrightarrow (0,1)$, as discussed in Section 9.1.5. (Note these values can be pre-computed, as they are independent of $y$.) Then $(3,-1) \leftrightarrow 3 \cdot 1_p - 1_q = 3 \cdot 78 - 66 = 168 = 25 \mod 143$, in agreement with the answer previously obtained.
+We can compute $1_p = 78 \leftrightarrow (1,0)$ and $1_q = 66 \leftrightarrow (0,1)$, as discussed in Section 9.1.5. (Note these values can be pre-computed, as they are independent of $y$.) Then $(3,-1) \leftrightarrow 3 \cdot 1_p - 1_q = 3 \cdot 78 - 66 = 168 = 25 \bmod 143$, in agreement with the answer previously obtained.
 
 **A fault attack when using Chinese remaindering.**
 
@@ -1580,7 +1580,7 @@ One possible countermeasure is to verify correctness of the result before using 
 
 Dependent public keys I. When multiple receivers wish to utilize the same encryption scheme, they should use independent public keys. This and the following attack demonstrate what can go wrong when this is not done.
 
-Imagine a company wants to use the same modulus $N$ for each of its employees. Since it is not desirable for messages encrypted to one employee to be read by any other employee, the company issues different $(e_i, d_i)$ pairs to each employee. That is, the public key of the $i$th employee is $pk_i = \langle N, e_i \rangle$ and their private key is $sk = \langle N, d_i \rangle$, where $e_i \cdot d_i = 1 \mod \phi(N)$ for all $i$.
+Imagine a company wants to use the same modulus $N$ for each of its employees. Since it is not desirable for messages encrypted to one employee to be read by any other employee, the company issues different $(e_i, d_i)$ pairs to each employee. That is, the public key of the $i$th employee is $pk_i = \langle N, e_i \rangle$ and their private key is $sk = \langle N, d_i \rangle$, where $e_i \cdot d_i = 1 \bmod \phi(N)$ for all $i$.
 
 This approach is insecure and allows any employee to read messages encrypted to all other employees. The reason is that, as noted in Section 9.2.4, given $N$ and $e_i$, $d_i$ with $e_i \cdot d_i = 1 \bmod \phi(N)$, the factorization of $N$ can be efficiently computed. Given the factorization of $N$, of course, it is possible to compute $d_j := e_j^{-1} \bmod \phi(N)$ for any $j$.
 
@@ -1592,7 +1592,7 @@ $$
 c_{1}=m^{e_{1}}\bmod N\quad\text{and}\quad c_{2}=m^{e_{2}}\bmod N.
 $$
 
-Since $\gcd(e_1, e_2) = 1$, there exist integers $X, Y$ such that $X e_1 + Y e_2 = 1$ by Proposition 9.2. Moreover, given the public exponents $e_1$ and $e_2$ it is possible to efficiently compute $X$ and $Y$ using the extended Euclidean algorithm (see Appendix B.1.2). We claim that $m = [c_1^X \cdot c_2^Y \mod N]$, which can easily be calculated. This is true because
+Since $\gcd(e_1, e_2) = 1$, there exist integers $X, Y$ such that $X e_1 + Y e_2 = 1$ by Proposition 9.2. Moreover, given the public exponents $e_1$ and $e_2$ it is possible to efficiently compute $X$ and $Y$ using the extended Euclidean algorithm (see Appendix B.1.2). We claim that $m = [c_1^X \cdot c_2^Y \bmod N]$, which can easily be calculated. This is true because
 
 $$
 c_{1}^{X}\cdot c_{2}^{Y}=m^{X e_{1}}m^{Y e_{2}}=m^{X e_{1}+Y e_{2}}=m^{1}=m\bmod N.
@@ -1604,7 +1604,7 @@ A similar attack applies when using padded RSA or RSA-OAEP if the sender uses th
 
 Throughout this book, we always assume that honest parties have access to sufficient, high-quality randomness. When this assumption is violated then security may fail to hold. For example, if an $\ell$-bit string is chosen from some set $S \subset \{0,1\}^{\ell}$ rather than uniformly from $\{0,1\}^{\ell}$, then an attacker can perform a brute-force search (in time $\mathcal{O}(|S|)$) to attack the system.
 
-In some cases the situation may be even worse. Consider in particular the case of RSA key generation, where random bits $r_p$ is used to choose the first prime $p$, and random bits $r_q$ is used to generate the second prime $q$. Assume further that many public/private keys are generated using the same source of poor-quality randomness, in which $r_p, r_q$ are each chosen uniformly from some set $S$ of size ${2}^s$. After generating roughly ${2}^{s/2}$ public keys (see Appendix A.4), we expect to obtain two different moduli $N, N^{\prime}$ that were generated using identical randomness $r_p = r_p^{\prime}$ but different randomness $r_q \neq r_q^{\prime}$. These two moduli share a prime factor which can be easily found by computing $\gcd(N, N^{\prime})$. An attacker can attempt to exploit this by scraping the Internet for a large set of RSA public keys, computing their pairwise gcds, and thus hoping to factor some subset of them. Although computing pairwise gcds of ${2}^{s/2}$ moduli would naively take time $\mathcal{O}(2^s)$, it turns out that this can be significantly improved using a “divide-and-conquer” approach that is beyond the scope of this book. The upshot is that an attacker can factor a small number of public moduli in time less than ${2}^s$. Note also that the attack works even if the set $S$ is unknown to the attacker.
+In some cases the situation may be even worse. Consider in particular the case of RSA key generation, where random bits $r_p$ is used to choose the first prime $p$, and random bits $r_q$ is used to generate the second prime $q$. Assume further that many public/private keys are generated using the same source of poor-quality randomness, in which $r_p, r_q$ are each chosen uniformly from some set $S$ of size $2^s$. After generating roughly $2^{s/2}$ public keys (see Appendix A.4), we expect to obtain two different moduli $N, N^{\prime}$ that were generated using identical randomness $r_p = r_p^{\prime}$ but different randomness $r_q \neq r_q^{\prime}$. These two moduli share a prime factor which can be easily found by computing $\gcd(N, N^{\prime})$. An attacker can attempt to exploit this by scraping the Internet for a large set of RSA public keys, computing their pairwise gcds, and thus hoping to factor some subset of them. Although computing pairwise gcds of $2^{s/2}$ moduli would naively take time $\mathcal{O}(2^s)$, it turns out that this can be significantly improved using a “divide-and-conquer” approach that is beyond the scope of this book. The upshot is that an attacker can factor a small number of public moduli in time less than $2^s$. Note also that the attack works even if the set $S$ is unknown to the attacker.
 
 The above scenario was verified experimentally by two research teams working independently, who carried out exactly the above attack on public keys obtained over the Internet, and were able to successfully factor a significant fraction of the keys they found.
 
@@ -1640,7 +1640,7 @@ Hint: If not, the range of possible ciphertexts has polynomial size.
 
 12.3 Say a public-key encryption scheme $(\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ is one-way if any PPT adversary $\mathcal{A}$ has negligible probability of success in the following experiment:
 
-$\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
+$\mathsf{Gen}(1^{n})$ is run to obtain keys $(pk, sk)$.
 
 - A uniform message $m$ in the message space is chosen, and a ciphertext $c \leftarrow \mathsf{Enc}_{pk}(m)$ is computed.
 
@@ -1682,7 +1682,7 @@ Show that it is possible to decrypt efficiently given knowledge of x. Prove that
 
 12.13 One of the attacks on plain RSA discussed in Section 12.5.1 involves a sender who encrypts the same message to three different receivers. Formulate an appropriate definition of security ruling out such attacks, and show that any CPA-secure public-key encryption scheme satisfies your definition.
 
-12.14 Consider the following modified version of padded RSA encryption: Assume messages to be encrypted have length exactly $\|N\|$/2. To encrypt, first compute $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$ where $r$ is a uniform string of length $\|N\|/2 - 16$. Then compute the ciphertext $c := [\hat{m}^e \mod N]$. When decrypting a ciphertext $c$, the receiver computes $\hat{m} := [c^d \mod N]$ and returns an error if $\hat{m}$ does not consist of 0x00 followed by $\|N\|$/2 - 16 arbitrary bits followed by 0x00. Show that this scheme is not CCA-secure. Why is it easier to construct a chosen-ciphertext attack on this scheme than on PKCS #1 v1.5?
+12.14 Consider the following modified version of padded RSA encryption: Assume messages to be encrypted have length exactly $\|N\|$/2. To encrypt, first compute $\hat{m} := \mathtt{0x00}\|r\|\mathtt{0x00}\|m$ where $r$ is a uniform string of length $\|N\|/2 - 16$. Then compute the ciphertext $c := [\hat{m}^e \bmod N]$. When decrypting a ciphertext $c$, the receiver computes $\hat{m} := [c^d \bmod N]$ and returns an error if $\hat{m}$ does not consist of 0x00 followed by $\|N\|$/2 - 16 arbitrary bits followed by 0x00. Show that this scheme is not CCA-secure. Why is it easier to construct a chosen-ciphertext attack on this scheme than on PKCS #1 v1.5?
 
 12.15 Consider the RSA-based encryption scheme in which a user encrypts a message $m \in \{0,1\}^{\ell}$ with respect to the public key $\langle N,e\rangle$ by computing $\hat{m} := H(m)\|m$ and outputting the ciphertext $[\hat{m}^{e} \bmod N]$. (Here, let $H : \{0,1\}^{\ell} \to \{0,1\}^{n}$ and assume $\ell + n < \|N\|$.) Is this scheme CPA-secure if $H$ is modeled as a random oracle?
 
@@ -1700,7 +1700,7 @@ where $H: \mathbb{Z}_{N_1}^* \to \{0,1\}^{\ell}$. Assume $\|N_1\| = \|N_2\| = \|
 
 Hint: See Section 12.5.1.
 
-(b) Show a simple way to fix this and get a CPA-secure method that transmits a ciphertext of length ${3}\ell + \mathcal{O}(n)$.
+(b) Show a simple way to fix this and get a CPA-secure method that transmits a ciphertext of length $3\ell + \mathcal{O}(n)$.
 
 (c) Show a better approach that is still CPA-secure but with a cipher-text of length $\ell + \mathcal{O}(n)$.
 
@@ -1710,7 +1710,7 @@ Hint: See Section 12.5.1.
 
 Let $H: \{0,1\}^n \to \{0,1\}^n$ be a function. Construct a public-key encryption scheme as follows:
 
-- Gen*: on input ${1}^n$, run $\mathsf{Gen}(1^n)$ to obtain $(pk, sk)$. Output these as the public and private keys, respectively.
+- Gen*: on input $1^n$, run $\mathsf{Gen}(1^n)$ to obtain $(pk, sk)$. Output these as the public and private keys, respectively.
 
 - Enc*: on input a public key $pk$ and a message $m \in \{0,1\}^n$, choose a uniform $r \in \{0,1\}^n$ and output the ciphertext
 
@@ -1728,7 +1728,7 @@ Does the above construction have indistinguishable encryptions under a chosen-ci
 
 Let GenRSA be as usual, and define a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^n$, run $\mathsf{GenRSA}({1}^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
+- Gen: on input $1^n$, run $\mathsf{GenRSA}(1^n)$ to obtain $(N, e, d)$. Output the public key $pk = \langle N, e \rangle$, and the private key $sk = \langle N, d \rangle$.
 
 - Enc: on input a public key $pk = \langle N, e \rangle$ and a message $m \in \{0,1\}$, choose a uniform $r \in \mathbb{Z}_N^*$. Output the ciphertext $\langle [r^e \bmod N], \mathsf{lsb}(r) \oplus m\rangle$.
 

@@ -24,7 +24,7 @@ $^{1}$ 回顾一下，我们目前尚不知道如何证明单向函数存在，�
 
 The examples we explore are number theoretic in nature, and we therefore begin with a short introduction to number theory. Because we are also interested in problems that can be solved efficiently (even a one-way function must be easy to compute in one direction, and cryptographic schemes must admit efficient algorithms for the honest parties), we also initiate a study of algorithmic number theory. Even the reader who is familiar with number theory is encouraged to read this chapter, since algorithmic aspects are typically ignored in a purely mathematical treatment of these topics.
 
-我们要探讨的例子本质上都是数论的，因此首先简要介绍数论。由于我们也关心能够高效求解的问题（即便是单向函数，也必须在一个方向上易于计算；而密码方案必须为诚实方提供高效算法），所以我们还要开始学习算法数论。即使是熟悉数论的读者也建议阅读本章，因为对这些主题的纯数学处理通常忽略算法层面的内容。
+我们要探讨的例子本质上都属于数论，因此首先简要介绍数论。由于我们也关心能够高效求解的问题（即便是单向函数，也必须在一个方向上易于计算；而密码方案必须为诚实方提供高效算法），所以我们还将初步介绍算法数论。即使是熟悉数论的读者也建议阅读本章，因为对这些主题的纯数学处理通常忽略算法层面的内容。
 
 A second goal of this chapter is to develop the material needed for public-key cryptography, whose study we will begin in Chapter 11. Strikingly, although in the private-key setting there exist efficient constructions of the necessary primitives (both block ciphers and hash functions) without invoking any number theory, in the public-key setting all known constructions rely on hard number-theoretic problems. The material in this chapter thus serves not only as a culmination of our study of private-key cryptography, but also as the foundation for our treatment of public-key cryptography.
 
@@ -44,7 +44,7 @@ The set of integers is denoted by $\mathbb{Z}$. For $a, b \in \mathbb{Z}$, we sa
 
 If $a \mid b$ and $a$ is positive, we call $a$ a divisor of $b$. If in addition $a \not\in \{1, b\}$ then $a$ is called a nontrivial divisor, or a factor, of $b$. A positive integer $p > 1$ is prime if it has no factors; i.e., it has only two divisors: 1 and itself. A positive integer greater than 1 that is not prime is called composite. By convention, the number 1 is neither prime nor composite.
 
-若 $a \mid b$ 且 $a$ 为正数，则称 $a$ 是 $b$ 的因子。若进一步有 $a \not\in \{1, b\}$，则称 $a$ 是 $b$ 的非平凡因子。若正整数 $p > 1$ 没有非平凡因子——也就是说，它只有 1 和自身这两个因子——则称 $p$ 是素数。大于 1 且不是素数的正整数称为合数。按照约定，数 1 既不是素数也不是合数。
+若 $a \mid b$ 且 $a$ 为正数，则称 $a$ 是 $b$ 的因子。若进一步有 $a \not\in \{1, b\}$，则称 $a$ 是 $b$ 的非平凡因子（nontrivial divisor），或称因子（factor）。若正整数 $p > 1$ 没有非平凡因子——也就是说，它只有 1 和自身这两个因子——则称 $p$ 是素数。大于 1 且不是素数的正整数称为合数。按照约定，数 1 既不是素数也不是合数。
 
 A fundamental theorem of arithmetic is that every integer greater than 1 can be expressed uniquely (up to ordering) as a product of primes. That is, any positive integer $N > 1$ can be written as $N = \prod_i p_i^{e_i}$, where the $\{p_i\}$ are distinct primes and $e_i \geq 1$ for all $i$; furthermore, the $\{p_i\}$ (and $\{e_i\}$) are uniquely determined up to ordering.
 
@@ -54,13 +54,13 @@ We are familiar with the process of division with remainder from elementary scho
 
 我们从小学起就已熟悉带余除法。下面的命题将这一概念形式化。
 
-PROPOSITION 9.1 Let $a$ be an integer and let $b$ be a positive integer. Then there exist unique integers $q, r$ for which $a = qb + r$ and ${0} \leq r < b$.
+PROPOSITION 9.1 Let $a$ be an integer and let $b$ be a positive integer. Then there exist unique integers $q, r$ for which $a = qb + r$ and $0 \leq r < b$.
 
-命题 9.1　设 $a$ 为整数，$b$ 为正整数。那么存在唯一的整数 $q, r$，使得 $a = qb + r$ 且 ${0} \leq r < b$。
+命题 9.1　设 $a$ 为整数，$b$ 为正整数。那么存在唯一的整数 $q, r$，使得 $a = qb + r$ 且 $0 \leq r < b$。
 
-Furthermore, given integers $a$ and $b$ as in the proposition it is possible to compute $q$ and $r$ in polynomial time; see Appendix B.1. (An algorithm's running time is measured as a function of the length(s) of its input(s). An important point in the context of algorithmic number theory is that integer inputs are always assumed to be represented in binary. The running time of an algorithm taking as input an integer $N$ is therefore measured in terms of $\|N\|$, the length of the binary representation of $N$. Note that $\|N\| = \lfloor\log N\rfloor + 1$.
+Furthermore, given integers $a$ and $b$ as in the proposition it is possible to compute $q$ and $r$ in polynomial time; see Appendix B.1. (An algorithm's running time is measured as a function of the length(s) of its input(s). An important point in the context of algorithmic number theory is that integer inputs are always assumed to be represented in binary. The running time of an algorithm taking as input an integer $N$ is therefore measured in terms of $\|N\|$, the length of the binary representation of $N$. Note that $\|N\| = \lfloor\log N\rfloor + 1$.)
 
-此外，对命题中的整数 $a$ 和 $b$，可以在多项式时间内计算出 $q$ 和 $r$；见附录 B.1。（算法的运行时间以其输入长度的函数来度量。在算法数论的背景下，重要的一点是：整数输入总是假定以二进制表示。因此，以整数 $N$ 为输入的算法，其运行时间以 $\|N\|$——即 $N$ 的二进制表示长度——来度量。）注意 $\|N\| = \lfloor\log N\rfloor + 1$。
+此外，对命题中的整数 $a$ 和 $b$，可以在多项式时间内计算出 $q$ 和 $r$；见附录 B.1。（算法的运行时间以其输入长度的函数来度量。在算法数论的背景下，重要的一点是：整数输入总是假定以二进制表示。因此，以整数 $N$ 为输入的算法，其运行时间以 $\|N\|$——即 $N$ 的二进制表示长度——来度量。注意 $\|N\| = \lfloor\log N\rfloor + 1$。）
 
 The greatest common divisor of two integers $a, b$, written $\gcd(a, b)$, is the largest integer $c$ such that $c \mid a$ and $c \mid b$. (We leave $\gcd(0, 0)$ undefined.) The notion of greatest common divisor makes sense when either or both of $a, b$ are negative but we will typically have $a, b \geq 1$; anyway, $\gcd(a, b) = \gcd(|a|, |b|)$. Note that $\gcd(b, 0) = \gcd(0, b) = b$; also, if $p$ is prime then $\gcd(a, p)$ is either equal to 1 or $p$. If $\gcd(a, b) = 1$ we say that $a$ and $b$ are relatively prime.
 
@@ -74,25 +74,25 @@ PROPOSITION 9.2 Let $a, b$ be positive integers. Then there exist integers $X, Y
 
 命题 9.2　设 $a, b$ 为正整数。那么存在整数 $X, Y$ 使得 $Xa + Yb = \gcd(a, b)$。此外，$\gcd(a, b)$ 是能表示成这种形式的最小正整数。
 
-PROOF Consider the set $I \overset{\mathrm{def}}{=} \{\hat{X}a + \hat{Y}b \mid \hat{X}, \hat{Y} \in \mathbb{Z}\}$. Note that $a, b \in I$, and so $I$ certainly contains some positive integers. Let $d$ be the smallest positive integer in $I$. We show that $d = \gcd(a, b)$; since $d$ can be written as $d = Xa + Yb$ for some $X, Y \in \mathbb{Z}$ (because $d \in I$), this proves the theorem.
+PROOF Consider the set $I \stackrel{\mathrm{def}}{=} \{\hat{X}a + \hat{Y}b \mid \hat{X}, \hat{Y} \in \mathbb{Z}\}$. Note that $a, b \in I$, and so $I$ certainly contains some positive integers. Let $d$ be the smallest positive integer in $I$. We show that $d = \gcd(a, b)$; since $d$ can be written as $d = Xa + Yb$ for some $X, Y \in \mathbb{Z}$ (because $d \in I$), this proves the theorem.
 
-证明　考虑集合 $I \overset{\mathrm{def}}{=} \{\hat{X}a + \hat{Y}b \mid \hat{X}, \hat{Y} \in \mathbb{Z}\}$。注意 $a, b \in I$，所以 $I$ 当然含有一些正整数。令 $d$ 为 $I$ 中最小的正整数。我们来证明 $d = \gcd(a, b)$；由于 $d$ 可以写成 $d = Xa + Yb$（其中 $X, Y \in \mathbb{Z}$，因为 $d \in I$），这就证明了该定理。
+证明　考虑集合 $I \stackrel{\mathrm{def}}{=} \{\hat{X}a + \hat{Y}b \mid \hat{X}, \hat{Y} \in \mathbb{Z}\}$。注意 $a, b \in I$，所以 $I$ 当然含有一些正整数。令 $d$ 为 $I$ 中最小的正整数。我们来证明 $d = \gcd(a, b)$；由于 $d$ 可以写成 $d = Xa + Yb$（其中 $X, Y \in \mathbb{Z}$，因为 $d \in I$），这就证明了该定理。
 
-To show that $d = \gcd(a, b)$, we must prove that $d \mid a$ and $d \mid b$, and that $d$ is the largest integer with this property. In fact, we can show that $d$ divides every element in $I$. To see this, take an arbitrary $c \in I$ and write $c = X^{\prime}a + Y^{\prime}b$ with $X^{\prime}, Y^{\prime} \in \mathbb{Z}$. Using division with remainder (Proposition 9.1) we have that $c = qd + r$ with $q, r$ integers and ${0} \leq r < d$. Then
+To show that $d = \gcd(a, b)$, we must prove that $d \mid a$ and $d \mid b$, and that $d$ is the largest integer with this property. In fact, we can show that $d$ divides every element in $I$. To see this, take an arbitrary $c \in I$ and write $c = X^{\prime}a + Y^{\prime}b$ with $X^{\prime}, Y^{\prime} \in \mathbb{Z}$. Using division with remainder (Proposition 9.1) we have that $c = qd + r$ with $q, r$ integers and $0 \leq r < d$. Then
 
-为证 $d = \gcd(a, b)$，我们必须证明 $d \mid a$ 且 $d \mid b$，并且 $d$ 是具有该性质的最大整数。事实上，我们可以证明 $d$ 整除 $I$ 中的每一个元素。为此，任取 $c \in I$ 并写 $c = X^{\prime}a + Y^{\prime}b$，其中 $X^{\prime}, Y^{\prime} \in \mathbb{Z}$。利用带余除法（命题 9.1），有 $c = qd + r$，其中 $q, r$ 为整数且 ${0} \leq r < d$。于是
+为证 $d = \gcd(a, b)$，我们必须证明 $d \mid a$ 且 $d \mid b$，并且 $d$ 是具有该性质的最大整数。事实上，我们可以证明 $d$ 整除 $I$ 中的每一个元素。为此，任取 $c \in I$ 并写 $c = X^{\prime}a + Y^{\prime}b$，其中 $X^{\prime}, Y^{\prime} \in \mathbb{Z}$。利用带余除法（命题 9.1），有 $c = qd + r$，其中 $q, r$ 为整数且 $0 \leq r < d$。于是
 
 $$
 r=c-qd=X^{\prime}a+Y^{\prime}b-q(Xa+Yb)=(X^{\prime}-qX)a+(Y^{\prime}-qY)b\in I.
 $$
 
-If $r \neq 0$, this contradicts our choice of $d$ as the smallest positive integer in I (because $r < d$). So, $r = 0$ and hence $d \mid c$. This shows that $d$ divides every element of I.
+If $r \neq 0$, this contradicts our choice of $d$ as the smallest positive integer in $I$ (because $r < d$). So, $r = 0$ and hence $d \mid c$. This shows that $d$ divides every element of $I$.
 
 若 $r \neq 0$，则与 $d$ 为 $I$ 中最小正整数的选取相矛盾（因为 $r < d$）。所以 $r = 0$，从而 $d \mid c$。这表明 $d$ 整除 $I$ 的每个元素。
 
-Since $a \in I$ and $b \in I$, the above shows that $d|a$ and $d|b$ and so $d$ is a common divisor of $a$ and $b$. It remains to show that it is the greatest common divisor. Assume there is an integer $d^{\prime} > d$ such that $d^{\prime}|a$ and $d^{\prime}|b$. Then by the observation made earlier, $d^{\prime}|Xa + Yb$. Since the latter is equal to $d$, this means $d^{\prime}|d$. But this is impossible if $d^{\prime}$ is larger than $d$. We conclude that $d$ is the largest integer dividing both $a$ and $b$, and hence $d = \gcd(a,b)$.
+Since $a \in I$ and $b \in I$, the above shows that $d \mid a$ and $d \mid b$ and so $d$ is a common divisor of $a$ and $b$. It remains to show that it is the greatest common divisor. Assume there is an integer $d^{\prime} > d$ such that $d^{\prime} \mid a$ and $d^{\prime} \mid b$. Then by the observation made earlier, $d^{\prime} \mid Xa + Yb$. Since the latter is equal to $d$, this means $d^{\prime} \mid d$. But this is impossible if $d^{\prime}$ is larger than $d$. We conclude that $d$ is the largest integer dividing both $a$ and $b$, and hence $d = \gcd(a,b)$.
 
-由于 $a \in I$ 且 $b \in I$，上述论证表明 $d|a$ 且 $d|b$，故 $d$ 是 $a$ 与 $b$ 的一个公共因子。剩下还需证明它是最大的公共因子。假设存在整数 $d^{\prime} > d$ 满足 $d^{\prime}|a$ 且 $d^{\prime}|b$。那么由前面得到的观察可知 $d^{\prime}|Xa + Yb$。由于后者等于 $d$，这意味着 $d^{\prime}|d$；但若 $d^{\prime}$ 大于 $d$，这是不可能的。我们得出结论：$d$ 是同时整除 $a$ 与 $b$ 的最大整数，因而 $d = \gcd(a,b)$。
+由于 $a \in I$ 且 $b \in I$，上述论证表明 $d \mid a$ 且 $d \mid b$，故 $d$ 是 $a$ 与 $b$ 的一个公共因子。剩下还需证明它是最大的公共因子。假设存在整数 $d^{\prime} > d$ 满足 $d^{\prime} \mid a$ 且 $d^{\prime} \mid b$。那么由前面得到的观察可知 $d^{\prime} \mid Xa + Yb$。由于后者等于 $d$，这意味着 $d^{\prime} \mid d$；但若 $d^{\prime}$ 大于 $d$，这是不可能的。我们得出结论：$d$ 是同时整除 $a$ 与 $b$ 的最大整数，因而 $d = \gcd(a,b)$。
 
 Given $a$ and $b$, the Euclidean algorithm can be used to compute $\gcd(a,b)$ in polynomial time. The extended Euclidean algorithm can be used to compute $X,Y$ (as in the above proposition) in polynomial time as well. See Appendix B.1.2 for details.
 
@@ -102,47 +102,47 @@ The preceding proposition is very useful in proving additional results about div
 
 前面的命题在证明关于整除性的其他结论时非常有用。下面给出两个例子。
 
-PROPOSITION 9.3 If $c$ | $ab$ and $\gcd(a,c)=1$, then $c$ | $b$. Thus, if $p$ is prime and $p$ | $ab$ then either $p$ | $a$ or $p$ | $b$.
+PROPOSITION 9.3 If $c \mid ab$ and $\gcd(a,c)=1$, then $c \mid b$. Thus, if $p$ is prime and $p \mid ab$ then either $p \mid a$ or $p \mid b$.
 
-命题 9.3　若 $c$ | $ab$ 且 $\gcd(a,c)=1$，则 $c$ | $b$。因此，若 $p$ 是素数且 $p$ | $ab$，则 $p$ | $a$ 或 $p$ | $b$。
+命题 9.3　若 $c \mid ab$ 且 $\gcd(a,c)=1$，则 $c \mid b$。因此，若 $p$ 是素数且 $p \mid ab$，则 $p \mid a$ 或 $p \mid b$。
 
-PROOF Since $c$ | $ab$ we have $\gamma c = ab$ for some integer $\gamma$. If $\gcd(a,c) = 1$ then, by the previous proposition, we know there exist integers $X,Y$ such that ${1} = Xa + Yc$. Multiplying both sides by $b$, we obtain
+PROOF Since $c \mid ab$ we have $\gamma c = ab$ for some integer $\gamma$. If $\gcd(a,c) = 1$ then, by the previous proposition, we know there exist integers $X,Y$ such that $1 = Xa + Yc$. Multiplying both sides by $b$, we obtain
 
-证明　由 $c$ | $ab$ 可知存在整数 $\gamma$ 使得 $\gamma c = ab$。若 $\gcd(a,c) = 1$，则由前述命题可知存在整数 $X,Y$ 使得 ${1} = Xa + Yc$。两边同乘 $b$，得到
+证明　由 $c \mid ab$ 可知存在整数 $\gamma$ 使得 $\gamma c = ab$。若 $\gcd(a,c) = 1$，则由前述命题可知存在整数 $X,Y$ 使得 $1 = Xa + Yc$。两边同乘 $b$，得到
 
 $$
 b=Xab+Ycb=X\gamma c+Ycb=c\cdot(X\gamma+Yb).
 $$
 
-Since $(X\gamma+Yb)$ is an integer, it follows that $c|b$.
+Since $(X\gamma+Yb)$ is an integer, it follows that $c \mid b$.
 
-由于 $(X\gamma+Yb)$ 是整数，故 $c|b$。
+由于 $(X\gamma+Yb)$ 是整数，故 $c \mid b$。
 
 The second part of the proposition follows from the fact that if $p \nmid a$ and $p$ is prime then $\gcd(a, p) = 1$.
 
 命题的第二部分由如下事实得出：若 $p \nmid a$ 且 $p$ 是素数，则 $\gcd(a, p) = 1$。
 
-PROPOSITION 9.4 If $a|N$, $b|N$, and $\gcd(a,b)=1$, then $ab|N$.
+PROPOSITION 9.4 If $a \mid N$, $b \mid N$, and $\gcd(a,b)=1$, then $ab \mid N$.
 
-命题 9.4　若 $a|N$、$b|N$ 且 $\gcd(a,b)=1$，则 $ab|N$。
+命题 9.4　若 $a \mid N$、$b \mid N$ 且 $\gcd(a,b)=1$，则 $ab \mid N$。
 
-PROOF Write $ac = N$, $bd = N$, and (using Proposition 9.2) ${1} = Xa + Yb$, where $c, d, X, Y$ are all integers. Multiplying both sides of the last equation by $N$ we obtain
+PROOF Write $ac = N$, $bd = N$, and (using Proposition 9.2) $1 = Xa + Yb$, where $c, d, X, Y$ are all integers. Multiplying both sides of the last equation by $N$ we obtain
 
-证明　记 $ac = N$、$bd = N$，并且（利用命题 9.2）${1} = Xa + Yb$，其中 $c, d, X, Y$ 均为整数。将最后一个等式两边同乘 $N$，得到
+证明　记 $ac = N$、$bd = N$，并且（利用命题 9.2）$1 = Xa + Yb$，其中 $c, d, X, Y$ 均为整数。将最后一个等式两边同乘 $N$，得到
 
 $$
 N=X a N+Y b N=X a b d+Y b a c=a b(X d+Y c),
 $$
 
-showing that ab|N.
+showing that $ab \mid N$.
 
-即证得 $ab|N$。
+即证得 $ab \mid N$。
 
 ### 9.1.2 Modular Arithmetic　模算术
 
-Let $a, b, N \in \mathbb{Z}$ with $N > 1$. We use the notation $[a \bmod N]$ to denote the remainder of $a$ upon division by $N$. In more detail: by Proposition 9.1 there exist unique $q, r$ with $a = qN + r$ and ${0} \leq r < N$, and we define $[a \bmod N]$ to be equal to this $r$. Note therefore that ${0} \leq [a \bmod N] < N$. We refer to the process of mapping $a$ to $[a \bmod N]$ as reduction modulo $N$.
+Let $a, b, N \in \mathbb{Z}$ with $N > 1$. We use the notation $[a \bmod N]$ to denote the remainder of $a$ upon division by $N$. In more detail: by Proposition 9.1 there exist unique $q, r$ with $a = qN + r$ and $0 \leq r < N$, and we define $[a \bmod N]$ to be equal to this $r$. Note therefore that $0 \leq [a \bmod N] < N$. We refer to the process of mapping $a$ to $[a \bmod N]$ as reduction modulo $N$.
 
-设 $a, b, N \in \mathbb{Z}$ 且 $N > 1$。我们用记号 $[a \bmod N]$ 表示 $a$ 除以 $N$ 所得的余数。具体地说：由命题 9.1，存在唯一的 $q, r$ 使得 $a = qN + r$ 且 ${0} \leq r < N$，我们就把 $[a \bmod N]$ 定义为这个 $r$。于是显然有 ${0} \leq [a \bmod N] < N$。我们把从 $a$ 得到 $[a \bmod N]$ 的过程称为模 $N$ 归约（reduction modulo $N$）。
+设 $a, b, N \in \mathbb{Z}$ 且 $N > 1$。我们用记号 $[a \bmod N]$ 表示 $a$ 除以 $N$ 所得的余数。具体地说：由命题 9.1，存在唯一的 $q, r$ 使得 $a = qN + r$ 且 $0 \leq r < N$，我们就把 $[a \bmod N]$ 定义为这个 $r$。于是显然有 $0 \leq [a \bmod N] < N$。我们把从 $a$ 得到 $[a \bmod N]$ 的过程称为模 $N$ 归约（reduction modulo $N$）。
 
 We say that $a$ and $b$ are congruent modulo $N$, written $a = b \bmod N$, if $[a \bmod N] = [b \bmod N]$, i.e., if the remainder when $a$ is divided by $N$ is the same as the remainder when $b$ is divided by $N$. Note that $a = b \bmod N$ if and only if $N \mid (a - b)$. By way of notation, in an expression such as
 
@@ -156,19 +156,19 @@ the understanding is that every equal sign in this sequence (and not just the la
 
 的表达式中，其含义是每个等号（而不仅仅是最后一个）都表示模 $N$ 的同余。
 
-Note that $a = [b \mod N]$ implies $a = b \mod N$, but not vice versa. For example, $36 = 21 \bmod 15$ but ${36} \neq [21 \mod 15] = 6$. On the other hand, $[a \mod N] = [b \mod N]$ if and only if $a = b \mod N$.
+Note that $a = [b \mod N]$ implies $a = b \mod N$, but not vice versa. For example, $36 = 21 \bmod 15$ but $36 \neq [21 \mod 15] = 6$. On the other hand, $[a \mod N] = [b \mod N]$ if and only if $a = b \mod N$.
 
-注意，$a = [b \mod N]$ 蕴含 $a = b \mod N$，但反之不然。例如 $36 = 21 \bmod 15$，但 ${36} \neq [21 \mod 15] = 6$。另一方面，$[a \mod N] = [b \mod N]$ 当且仅当 $a = b \mod N$。
+注意，$a = [b \mod N]$ 蕴含 $a = b \mod N$，但反之不然。例如 $36 = 21 \bmod 15$，但 $36 \neq [21 \mod 15] = 6$。另一方面，$[a \mod N] = [b \mod N]$ 当且仅当 $a = b \mod N$。
 
-Congruence modulo $N$ is an equivalence relation, i.e., it is reflexive ($a = a \bmod N$ for all $a$), symmetric ($a = b \bmod N$ implies $b = a \bmod N$), and transitive (if $a = b \bmod N$ and $b = c \bmod N$, then $a = c \bmod N$). Congruence modulo $N$ also obeys the standard rules of arithmetic with respect to addition, subtraction, and multiplication; so, for example, if $a = a^{\prime}$ $\bmod N$ and $b = b^{\prime}$ $\bmod N$ then $(a + b) = (a^{\prime} + b^{\prime}) \bmod N$ and $ab = a^{\prime}b^{\prime}$ $\bmod N$. A consequence is that we can “reduce and then add/multiply” instead of having to “add/multiply and then reduce,” which can often simplify calculations.
+Congruence modulo $N$ is an equivalence relation, i.e., it is reflexive ($a = a \bmod N$ for all $a$), symmetric ($a = b \bmod N$ implies $b = a \bmod N$), and transitive (if $a = b \bmod N$ and $b = c \bmod N$, then $a = c \bmod N$). Congruence modulo $N$ also obeys the standard rules of arithmetic with respect to addition, subtraction, and multiplication; so, for example, if $a = a^{\prime} \bmod N$ and $b = b^{\prime} \bmod N$ then $(a + b) = (a^{\prime} + b^{\prime}) \bmod N$ and $ab = a^{\prime}b^{\prime} \bmod N$. A consequence is that we can “reduce and then add/multiply” instead of having to “add/multiply and then reduce,” which can often simplify calculations.
 
-模 $N$ 同余是一种等价关系，也就是说：它是自反的（对所有 $a$ 都有 $a = a \bmod N$）、对称的（由 $a = b \bmod N$ 可得 $b = a \bmod N$），并且是传递的（若 $a = b \bmod N$ 且 $b = c \bmod N$，则 $a = c \bmod N$）。模 $N$ 同余在加法、减法和乘法上也遵循标准的算术规则；例如，若 $a = a^{\prime}$ $\bmod N$ 且 $b = b^{\prime}$ $\bmod N$，则 $(a + b) = (a^{\prime} + b^{\prime}) \bmod N$ 且 $ab = a^{\prime}b^{\prime}$ $\bmod N$。由此带来的一个便利是：我们可以“先归约再做加法/乘法”，而不必“先做加法/乘法再归约”，这常常能简化计算。
+模 $N$ 同余是一种等价关系，也就是说：它是自反的（对所有 $a$ 都有 $a = a \bmod N$）、对称的（由 $a = b \bmod N$ 可得 $b = a \bmod N$），并且是传递的（若 $a = b \bmod N$ 且 $b = c \bmod N$，则 $a = c \bmod N$）。模 $N$ 同余在加法、减法和乘法上也遵循标准的算术规则；例如，若 $a = a^{\prime} \bmod N$ 且 $b = b^{\prime} \bmod N$，则 $(a + b) = (a^{\prime} + b^{\prime}) \bmod N$ 且 $ab = a^{\prime}b^{\prime} \bmod N$。由此带来的一个便利是：我们可以“先归约再做加法/乘法”，而不必“先做加法/乘法再归约”，这常常能简化计算。
 
 **Example 9.5**　**例 9.5**
 
-Let us compute $[1093028 \cdot 190301 \mod 100]$. Since 1093028 = 28 mod 100 and 190301 = 1 mod 100, we have
+Let us compute $[1093028 \cdot 190301 \mod 100]$. Since $1093028 = 28 \bmod 100$ and $190301 = 1 \bmod 100$, we have
 
-我们来计算 $[1093028 \cdot 190301 \mod 100]$。由于 1093028 = 28 mod 100 且 190301 = 1 mod 100，故有
+我们来计算 $[1093028 \cdot 190301 \mod 100]$。由于 $1093028 = 28 \bmod 100$ 且 $190301 = 1 \bmod 100$，故有
 
 $$
 \begin{aligned}
@@ -177,9 +177,9 @@ $$
 \end{aligned}
 $$
 
-The alternate way of calculating the answer (i.e., computing the product ${1093028} \cdot 190301$ and then reducing the result modulo 100) is less efficient.
+The alternate way of calculating the answer (i.e., computing the product $1093028 \cdot 190301$ and then reducing the result modulo 100) is less efficient.
 
-另一种计算方法（即先算出乘积 ${1093028} \cdot 190301$，再把结果对 100 归约）效率较低。
+另一种计算方法（即先算出乘积 $1093028 \cdot 190301$，再把结果对 100 归约）效率较低。
 
 Congruence modulo $N$ does not (in general) respect division. That is, if $a = a^{\prime} \mod N$ and $b = b^{\prime} \mod N$ then it is not necessarily true that $a/b = a^{\prime}/b^{\prime} \mod N$; in fact, the expression “$a/b \mod N$” is not necessarily well-defined. As a specific example that often causes confusion, $ab = cb \mod N$ does not necessarily imply that $a = c \mod N$.
 
@@ -187,13 +187,13 @@ Congruence modulo $N$ does not (in general) respect division. That is, if $a = a
 
 **Example 9.6**　**例 9.6**
 
-Take $N = 24$. Then ${3} \cdot 2 = 6 = 15 \cdot 2 \mod 24$, but ${3} \neq 15 \mod 24$.
+Take $N = 24$. Then $3 \cdot 2 = 6 = 15 \cdot 2 \mod 24$, but $3 \neq 15 \mod 24$.
 
-取 $N = 24$。此时 ${3} \cdot 2 = 6 = 15 \cdot 2 \mod 24$，但 ${3} \neq 15 \mod 24$。
+取 $N = 24$。此时 $3 \cdot 2 = 6 = 15 \cdot 2 \mod 24$，但 $3 \neq 15 \mod 24$。
 
-In certain cases, however, we can define a meaningful notion of division. If for a given integer $b$ there exists an integer $c$ such that $bc = 1 \mod N$, we say that $b$ is invertible modulo $N$ and call $c$ a (multiplicative) inverse of $b$ modulo $N$. Clearly, ${0}$ is never invertible. It is also not difficult to show that if $c$ is a multiplicative inverse of $b$ modulo $N$ then so is $[c \mod N]$. Furthermore, if $c^{\prime}$ is another multiplicative inverse of $b$ then $[c \mod N] = [c^{\prime} \mod N]$. When $b$ is invertible we can therefore simply let $b^{-1}$ denote the unique multiplicative inverse of $b$ that lies in the range $\{1, \ldots, N-1\}$.
+In certain cases, however, we can define a meaningful notion of division. If for a given integer $b$ there exists an integer $c$ such that $bc = 1 \mod N$, we say that $b$ is invertible modulo $N$ and call $c$ a (multiplicative) inverse of $b$ modulo $N$. Clearly, $0$ is never invertible. It is also not difficult to show that if $c$ is a multiplicative inverse of $b$ modulo $N$ then so is $[c \mod N]$. Furthermore, if $c^{\prime}$ is another multiplicative inverse of $b$ then $[c \mod N] = [c^{\prime} \mod N]$. When $b$ is invertible we can therefore simply let $b^{-1}$ denote the unique multiplicative inverse of $b$ that lies in the range $\{1, \ldots, N-1\}$.
 
-不过在某些情形下，我们可以定义一种有意义的除法概念。若对给定的整数 $b$ 存在整数 $c$ 使得 $bc = 1 \mod N$，则称 $b$ 模 $N$ 可逆，并称 $c$ 为 $b$ 模 $N$ 的一个（乘法）逆元。显然，${0}$ 永远不可逆。也不难证明：若 $c$ 是 $b$ 模 $N$ 的乘法逆元，则 $[c \mod N]$ 也是。此外，若 $c^{\prime}$ 是 $b$ 的另一个乘法逆元，则 $[c \mod N] = [c^{\prime} \mod N]$。因此当 $b$ 可逆时，可以直接用 $b^{-1}$ 表示落在范围 $\{1, \ldots, N-1\}$ 内的那个唯一的乘法逆元。
+不过在某些情形下，我们可以定义一种有意义的除法概念。若对给定的整数 $b$ 存在整数 $c$ 使得 $bc = 1 \mod N$，则称 $b$ 模 $N$ 可逆，并称 $c$ 为 $b$ 模 $N$ 的一个（乘法）逆元。显然，$0$ 永远不可逆。也不难证明：若 $c$ 是 $b$ 模 $N$ 的乘法逆元，则 $[c \mod N]$ 也是。此外，若 $c^{\prime}$ 是 $b$ 的另一个乘法逆元，则 $[c \mod N] = [c^{\prime} \mod N]$。因此当 $b$ 可逆时，可以直接用 $b^{-1}$ 表示落在范围 $\{1, \ldots, N-1\}$ 内的那个唯一的乘法逆元。
 
 When $b$ is invertible modulo $N$, we define division by $b$ modulo $N$ as multiplication by $b^{-1}$ (i.e., we define $[a/b \bmod N] \stackrel{\mathrm{def}}{=} [ab^{-1} \bmod N]$.) We stress that division by $b$ is only defined when $b$ is invertible. If $ab = cb \bmod N$ and $b$ is invertible, then we may divide each side of the equation by $b$ (or, really, multiply each side by $b^{-1}$) to obtain
 
@@ -203,7 +203,7 @@ $$
 (ab)\cdot b^{-1}=(cb)\cdot b^{-1}\bmod N\quad\Rightarrow\quad a=c\bmod N.
 $$
 
-We see that in this case, division works as expected. Thus, invertible integers modulo N are “nicer” to work with, in some sense.
+We see that in this case, division works as expected. Thus, invertible integers modulo $N$ are “nicer” to work with, in some sense.
 
 可见在这种情形下，除法如预期那样运作。因此在某种意义上，模 $N$ 下可逆的整数用起来更“方便”。
 
@@ -225,9 +225,9 @@ Conversely, if $\gcd(b, N) = 1$ then by Proposition 9.2 there exist integers $X,
 
 **Example 9.8**　**例 9.8**
 
-Let $b=11$ and $N=17$. Then $(-3)\cdot11+2\cdot17=1$, and so ${14}=[-3\bmod{17}]$ is the inverse of 11. One can verify that ${14}\cdot11=1\bmod{17}$.
+Let $b=11$ and $N=17$. Then $(-3)\cdot11+2\cdot17=1$, and so $14=[-3\bmod 17]$ is the inverse of 11. One can verify that $14\cdot11=1\bmod 17$.
 
-取 $b=11$、$N=17$。此时 $(-3)\cdot11+2\cdot17=1$，故 ${14}=[-3\bmod{17}]$ 是 11 的逆元。可以验证 ${14}\cdot11=1\bmod{17}$。
+取 $b=11$、$N=17$。此时 $(-3)\cdot11+2\cdot17=1$，故 $14=[-3\bmod 17]$ 是 11 的逆元。可以验证 $14\cdot11=1\bmod 17$。
 
 Addition, subtraction, multiplication, and computation of inverses (when they exist) modulo $N$ can all be carried out in polynomial time; see Appendix B.2. Exponentiation (i.e., computing $[a^b \bmod N]$ for $b > 0$ an integer) can also be computed in polynomial time; see Appendix B.2.3.
 
@@ -243,7 +243,7 @@ We now introduce the important notion of a group.
 
 现在我们引入群这一重要概念。
 
-DEFINITION 9.9 A group is a set G along with a binary operation $\circ$ for which the following conditions hold:
+DEFINITION 9.9 A group is a set $\mathbb{G}$ along with a binary operation $\circ$ for which the following conditions hold:
 
 定义 9.9　群由一个集合 $\mathbb{G}$ 与其上的一个二元运算 $\circ$ 构成，且满足以下条件：
 
@@ -267,7 +267,7 @@ When $\mathbb{G}$ has a finite number of elements, we say $\mathbb{G}$ is finite
 
 当 $\mathbb{G}$ 含有有限个元素时，我们称 $\mathbb{G}$ 是有限群，并用 $|\mathbb{G}|$ 表示该群的阶（即 $\mathbb{G}$ 中元素的个数）。
 
-A group G with operation $\circ$ is abelian if the following holds:
+A group $\mathbb{G}$ with operation $\circ$ is abelian if the following holds:
 
 具有运算 $\circ$ 的群 $\mathbb{G}$ 如果还满足以下条件，就称为阿贝尔群：
 
@@ -275,7 +275,7 @@ A group G with operation $\circ$ is abelian if the following holds:
 
   （交换律：）对所有 $g, h \in \mathbb{G}$，都有 $g \circ h = h \circ g$。
 
-When the binary operation is understood, we simply call the set G a group.
+When the binary operation is understood, we simply call the set $\mathbb{G}$ a group.
 
 当二元运算不言自明时，我们就直接把集合 $\mathbb{G}$ 称为群。
 
@@ -321,9 +321,9 @@ The following example introduces the group $\mathbb{Z}_N$ that we will use frequ
 
 **Example 9.12**　**例 9.12**
 
-Let $N > 1$ be an integer. The set $\{0, \ldots, N-1\}$ with respect to addition modulo $N$ (i.e., where $a + b \overset{\mathrm{def}}{=} [a + b \mod N]$) is an abelian group of order $N$. Closure is obvious; associativity and commutativity follow from the fact that the integers satisfy these properties; the identity is 0; and, since $a + (N - a) = 0 \bmod N$, it follows that the inverse of any element $a$ is $\left[(N - a) \mod N\right]$. We denote this group by $\mathbb{Z}_N$. (We will also sometimes use $\mathbb{Z}_N$ to denote the set $\{0, \ldots, N-1\}$ without regard to any particular group operation.) $\diamondsuit$
+Let $N > 1$ be an integer. The set $\{0, \ldots, N-1\}$ with respect to addition modulo $N$ (i.e., where $a + b \stackrel{\mathrm{def}}{=} [a + b \mod N]$) is an abelian group of order $N$. Closure is obvious; associativity and commutativity follow from the fact that the integers satisfy these properties; the identity is 0; and, since $a + (N - a) = 0 \bmod N$, it follows that the inverse of any element $a$ is $\left[(N - a) \mod N\right]$. We denote this group by $\mathbb{Z}_N$. (We will also sometimes use $\mathbb{Z}_N$ to denote the set $\{0, \ldots, N-1\}$ without regard to any particular group operation.) $\diamondsuit$
 
-设 $N > 1$ 为整数。集合 $\{0, \ldots, N-1\}$ 关于模 $N$ 加法（即规定 $a + b \overset{\mathrm{def}}{=} [a + b \mod N]$）构成一个阶为 $N$ 的阿贝尔群。封闭性显然；结合律与交换律由整数本身的相应性质得出；单位元是 0；又因为 $a + (N - a) = 0 \bmod N$，所以任意元素 $a$ 的逆元是 $\left[(N - a) \mod N\right]$。我们把这个群记作 $\mathbb{Z}_N$。（有时我们也直接用 $\mathbb{Z}_N$ 表示集合 $\{0, \ldots, N-1\}$，不涉及任何具体的群运算。）$\diamondsuit$
+设 $N > 1$ 为整数。集合 $\{0, \ldots, N-1\}$ 关于模 $N$ 加法（即规定 $a + b \stackrel{\mathrm{def}}{=} [a + b \mod N]$）构成一个阶为 $N$ 的阿贝尔群。封闭性显然；结合律与交换律由整数本身的相应性质得出；单位元是 0；又因为 $a + (N - a) = 0 \bmod N$，所以任意元素 $a$ 的逆元是 $\left[(N - a) \mod N\right]$。我们把这个群记作 $\mathbb{Z}_N$。（有时我们也直接用 $\mathbb{Z}_N$ 表示集合 $\{0, \ldots, N-1\}$，不涉及任何具体的群运算。）$\diamondsuit$
 
 We end this section with an easy lemma that formalizes a “cancelation law” for groups.
 
@@ -333,7 +333,7 @@ LEMMA 9.13 Let $\mathbb{G}$ be a group and $a,b,c \in \mathbb{G}$. If $ac = bc$,
 
 引理 9.13　设 $\mathbb{G}$ 是群，且 $a,b,c \in \mathbb{G}$。若 $ac = bc$，则 $a = b$。特别地，若 $ac = c$，则 $a$ 是 $\mathbb{G}$ 中的单位元。
 
-PROOF We know ac = bc. Multiplying both sides by the unique inverse $c^{-1}$ of c, we obtain a = b. In detail:
+PROOF We know $ac = bc$. Multiplying both sides by the unique inverse $c^{-1}$ of $c$, we obtain $a = b$. In detail:
 
 证明　已知 $ac = bc$。两边同乘 $c$ 的唯一逆元 $c^{-1}$，即得 $a = b$。具体写出来就是：
 
@@ -341,29 +341,29 @@ $$
 ac=bc\ \Rightarrow\ (ac)c^{-1}=(bc)\cdot c^{-1}\ \Rightarrow\ a(cc^{-1})=b(cc^{-1})\ \Rightarrow\ a\cdot1=b\cdot1,
 $$
 
-i.e., a = b.
+i.e., $a = b$.
 
 也就是 $a = b$。
 
-Compare the above proof to the discussion (preceding Proposition 9.7) regarding a cancelation law for division modulo N. As indicated by the similarity, the invertible elements modulo N form a group under multiplication modulo N. We will return to this example in more detail shortly.
+Compare the above proof to the discussion (preceding Proposition 9.7) regarding a cancelation law for division modulo $N$. As indicated by the similarity, the invertible elements modulo $N$ form a group under multiplication modulo $N$. We will return to this example in more detail shortly.
 
 可将上述证明与命题 9.7 之前关于“模 $N$ 除法消去律”的讨论加以比较。正如两者的相似性所暗示的，模 $N$ 下可逆的元素在模 $N$ 乘法下构成一个群。我们稍后会更详细地回到这个例子。
 
 #### Group Exponentiation　群的幂运算
 
-It is often useful to be able to describe the group operation applied $m$ times to a fixed element $g$, where $m$ is a positive integer. When using additive notation, we express this as $m \cdot g$ or mg; that is,
+It is often useful to be able to describe the group operation applied $m$ times to a fixed element $g$, where $m$ is a positive integer. When using additive notation, we express this as $m \cdot g$ or $mg$; that is,
 
-能够描述“对固定元素 $g$ 施加 $m$ 次群运算”往往很有用，其中 $m$ 是正整数。使用加法记号时，我们把它表示为 $m \cdot g$ 或 mg；即
+能够描述“对固定元素 $g$ 施加 $m$ 次群运算”往往很有用，其中 $m$ 是正整数。使用加法记号时，我们把它表示为 $m \cdot g$ 或 $mg$；即
 
 $$
 mg=m\cdot g\stackrel{\mathrm{def}}{=}\underbrace{g+\cdots+g}_{m\text{ times}}.
 $$
 
-Note that $m$ is an integer, while $g$ is a group element. So $mg$ does not represent the group operation applied to $m$ and $g$ (indeed, we are working in a group where the group operation is written additively). Thankfully, however, the notation “behaves as it should”; so, for example, if $g \in \mathbb{G}$ and $m, m^{\prime}$ are integers then $(mg) + (m^{\prime} g) = (m + m^{\prime}) g$, $m(m^{\prime} g) = (mm^{\prime}) g$, and ${1} \cdot g = g$. In an abelian group $\mathbb{G}$ with $g, h \in \mathbb{G}$, $(mg) + (mh) = m(g + h)$.
+Note that $m$ is an integer, while $g$ is a group element. So $mg$ does not represent the group operation applied to $m$ and $g$ (indeed, we are working in a group where the group operation is written additively). Thankfully, however, the notation “behaves as it should”; so, for example, if $g \in \mathbb{G}$ and $m, m^{\prime}$ are integers then $(mg) + (m^{\prime} g) = (m + m^{\prime}) g$, $m(m^{\prime} g) = (mm^{\prime}) g$, and $1 \cdot g = g$. In an abelian group $\mathbb{G}$ with $g, h \in \mathbb{G}$, $(mg) + (mh) = m(g + h)$.
 
-注意 $m$ 是整数，而 $g$ 是群元素，因此 $mg$ 并不表示对 $m$ 和 $g$ 施加群运算（况且我们所考虑的群的运算本来就是按加法书写的）。好在这种记号“行为端正”：例如，若 $g \in \mathbb{G}$ 且 $m, m^{\prime}$ 为整数，则 $(mg) + (m^{\prime} g) = (m + m^{\prime}) g$、$m(m^{\prime} g) = (mm^{\prime}) g$、${1} \cdot g = g$。在阿贝尔群 $\mathbb{G}$ 中，若 $g, h \in \mathbb{G}$，则 $(mg) + (mh) = m(g + h)$。
+注意 $m$ 是整数，而 $g$ 是群元素，因此 $mg$ 并不表示对 $m$ 和 $g$ 施加群运算（况且我们所考虑的群的运算本来就是按加法书写的）。好在这种记号“行为端正”：例如，若 $g \in \mathbb{G}$ 且 $m, m^{\prime}$ 为整数，则 $(mg) + (m^{\prime} g) = (m + m^{\prime}) g$、$m(m^{\prime} g) = (mm^{\prime}) g$、$1 \cdot g = g$。在阿贝尔群 $\mathbb{G}$ 中，若 $g, h \in \mathbb{G}$，则 $(mg) + (mh) = m(g + h)$。
 
-When using multiplicative notation, we express application of the group operation m times to an element g by $g^m$. That is,
+When using multiplicative notation, we express application of the group operation $m$ times to an element $g$ by $g^m$. That is,
 
 使用乘法记号时，对元素 $g$ 施加 $m$ 次群运算记作 $g^m$。即
 
@@ -375,9 +375,9 @@ The familiar rules of exponentiation hold: $g^m \cdot g^{m^{\prime}} = g^{m+m^{\
 
 熟悉的幂运算法则依然成立：$g^m \cdot g^{m^{\prime}} = g^{m+m^{\prime}}$、$(g^m)^{m^{\prime}} = g^{mm^{\prime}}$、$g^1 = g$。另外，若 $\mathbb{G}$ 是阿贝尔群且 $g, h \in \mathbb{G}$，则 $g^m \cdot h^m = (gh)^m$。这些不过是把上一段的结果“翻译”到以乘法而非加法书写的群的情境中而已。
 
-The above notation is extended in the natural way to the case when $m$ is zero or a negative integer. When using additive notation we define ${0} \cdot g \overset{\mathrm{def}}{=} 0$ (note that the 0 on the left-hand side is the integer 0 while the 0 on the right-hand side is the identity element of the group) and define $(-m) \cdot g \overset{\mathrm{def}}{=} m \cdot (-g)$ for $m$ a positive integer. Observe that $-g$ is the inverse of $g$ and, as one would expect, $(-m) \cdot g = -(mg)$. When using multiplicative notation, $g^0 \overset{\mathrm{def}}{=} 1$ and $g^{-m} \overset{\mathrm{def}}{=} (g^{-1})^m$. Again, $g^{-1}$ is the inverse of $g$, and we have $g^{-m} = (g^m)^{-1}$.
+The above notation is extended in the natural way to the case when $m$ is zero or a negative integer. When using additive notation we define $0 \cdot g \stackrel{\mathrm{def}}{=} 0$ (note that the 0 on the left-hand side is the integer 0 while the 0 on the right-hand side is the identity element of the group) and define $(-m) \cdot g \stackrel{\mathrm{def}}{=} m \cdot (-g)$ for $m$ a positive integer. Observe that $-g$ is the inverse of $g$ and, as one would expect, $(-m) \cdot g = -(mg)$. When using multiplicative notation, $g^0 \stackrel{\mathrm{def}}{=} 1$ and $g^{-m} \stackrel{\mathrm{def}}{=} (g^{-1})^m$. Again, $g^{-1}$ is the inverse of $g$, and we have $g^{-m} = (g^m)^{-1}$.
 
-上面的记号可以按自然的方式推广到 $m$ 为零或负整数的情形。使用加法记号时，我们定义 ${0} \cdot g \overset{\mathrm{def}}{=} 0$（注意左边的 0 是整数 0，右边的 0 则是群的单位元），并对正整数 $m$ 定义 $(-m) \cdot g \overset{\mathrm{def}}{=} m \cdot (-g)$。可以看到，$-g$ 正是 $g$ 的逆元，而且不出所料地有 $(-m) \cdot g = -(mg)$。使用乘法记号时，定义 $g^0 \overset{\mathrm{def}}{=} 1$ 与 $g^{-m} \overset{\mathrm{def}}{=} (g^{-1})^m$。同样，$g^{-1}$ 是 $g$ 的逆元，并且有 $g^{-m} = (g^m)^{-1}$。
+上面的记号可以按自然的方式推广到 $m$ 为零或负整数的情形。使用加法记号时，我们定义 $0 \cdot g \stackrel{\mathrm{def}}{=} 0$（注意左边的 0 是整数 0，右边的 0 则是群的单位元），并对正整数 $m$ 定义 $(-m) \cdot g \stackrel{\mathrm{def}}{=} m \cdot (-g)$。可以看到，$-g$ 正是 $g$ 的逆元，而且不出所料地有 $(-m) \cdot g = -(mg)$。使用乘法记号时，定义 $g^0 \stackrel{\mathrm{def}}{=} 1$ 与 $g^{-m} \stackrel{\mathrm{def}}{=} (g^{-1})^m$。同样，$g^{-1}$ 是 $g$ 的逆元，并且有 $g^{-m} = (g^m)^{-1}$。
 
 Let $g \in \mathbb{G}$ and $b \geq 0$ be an integer. Then the exponentiation $g^b$ can be computed using polynomially many group operations in $\mathbb{G}$. Thus, if the group operation can be computed in polynomial time then so can exponentiation. This is discussed in Appendix B.2.3.
 
@@ -403,7 +403,7 @@ To see this, note that $gg_i = gg_j$ implies $g_i = g_j$ by Lemma 9.13. So each 
 
 为看出这一点，注意由引理 9.13，$gg_i = gg_j$ 蕴含 $g_i = g_j$。所以右边括号里的 $m$ 个元素两两不同。由于 $\mathbb{G}$ 中恰有 $m$ 个元素，右边相乘的这 $m$ 个元素正是 $\mathbb{G}$ 的全部元素的某种排列。又因为 $\mathbb{G}$ 是阿贝尔群，元素相乘的顺序无关紧要，故右边等于左边。
 
-Again using the fact that G is abelian, we can “pull out” all occurrences of $g$ and obtain
+Again using the fact that $\mathbb{G}$ is abelian, we can “pull out” all occurrences of $g$ and obtain
 
 再次利用 $\mathbb{G}$ 是阿贝尔群这一事实，可以把所有的 $g$ “提取出来”，得到
 
@@ -437,12 +437,12 @@ $$
 
 **Example 9.16**　**例 9.16**
 
-Written additively, the above corollary says that if $g$ is an element in a group of order $m$, then $x \cdot g = [x \bmod m] \cdot g$. As an example, consider the group $\mathbb{Z}_{15}$ of order m = 15, and take g = 11. The corollary says that
+Written additively, the above corollary says that if $g$ is an element in a group of order $m$, then $x \cdot g = [x \bmod m] \cdot g$. As an example, consider the group $\mathbb{Z}_{15}$ of order $m = 15$, and take $g = 11$. The corollary says that
 
 用加法记号表述，上述推论说明：若 $g$ 是阶为 $m$ 的群中的元素，则 $x \cdot g = [x \bmod m] \cdot g$。举例来说，考虑阶为 $m = 15$ 的群 $\mathbb{Z}_{15}$，取 $g = 11$。该推论表明
 
 $$
-{152}\cdot11=\left[152\bmod15\right]\cdot11=2\cdot11=11+11=22=7\bmod15.
+152\cdot11=\left[152\bmod15\right]\cdot11=2\cdot11=11+11=22=7\bmod15.
 $$
 
 The above agrees with the fact (cf. Example 9.5) that we can “reduce and then multiply” rather than having to “multiply and then reduce.”
@@ -483,9 +483,9 @@ $$
 \mathbb{Z}_{N}^{*}\stackrel{\mathrm{def}}{=}\left\{b\in\{1,\ldots,N-1\}~\middle|~\gcd(b,N)=1\right\};
 $$
 
-i.e., $\mathbb{Z}_N^*$ consists of integers in the set $\{1, \ldots, N-1\}$ that are relatively prime to $N$. The group operation is multiplication modulo $N$; i.e., $ab \overset{\mathrm{def}}{=} [ab \bmod N]$.
+i.e., $\mathbb{Z}_N^*$ consists of integers in the set $\{1, \ldots, N-1\}$ that are relatively prime to $N$. The group operation is multiplication modulo $N$; i.e., $ab \stackrel{\mathrm{def}}{=} [ab \bmod N]$.
 
-也就是说，$\mathbb{Z}_N^*$ 由集合 $\{1, \ldots, N-1\}$ 中与 $N$ 互素的整数组成。群运算取模 $N$ 乘法，即 $ab \overset{\mathrm{def}}{=} [ab \bmod N]$。
+也就是说，$\mathbb{Z}_N^*$ 由集合 $\{1, \ldots, N-1\}$ 中与 $N$ 互素的整数组成。群运算取模 $N$ 乘法，即 $ab \stackrel{\mathrm{def}}{=} [ab \bmod N]$。
 
 We claim that $\mathbb{Z}_N^*$ is an abelian group with respect to this operation. Since 1 is always in $\mathbb{Z}_N^*$, the set clearly contains an identity element. The discussion above shows that each element in $\mathbb{Z}_N^*$ has a multiplicative inverse in the same set. Commutativity and associativity follow from the fact that these properties hold over the integers. To show that closure holds, let $a, b \in \mathbb{Z}_N^*$; then $[ab \bmod N]$ has inverse $[b^{-1}a^{-1} \bmod N]$, which means that $\gcd([ab \bmod N], N) = 1$ and so $ab \in \mathbb{Z}_N^*$. Summarizing:
 
@@ -495,9 +495,9 @@ PROPOSITION 9.18 Let $N > 1$ be an integer. Then $\mathbb{Z}_N^*$ is an abelian 
 
 命题 9.18　设 $N > 1$ 为整数。那么 $\mathbb{Z}_N^*$ 在模 $N$ 乘法下构成阿贝尔群。
 
-Define $\phi(N) \overset{\mathrm{def}}{=} |\mathbb{Z}_N^*|$, the order of the group $\mathbb{Z}_N^*$. ($\phi$ is called the Euler $\phi$ function.) What is the value of $\phi(N)$? First consider the case when $N = p$ is prime. Then all elements in $\{1, \ldots, p-1\}$ are relatively prime to $p$, and so $\phi(p) = |\mathbb{Z}_p^*| = p-1$. Next consider the case that $N = pq$, where $p, q$ are distinct primes. If an integer $a \in \{1, \ldots, N-1\}$ is not relatively prime to $N$, then either $p \mid a$ or $q \mid a$ ($a$ cannot be divisible by both $p$ and $q$ since this would imply $pq \mid a$ but $a < N = pq$). The elements in $\{1, \ldots, N-1\}$ divisible by $p$ are exactly the $(q-1)$ elements $p, 2p, 3p, \ldots, (q-1)p$, and the elements divisible by $q$ are exactly the $(p-1)$ elements $q, 2q, \ldots, (p-1)q$. The number of elements remaining (i.e., those that are neither divisible by $p$ nor $q$) is therefore given by
+Define $\phi(N) \stackrel{\mathrm{def}}{=} |\mathbb{Z}_N^*|$, the order of the group $\mathbb{Z}_N^*$. ($\phi$ is called the Euler $\phi$ function.) What is the value of $\phi(N)$? First consider the case when $N = p$ is prime. Then all elements in $\{1, \ldots, p-1\}$ are relatively prime to $p$, and so $\phi(p) = |\mathbb{Z}_p^*| = p-1$. Next consider the case that $N = pq$, where $p, q$ are distinct primes. If an integer $a \in \{1, \ldots, N-1\}$ is not relatively prime to $N$, then either $p \mid a$ or $q \mid a$ ($a$ cannot be divisible by both $p$ and $q$ since this would imply $pq \mid a$ but $a < N = pq$). The elements in $\{1, \ldots, N-1\}$ divisible by $p$ are exactly the $(q-1)$ elements $p, 2p, 3p, \ldots, (q-1)p$, and the elements divisible by $q$ are exactly the $(p-1)$ elements $q, 2q, \ldots, (p-1)q$. The number of elements remaining (i.e., those that are neither divisible by $p$ nor $q$) is therefore given by
 
-定义 $\phi(N) \overset{\mathrm{def}}{=} |\mathbb{Z}_N^*|$，即群 $\mathbb{Z}_N^*$ 的阶。（$\phi$ 称为欧拉 $\phi$ 函数。）$\phi(N)$ 的值是多少？先考虑 $N = p$ 为素数的情形：此时 $\{1, \ldots, p-1\}$ 中所有元素都与 $p$ 互素，故 $\phi(p) = |\mathbb{Z}_p^*| = p-1$。再考虑 $N = pq$（$p, q$ 为不同素数）的情形。若整数 $a \in \{1, \ldots, N-1\}$ 与 $N$ 不互素，则 $p \mid a$ 或 $q \mid a$（$a$ 不可能同时被 $p$ 和 $q$ 整除，否则将有 $pq \mid a$，而 $a < N = pq$）。$\{1, \ldots, N-1\}$ 中被 $p$ 整除的元素恰好是 $p, 2p, 3p, \ldots, (q-1)p$ 这 $(q-1)$ 个，被 $q$ 整除的元素恰好是 $q, 2q, \ldots, (p-1)q$ 这 $(p-1)$ 个。因此剩余元素的个数（也就是既不被 $p$ 也不被 $q$ 整除的那些）为
+定义 $\phi(N) \stackrel{\mathrm{def}}{=} |\mathbb{Z}_N^*|$，即群 $\mathbb{Z}_N^*$ 的阶。（$\phi$ 称为欧拉 $\phi$ 函数。）$\phi(N)$ 的值是多少？先考虑 $N = p$ 为素数的情形：此时 $\{1, \ldots, p-1\}$ 中所有元素都与 $p$ 互素，故 $\phi(p) = |\mathbb{Z}_p^*| = p-1$。再考虑 $N = pq$（$p, q$ 为不同素数）的情形。若整数 $a \in \{1, \ldots, N-1\}$ 与 $N$ 不互素，则 $p \mid a$ 或 $q \mid a$（$a$ 不可能同时被 $p$ 和 $q$ 整除，否则将有 $pq \mid a$，而 $a < N = pq$）。$\{1, \ldots, N-1\}$ 中被 $p$ 整除的元素恰好是 $p, 2p, 3p, \ldots, (q-1)p$ 这 $(q-1)$ 个，被 $q$ 整除的元素恰好是 $q, 2q, \ldots, (p-1)q$ 这 $(p-1)$ 个。因此剩余元素的个数（也就是既不被 $p$ 也不被 $q$ 整除的那些）为
 
 $$
 (N-1)-(q-1)-(p-1)=pq-p-q+1=(p-1)(q-1).
@@ -517,9 +517,9 @@ THEOREM 9.19 Let $N = \prod_i p_i^{e_i}$, where the $\{p_i\}$ are distinct prime
 
 **Example 9.20**　**例 9.20**
 
-Take $N = 15 = 5 \cdot 3$. Then $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$ and $|\mathbb{Z}_{15}^*| = 8 = 4 \cdot 2 = \phi(15)$. The inverse of ${8}$ in $\mathbb{Z}_{15}^*$ is ${2}$, since ${8} \cdot 2 = 16 = 1 \mod 15$.
+Take $N = 15 = 5 \cdot 3$. Then $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$ and $|\mathbb{Z}_{15}^*| = 8 = 4 \cdot 2 = \phi(15)$. The inverse of $8$ in $\mathbb{Z}_{15}^*$ is $2$, since $8 \cdot 2 = 16 = 1 \mod 15$.
 
-取 $N = 15 = 5 \cdot 3$。此时 $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$，且 $|\mathbb{Z}_{15}^*| = 8 = 4 \cdot 2 = \phi(15)$。${8}$ 在 $\mathbb{Z}_{15}^*$ 中的逆元是 ${2}$，因为 ${8} \cdot 2 = 16 = 1 \mod 15$。
+取 $N = 15 = 5 \cdot 3$。此时 $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$，且 $|\mathbb{Z}_{15}^*| = 8 = 4 \cdot 2 = \phi(15)$。$8$ 在 $\mathbb{Z}_{15}^*$ 中的逆元是 $2$，因为 $8 \cdot 2 = 16 = 1 \mod 15$。
 
 We have shown that $\mathbb{Z}_N^*$ is a group of order $\phi(N)$. The following are now easy corollaries of Theorem 9.14 and Corollary 9.17:
 
@@ -547,7 +547,7 @@ COROLLARY 9.22 Fix $N > 1$. For integer $e > 0$ define $f_e: \mathbb{Z}_N^* \to 
 
 ### 9.1.5 \*Isomorphisms and the Chinese Remainder Theorem　\*同构与中国剩余定理
 
-Two groups are isomorphic if they have the same underlying structure. From a mathematical point of view, an isomorphism of a group G provides an alternate, but equivalent, way of thinking about G. From a computational perspective, an isomorphism provides a different way to represent elements in G, which can often have a significant impact on algorithmic efficiency.
+Two groups are isomorphic if they have the same underlying structure. From a mathematical point of view, an isomorphism of a group $\mathbb{G}$ provides an alternate, but equivalent, way of thinking about $\mathbb{G}$. From a computational perspective, an isomorphism provides a different way to represent elements in $\mathbb{G}$, which can often have a significant impact on algorithmic efficiency.
 
 若两个群具有相同的底层结构，则称它们是同构的。从数学角度看，群 $\mathbb{G}$ 的同构提供了思考 $\mathbb{G}$ 的另一种方式，尽管表述不同但完全等价。从计算角度看，同构给出了表示 $\mathbb{G}$ 中元素的另一种方式，而这往往会对算法效率产生显著影响。
 
@@ -555,7 +555,7 @@ DEFINITION 9.23 Let $\mathbb{G},\mathbb{H}$ be groups with respect to the operat
 
 定义 9.23　设 $\mathbb{G},\mathbb{H}$ 分别是关于运算 $\circ_{\mathbb{G}},\circ_{\mathbb{H}}$ 的群。函数 $f:\mathbb{G}\to\mathbb{H}$ 称为从 $\mathbb{G}$ 到 $\mathbb{H}$ 的同构，如果：
 
-1. f is a bijection, and
+1. $f$ is a bijection, and
 
    $f$ 是双射，并且
 
@@ -581,13 +581,13 @@ $$
 
 We leave it to Exercise 9.8 to verify that $\mathbb{G} \times \mathbb{H}$ is indeed a group. The above notation can be extended to direct products of more than two groups in the natural way, although we will not need this for what follows.
 
-$\mathbb{G} \times \mathbb{H}$ 确实构成群的验证留作习题 9.8。上述记号还可以自然地推广到多于两个群的直积，不过后续内容并不需要。
+我们把验证 $\mathbb{G} \times \mathbb{H}$ 确实构成群留作习题 9.8。上述记号还可以自然地推广到多于两个群的直积，不过后续内容并不需要。
 
 We may now state and prove the Chinese remainder theorem.
 
 现在可以陈述并证明中国剩余定理了。
 
-THEOREM 9.24 (Chinese remainder theorem) Let N = pq where p, q > 1 are relatively prime. Then
+THEOREM 9.24 (Chinese remainder theorem) Let $N = pq$ where $p, q > 1$ are relatively prime. Then
 
 定理 9.24　（中国剩余定理）设 $N = pq$，其中 $p, q > 1$ 且互素。那么
 
@@ -635,9 +635,9 @@ $$
 
 （上面第二个等号用到了如下事实：当 $p \mid N$ 时 $[[X \bmod N] \bmod p] = [[X \bmod p] \bmod p]$；见习题 9.9。）
 
-An extension of the Chinese remainder theorem says that if $p_1, p_2, \ldots, p_\ell$ are pairwise relatively prime (i.e., $\gcd(p_i, p_j) = 1$ for all $i \neq j$) and $N \overset{\mathrm{def}}{=} \prod_{i=1}^\ell p_i$, then
+An extension of the Chinese remainder theorem says that if $p_1, p_2, \ldots, p_\ell$ are pairwise relatively prime (i.e., $\gcd(p_i, p_j) = 1$ for all $i \neq j$) and $N \stackrel{\mathrm{def}}{=} \prod_{i=1}^\ell p_i$, then
 
-中国剩余定理的一个推广是：若 $p_1, p_2, \ldots, p_\ell$ 两两互素（即对所有 $i \neq j$ 都有 $\gcd(p_i, p_j) = 1$），且 $N \overset{\mathrm{def}}{=} \prod_{i=1}^\ell p_i$，则
+中国剩余定理的一个推广是：若 $p_1, p_2, \ldots, p_\ell$ 两两互素（即对所有 $i \neq j$ 都有 $\gcd(p_i, p_j) = 1$），且 $N \stackrel{\mathrm{def}}{=} \prod_{i=1}^\ell p_i$，则
 
 $$
 \mathbb{Z}_{N}\simeq\mathbb{Z}_{p_{1}}\times\cdots\times\mathbb{Z}_{p_{\ell}}\quad\text{and}\quad\mathbb{Z}_{N}^{*}\simeq\mathbb{Z}_{p_{1}}^{*}\times\cdots\times\mathbb{Z}_{p_{\ell}}^{*}.
@@ -653,9 +653,9 @@ By way of notation, with $N$ understood and $x \in \{0,1,\ldots,N-1\}$ we write 
 
 **Example 9.25**　**例 9.25**
 
-Take ${15} = 5 \cdot 3$, and consider $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$. The Chinese remainder theorem says this group is isomorphic to $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$. We can compute
+Take $15 = 5 \cdot 3$, and consider $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$. The Chinese remainder theorem says this group is isomorphic to $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$. We can compute
 
-取 ${15} = 5 \cdot 3$，并考虑 $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$。中国剩余定理表明这个群同构于 $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$。我们可以计算出
+取 $15 = 5 \cdot 3$，并考虑 $\mathbb{Z}_{15}^* = \{1,2,4,7,8,11,13,14\}$。中国剩余定理表明这个群同构于 $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$。我们可以计算出
 
 $$
 \begin{array}{c}
@@ -700,37 +700,37 @@ We now turn to the specific case of computations modulo $N$, when $N = pq$ is a 
 
 **Example 9.26**　**例 9.26**
 
-Say we want to compute the product ${14} \cdot 13$ modulo 15 (i.e., in $\mathbb{Z}_{15}^*$). Example 9.25 gives ${14} \leftrightarrow (4,2)$ and ${13} \leftrightarrow (3,1)$. In $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$, we have
+Say we want to compute the product $14 \cdot 13$ modulo 15 (i.e., in $\mathbb{Z}_{15}^*$). Example 9.25 gives $14 \leftrightarrow (4,2)$ and $13 \leftrightarrow (3,1)$. In $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$, we have
 
-假设我们要计算乘积 ${14} \cdot 13$ 模 15 的结果（即在 $\mathbb{Z}_{15}^*$ 中）。由例 9.25 知 ${14} \leftrightarrow (4,2)$、${13} \leftrightarrow (3,1)$。在 $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$ 中，
+假设我们要计算乘积 $14 \cdot 13$ 模 15 的结果（即在 $\mathbb{Z}_{15}^*$ 中）。由例 9.25 知 $14 \leftrightarrow (4,2)$、$13 \leftrightarrow (3,1)$。在 $\mathbb{Z}_5^* \times \mathbb{Z}_3^*$ 中，
 
 $$
 (4,2)\cdot(3,1)=([4\cdot3\bmod5],[2\cdot1\bmod3])=(2,2).
 $$
 
-Note $(2,2) \leftrightarrow 2$, which is the correct answer since ${14} \cdot 13 = 2 \mod 15$.
+Note $(2,2) \leftrightarrow 2$, which is the correct answer since $14 \cdot 13 = 2 \mod 15$.
 
-注意到 $(2,2) \leftrightarrow 2$，这正是正确答案，因为 ${14} \cdot 13 = 2 \mod 15$。
+注意到 $(2,2) \leftrightarrow 2$，这正是正确答案，因为 $14 \cdot 13 = 2 \mod 15$。
 
 **Example 9.27**　**例 9.27**
 
-Say we want to compute ${11}^{53} \mod 15$. Example 9.25 gives ${11} \leftrightarrow (1, 2)$. Notice that ${2} = -1 \mod 3$ and so
+Say we want to compute $11^{53} \mod 15$. Example 9.25 gives $11 \leftrightarrow (1, 2)$. Notice that $2 = -1 \mod 3$ and so
 
-假设我们要计算 ${11}^{53} \mod 15$。由例 9.25 知 ${11} \leftrightarrow (1, 2)$。注意到 ${2} = -1 \mod 3$，于是
+假设我们要计算 $11^{53} \mod 15$。由例 9.25 知 $11 \leftrightarrow (1, 2)$。注意到 $2 = -1 \mod 3$，于是
 
 $$
 (1,2)^{53}=([1^{53}\bmod5],[(-1)^{53}\bmod3])=(1,[-1\bmod3])=(1,2).
 $$
 
-Thus, ${11}^{53}$ mod 15 = 11.
+Thus, $11^{53} \bmod 15 = 11$.
 
-因此 ${11}^{53}$ mod 15 = 11。
+因此 $11^{53} \bmod 15 = 11$。
 
 **Example 9.28**　**例 9.28**
 
-Say we want to compute $[29^{100} \mod 35]$. We first compute the correspondence ${29} \leftrightarrow ([29 \mod 5], [29 \mod 7]) = ([-1 \mod 5], 1)$. Using the Chinese remainder theorem, we have
+Say we want to compute $[29^{100} \mod 35]$. We first compute the correspondence $29 \leftrightarrow ([29 \mod 5], [29 \mod 7]) = ([-1 \mod 5], 1)$. Using the Chinese remainder theorem, we have
 
-假设我们要计算 $[29^{100} \mod 35]$。先求出对应关系 ${29} \leftrightarrow ([29 \mod 5], [29 \mod 7]) = ([-1 \mod 5], 1)$。利用中国剩余定理，有
+假设我们要计算 $[29^{100} \mod 35]$。先求出对应关系 $29 \leftrightarrow ([29 \mod 5], [29 \mod 7]) = ([-1 \mod 5], 1)$。利用中国剩余定理，有
 
 $$
 ([-1\bmod5],1)^{100}=([(-1)^{100}\bmod5],[1^{100}\bmod7])=(1,1),
@@ -742,12 +742,12 @@ and it is immediate that $(1,1)\leftrightarrow 1$. We conclude that $[29^{100}\b
 
 **Example 9.29**　**例 9.29**
 
-Say we want to compute $[18^{25} \bmod 35]$. We have ${18} \leftrightarrow (3,4)$ and so
+Say we want to compute $[18^{25} \bmod 35]$. We have $18 \leftrightarrow (3,4)$ and so
 
-假设我们要计算 $[18^{25} \bmod 35]$。由 ${18} \leftrightarrow (3,4)$ 可知
+假设我们要计算 $[18^{25} \bmod 35]$。由 $18 \leftrightarrow (3,4)$ 可知
 
 $$
-{18}^{25}\bmod{35}\leftrightarrow(3,4)^{25}=([3^{25}\bmod{5}],[4^{25}\bmod{7}]).
+18^{25}\bmod 35\leftrightarrow(3,4)^{25}=([3^{25}\bmod 5],[4^{25}\bmod 7]).
 $$
 
 Since $\mathbb{Z}_5^*$ is a group of order 4, we can “work modulo 4 in the exponent” (cf. Corollary 9.15) and see that
@@ -755,7 +755,7 @@ Since $\mathbb{Z}_5^*$ is a group of order 4, we can “work modulo 4 in the exp
 由于 $\mathbb{Z}_5^*$ 是阶为 4 的群，我们可以“在指数上模 4 进行运算”（参见推论 9.15），从而
 
 $$
-{3}^{25}=3^{[25\bmod4]}=3^{1}=3\bmod5.
+3^{25}=3^{[25\bmod 4]}=3^{1}=3\bmod5.
 $$
 
 Similarly,
@@ -763,14 +763,14 @@ Similarly,
 类似地，
 
 $$
-{4}^{25}=4^{[25\bmod6]}=4^{1}=4\bmod7.
+4^{25}=4^{[25\bmod 6]}=4^{1}=4\bmod7.
 $$
 
 Thus, $([3^{25} \bmod 5], [4^{25} \bmod 7]) = (3, 4) \leftrightarrow 18$ and so $[18^{25} \bmod 35] = 18$.
 
 于是 $([3^{25} \bmod 5], [4^{25} \bmod 7]) = (3, 4) \leftrightarrow 18$，故 $[18^{25} \bmod 35] = 18$。
 
-One thing we have not yet discussed is how to convert back and forth between the representation of an element modulo $N$ and its representation modulo $p$ and $q$. The conversion can be carried out efficiently provided the factorization of $N$ is known. Assuming $p$ and $q$ are known, it is easy to map an element $x$ modulo $N$ to its corresponding representation modulo $p$ and $q$: the element x corresponds to ([x mod p], [x mod q]), and both the modular reductions can be carried out efficiently (cf. Appendix B.2).
+One thing we have not yet discussed is how to convert back and forth between the representation of an element modulo $N$ and its representation modulo $p$ and $q$. The conversion can be carried out efficiently provided the factorization of $N$ is known. Assuming $p$ and $q$ are known, it is easy to map an element $x$ modulo $N$ to its corresponding representation modulo $p$ and $q$: the element $x$ corresponds to $([x \bmod p], [x \bmod q])$, and both the modular reductions can be carried out efficiently (cf. Appendix B.2).
 
 还有一个尚未讨论的问题：如何在元素的模 $N$ 表示与其模 $p$、模 $q$ 表示之间来回转换。只要知道 $N$ 的分解，转换就能高效完成。假定 $p$ 和 $q$ 已知，把模 $N$ 的元素 $x$ 映到其对应的模 $p$、模 $q$ 表示很容易：元素 $x$ 对应于 $([x \bmod p], [x \bmod q])$，而这两次模归约都能高效完成（参见附录 B.2）。
 
@@ -782,9 +782,9 @@ $$
 (x_{p},x_{q})=x_{p}\cdot(1,0)+x_{q}\cdot(0,1).
 $$
 
-So, if we can find elements ${1}_p, 1_q \in \{0, \ldots, N-1\}$ such that ${1}_p \leftrightarrow (1,0)$ and ${1}_q \leftrightarrow (0,1)$, then (appealing to the Chinese remainder theorem) we know that
+So, if we can find elements $1_p, 1_q \in \{0, \ldots, N-1\}$ such that $1_p \leftrightarrow (1,0)$ and $1_q \leftrightarrow (0,1)$, then (appealing to the Chinese remainder theorem) we know that
 
-于是，如果能找到元素 ${1}_p, 1_q \in \{0, \ldots, N-1\}$ 使得 ${1}_p \leftrightarrow (1,0)$ 且 ${1}_q \leftrightarrow (0,1)$，那么（借助中国剩余定理）我们知道
+于是，如果能找到元素 $1_p, 1_q \in \{0, \ldots, N-1\}$ 使得 $1_p \leftrightarrow (1,0)$ 且 $1_q \leftrightarrow (0,1)$，那么（借助中国剩余定理）我们知道
 
 $$
 (x_{p},x_{q})\leftrightarrow[(x_{p}\cdot 1_{p}+x_{q}\cdot 1_{q})\bmod N].
@@ -810,17 +810,17 @@ In summary, we can convert an element represented as $(x_p, x_q)$ to its represe
 
    计算 $X, Y$ 使得 $Xp + Yq = 1$。
 
-2. Set ${1}_{p} := [Y q \bmod N]$ and ${1}_{q} := [X p \bmod N]$.
+2. Set $1_{p} := [Y q \bmod N]$ and $1_{q} := [X p \bmod N]$.
 
-   令 ${1}_{p} := [Y q \bmod N]$，${1}_{q} := [X p \bmod N]$。
+   令 $1_{p} := [Y q \bmod N]$，$1_{q} := [X p \bmod N]$。
 
 3. Compute $x := [(x_p \cdot 1_p + x_q \cdot 1_q) \mod N]$.
 
    计算 $x := [(x_p \cdot 1_p + x_q \cdot 1_q) \mod N]$。
 
-If many such conversions will be performed, then ${1}_{p}, 1_{q}$ can be computed once-and-for-all in a preprocessing phase.
+If many such conversions will be performed, then $1_{p}, 1_{q}$ can be computed once-and-for-all in a preprocessing phase.
 
-若要执行很多次这样的转换，则 ${1}_{p}, 1_{q}$ 可以在预处理阶段一次性算好。
+若要执行很多次这样的转换，则 $1_{p}, 1_{q}$ 可以在预处理阶段一次性算好。
 
 **Example 9.30**　**例 9.30**
 
@@ -829,12 +829,12 @@ Take $p = 5$, $q = 7$, and $N = 5 \cdot 7 = 35$. Say we are given the representa
 取 $p = 5$、$q = 7$、$N = 5 \cdot 7 = 35$。假设给定表示 $(4,3)$，希望把它转换为 $\mathbb{Z}_{35}$ 中对应的元素。利用扩展欧几里得算法，可计算得
 
 $$
-{3}\cdot5-2\cdot7=1.
+3\cdot5-2\cdot7=1.
 $$
 
-Thus, ${1}_p = [-2 \cdot 7 \mod 35] = 21$ and ${1}_q = [3 \cdot 5 \mod 35] = 15$. (We can check that these are correct: e.g., for ${1}_p = 21$ we can verify that $[21 \mod 5] = 1$ and $[21 \mod 7] = 0$.) Using these values, we can then compute
+Thus, $1_p = [-2 \cdot 7 \mod 35] = 21$ and $1_q = [3 \cdot 5 \mod 35] = 15$. (We can check that these are correct: e.g., for $1_p = 21$ we can verify that $[21 \mod 5] = 1$ and $[21 \mod 7] = 0$.) Using these values, we can then compute
 
-于是 ${1}_p = [-2 \cdot 7 \mod 35] = 21$，${1}_q = [3 \cdot 5 \mod 35] = 15$。（可以核验它们是正确的：例如对 ${1}_p = 21$，可验证 $[21 \mod 5] = 1$ 且 $[21 \mod 7] = 0$。）利用这些值便可计算
+于是 $1_p = [-2 \cdot 7 \mod 35] = 21$，$1_q = [3 \cdot 5 \mod 35] = 15$。（可以核验它们是正确的：例如对 $1_p = 21$，可验证 $[21 \mod 5] = 1$ 且 $[21 \mod 7] = 0$。）利用这些值便可计算
 
 $$
 \begin{aligned}
@@ -844,6 +844,6 @@ $$
 \end{aligned}
 $$
 
-Since 24 = 4 mod 5 and 24 = 3 mod 7, this is indeed the correct result.
+Since $24 = 4 \bmod 5$ and $24 = 3 \bmod 7$, this is indeed the correct result.
 
-由于 24 = 4 mod 5 且 24 = 3 mod 7，这确实是正确的结果。
+由于 $24 = 4 \bmod 5$ 且 $24 = 3 \bmod 7$，这确实是正确的结果。

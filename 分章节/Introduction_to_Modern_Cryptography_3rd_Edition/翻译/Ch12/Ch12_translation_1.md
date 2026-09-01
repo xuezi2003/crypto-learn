@@ -52,7 +52,7 @@ The fact that public-key encryption schemes allow anyone to act as a sender can 
 
 公钥加密方案允许任何人充当发送方，而当接收方只想接收来自某个特定个人的消息时，这一点就可能成为缺点。在这种情况下，（私钥的）认证加密方案会比公钥加密更合适。
 
-The main disadvantage of public-key encryption is that it is roughly ${2}-3$ orders of magnitude slower than private-key encryption. (It is difficult to give an exact comparison since the relative efficiency depends on the exact schemes under consideration as well as various implementation details.) It can be a challenge to implement public-key encryption in severely resource-constrained devices like smartcards or radio-frequency identification (RFID) tags. Even when a desktop computer is performing cryptographic operations, carrying out thousands of such operations per second (as in the case of a website processing credit-card transactions) may be prohibitive. Thus, when private-key encryption is an option (i.e., if two parties can securely share a key in advance), it should be used.
+The main disadvantage of public-key encryption is that it is roughly $2-3$ orders of magnitude slower than private-key encryption. (It is difficult to give an exact comparison since the relative efficiency depends on the exact schemes under consideration as well as various implementation details.) It can be a challenge to implement public-key encryption in severely resource-constrained devices like smartcards or radio-frequency identification (RFID) tags. Even when a desktop computer is performing cryptographic operations, carrying out thousands of such operations per second (as in the case of a website processing credit-card transactions) may be prohibitive. Thus, when private-key encryption is an option (i.e., if two parties can securely share a key in advance), it should be used.
 
 公钥加密的主要缺点是它比私钥加密大约慢 2～3 个数量级。（很难给出精确的比较，因为相对效率取决于所考虑的具体方案以及各种实现细节。）在智能卡或射频识别（RFID）标签这类资源严重受限的设备上实现公钥加密可能很有挑战性。即便用台式计算机执行密码运算，每秒进行数千次此类运算（例如处理信用卡交易的网站）也可能是无法承受的。因此，当私钥加密可行时（即双方能够事先安全地共享密钥），就应当使用私钥加密。
 
@@ -83,9 +83,9 @@ DEFINITION 12.1 A public-key encryption scheme is a triple of probabilistic poly
 
 定义 12.1　公钥加密方案是由三个概率多项式时间算法 $(\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ 构成的三元组，满足：
 
-1. The key-generation algorithm Gen takes as input the security parameter ${1}^{n}$ and outputs a pair of keys $(pk, sk)$. We refer to the first of these as the public key and the second as the private key. We assume for convenience that $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$, $sk$.
+1. The key-generation algorithm Gen takes as input the security parameter $1^{n}$ and outputs a pair of keys $(pk, sk)$. We refer to the first of these as the public key and the second as the private key. We assume for convenience that $pk$ and $sk$ each has length at least $n$, and that $n$ can be determined from $pk$, $sk$.
 
-   密钥生成算法 $\mathsf{Gen}$ 以安全参数 ${1}^{n}$ 为输入，输出一对密钥 $(pk, sk)$。我们把前者称为公钥，后者称为私钥。为方便起见，我们假定 $pk$ 和 $sk$ 的长度都至少为 $n$，并且 $n$ 可以从 $pk$、$sk$ 中确定。
+   密钥生成算法 $\mathsf{Gen}$ 以安全参数 $1^{n}$ 为输入，输出一对密钥 $(pk, sk)$。我们把前者称为公钥，后者称为私钥。为方便起见，我们假定 $pk$ 和 $sk$ 的长度都至少为 $n$，并且 $n$ 可以从 $pk$、$sk$ 中确定。
 
 The public key $pk$ defines a message space $\mathcal{M}_{pk}$.
 
@@ -129,9 +129,9 @@ The eavesdropping indistinguishability experiment $\mathsf{PubK}_{\mathcal{A},\P
 
 窃听不可区分性实验 $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{eav}}(n)$：
 
-1. $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
+1. $\mathsf{Gen}(1^{n})$ is run to obtain keys $(pk, sk)$.
 
-   运行 $\mathsf{Gen}({1}^{n})$ 得到密钥 $(pk, sk)$。
+   运行 $\mathsf{Gen}(1^{n})$ 得到密钥 $(pk, sk)$。
 
 2. Adversary $\mathcal{A}$ is given $pk$, and outputs a pair of equal-length messages $m_0, m_1 \in \mathcal{M}_{pk}$.
 
@@ -213,9 +213,9 @@ The LR-oracle experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$:
 
 LR 预言机实验 $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$：
 
-1. $\mathsf{Gen}({1}^{n})$ is run to obtain keys (pk, sk).
+1. $\mathsf{Gen}(1^{n})$ is run to obtain keys (pk, sk).
 
-   运行 $\mathsf{Gen}({1}^{n})$ 得到密钥 $(pk, sk)$。
+   运行 $\mathsf{Gen}(1^{n})$ 得到密钥 $(pk, sk)$。
 
 2. A uniform bit $b \in \{0,1\}$ is chosen.
 
@@ -404,9 +404,9 @@ The main complication that arises in the general case is that the number of quer
 
 一般情形下的主要困难在于，对 LR 预言机的查询次数不再是固定的，而可以是 $n$ 的任意多项式。在形式化证明中，这用混合论证来处理。（第 8 章也使用了混合论证。）
 
-PROOF (of Theorem 12.6) Let $\Pi$ be a CPA-secure public-key encryption scheme and $\mathcal{A}$ an arbitrary PPT adversary in experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$. Let $t = t(n)$ be a polynomial upper bound on the number of queries made by $\mathcal{A}$ to the $\mathsf{LR}$ oracle, and assume without loss of generality that $\mathcal{A}$ always queries the oracle exactly this many times. For a given public key $pk$ and ${0} \leq i \leq t$, let $\mathsf{LR}_{pk}^{i}$ denote the oracle that on input $(m_0, m_1)$ returns $\mathsf{Enc}_{pk}(m_0)$ for the first $i$ queries it receives, and returns $\mathsf{Enc}_{pk}(m_1)$ for the next $t - i$ queries it receives. (That is, for the first $i$ queries the first message in the input pair is encrypted, and for the remaining queries the second message in the input pair is encrypted.) We stress that each encryption is computed using uniform, independent randomness. Using this notation, we have
+PROOF (of Theorem 12.6) Let $\Pi$ be a CPA-secure public-key encryption scheme and $\mathcal{A}$ an arbitrary PPT adversary in experiment $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$. Let $t = t(n)$ be a polynomial upper bound on the number of queries made by $\mathcal{A}$ to the $\mathsf{LR}$ oracle, and assume without loss of generality that $\mathcal{A}$ always queries the oracle exactly this many times. For a given public key $pk$ and $0 \leq i \leq t$, let $\mathsf{LR}_{pk}^{i}$ denote the oracle that on input $(m_0, m_1)$ returns $\mathsf{Enc}_{pk}(m_0)$ for the first $i$ queries it receives, and returns $\mathsf{Enc}_{pk}(m_1)$ for the next $t - i$ queries it receives. (That is, for the first $i$ queries the first message in the input pair is encrypted, and for the remaining queries the second message in the input pair is encrypted.) We stress that each encryption is computed using uniform, independent randomness. Using this notation, we have
 
-证明（定理 12.6）　设 $\Pi$ 是选择明文安全的公钥加密方案，$\mathcal{A}$ 是实验 $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$ 中任意的 PPT 敌手。令 $t = t(n)$ 为 $\mathcal{A}$ 向 $\mathsf{LR}$ 预言机查询次数的多项式上界，且不失一般性地假定 $\mathcal{A}$ 总是恰好查询这么多次。对给定的公钥 $pk$ 和 ${0} \leq i \leq t$，用 $\mathsf{LR}_{pk}^{i}$ 表示如下预言机：在输入 $(m_0, m_1)$ 时，它对接收到的前 $i$ 次查询返回 $\mathsf{Enc}_{pk}(m_0)$，对接下来的 $t - i$ 次查询返回 $\mathsf{Enc}_{pk}(m_1)$。（也就是说，前 $i$ 次查询加密输入对中的第一条消息，其余查询加密输入对中的第二条消息。）我们强调，每次加密都使用均匀且独立的随机性来计算。采用这一记号，我们有
+证明（定理 12.6）　设 $\Pi$ 是选择明文安全的公钥加密方案，$\mathcal{A}$ 是实验 $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)$ 中任意的 PPT 敌手。令 $t = t(n)$ 为 $\mathcal{A}$ 向 $\mathsf{LR}$ 预言机查询次数的多项式上界，且不失一般性地假定 $\mathcal{A}$ 总是恰好查询这么多次。对给定的公钥 $pk$ 和 $0 \leq i \leq t$，用 $\mathsf{LR}_{pk}^{i}$ 表示如下预言机：在输入 $(m_0, m_1)$ 时，它对接收到的前 $i$ 次查询返回 $\mathsf{Enc}_{pk}(m_0)$，对接下来的 $t - i$ 次查询返回 $\mathsf{Enc}_{pk}(m_1)$。（也就是说，前 $i$ 次查询加密输入对中的第一条消息，其余查询加密输入对中的第二条消息。）我们强调，每次加密都使用均匀且独立的随机性来计算。采用这一记号，我们有
 
 $$
 \Pr\left[\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{LR-cpa}}(n)=1\right]=\frac{1}{2}\cdot\Pr[\mathcal{A}^{\mathsf{LR}_{pk}^{t}}(pk)=0]+\frac{1}{2}\cdot\Pr[\mathcal{A}^{\mathsf{LR}_{pk}^{0}}(pk)=1]
@@ -571,9 +571,9 @@ Security against chosen-ciphertext attacks is defined by suitable modification o
 
 **CCA 不可区分性实验 $\mathsf{PubK}_{\mathcal{A},\Pi}^{\mathsf{cca}}(n)$：**
 
-1. $\mathsf{Gen}({1}^{n})$ is run to obtain keys $(pk, sk)$.
+1. $\mathsf{Gen}(1^{n})$ is run to obtain keys $(pk, sk)$.
 
-   运行 $\mathsf{Gen}({1}^{n})$ 得到密钥 $(pk, sk)$。
+   运行 $\mathsf{Gen}(1^{n})$ 得到密钥 $(pk, sk)$。
 
 2. The adversary $\mathcal{A}$ is given $pk$ and access to a decryption oracle $\mathsf{Dec}_{sk}(\cdot)$. It outputs a pair of messages $m_0, m_1 \in \mathcal{M}_{pk}$ of the same length.
 

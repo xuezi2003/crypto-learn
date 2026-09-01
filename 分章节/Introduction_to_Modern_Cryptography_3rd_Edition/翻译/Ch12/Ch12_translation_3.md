@@ -38,9 +38,9 @@ $$
 \Pr[k\cdot m=\hat{c}]=\Pr[k=\hat{c}\cdot m^{-1}].
 $$
 
-Since $k$ is uniform, the probability that $k$ is equal to the fixed element $\hat{c} \cdot m^{-1}$ is exactly ${1}/{|\mathbb{G}|}$.
+Since $k$ is uniform, the probability that $k$ is equal to the fixed element $\hat{c} \cdot m^{-1}$ is exactly $1/|\mathbb{G}|$.
 
-由于 $k$ 是均匀的，$k$ 恰好等于固定元素 $\hat{c} \cdot m^{-1}$ 的概率正是 ${1}/{|\mathbb{G}|}$。
+由于 $k$ 是均匀的，$k$ 恰好等于固定元素 $\hat{c} \cdot m^{-1}$ 的概率正是 $1/|\mathbb{G}|$。
 
 The above lemma suggests a way to construct a perfectly secret private-key encryption scheme with message space $\mathbb{G}$. The sender and receiver share as their secret key a uniform element $k \in \mathbb{G}$. To encrypt the message $m \in \mathbb{G}$, the sender computes the ciphertext $c := k \cdot m$. The receiver can recover the message from the ciphertext $c$ by computing $m := c/k$. Perfect secrecy follows immediately from the lemma above. In fact, we have already seen this scheme in a different guise—the one-time pad encryption scheme is an instantiation of this approach, with the underlying group $\mathbb{G}$ being the set $\{0,1\}^{\ell}$ under the operation of bit-wise XOR.
 
@@ -50,15 +50,15 @@ We can adapt the above ideas to the public-key setting by providing the parties 
 
 只要能让通信双方通过在公开信道上交互，生成一个共享的、“看起来随机”的值 $k$，就可以把上述思想改造到公钥场景。这听起来应当很熟悉，因为这正是 Diffie–Hellman 协议所实现的功能。下面给出具体细节。
 
-As in Section 9.3.2, let $\mathcal{G}$ be a polynomial-time algorithm that takes as input ${1}^n$ and (except possibly with negligible probability) outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g$. The El Gamal encryption scheme is described in Construction 12.16.
+As in Section 9.3.2, let $\mathcal{G}$ be a polynomial-time algorithm that takes as input $1^n$ and (except possibly with negligible probability) outputs a description of a cyclic group $\mathbb{G}$, its order $q$ (with $\|q\| = n$), and a generator $g$. The El Gamal encryption scheme is described in Construction 12.16.
 
-与 9.3.2 节一样，设 $\mathcal{G}$ 是一个多项式时间算法，输入 ${1}^n$，输出循环群 $\mathbb{G}$ 的描述、其阶 $q$（满足 $\|q\| = n$）以及生成元 $g$（例外情形的发生概率可忽略）。El Gamal 加密方案见构造 12.16。
+与 9.3.2 节一样，设 $\mathcal{G}$ 是一个多项式时间算法，输入 $1^n$，输出循环群 $\mathbb{G}$ 的描述、其阶 $q$（满足 $\|q\| = n$）以及生成元 $g$（例外情形的发生概率可忽略）。El Gamal 加密方案见构造 12.16。
 
 **CONSTRUCTION 12.16**
 
 Let G be as in the text. Define a public-key encryption scheme as follows:
 
-- Gen: on input ${1}^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Then choose a uniform $x \in \mathbb{Z}_q$ and compute $h := g^x$. The public key is $\langle \mathbb{G}, q, g, h \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$. The message space is $\mathbb{G}$.
+- Gen: on input $1^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Then choose a uniform $x \in \mathbb{Z}_q$ and compute $h := g^x$. The public key is $\langle \mathbb{G}, q, g, h \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$. The message space is $\mathbb{G}$.
 
 - Enc: on input a public key $pk = \langle \mathbb{G}, q, g, h \rangle$ and a message $m \in \mathbb{G}$, choose a uniform $y \in \mathbb{Z}_q$ and output the ciphertext
 
@@ -79,7 +79,7 @@ $$
 
 设 $\mathcal{G}$ 如正文所述。定义如下公钥加密方案：
 
-- Gen：输入 ${1}^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。然后均匀选取 $x \in \mathbb{Z}_q$ 并计算 $h := g^x$。公钥为 $\langle \mathbb{G}, q, g, h \rangle$，私钥为 $\langle \mathbb{G}, q, g, x \rangle$。消息空间为 $\mathbb{G}$。
+- Gen：输入 $1^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。然后均匀选取 $x \in \mathbb{Z}_q$ 并计算 $h := g^x$。公钥为 $\langle \mathbb{G}, q, g, h \rangle$，私钥为 $\langle \mathbb{G}, q, g, x \rangle$。消息空间为 $\mathbb{G}$。
 
 - Enc：输入公钥 $pk = \langle \mathbb{G}, q, g, h \rangle$ 和消息 $m \in \mathbb{G}$，均匀选取 $y \in \mathbb{Z}_q$，输出密文
 
@@ -107,9 +107,9 @@ $$
 
 **例 12.17**
 
-Let $q = 83$ and $p = 2q + 1 = 167$, and let $\mathbb{G}$ denote the group of quadratic residues (i.e., squares) modulo $p$. (Since $p$ and $q$ are prime, $\mathbb{G}$ is a subgroup of $\mathbb{Z}_p^*$ with order $q$. See Section 9.3.3.) Since the order of $\mathbb{G}$ is prime, any element of $\mathbb{G}$ except 1 is a generator; take $g = [2^2 = 4 \bmod 167]$. Say the receiver chooses secret key ${37} \in \mathbb{Z}_{83}$ and so the public key is
+Let $q = 83$ and $p = 2q + 1 = 167$, and let $\mathbb{G}$ denote the group of quadratic residues (i.e., squares) modulo $p$. (Since $p$ and $q$ are prime, $\mathbb{G}$ is a subgroup of $\mathbb{Z}_p^*$ with order $q$. See Section 9.3.3.) Since the order of $\mathbb{G}$ is prime, any element of $\mathbb{G}$ except 1 is a generator; take $g = [2^2 = 4 \bmod 167]$. Say the receiver chooses secret key $37 \in \mathbb{Z}_{83}$ and so the public key is
 
-令 $q = 83$、$p = 2q + 1 = 167$，令 $\mathbb{G}$ 表示模 $p$ 的二次剩余（即平方）构成的群。（由于 $p$ 和 $q$ 都是素数，$\mathbb{G}$ 是 $\mathbb{Z}_p^*$ 的 $q$ 阶子群。见 9.3.3 节。）由于 $\mathbb{G}$ 的阶是素数，除 1 以外的任何元素都是生成元；取 $g = [2^2 = 4 \bmod 167]$。设接收方选取私钥 ${37} \in \mathbb{Z}_{83}$，于是公钥为
+令 $q = 83$、$p = 2q + 1 = 167$，令 $\mathbb{G}$ 表示模 $p$ 的二次剩余（即平方）构成的群。（由于 $p$ 和 $q$ 都是素数，$\mathbb{G}$ 是 $\mathbb{Z}_p^*$ 的 $q$ 阶子群。见 9.3.3 节。）由于 $\mathbb{G}$ 的阶是素数，除 1 以外的任何元素都是生成元；取 $g = [2^2 = 4 \bmod 167]$。设接收方选取私钥 $37 \in \mathbb{Z}_{83}$，于是公钥为
 
 $$
 pk=\langle p,q,g,h\rangle=\langle167,83,4,[4^{37}\bmod167]\rangle=\langle167,83,4,76\rangle,
@@ -119,17 +119,17 @@ where we use $p$ to represent $\mathbb{G}$ (it is assumed that the receiver know
 
 其中用 $p$ 来代表 $\mathbb{G}$（假定接收方知道该群是模 $p$ 二次剩余构成的集合）。
 
-Say a sender encrypts the message $m = 65 \in \mathbb{G}$ (note ${65} = 30^2 \mod 167$ and so 65 is an element of $\mathbb{G}$). If $y = 71$, the ciphertext is
+Say a sender encrypts the message $m = 65 \in \mathbb{G}$ (note $65 = 30^2 \bmod 167$ and so 65 is an element of $\mathbb{G}$). If $y = 71$, the ciphertext is
 
-设发送方加密消息 $m = 65 \in \mathbb{G}$（注意 ${65} = 30^2 \mod 167$，故 65 是 $\mathbb{G}$ 的元素）。若 $y = 71$，则密文为
+设发送方加密消息 $m = 65 \in \mathbb{G}$（注意 $65 = 30^2 \bmod 167$，故 65 是 $\mathbb{G}$ 的元素）。若 $y = 71$，则密文为
 
 $$
 \langle[4^{71}\bmod{167}],[76^{71}\cdot65\bmod{167}]\rangle=\langle132,{44}\rangle.
 $$
 
-To decrypt, the receiver first computes ${124} = [132^{37} \mod 167]$; then, since ${66} = [124^{-1} \mod 167]$, the receiver recovers $m = 65 = [44 \cdot 66 \mod 167]$.
+To decrypt, the receiver first computes $124 = [132^{37} \bmod 167]$; then, since $66 = [124^{-1} \bmod 167]$, the receiver recovers $m = 65 = [44 \cdot 66 \bmod 167]$.
 
-解密时，接收方先计算 ${124} = [132^{37} \mod 167]$；再由 ${66} = [124^{-1} \mod 167]$，恢复出 $m = 65 = [44 \cdot 66 \mod 167]$。
+解密时，接收方先计算 $124 = [132^{37} \bmod 167]$；再由 $66 = [124^{-1} \bmod 167]$，恢复出 $m = 65 = [44 \cdot 66 \bmod 167]$。
 
 We now prove security of the scheme. (The reader may want to compare the proof of the following to the proofs of Theorems 3.16 and 11.3.)
 
@@ -299,7 +299,7 @@ illustrates the KEM that follows this approach. Note the resulting ciphertext co
 
 Let G be as in the previous section. Define a KEM as follows:
 
-- Gen: on input ${1}^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose a uniform $x \in \mathbb{Z}_q$ and set $h := g^x$. Also specify a function $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$ for some function $\ell$ (see text). The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$.
+- Gen: on input $1^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose a uniform $x \in \mathbb{Z}_q$ and set $h := g^x$. Also specify a function $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$ for some function $\ell$ (see text). The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x \rangle$.
 
 - Encaps: on input a public key $pk = \langle \mathbb{G}, q, g, h, H \rangle$, choose a uniform $y \in \mathbb{Z}_q$ and output the ciphertext $g^y$ and the key $H(h^y)$.
 
@@ -311,7 +311,7 @@ Let G be as in the previous section. Define a KEM as follows:
 
 设 $\mathcal{G}$ 如上一节所述。定义如下 KEM：
 
-- Gen：输入 ${1}^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。均匀选取 $x \in \mathbb{Z}_q$ 并令 $h := g^x$。此外指定一个函数 $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$，其中 $\ell$ 为某个函数（见正文）。公钥为 $\langle \mathbb{G}, q, g, h, H \rangle$，私钥为 $\langle \mathbb{G}, q, g, x \rangle$。
+- Gen：输入 $1^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。均匀选取 $x \in \mathbb{Z}_q$ 并令 $h := g^x$。此外指定一个函数 $H : \mathbb{G} \to \{0,1\}^{\ell(n)}$，其中 $\ell$ 为某个函数（见正文）。公钥为 $\langle \mathbb{G}, q, g, h, H \rangle$，私钥为 $\langle \mathbb{G}, q, g, x \rangle$。
 
 - Encaps：输入公钥 $pk = \langle \mathbb{G}, q, g, h, H \rangle$，均匀选取 $y \in \mathbb{Z}_q$，输出密文 $g^y$ 和密钥 $H(h^y)$。
 
@@ -428,7 +428,7 @@ Algorithm A':
 
 The algorithm is given $\mathbb{G}, q, g, h, c$ as input.
 
-• Set $pk := \langle \mathbb{G}, q, g, h \rangle$ and choose a uniform $k \in \{0,1\}^{\ell}$.
+- Set $pk := \langle \mathbb{G}, q, g, h \rangle$ and choose a uniform $k \in \{0,1\}^{\ell}$.
 
 - Run $\mathcal{A}(pk, c, k)$. When $\mathcal{A}$ makes a query to $H$, answer it by choosing a fresh, uniform $\ell$-bit string.
 
@@ -438,19 +438,19 @@ The algorithm is given $\mathbb{G}, q, g, h, c$ as input.
 
 算法以 $\mathbb{G}, q, g, h, c$ 为输入。
 
-• 令 $pk := \langle \mathbb{G}, q, g, h \rangle$，并均匀选取 $k \in \{0,1\}^{\ell}$。
+- 令 $pk := \langle \mathbb{G}, q, g, h \rangle$，并均匀选取 $k \in \{0,1\}^{\ell}$。
 
 - 运行 $\mathcal{A}(pk, c, k)$。当 $\mathcal{A}$ 向 $H$ 发起查询时，选取一个全新的均匀 $\ell$ 比特串作为回答。
 
 - 在 $\mathcal{A}$ 执行结束时，设 $y_1, \ldots, y_t$ 为 $\mathcal{A}$ 已向 $H$ 发起的查询列表。均匀选取下标 $i \in \{1, \ldots, t\}$ 并输出 $y_i$。
 
-We are interested in the probability with which $\mathcal{A}^{\prime}$ solves the CDH problem, i.e., $\Pr[\mathcal{A}^{\prime}(\mathbb{G}, q, g, h, c) = \mathsf{DH}_g(h, c)]$, where the probability is taken over $\mathbb{G}, q, g$ output by $\mathcal{G}(1^n)$, uniform $h, c \in \mathbb{G}$, and the randomness of $\mathcal{A}^{\prime}$. To analyze this probability, note first that event $\mathsf{Query}$ is still well-defined in the execution of $\mathcal{A}^{\prime}$, even though $\mathcal{A}^{\prime}$ cannot detect whether it occurs. Moreover, the probability of event $\mathsf{Query}$ when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ is identical to the probability of $\mathsf{Query}$ in experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$. This follows because the view of $\mathcal{A}$ is identical in both cases until event $\mathsf{Query}$ occurs: in each case, $\mathbb{G}, q, g$ are output by $\mathcal{G}(1^n)$; in each case, $h$ and $c$ are uniform elements of $\mathbb{G}$ and $k$ is a uniform $\ell$-bit string, and in each case queries to $H$ other than $H(\mathsf{DH}_g(h, c))$ are answered with a uniform $\ell$-bit string. (In $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$, the query $H(\mathsf{DH}_g(h, c))$ is answered with the actual encapsulated key, which is equal to $k$ with probability ${1}/{2}$, whereas when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ the query $H(\mathsf{DH}_g(h, c))$ is answered with a uniform $\ell$-bit string that is independent of $k$. But when this query is made, event $\mathsf{Query}$ occurs.)
+We are interested in the probability with which $\mathcal{A}^{\prime}$ solves the CDH problem, i.e., $\Pr[\mathcal{A}^{\prime}(\mathbb{G}, q, g, h, c) = \mathsf{DH}_g(h, c)]$, where the probability is taken over $\mathbb{G}, q, g$ output by $\mathcal{G}(1^n)$, uniform $h, c \in \mathbb{G}$, and the randomness of $\mathcal{A}^{\prime}$. To analyze this probability, note first that event $\mathsf{Query}$ is still well-defined in the execution of $\mathcal{A}^{\prime}$, even though $\mathcal{A}^{\prime}$ cannot detect whether it occurs. Moreover, the probability of event $\mathsf{Query}$ when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ is identical to the probability of $\mathsf{Query}$ in experiment $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$. This follows because the view of $\mathcal{A}$ is identical in both cases until event $\mathsf{Query}$ occurs: in each case, $\mathbb{G}, q, g$ are output by $\mathcal{G}(1^n)$; in each case, $h$ and $c$ are uniform elements of $\mathbb{G}$ and $k$ is a uniform $\ell$-bit string, and in each case queries to $H$ other than $H(\mathsf{DH}_g(h, c))$ are answered with a uniform $\ell$-bit string. (In $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$, the query $H(\mathsf{DH}_g(h, c))$ is answered with the actual encapsulated key, which is equal to $k$ with probability $1/2$, whereas when $\mathcal{A}$ is run as a subroutine by $\mathcal{A}^{\prime}$ the query $H(\mathsf{DH}_g(h, c))$ is answered with a uniform $\ell$-bit string that is independent of $k$. But when this query is made, event $\mathsf{Query}$ occurs.)
 
-我们关心 $\mathcal{A}^{\prime}$ 求解 CDH 问题的概率，即 $\Pr[\mathcal{A}^{\prime}(\mathbb{G}, q, g, h, c) = \mathsf{DH}_g(h, c)]$，其中概率取自 $\mathcal{G}(1^n)$ 输出的 $\mathbb{G}, q, g$、均匀的 $h, c \in \mathbb{G}$ 以及 $\mathcal{A}^{\prime}$ 自身的随机性。为分析该概率，首先注意：即使 $\mathcal{A}^{\prime}$ 无法检测事件 $\mathsf{Query}$ 是否发生，该事件在 $\mathcal{A}^{\prime}$ 的执行中仍然是良定义的。而且，$\mathcal{A}$ 作为 $\mathcal{A}^{\prime}$ 的子程序运行时事件 $\mathsf{Query}$ 的概率，与实验 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$ 中 $\mathsf{Query}$ 的概率相同。这是因为，在事件 $\mathsf{Query}$ 发生之前，$\mathcal{A}$ 在两种情形下的视图完全相同：两种情形中，$\mathbb{G}, q, g$ 都由 $\mathcal{G}(1^n)$ 输出；$h$ 和 $c$ 都是 $\mathbb{G}$ 中的均匀元素，$k$ 都是均匀的 $\ell$ 比特串；对 $H$ 的除 $H(\mathsf{DH}_g(h, c))$ 以外的查询，都以均匀的 $\ell$ 比特串作答。（在 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$ 中，查询 $H(\mathsf{DH}_g(h, c))$ 以真实的封装密钥作答，它以 ${1}/{2}$ 的概率等于 $k$；而当 $\mathcal{A}$ 作为 $\mathcal{A}^{\prime}$ 的子程序运行时，该查询以与 $k$ 独立的均匀 $\ell$ 比特串作答。但一旦发起这个查询，事件 $\mathsf{Query}$ 就发生了。）
+我们关心 $\mathcal{A}^{\prime}$ 求解 CDH 问题的概率，即 $\Pr[\mathcal{A}^{\prime}(\mathbb{G}, q, g, h, c) = \mathsf{DH}_g(h, c)]$，其中概率取自 $\mathcal{G}(1^n)$ 输出的 $\mathbb{G}, q, g$、均匀的 $h, c \in \mathbb{G}$ 以及 $\mathcal{A}^{\prime}$ 自身的随机性。为分析该概率，首先注意：即使 $\mathcal{A}^{\prime}$ 无法检测事件 $\mathsf{Query}$ 是否发生，该事件在 $\mathcal{A}^{\prime}$ 的执行中仍然是良定义的。而且，$\mathcal{A}$ 作为 $\mathcal{A}^{\prime}$ 的子程序运行时事件 $\mathsf{Query}$ 的概率，与实验 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$ 中 $\mathsf{Query}$ 的概率相同。这是因为，在事件 $\mathsf{Query}$ 发生之前，$\mathcal{A}$ 在两种情形下的视图完全相同：两种情形中，$\mathbb{G}, q, g$ 都由 $\mathcal{G}(1^n)$ 输出；$h$ 和 $c$ 都是 $\mathbb{G}$ 中的均匀元素，$k$ 都是均匀的 $\ell$ 比特串；对 $H$ 的除 $H(\mathsf{DH}_g(h, c))$ 以外的查询，都以均匀的 $\ell$ 比特串作答。（在 $\mathsf{KEM}_{\mathcal{A},\Pi}^{\mathsf{cpa}}(n)$ 中，查询 $H(\mathsf{DH}_g(h, c))$ 以真实的封装密钥作答，它以 $1/2$ 的概率等于 $k$；而当 $\mathcal{A}$ 作为 $\mathcal{A}^{\prime}$ 的子程序运行时，该查询以与 $k$ 独立的均匀 $\ell$ 比特串作答。但一旦发起这个查询，事件 $\mathsf{Query}$ 就发生了。）
 
-Finally, observe that when $\mathsf{Query}$ occurs then $\mathsf{DH}_g(h,c) \in \{y_1,\ldots,y_t\}$ by definition, and so $\mathcal{A}^{\prime}$ outputs the correct result $\mathsf{DH}_g(h,c)$ with probability at least ${1}/t$. We therefore conclude that
+Finally, observe that when $\mathsf{Query}$ occurs then $\mathsf{DH}_g(h,c) \in \{y_1,\ldots,y_t\}$ by definition, and so $\mathcal{A}^{\prime}$ outputs the correct result $\mathsf{DH}_g(h,c)$ with probability at least $1/t$. We therefore conclude that
 
-最后注意，当 $\mathsf{Query}$ 发生时，由定义有 $\mathsf{DH}_g(h,c) \in \{y_1,\ldots,y_t\}$，因此 $\mathcal{A}^{\prime}$ 以至少 ${1}/t$ 的概率输出正确结果 $\mathsf{DH}_g(h,c)$。于是得出结论
+最后注意，当 $\mathsf{Query}$ 发生时，由定义有 $\mathsf{DH}_g(h,c) \in \{y_1,\ldots,y_t\}$，因此 $\mathcal{A}^{\prime}$ 以至少 $1/t$ 的概率输出正确结果 $\mathsf{DH}_g(h,c)$。于是得出结论
 
 $$
 \Pr[\mathcal{A}^{\prime}(\mathbb{G},q,g,h,c)=\mathsf{DH}_{g}(h,c)]\geq\Pr[\mathsf{Query}]/t,
@@ -498,7 +498,7 @@ It is interesting to observe that the same construction (namely, Construction 12
 
 Let $\mathcal{G}$ be as in the text. Let $\Pi_E = (\mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ be a private-key encryption scheme, and let $\Pi_M = (\mathsf{Mac}, \mathsf{Vrfy})$ be a message authentication code. Define a public-key encryption scheme as follows:
 
-- Gen: On input ${1}^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose uniform $x \in \mathbb{Z}_q$, set $h := g^x$, and specify a function $H : \mathbb{G} \to \{0,1\}^{2n}$. The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x, H \rangle$.
+- Gen: On input $1^n$ run $\mathcal{G}(1^n)$ to obtain $(\mathbb{G}, q, g)$. Choose uniform $x \in \mathbb{Z}_q$, set $h := g^x$, and specify a function $H : \mathbb{G} \to \{0,1\}^{2n}$. The public key is $\langle \mathbb{G}, q, g, h, H \rangle$ and the private key is $\langle \mathbb{G}, q, g, x, H \rangle$.
 
 - Enc: On input a public key $pk = \langle \mathbb{G}, q, g, h, H \rangle$, choose a uniform $y \in \mathbb{Z}_q$ and set $k_E \| k_M := H(h^y)$. Compute $c^{\prime} \leftarrow \mathsf{Enc}_{k_E}^{\prime}(m)$, and output the ciphertext $\langle g^y, c^{\prime}, \mathsf{Mac}_{k_M}(c^{\prime}) \rangle$.
 
@@ -510,7 +510,7 @@ Let $\mathcal{G}$ be as in the text. Let $\Pi_E = (\mathsf{Enc}^{\prime}, \maths
 
 设 $\mathcal{G}$ 如正文所述。令 $\Pi_E = (\mathsf{Enc}^{\prime}, \mathsf{Dec}^{\prime})$ 为私钥加密方案，$\Pi_M = (\mathsf{Mac}, \mathsf{Vrfy})$ 为消息认证码。定义如下公钥加密方案：
 
-- Gen：输入 ${1}^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。均匀选取 $x \in \mathbb{Z}_q$，令 $h := g^x$，并指定函数 $H : \mathbb{G} \to \{0,1\}^{2n}$。公钥为 $\langle \mathbb{G}, q, g, h, H \rangle$，私钥为 $\langle \mathbb{G}, q, g, x, H \rangle$。
+- Gen：输入 $1^n$，运行 $\mathcal{G}(1^n)$ 得到 $(\mathbb{G}, q, g)$。均匀选取 $x \in \mathbb{Z}_q$，令 $h := g^x$，并指定函数 $H : \mathbb{G} \to \{0,1\}^{2n}$。公钥为 $\langle \mathbb{G}, q, g, h, H \rangle$，私钥为 $\langle \mathbb{G}, q, g, x, H \rangle$。
 
 - Enc：输入公钥 $pk = \langle \mathbb{G}, q, g, h, H \rangle$，均匀选取 $y \in \mathbb{Z}_q$，令 $k_E \| k_M := H(h^y)$。计算 $c^{\prime} \leftarrow \mathsf{Enc}_{k_E}^{\prime}(m)$，输出密文 $\langle g^y, c^{\prime}, \mathsf{Mac}_{k_M}(c^{\prime}) \rangle$。
 
